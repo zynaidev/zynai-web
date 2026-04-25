@@ -18,6 +18,10 @@ export function CountUp({ from, to, suffix = "", duration = 1.5 }: CountUpProps)
   const shouldReduceMotion = useReducedMotion();
   const [value, setValue] = useState(from);
   const displayValue = shouldReduceMotion ? to : value;
+  const normalizedSuffix = suffix.startsWith(" ")
+    ? `\u00A0${suffix.slice(1)}`
+    : suffix;
+  const formattedValue = `${Math.round(displayValue)}${normalizedSuffix}`;
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -75,9 +79,8 @@ export function CountUp({ from, to, suffix = "", duration = 1.5 }: CountUpProps)
   }, [duration, from, hasEntered, shouldReduceMotion, to]);
 
   return (
-    <span ref={elementRef}>
-      {Math.round(displayValue)}
-      {suffix}
+    <span ref={elementRef} style={{ whiteSpace: "nowrap" }}>
+      {formattedValue}
     </span>
   );
 }
