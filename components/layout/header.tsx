@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
@@ -12,6 +18,9 @@ const navItems = [
   { href: "#cikkek", label: "Cikkek" },
   { href: "#rolam", label: "Rólam" },
 ];
+
+const SCROLL_START = 0;
+const SCROLL_END = 100;
 
 function ZynaiCubeIcon({ className }: { className?: string }) {
   return (
@@ -49,23 +58,72 @@ function ZynaiCubeIcon({ className }: { className?: string }) {
 
 export function Header({ className }: { className?: string }) {
   const { scrollY } = useScroll();
-  const width = useTransform(scrollY, [0, 80], [
+  const shouldReduceMotion = useReducedMotion();
+  const smoothScrollY = useSpring(scrollY, {
+    damping: 40,
+    restDelta: 0.5,
+    stiffness: 300,
+  });
+  const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
+
+  const maxWidth = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [
     "100%",
-    "min(960px, calc(100% - 48px))",
+    "760px",
   ]);
-  const borderRadius = useTransform(scrollY, [0, 80], [0, 9999]);
-  const y = useTransform(scrollY, [0, 80], [0, 16]);
+  const top = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [0, 14]);
+  const paddingY = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [20, 10],
+  );
+  const borderRadius = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [0, 9999],
+  );
+  const backgroundColor = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["rgba(9, 9, 11, 0)", "rgba(9, 9, 11, 0.72)"],
+  );
+  const borderColor = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.10)"],
+  );
+  const backdropBlur = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [0, 20],
+  );
+  const backdropFilter = useTransform(
+    backdropBlur,
+    (value) => `blur(${value}px)`,
+  );
+  const boxShadow = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["0 0 0 rgba(0,0,0,0)", "0 8px 32px rgba(0,0,0,0.4)"],
+  );
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 h-20",
-        className,
-      )}
-    >
-      <motion.div
-        className="mx-auto border-b border-border-hairline bg-bg-base/80 backdrop-blur-xl"
-        style={{ borderRadius, width, y }}
+    <>
+      <div aria-hidden="true" className="h-20" />
+      <motion.header
+        className={cn("fixed left-1/2 z-50 w-full -translate-x-1/2 px-6", className)}
+        style={{
+          backdropFilter,
+          backgroundColor,
+          border: "1px solid",
+          borderColor,
+          borderRadius,
+          boxShadow,
+          maxWidth,
+          paddingBottom: paddingY,
+          paddingTop: paddingY,
+          top,
+          WebkitBackdropFilter: backdropFilter,
+        }}
       >
         <Container className="flex h-16 items-center justify-between">
           <Link className="flex items-center gap-2.5" href="/">
@@ -94,7 +152,7 @@ export function Header({ className }: { className?: string }) {
             Időpontfoglalás
           </Link>
         </Container>
-      </motion.div>
-    </header>
+      </motion.header>
+    </>
   );
 }
