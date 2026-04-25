@@ -66,9 +66,9 @@ export function Header({ className }: { className?: string }) {
   });
   const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
 
-  const maxWidth = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [
-    "100%",
-    "760px",
+  const width = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [
+    "100vw",
+    "clamp(720px, 60vw, 1100px)",
   ]);
   const top = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [0, 14]);
   const paddingY = useTransform(
@@ -110,7 +110,10 @@ export function Header({ className }: { className?: string }) {
     <>
       <div aria-hidden="true" className="h-20" />
       <motion.header
-        className={cn("fixed left-1/2 z-50 w-full -translate-x-1/2 px-6", className)}
+        className={cn(
+          "fixed left-1/2 z-50 w-screen -translate-x-1/2",
+          className,
+        )}
         style={{
           backdropFilter,
           backgroundColor,
@@ -118,11 +121,11 @@ export function Header({ className }: { className?: string }) {
           borderColor,
           borderRadius,
           boxShadow,
-          maxWidth,
           paddingBottom: paddingY,
           paddingTop: paddingY,
           top,
           WebkitBackdropFilter: backdropFilter,
+          width,
         }}
       >
         <Container className="flex h-16 items-center justify-between">
