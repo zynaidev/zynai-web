@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Instrument_Sans, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-sans",
+const display = Instrument_Sans({
+  display: "swap",
   subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600"],
+});
+
+const body = Inter({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-mono",
+  display: "swap",
   subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +35,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${geistMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full bg-background font-sans text-foreground">
+        {children}
+      </body>
     </html>
   );
 }
