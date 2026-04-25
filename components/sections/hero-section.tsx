@@ -91,7 +91,7 @@ export function HeroSection() {
             className="mt-8 max-w-[50ch] font-sans text-base leading-[1.65] text-text-secondary md:text-lg"
             {...revealProps({ delay: 0.3, duration: 0.6, y: 12 })}
           >
-            Bakos Attila vagyok — üzleti folyamatokat vizsgálok meg és alakítok
+            Hanics Attila vagyok — üzleti folyamatokat vizsgálok meg és alakítok
             át AI integrációval. Ez az oldal bemutatja a módszertanomat, a
             megvalósított projektjeimet és azt, amit ma az AI-ról tényszerűen
             érdemes tudni.
