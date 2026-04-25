@@ -37,7 +37,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} ${geistMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full bg-background font-sans text-foreground">
+      <body className="min-h-full bg-bg-base font-sans text-text-secondary">
         {children}
       </body>
     </html>
