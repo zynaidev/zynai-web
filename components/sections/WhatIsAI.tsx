@@ -2,30 +2,37 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
+import { CountUp } from "@/components/animations/CountUp";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
+import { IntegrationDiagram } from "@/components/visuals/IntegrationDiagram";
 
 const revealEase = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
   {
-    number: "57%",
+    duration: 1.6,
     label:
       "A jelenlegi munkaórák technikailag automatizálhatók a ma elérhető AI technológiákkal",
     source: "MCKINSEY GLOBAL INSTITUTE, 2025",
+    suffix: "%",
+    to: 57,
   },
   {
-    number: "9",
-    suffix: "ÓRA",
+    duration: 1.4,
     label:
       "Heti átlagos időmegtakarítás AI eszközök rendszeres használatával",
     source: "RMIT ONLINE & DELOITTE, 2026",
+    suffix: " ÓRA",
+    to: 9,
   },
   {
-    number: "66%",
+    duration: 1.8,
     label:
       "A szervezetek hatékonyságnövekedésről számoltak be AI bevezetését követően",
     source: "DELOITTE STATE OF AI REPORT, 2026",
+    suffix: "%",
+    to: 66,
   },
 ];
 
@@ -81,10 +88,8 @@ export default function WhatIsAI() {
           </div>
 
           <div className="flex justify-center lg:justify-center">
-            <div className="flex aspect-square w-full max-w-[380px] items-center justify-center rounded-2xl border border-border-hairline bg-bg-glass p-8 text-center backdrop-blur-md lg:max-w-[480px]">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-text-tertiary">
-                {"// INTEGRÁCIÓS DIAGRAM — ANIMÁCIÓ KÖVETKEZIK"}
-              </p>
+            <div className="flex aspect-square max-h-[480px] w-full items-center justify-center rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-glass)] p-6 backdrop-blur-md">
+              <IntegrationDiagram />
             </div>
           </div>
         </motion.div>
@@ -99,12 +104,12 @@ export default function WhatIsAI() {
               key={stat.source}
             >
               <p className="font-mono font-normal leading-none tracking-[-0.02em] text-text-primary [font-size:clamp(48px,6vw,72px)]">
-                {stat.number}
-                {stat.suffix ? (
-                  <span className="ml-2 align-baseline text-[60%]">
-                    {stat.suffix}
-                  </span>
-                ) : null}
+                <CountUp
+                  duration={stat.duration}
+                  from={0}
+                  suffix={stat.suffix}
+                  to={stat.to}
+                />
               </p>
               <p className="mt-4 max-w-[32ch] font-sans text-base leading-[1.5] text-text-secondary">
                 {stat.label}
