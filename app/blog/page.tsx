@@ -1,3 +1,9 @@
+import { ArrowLink } from "@/components/ui/arrow-link";
+import { Container } from "@/components/ui/container";
+import { GlassCard } from "@/components/ui/glass-card";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionLabel } from "@/components/ui/section-label";
+
 const articles = [
   {
     excerpt: "Notes on shaping the Zynai brand system, motion language, and AI product narrative.",
@@ -13,25 +19,29 @@ const articles = [
 
 export default function BlogIndexPage() {
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-24">
-      <p className="font-mono text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-        Articles
-      </p>
-      <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-        Ideas, releases, and field notes.
-      </h1>
-      <div className="mt-12 grid gap-4">
-        {articles.map((article) => (
-          <a
-            className="rounded-3xl border border-border bg-card p-6 transition-colors hover:bg-accent"
-            href={`/blog/${article.slug}`}
-            key={article.slug}
-          >
-            <h2 className="text-2xl font-semibold tracking-tight">{article.title}</h2>
-            <p className="mt-3 max-w-2xl text-muted-foreground">{article.excerpt}</p>
-          </a>
-        ))}
-      </div>
+    <main>
+      <section className="py-section-mobile lg:py-section-desktop">
+        <Container>
+          <SectionLabel number="01" text="ARTICLES" />
+          <SectionHeading>Ideas, releases, and field notes.</SectionHeading>
+          <div className="mt-12 grid gap-4">
+            {articles.map((article) => (
+              <GlassCard
+                className="transition-colors hover:border-border-default hover:bg-bg-glass-strong"
+                key={article.slug}
+              >
+                <h2 className="type-card-heading">{article.title}</h2>
+                <p className="type-body mt-3 max-w-2xl">{article.excerpt}</p>
+                <ArrowLink
+                  className="mt-6"
+                  href={`/blog/${article.slug}`}
+                  text="Read article"
+                />
+              </GlassCard>
+            ))}
+          </div>
+        </Container>
+      </section>
     </main>
   );
 }

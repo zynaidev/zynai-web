@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Container } from "@/components/ui/container";
+import { SectionLabel } from "@/components/ui/section-label";
+
 const articles = {
   "brand-foundation": {
     body: "This placeholder article marks the content route for the upcoming CMS integration.",
@@ -44,14 +47,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-24">
-      <p className="font-mono text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-        Article
-      </p>
-      <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
-        {article.title}
-      </h1>
-      <p className="mt-8 text-lg leading-8 text-muted-foreground">{article.body}</p>
+    <main>
+      <section className="py-section-mobile lg:py-section-desktop">
+        <Container className="max-w-3xl">
+          <SectionLabel number="01" text="ARTICLE" />
+          <h1 className="type-hero mt-5">{article.title}</h1>
+          <p className="type-body-large mt-8">{article.body}</p>
+        </Container>
+      </section>
     </main>
   );
 }
