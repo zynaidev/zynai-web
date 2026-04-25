@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Zynai",
-  description: "Zynai – AI-powered solutions",
+  description: "Zynai – AI integráció és üzleti tanácsadás",
 };
 
 export default function RootLayout({
@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="hu"
       className={`${display.variable} ${body.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full bg-bg-base font-sans text-text-secondary">
