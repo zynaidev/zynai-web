@@ -6,7 +6,6 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionLabel } from "@/components/ui/section-label";
-import { Stat } from "@/components/ui/stat";
 
 const colorTokens = [
   { group: "Backgrounds", name: "--bg-base", value: "#09090B" },
@@ -67,36 +66,36 @@ export default function StyleGuidePage() {
           <SectionHeading>Fluid type scale.</SectionHeading>
           <div className="mt-10 grid gap-4">
             <GlassCard>
-              <p className="type-label">Hero H1 · Instrument Sans 500</p>
+              <p className="type-label">HERO H1 · INSTRUMENT SANS 500</p>
               <p className="type-hero mt-4">Sophisticated AI integration.</p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Section H2 · Instrument Sans 500</p>
+              <p className="type-label">SECTION H2 · INSTRUMENT SANS 500</p>
               <p className="type-section-heading mt-4">Technical depth without visual noise.</p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Card H3 · Instrument Sans 500</p>
+              <p className="type-label">CARD H3 · INSTRUMENT SANS 500</p>
               <p className="type-card-heading mt-4">Credible systems language</p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Body Large · Inter 400</p>
+              <p className="type-label">BODY LARGE · INTER 400</p>
               <p className="type-body-large mt-4">
                 Intro paragraphs use a relaxed line height and muted contrast for calm,
                 premium readability across viewport sizes.
               </p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Body · Inter 400</p>
+              <p className="type-label">BODY · INTER 400</p>
               <p className="type-body mt-4">
                 Default body copy stays at 16px with 1.6 line-height and secondary text color.
               </p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Mono UI label · Geist Mono 500</p>
+              <p className="type-label">MONO UI LABEL · GEIST MONO 500</p>
               <p className="type-label mt-4">01 — MI AZ AI INTEGRÁCIÓ?</p>
             </GlassCard>
             <GlassCard>
-              <p className="type-label">Mono Stat · Geist Mono 400</p>
+              <p className="type-label">MONO STAT · GEIST MONO 400</p>
               <p className="type-stat mt-4 text-accent">57%</p>
             </GlassCard>
           </div>
@@ -134,13 +133,6 @@ export default function StyleGuidePage() {
                 Cards use bg-glass, 20px backdrop blur, a hairline border, 16px radius,
                 and responsive 24px / 40px padding.
               </p>
-            </GlassCard>
-            <GlassCard>
-              <Stat
-                label="A jelenlegi munkaórák jelentős része automatizálható a megfelelő AI munkafolyamatokkal."
-                source="McKinsey, 2025"
-                value="57%"
-              />
             </GlassCard>
           </div>
         </Container>

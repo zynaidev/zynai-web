@@ -12,14 +12,14 @@ const buttonVariants = cva(
     },
     variants: {
       size: {
-        default: "px-6 py-3",
+        default: "px-7 py-3.5",
         sm: "px-4 py-2 text-xs",
       },
       variant: {
         ghost:
           "relative text-text-primary after:absolute after:bottom-1.5 after:left-4 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:text-accent hover:after:w-[calc(100%-2rem)]",
         primary:
-          "bg-accent text-accent-on-light hover:scale-[1.02] hover:shadow-[0_0_32px_var(--accent-glow)]",
+          "bg-[var(--accent)] font-semibold text-[var(--accent-on-light)] hover:scale-[1.02] hover:shadow-[0_0_24px_var(--accent-glow)]",
         secondary:
           "border border-border-default bg-transparent text-text-primary hover:bg-bg-glass-strong",
       },

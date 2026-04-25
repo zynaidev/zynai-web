@@ -6,9 +6,9 @@ export function BackgroundGlow({ className }: { className?: string }) {
       aria-hidden="true"
       className={cn("pointer-events-none absolute inset-0 -z-10 overflow-hidden", className)}
     >
-      <div className="absolute -right-32 top-0 h-80 w-80 rounded-full bg-accent-glow opacity-40 blur-[120px]" />
-      <div className="absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-[#3b1d70]/[0.08] opacity-40 blur-[120px]" />
-      <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-white/[0.03] opacity-30 blur-[120px]" />
+      <div className="absolute -right-72 -top-64 h-[900px] w-[900px] rounded-full bg-[rgba(189,255,0,0.25)] blur-[140px]" />
+      <div className="absolute -bottom-80 -left-72 h-[1000px] w-[1000px] rounded-full bg-[#3b1d70]/15 blur-[140px]" />
+      <div className="absolute left-1/2 top-1/4 h-[800px] w-[800px] -translate-x-1/2 rounded-full bg-white/[0.035] opacity-40 blur-[140px]" />
     </div>
   );
 }
