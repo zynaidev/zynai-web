@@ -1,38 +1,161 @@
+"use client";
+
 import Link from "next/link";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Articles" },
-  { href: "/style-guide", label: "Style guide" },
+  { href: "#modszer", label: "Módszer" },
+  { href: "#munkak", label: "Munkáim" },
+  { href: "#cikkek", label: "Cikkek" },
+  { href: "#rolam", label: "Rólam" },
 ];
 
-export function Header({ className }: { className?: string }) {
+const SCROLL_START = 0;
+const SCROLL_END = 100;
+
+function ZynaiCubeIcon({ className }: { className?: string }) {
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b border-border-hairline bg-bg-base/80 backdrop-blur-xl",
-        className,
-      )}
+    <svg
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      viewBox="0 0 28 28"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <Container className="flex h-16 items-center justify-between">
-        <Link className="font-heading text-lg font-semibold tracking-tight" href="/">
-          Zynai
-        </Link>
-        <nav className="flex items-center gap-5 font-mono text-xs font-medium uppercase tracking-[0.12em] text-text-tertiary">
-          {navItems.map((item) => (
-            <Link
-              className="transition-colors hover:text-text-primary"
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </Container>
-    </header>
+      <path
+        d="M14 2.5 24 8.25v11.5L14 25.5 4 19.75V8.25L14 2.5Z"
+        stroke="var(--accent)"
+        strokeLinejoin="round"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M4.5 8.5 14 14m0 0 9.5-5.5M14 14v11"
+        stroke="var(--accent)"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.4"
+      />
+      <path
+        d="m9 11.25 5-2.9 5 2.9v5.5l-5 2.9-5-2.9v-5.5Z"
+        fill="var(--accent)"
+        fillOpacity="0.16"
+        stroke="var(--accent)"
+        strokeLinejoin="round"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+}
+
+export function Header({ className }: { className?: string }) {
+  const { scrollY } = useScroll();
+  const shouldReduceMotion = useReducedMotion();
+  const smoothScrollY = useSpring(scrollY, {
+    damping: 40,
+    restDelta: 0.5,
+    stiffness: 300,
+  });
+  const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
+
+  const width = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [
+    "100vw",
+    "clamp(720px, 60vw, 1100px)",
+  ]);
+  const top = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [0, 14]);
+  const paddingY = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [20, 10],
+  );
+  const borderRadius = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [0, 9999],
+  );
+  const backgroundColor = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["rgba(9, 9, 11, 0)", "rgba(9, 9, 11, 0.72)"],
+  );
+  const borderColor = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.10)"],
+  );
+  const backdropBlur = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [0, 20],
+  );
+  const backdropFilter = useTransform(
+    backdropBlur,
+    (value) => `blur(${value}px)`,
+  );
+  const boxShadow = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    ["0 0 0 rgba(0,0,0,0)", "0 8px 32px rgba(0,0,0,0.4)"],
+  );
+
+  return (
+    <>
+      <div aria-hidden="true" className="h-20" />
+      <motion.header
+        className={cn(
+          "fixed left-1/2 z-50 w-screen -translate-x-1/2",
+          className,
+        )}
+        style={{
+          backdropFilter,
+          backgroundColor,
+          border: "1px solid",
+          borderColor,
+          borderRadius,
+          boxShadow,
+          paddingBottom: paddingY,
+          paddingTop: paddingY,
+          top,
+          WebkitBackdropFilter: backdropFilter,
+          width,
+        }}
+      >
+        <Container className="flex h-16 items-center justify-between">
+          <Link className="flex items-center gap-2.5" href="/">
+            <ZynaiCubeIcon className="h-7 w-7" />
+            <span className="font-display text-[18px] font-semibold text-text-primary">
+              ZynAI
+            </span>
+          </Link>
+
+          <nav className="hidden flex-1 items-center justify-center gap-7 font-sans text-sm font-normal text-text-secondary md:flex">
+            {navItems.map((item) => (
+              <Link
+                className="transition-colors duration-200 hover:text-text-primary"
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light transition-transform duration-200 hover:scale-[1.02]"
+            href="#kapcsolat"
+          >
+            Időpontfoglalás
+          </Link>
+        </Container>
+      </motion.header>
+    </>
   );
 }
