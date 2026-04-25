@@ -1,14 +1,9 @@
 import { HeroSection } from "@/components/sections/hero-section";
+import WhatIsAI from "@/components/sections/WhatIsAI";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 
 const placeholderSections = [
-  {
-    id: "modszer",
-    number: "01",
-    text: "MI AZ AI INTEGRÁCIÓ?",
-    heading: "A módszertanról szóló rész következik.",
-  },
   {
     id: "hogyan",
     number: "02",
@@ -39,6 +34,7 @@ export default function MarketingHomePage() {
   return (
     <>
       <HeroSection />
+      <WhatIsAI />
       {placeholderSections.map((section) => (
         <section
           className="relative py-20 md:py-32"
