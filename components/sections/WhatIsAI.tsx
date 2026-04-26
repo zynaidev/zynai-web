@@ -93,10 +93,8 @@ export default function WhatIsAI() {
             </p>
           </div>
 
-          <div className="flex justify-center lg:justify-center">
-            <div className="aspect-square max-h-[480px] w-full overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md">
-              <ParticleField />
-            </div>
+          <div className="relative h-[500px] w-full lg:h-[580px]">
+            <ParticleField />
           </div>
         </motion.div>
 

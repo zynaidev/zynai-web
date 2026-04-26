@@ -5,9 +5,11 @@ import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const PARTICLE_COUNT = 600;
-const SPHERE_RADIUS = 4;
+const PARTICLE_COUNT = 800;
+const SPHERE_RADIUS = 5;
 const ACCENT_RATIO = 0.05;
+const EDGE_FADE_MASK =
+  "radial-gradient(ellipse 80% 70% at center, black 40%, transparent 100%)";
 
 function generateParticleBuffers() {
   const positions = new Float32Array(PARTICLE_COUNT * 3);
@@ -83,12 +85,21 @@ function Particles() {
 
 export function ParticleField() {
   return (
-    <Canvas
-      camera={{ fov: 50, position: [0, 0, 8] }}
-      dpr={[1, 2]}
-      style={{ background: "transparent", height: "100%", width: "100%" }}
+    <div
+      style={{
+        WebkitMaskImage: EDGE_FADE_MASK,
+        inset: 0,
+        maskImage: EDGE_FADE_MASK,
+        position: "absolute",
+      }}
     >
-      <Particles />
-    </Canvas>
+      <Canvas
+        camera={{ fov: 50, position: [0, 0, 9] }}
+        dpr={[1, 2]}
+        style={{ background: "transparent", height: "100%", width: "100%" }}
+      >
+        <Particles />
+      </Canvas>
+    </div>
   );
 }
