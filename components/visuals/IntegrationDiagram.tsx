@@ -182,7 +182,7 @@ function DesktopDiagram() {
         <filter
           colorInterpolationFilters="sRGB"
           height="160%"
-          id="hubGlow"
+          id="desktopHubGlow"
           width="160%"
           x="-30%"
           y="-30%"
@@ -192,7 +192,7 @@ function DesktopDiagram() {
         <filter
           colorInterpolationFilters="sRGB"
           height="400%"
-          id="dotGlow"
+          id="desktopDotGlow"
           width="400%"
           x="-150%"
           y="-150%"
@@ -203,8 +203,8 @@ function DesktopDiagram() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <path d={desktopPaths[0].d} id="activePathInput" />
-        <path d={desktopPaths[4].d} id="activePathOutput" />
+        <path d={desktopPaths[0].d} id="desktopActivePathInput" />
+        <path d={desktopPaths[4].d} id="desktopActivePathOutput" />
       </defs>
 
       {desktopPaths.map((path) => (
@@ -225,21 +225,21 @@ function DesktopDiagram() {
       <circle
         className="integration-travel-dot"
         fill="var(--accent)"
-        filter="url(#dotGlow)"
+        filter="url(#desktopDotGlow)"
         r="3"
       >
         <animateMotion dur="2.5s" repeatCount="indefinite">
-          <mpath href="#activePathInput" />
+          <mpath href="#desktopActivePathInput" />
         </animateMotion>
       </circle>
       <circle
         className="integration-travel-dot"
         fill="var(--accent)"
-        filter="url(#dotGlow)"
+        filter="url(#desktopDotGlow)"
         r="3"
       >
         <animateMotion begin="0.4s" dur="2.5s" repeatCount="indefinite">
-          <mpath href="#activePathOutput" />
+          <mpath href="#desktopActivePathOutput" />
         </animateMotion>
       </circle>
 
@@ -256,7 +256,7 @@ function DesktopDiagram() {
           cx="240"
           cy="240"
           fill="var(--accent)"
-          filter="url(#hubGlow)"
+          filter="url(#desktopHubGlow)"
           opacity="0.2"
           r="44"
         />
@@ -300,7 +300,7 @@ function MobileDiagram() {
         <filter
           colorInterpolationFilters="sRGB"
           height="160%"
-          id="hubGlow"
+          id="mobileHubGlow"
           width="160%"
           x="-30%"
           y="-30%"
@@ -310,7 +310,7 @@ function MobileDiagram() {
         <filter
           colorInterpolationFilters="sRGB"
           height="400%"
-          id="dotGlow"
+          id="mobileDotGlow"
           width="400%"
           x="-150%"
           y="-150%"
@@ -321,8 +321,8 @@ function MobileDiagram() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <path d={mobilePaths[0].d} id="activePathInput" />
-        <path d={mobilePaths[4].d} id="activePathOutput" />
+        <path d={mobilePaths[0].d} id="mobileActivePathInput" />
+        <path d={mobilePaths[4].d} id="mobileActivePathOutput" />
       </defs>
 
       {mobilePaths.map((path) => (
@@ -343,21 +343,21 @@ function MobileDiagram() {
       <circle
         className="integration-travel-dot"
         fill="var(--accent)"
-        filter="url(#dotGlow)"
+        filter="url(#mobileDotGlow)"
         r="3"
       >
         <animateMotion dur="2.5s" repeatCount="indefinite">
-          <mpath href="#activePathInput" />
+          <mpath href="#mobileActivePathInput" />
         </animateMotion>
       </circle>
       <circle
         className="integration-travel-dot"
         fill="var(--accent)"
-        filter="url(#dotGlow)"
+        filter="url(#mobileDotGlow)"
         r="3"
       >
         <animateMotion begin="0.4s" dur="2.5s" repeatCount="indefinite">
-          <mpath href="#activePathOutput" />
+          <mpath href="#mobileActivePathOutput" />
         </animateMotion>
       </circle>
 
@@ -374,7 +374,7 @@ function MobileDiagram() {
           cx="180"
           cy="300"
           fill="var(--accent)"
-          filter="url(#hubGlow)"
+          filter="url(#mobileHubGlow)"
           opacity="0.2"
           r="44"
         />
