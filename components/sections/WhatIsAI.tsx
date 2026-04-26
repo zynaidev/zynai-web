@@ -1,11 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import dynamic from "next/dynamic";
 
 import { CountUp } from "@/components/animations/CountUp";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
-import { IntegrationDiagram } from "@/components/visuals/IntegrationDiagram";
+
+const ParticleField = dynamic(
+  () =>
+    import("@/components/visuals/ParticleField").then((mod) => mod.ParticleField),
+  { ssr: false },
+);
 
 const revealEase = [0.22, 1, 0.36, 1] as const;
 
@@ -87,10 +93,8 @@ export default function WhatIsAI() {
             </p>
           </div>
 
-          <div className="flex justify-center lg:justify-center">
-            <div className="flex aspect-square max-h-[480px] w-full items-center justify-center rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-glass)] p-6 backdrop-blur-md">
-              <IntegrationDiagram />
-            </div>
+          <div className="relative h-[500px] w-full lg:h-[580px]">
+            <ParticleField />
           </div>
         </motion.div>
 

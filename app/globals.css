@@ -86,8 +86,8 @@
   --accent-glow: rgba(189, 255, 0, 0.15);
   --accent-text: #bdff00;
   --accent-on-light: #1a1a00;
-  --space-section-desktop: 160px;
-  --space-section-mobile: 80px;
+  --space-section-desktop: 120px;
+  --space-section-mobile: 64px;
   --space-card-desktop: 40px;
   --space-card-mobile: 24px;
   --container-max: 1280px;
