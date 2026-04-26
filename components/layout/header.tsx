@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -21,6 +22,10 @@ const navItems = [
 
 const SCROLL_START = 0;
 const SCROLL_END = 100;
+const PILL_MIN_WIDTH = 720;
+const PILL_MAX_WIDTH = 1100;
+const PILL_TARGET_RATIO = 0.6;
+const FALLBACK_VIEWPORT_WIDTH = 1280;
 
 function ZynaiCubeIcon({ className }: { className?: string }) {
   return (
@@ -66,10 +71,27 @@ export function Header({ className }: { className?: string }) {
   });
   const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
 
-  const width = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [
-    "100vw",
-    "clamp(720px, 60vw, 1100px)",
-  ]);
+  const [viewportWidth, setViewportWidth] = useState(FALLBACK_VIEWPORT_WIDTH);
+
+  useEffect(() => {
+    const update = () => setViewportWidth(window.innerWidth);
+
+    update();
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const pillWidth = Math.max(
+    PILL_MIN_WIDTH,
+    Math.min(PILL_MAX_WIDTH, viewportWidth * PILL_TARGET_RATIO),
+  );
+
+  const width = useTransform(
+    scrollProgress,
+    [SCROLL_START, SCROLL_END],
+    [viewportWidth, pillWidth],
+  );
   const top = useTransform(scrollProgress, [SCROLL_START, SCROLL_END], [0, 14]);
   const paddingY = useTransform(
     scrollProgress,
@@ -111,7 +133,7 @@ export function Header({ className }: { className?: string }) {
       <div aria-hidden="true" className="h-20" />
       <motion.header
         className={cn(
-          "fixed left-1/2 z-50 w-screen -translate-x-1/2",
+          "fixed left-1/2 z-50 -translate-x-1/2",
           className,
         )}
         style={{
