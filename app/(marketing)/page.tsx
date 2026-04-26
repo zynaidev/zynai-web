@@ -1,3 +1,4 @@
+import { Applications } from "@/components/sections/Applications";
 import { HeroSection } from "@/components/sections/hero-section";
 import { HowIWork } from "@/components/sections/HowIWork";
 import WhatIsAI from "@/components/sections/WhatIsAI";
@@ -5,11 +6,6 @@ import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 
 const placeholderSections = [
-  {
-    number: "03",
-    text: "ALKALMAZÁSI TERÜLETEK",
-    heading: "Az alkalmazási területek listája következik.",
-  },
   {
     id: "rolam",
     number: "04",
@@ -31,6 +27,7 @@ export default function MarketingHomePage() {
       <HeroSection />
       <WhatIsAI />
       <HowIWork />
+      <Applications />
       {placeholderSections.map((section) => (
         <section
           className="relative py-20 md:py-32"
