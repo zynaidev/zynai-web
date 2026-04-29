@@ -181,7 +181,7 @@ export function IntegrationStack() {
       </div>
 
       {/* 3 marquee strips */}
-      <div className="mt-16 lg:mt-20 space-y-6 lg:space-y-8">
+      <div className="mt-10 lg:mt-14 space-y-3 lg:space-y-4">
         <Marquee direction="left" logos={row1Logos} duration={60} />
         <Marquee direction="right" logos={row2Logos} duration={70} />
         <Marquee direction="left" logos={row3Logos} duration={65} />
