@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { SmoothScroll } from "@/components/animations/smooth-scroll";
-import { Footer } from "@/components/layout/footer";
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/header";
 
 export default function MarketingLayout({
