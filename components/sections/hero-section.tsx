@@ -2,33 +2,198 @@
 
 import type { MouseEvent } from "react";
 
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
-const revealEase = [0.22, 1, 0.36, 1] as const;
+const ParticleSphere = dynamic(
+  () =>
+    import("@/components/visuals/ParticleSphere").then(
+      (mod) => mod.ParticleSphere,
+    ),
+  { ssr: false },
+);
+
+
+const heroBackgroundStyles = `
+  @keyframes hero-blob-1 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); }
+    30% { transform: translate(8%, -12%) scale(1.08); }
+    60% { transform: translate(-6%, 8%) scale(0.94); }
+    80% { transform: translate(10%, 5%) scale(1.04); }
+  }
+  @keyframes hero-blob-2 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); }
+    25% { transform: translate(-12%, 6%) scale(1.12); }
+    55% { transform: translate(8%, -10%) scale(0.92); }
+    80% { transform: translate(-5%, 12%) scale(1.06); }
+  }
+  @keyframes hero-blob-3 {
+    0%, 100% { transform: translate(0%, 0%) scale(0.96); }
+    40% { transform: translate(6%, 10%) scale(1.06); }
+    70% { transform: translate(-10%, -6%) scale(0.90); }
+  }
+  @keyframes hero-blob-4 {
+    0%, 100% { transform: translate(0%, 0%) scale(1); }
+    50% { transform: translate(-6%, -8%) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero-blob] { animation: none !important; }
+  }
+`;
+
+function HeroBackground() {
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: heroBackgroundStyles }} />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {/* LAYER 1 — Base gradient: deep dark with slight warm undertone */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 65% 50%, rgba(15, 22, 35, 0.95) 0%, rgba(9, 9, 11, 1) 70%)",
+          }}
+        />
+
+        {/* LAYER 2A — Mesh blob: lime accent, sphere area (right side) */}
+        <div
+          data-hero-blob
+          className="absolute"
+          style={{
+            top: "-10%",
+            right: "-5%",
+            width: "65%",
+            height: "90%",
+            background:
+              "radial-gradient(circle, rgba(189, 255, 0, 0.14) 0%, transparent 65%)",
+            filter: "blur(70px)",
+            animation: "hero-blob-1 24s ease-in-out infinite",
+            willChange: "transform",
+          }}
+        />
+
+        {/* LAYER 2B — Mesh blob: deep violet, upper right */}
+        <div
+          data-hero-blob
+          className="absolute"
+          style={{
+            top: "-20%",
+            right: "15%",
+            width: "55%",
+            height: "70%",
+            background:
+              "radial-gradient(circle, rgba(100, 40, 180, 0.20) 0%, transparent 60%)",
+            filter: "blur(80px)",
+            animation: "hero-blob-2 30s ease-in-out infinite",
+            willChange: "transform",
+          }}
+        />
+
+        {/* LAYER 2C — Mesh blob: teal, lower area */}
+        <div
+          data-hero-blob
+          className="absolute"
+          style={{
+            bottom: "-10%",
+            right: "5%",
+            width: "50%",
+            height: "60%",
+            background:
+              "radial-gradient(circle, rgba(20, 160, 180, 0.12) 0%, transparent 60%)",
+            filter: "blur(85px)",
+            animation: "hero-blob-3 35s ease-in-out infinite",
+            willChange: "transform",
+          }}
+        />
+
+        {/* LAYER 2D — Mesh blob: subtle lime, left side bleed */}
+        <div
+          data-hero-blob
+          className="absolute"
+          style={{
+            top: "20%",
+            left: "-10%",
+            width: "40%",
+            height: "50%",
+            background:
+              "radial-gradient(circle, rgba(189, 255, 0, 0.06) 0%, transparent 60%)",
+            filter: "blur(90px)",
+            animation: "hero-blob-4 28s ease-in-out infinite",
+            willChange: "transform",
+          }}
+        />
+
+        {/* LAYER 3 — Spotlight: focused radial on the sphere area */}
+        <div
+          className="absolute"
+          style={{
+            top: "-30%",
+            right: "-10%",
+            width: "80%",
+            height: "130%",
+            background:
+              "radial-gradient(ellipse 60% 70% at 70% 40%, rgba(189, 255, 0, 0.09) 0%, rgba(100, 40, 180, 0.06) 40%, transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
+
+        {/* LAYER 4 — Edge fades */}
+        <div
+          className="absolute inset-x-0 top-0 h-32"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(9,9,11,0.6) 0%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-40"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(9,9,11,1) 0%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-y-0 left-0 w-[45%]"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(9,9,11,0.5) 0%, transparent 100%)",
+          }}
+        />
+
+        {/* LAYER 5 — Noise grain overlay */}
+        <div
+          className="absolute inset-0 mix-blend-overlay"
+          style={{
+            opacity: 0.04,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          }}
+        />
+      </div>
+    </>
+  );
+}
 
 export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
 
-  const revealProps = ({
-    y,
-    duration,
-    delay = 0,
-  }: {
-    y: number;
-    duration: number;
-    delay?: number;
-  }) =>
-    shouldReduceMotion
-      ? { initial: false }
-      : {
-          animate: { opacity: 1, y: 0 },
-          initial: { opacity: 0, y },
-          transition: { delay, duration, ease: revealEase },
-        };
+  const fadeUp = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion
+        ? { duration: 0 }
+        : { duration: 0.7, ease: "easeOut" as const, delay },
+    }),
+  };
 
   const handleAnchorClick =
     (anchorId: string) => (event: MouseEvent<HTMLAnchorElement>) => {
@@ -47,23 +212,17 @@ export function HeroSection() {
     };
 
   return (
-    <section className="relative isolate flex min-h-[85vh] items-center overflow-hidden py-20 lg:py-24">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute -right-72 -top-64 h-[900px] w-[900px] rounded-full bg-[rgba(189,255,0,0.10)] blur-[140px]" />
-        <div className="absolute -bottom-80 -left-72 h-[1000px] w-[1000px] rounded-full bg-[#3b1d70]/[0.06] blur-[140px]" />
-        <div className="absolute left-1/2 top-1/4 h-[800px] w-[800px] -translate-x-1/2 rounded-full bg-white/[0.014] opacity-40 blur-[140px]" />
-        <div className="hero-dot-grid absolute inset-0" />
-        <div className="hero-noise-grain absolute inset-0" />
-      </div>
+    <section className="relative isolate flex min-h-0 lg:min-h-[100dvh] items-start lg:items-center overflow-visible pt-[72px] lg:pt-24 pb-5 lg:pb-24">
+      <HeroBackground />
 
-      <Container className="grid gap-12 md:grid-cols-12 md:gap-8 md:items-center lg:gap-12">
+      <Container className="relative z-10 grid pb-10 pt-0 gap-12 md:grid-cols-12 md:gap-8 md:items-center lg:gap-12 lg:p-0">
         <div className="md:col-span-7">
           <motion.div
             className="flex items-center gap-3"
-            {...revealProps({ duration: 0.5, y: 12 })}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+            variants={fadeUp}
           >
             <span
               aria-hidden="true"
@@ -77,11 +236,14 @@ export function HeroSection() {
           <motion.h1
             className="mt-8 max-w-[14ch] font-display font-medium text-text-primary text-balance"
             style={{
-              fontSize: "clamp(40px, 7vw, 72px)",
+              fontSize: "clamp(36px, 7vw, 72px)",
               letterSpacing: "-0.03em",
               lineHeight: 1.05,
             }}
-            {...revealProps({ delay: 0.1, duration: 0.7, y: 16 })}
+            initial="hidden"
+            animate="visible"
+            custom={0.15}
+            variants={fadeUp}
           >
             A vállalkozások hatékonyabbak, ha az AI a folyamataik része — nem
             egy különálló eszköz.
@@ -89,17 +251,23 @@ export function HeroSection() {
 
           <motion.p
             className="mt-8 max-w-[50ch] font-sans text-base leading-[1.65] text-text-secondary md:text-lg"
-            {...revealProps({ delay: 0.3, duration: 0.6, y: 12 })}
+            initial="hidden"
+            animate="visible"
+            custom={0.35}
+            variants={fadeUp}
           >
-            Hanics Attila vagyok — üzleti folyamatokat vizsgálok meg és alakítok
-            át AI integrációval. Ez az oldal bemutatja a módszertanomat, a
+            Bakos Attila vagyok — AI integrációval alakítom át az üzleti
+            folyamatokat. Ez az oldal bemutatja a módszertanomat, a
             megvalósított projektjeimet és azt, amit ma az AI-ról tényszerűen
             érdemes tudni.
           </motion.p>
 
           <motion.div
             className="mt-10 flex flex-col gap-3 md:flex-row md:items-center"
-            {...revealProps({ delay: 0.5, duration: 0.5, y: 12 })}
+            initial="hidden"
+            animate="visible"
+            custom={0.52}
+            variants={fadeUp}
           >
             <a
               className={cn(
@@ -125,12 +293,22 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        <div className="mt-12 flex justify-center md:col-span-5 md:mt-0">
-          <div className="flex aspect-square w-[280px] items-center justify-center rounded-2xl border border-border-hairline bg-bg-glass p-8 text-center backdrop-blur-md md:w-full">
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-text-tertiary">
-              {"// VIZUALIZÁCIÓ — KÖVETKEZŐ FÁZIS"}
-            </p>
-          </div>
+        {/* Desktop: sphere absolutely positioned, breaks out of grid */}
+        <div
+          className="hidden lg:block absolute pointer-events-none"
+          style={{
+            top: "-10%",
+            right: "-5vw",
+            width: "58%",
+            height: "120%",
+            zIndex: 5,
+            maskImage:
+              "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
+          }}
+        >
+          <ParticleSphere />
         </div>
       </Container>
     </section>
