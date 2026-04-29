@@ -11,7 +11,6 @@ import {
 } from "framer-motion";
 
 import { Container } from "@/components/ui/container";
-import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "#modszer", label: "Módszer" },
@@ -61,7 +60,7 @@ function ZynaiCubeIcon({ className }: { className?: string }) {
   );
 }
 
-export function Header({ className }: { className?: string }) {
+export function Header() {
   const { scrollY } = useScroll();
   const shouldReduceMotion = useReducedMotion();
   const smoothScrollY = useSpring(scrollY, {
@@ -103,50 +102,23 @@ export function Header({ className }: { className?: string }) {
     [SCROLL_START, SCROLL_END],
     [0, 9999],
   );
-  const backgroundColor = useTransform(
-    scrollProgress,
-    [SCROLL_START, SCROLL_END],
-    ["rgba(9, 9, 11, 0)", "rgba(9, 9, 11, 0.72)"],
-  );
-  const borderColor = useTransform(
-    scrollProgress,
-    [SCROLL_START, SCROLL_END],
-    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.10)"],
-  );
-  const backdropBlur = useTransform(
-    scrollProgress,
-    [SCROLL_START, SCROLL_END],
-    [0, 20],
-  );
-  const backdropFilter = useTransform(
-    backdropBlur,
-    (value) => `blur(${value}px)`,
-  );
   const boxShadow = useTransform(
     scrollProgress,
     [SCROLL_START, SCROLL_END],
-    ["0 0 0 rgba(0,0,0,0)", "0 8px 32px rgba(0,0,0,0.4)"],
+    ["0 0 0 rgba(0, 0, 0, 0)", "0 8px 32px rgba(0,0,0,0.4)"],
   );
 
   return (
     <>
       <div aria-hidden="true" className="h-20" />
       <motion.header
-        className={cn(
-          "fixed left-1/2 z-50 -translate-x-1/2",
-          className,
-        )}
+        className="fixed left-1/2 z-50 -translate-x-1/2 bg-[rgba(9,9,11,0.72)] backdrop-blur-xl border-b border-[var(--border-hairline)]"
         style={{
-          backdropFilter,
-          backgroundColor,
-          border: "1px solid",
-          borderColor,
           borderRadius,
           boxShadow,
           paddingBottom: paddingY,
           paddingTop: paddingY,
           top,
-          WebkitBackdropFilter: backdropFilter,
           width,
         }}
       >
@@ -158,7 +130,7 @@ export function Header({ className }: { className?: string }) {
             </span>
           </Link>
 
-          <nav className="hidden flex-1 items-center justify-center gap-7 font-sans text-sm font-normal text-text-secondary md:flex">
+          <nav className="hidden flex-1 items-center justify-center gap-12 font-sans text-sm font-normal text-text-secondary md:flex">
             {navItems.map((item) => (
               <Link
                 className="transition-colors duration-200 hover:text-text-primary"
