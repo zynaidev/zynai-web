@@ -212,7 +212,7 @@ export function HeroSection() {
     };
 
   return (
-    <section className="relative isolate flex min-h-[85vh] lg:min-h-screen items-start lg:items-center overflow-visible pt-32 lg:pt-36 pb-5 lg:pb-24">
+    <section className="relative isolate flex min-h-[75vh] lg:min-h-[88vh] items-start lg:items-center overflow-visible pt-32 lg:pt-36 pb-5 lg:pb-24">
       <HeroBackground />
 
       <Container className="relative z-10 grid pb-6 lg:pb-10 pt-0 gap-12 md:grid-cols-12 md:gap-8 md:items-center lg:gap-12 lg:p-0">
