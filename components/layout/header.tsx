@@ -60,6 +60,27 @@ function ZynaiCubeIcon({ className }: { className?: string }) {
   );
 }
 
+function MobileMenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-6 w-6 text-text-primary"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+    >
+      {open ? (
+        <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
+      ) : (
+        <>
+          <path d="M4 8h16M4 12h16M4 16h16" strokeLinecap="round" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function Header() {
   const { scrollY } = useScroll();
   const shouldReduceMotion = useReducedMotion();
@@ -71,6 +92,7 @@ export function Header() {
   const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
 
   const [viewportWidth, setViewportWidth] = useState(FALLBACK_VIEWPORT_WIDTH);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const update = () => setViewportWidth(window.innerWidth);
@@ -80,6 +102,17 @@ export function Header() {
 
     return () => window.removeEventListener("resize", update);
   }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen]);
 
   const pillWidth = Math.max(
     PILL_MIN_WIDTH,
@@ -111,8 +144,60 @@ export function Header() {
   return (
     <>
       <div aria-hidden="true" className="h-20" />
+
+      {/* Mobile — static full-width bar; no pill width animation */}
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.72)] backdrop-blur-xl lg:hidden">
+        <div className="relative mx-auto flex h-16 w-full max-w-[var(--container-max)] items-center justify-between px-6 lg:px-12">
+          <Link className="flex items-center gap-2.5" href="/">
+            <ZynaiCubeIcon className="h-7 w-7" />
+            <span className="font-display text-[18px] font-semibold text-text-primary">
+              ZynAI
+            </span>
+          </Link>
+
+          <button
+            type="button"
+            className="-mr-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-text-primary transition-opacity hover:opacity-90"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
+            aria-label={mobileMenuOpen ? "Menü bezárása" : "Menü megnyitása"}
+            onClick={() => setMobileMenuOpen((o) => !o)}
+          >
+            <MobileMenuIcon open={mobileMenuOpen} />
+          </button>
+
+          {mobileMenuOpen ? (
+            <div
+              className="absolute inset-x-0 top-full z-50 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.95)] px-6 py-4 shadow-lg backdrop-blur-xl"
+              id="mobile-nav"
+            >
+              <nav className="flex flex-col gap-1 font-sans text-sm font-normal text-text-secondary">
+                {navItems.map((item) => (
+                  <Link
+                    className="rounded-md py-3 transition-colors duration-200 hover:text-text-primary"
+                    href={item.href}
+                    key={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <Link
+                className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light transition-transform duration-200 hover:scale-[1.02]"
+                href="#kapcsolat"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Időpontfoglalás
+              </Link>
+            </div>
+          ) : null}
+        </div>
+      </header>
+
+      {/* Desktop — pill animation */}
       <motion.header
-        className="fixed left-1/2 z-50 -translate-x-1/2 bg-[rgba(9,9,11,0.72)] backdrop-blur-xl border-b border-[var(--border-hairline)]"
+        className="fixed left-1/2 z-50 hidden -translate-x-1/2 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.72)] backdrop-blur-xl lg:block"
         style={{
           borderRadius,
           boxShadow,
