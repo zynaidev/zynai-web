@@ -116,6 +116,7 @@ export function ParticleSphere() {
 
   return (
     <Canvas
+      frameloop="always"
       camera={{ position: [0, 0, 7], fov: 50 }}
       style={{
         width: "100%",
