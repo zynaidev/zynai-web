@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const auroraStyles = `
@@ -132,6 +135,19 @@ function AuroraBackground() {
 }
 
 export function FinalCTA() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const fadeUp = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion
+        ? { duration: 0 }
+        : { duration: 0.6, ease: "easeOut" as const, delay },
+    }),
+  };
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: auroraStyles }} />
@@ -140,60 +156,92 @@ export function FinalCTA() {
 
         <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            {/* Pre-heading */}
-            <div className="flex items-center justify-center gap-4">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--border-default)]" />
-              <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                KÖVETKEZŐ LÉPÉS
-              </span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--border-default)]" />
-            </div>
-
-            {/* Heading */}
-            <h2
-              className="mt-8 font-display font-medium text-[var(--text-primary)]"
-              style={{
-                fontSize: "clamp(36px, 5vw, 56px)",
-                lineHeight: "1.1",
-                letterSpacing: "-0.025em",
-              }}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={0}
+              variants={fadeUp}
             >
-              Beszéljünk arról, hol hozhat eredményt az AI a vállalkozásodban.
-            </h2>
+              {/* Pre-heading */}
+              <div className="flex items-center justify-center gap-4">
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--border-default)]" />
+                <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  KÖVETKEZŐ LÉPÉS
+                </span>
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--border-default)]" />
+              </div>
+            </motion.div>
 
-            {/* Body paragraph */}
-            <p
-              className="mt-8 text-[var(--text-secondary)] leading-[1.65] max-w-2xl mx-auto"
-              style={{ fontSize: "clamp(16px, 1.2vw, 18px)" }}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={0.15}
+              variants={fadeUp}
             >
-              Egy 30 perces folyamatfelmérési konzultáció keretében átnézzük a
-              vállalkozás jelenlegi működését, és konkrét képet adok arról, hol
-              hozhat valódi eredményt az AI integráció — és hol nem éri meg vele
-              foglalkozni.
-            </p>
-
-            {/* CTA button */}
-            <div className="mt-12 flex flex-col items-center gap-4">
-              <a
-                href="/idopontfoglalas"
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[var(--accent)] text-[var(--accent-on-light)] font-medium hover:scale-[1.02] transition-all duration-300"
+              {/* Heading */}
+              <h2
+                className="mt-8 font-display font-medium text-[var(--text-primary)]"
                 style={{
-                  boxShadow: "0 0 32px rgba(189, 255, 0, 0.25)",
-                  fontSize: "16px",
+                  fontSize: "clamp(36px, 5vw, 56px)",
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.025em",
                 }}
               >
-                Időpontot foglalok
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform duration-300"
-                />
-              </a>
+                Beszéljünk arról, hol hozhat eredményt az AI a vállalkozásodban.
+              </h2>
+            </motion.div>
 
-              {/* Sub-CTA mono caption */}
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                INGYENES · 30 PERC · NEM KÖTELEZ EL SEMMIRE
-              </span>
-            </div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={0.28}
+              variants={fadeUp}
+            >
+              {/* Body paragraph */}
+              <p
+                className="mt-8 text-[var(--text-secondary)] leading-[1.65] max-w-2xl mx-auto"
+                style={{ fontSize: "clamp(16px, 1.2vw, 18px)" }}
+              >
+                Egy 30 perces folyamatfelmérési konzultáció keretében átnézzük a
+                vállalkozás jelenlegi működését, és konkrét képet adok arról, hol
+                hozhat valódi eredményt az AI integráció — és hol nem éri meg vele
+                foglalkozni.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={0.42}
+              variants={fadeUp}
+            >
+              {/* CTA button */}
+              <div className="mt-12 flex flex-col items-center gap-4">
+                <a
+                  href="/idopontfoglalas"
+                  className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[var(--accent)] text-[var(--accent-on-light)] font-medium hover:scale-[1.02] transition-all duration-300"
+                  style={{
+                    boxShadow: "0 0 32px rgba(189, 255, 0, 0.25)",
+                    fontSize: "16px",
+                  }}
+                >
+                  Időpontot foglalok
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform duration-300"
+                  />
+                </a>
+
+                {/* Sub-CTA mono caption */}
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                  INGYENES · 30 PERC · NEM KÖTELEZ EL SEMMIRE
+                </span>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

@@ -1,5 +1,7 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
+
 function ZynaiCubeIconSmall() {
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -72,12 +74,31 @@ function GithubIcon({ size = 15 }: { size?: number }) {
 }
 
 export function Footer() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const fadeUp = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion
+        ? { duration: 0 }
+        : { duration: 0.5, ease: "easeOut" as const, delay },
+    }),
+  };
+
   return (
     <footer className="relative border-t border-[var(--border-hairline)] bg-[var(--bg-elevated)]">
       <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Column 1 — Brand */}
-          <div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0}
+            variants={fadeUp}
+          >
             <div className="flex items-center gap-2.5">
               <ZynaiCubeIconSmall />
               <span className="font-display font-semibold text-[18px] tracking-tight text-[var(--text-primary)]">
@@ -112,10 +133,16 @@ export function Footer() {
                 <GithubIcon size={15} />
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Column 2 — Tartalom */}
-          <div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0.08}
+            variants={fadeUp}
+          >
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">TARTALOM</p>
             <ul className="space-y-3">
               {[
@@ -134,10 +161,16 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Column 3 — Anyagok */}
-          <div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0.16}
+            variants={fadeUp}
+          >
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
             <ul className="space-y-3">
               {[
@@ -155,10 +188,16 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Column 4 — Kapcsolat */}
-          <div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            custom={0.24}
+            variants={fadeUp}
+          >
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
             <ul className="space-y-3">
               {[
@@ -177,11 +216,18 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom row */}
-        <div className="mt-16 lg:mt-20 pt-8 border-t border-[var(--border-hairline)]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          custom={0.3}
+          variants={fadeUp}
+          className="mt-16 lg:mt-20 pt-8 border-t border-[var(--border-hairline)]"
+        >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
               © 2026 ZYNAI · BAKOS ATTILA
@@ -196,7 +242,7 @@ export function Footer() {
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
