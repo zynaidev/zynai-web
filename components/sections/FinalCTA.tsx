@@ -135,7 +135,7 @@ export function FinalCTA() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: auroraStyles }} />
-      <section className="relative py-section-mobile lg:py-section-desktop overflow-hidden">
+      <section className="relative overflow-hidden bg-[var(--bg-base)] py-section-mobile lg:py-section-desktop">
         <AuroraBackground />
 
         <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 relative z-10">
