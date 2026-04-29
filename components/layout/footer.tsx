@@ -1,6 +1,15 @@
 "use client";
 
-import { ZynaiCubeIcon } from "@/components/brand/ZynaiCubeIcon";
+function ZynaiCubeIconSmall() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <polygon points="14,2 26,9 26,19 14,26 2,19 2,9" fill="#0d1a0d" stroke="#BDFF00" strokeWidth="1.5" />
+      <polygon points="14,2 26,9 14,16 2,9" fill="#1a2e1a" stroke="#BDFF00" strokeWidth="0.5" />
+      <polygon points="14,16 26,9 26,19 14,26" fill="#0a1a0a" stroke="#BDFF00" strokeWidth="0.5" />
+      <polygon points="14,16 2,9 2,19 14,26" fill="#112211" stroke="#BDFF00" strokeWidth="0.5" />
+    </svg>
+  );
+}
 
 function LinkedinIcon({ size = 15 }: { size?: number }) {
   return (
@@ -66,14 +75,11 @@ export function Footer() {
   return (
     <footer className="relative border-t border-[var(--border-hairline)] bg-[var(--bg-elevated)]">
       <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-16 lg:py-20">
-
-        {/* 4-column grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-
           {/* Column 1 — Brand */}
           <div>
             <div className="flex items-center gap-2.5">
-              <ZynaiCubeIcon className="w-7 h-7" />
+              <ZynaiCubeIconSmall />
               <span className="font-display font-semibold text-[18px] tracking-tight text-[var(--text-primary)]">
                 ZynAI
               </span>
@@ -110,9 +116,7 @@ export function Footer() {
 
           {/* Column 2 — Tartalom */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">
-              TARTALOM
-            </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">TARTALOM</p>
             <ul className="space-y-3">
               {[
                 { label: "Mi az AI integráció?", href: "#modszer" },
@@ -134,9 +138,7 @@ export function Footer() {
 
           {/* Column 3 — Anyagok */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">
-              ANYAGOK
-            </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
             <ul className="space-y-3">
               {[
                 { label: "Esettanulmányok", href: "#munkak" },
@@ -157,9 +159,7 @@ export function Footer() {
 
           {/* Column 4 — Kapcsolat */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">
-              KAPCSOLAT
-            </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
             <ul className="space-y-3">
               {[
                 { label: "Időpontfoglalás", href: "/idopontfoglalas" },
@@ -197,7 +197,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   );
