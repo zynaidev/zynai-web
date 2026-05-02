@@ -179,7 +179,8 @@ export function Applications() {
 
           {/* Card 3 — Értékesítés és CRM automatizáció */}
           <div className="lg:mt-24">
-            <div className={cardBase}>
+            {/* pb-36 (144px) overrides cardBase pb-24/lg:pb-32 to clear the 140px decoration */}
+            <div className={cardBase} style={{ paddingBottom: "9rem" }}>
               <h3
                 className="font-display font-medium tracking-[-0.01em] text-text-primary"
                 style={{ fontSize: "22px" }}
@@ -192,53 +193,67 @@ export function Applications() {
                 halad, amilyen tempóban az érdeklődők érkeznek.
               </p>
 
-              {/* Card 3 decoration — diamond grid with edge fade + smooth scroll */}
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 overflow-hidden">
+              {/* Card 3 decoration — isometric cube grid */}
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden"
+                style={{ height: "140px" }}
+              >
+                {/* Top fade — grid emerges smoothly from card background */}
                 <div
                   className="absolute inset-0 z-10"
                   style={{
-                    background: `
-linear-gradient(to bottom, var(--bg-elevated) 0%, transparent 40%),
-linear-gradient(to right, var(--bg-elevated) 0%, transparent 15%, transparent 85%, var(--bg-elevated) 100%)
-`.trim(),
+                    background:
+                      "linear-gradient(to bottom, var(--bg-elevated) 0%, transparent 35%)",
                   }}
                 />
 
+                {/* Scrolling isometric grid */}
                 <div
                   style={{
                     width: "200%",
                     height: "100%",
-                    animation: "wave-continuous 16s linear infinite",
+                    animation: "wave-continuous 20s linear infinite",
                     position: "relative",
                     zIndex: 0,
                   }}
                 >
                   <svg
-                    viewBox="0 0 1000 192"
                     width="100%"
-                    height="100%"
+                    height="140"
+                    viewBox="0 0 1000 140"
                     fill="none"
-                    preserveAspectRatio="xMinYMax meet"
                     xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMinYMax meet"
                   >
                     <defs>
                       <pattern
-                        id="diamondGrid2"
+                        id="isoCubes"
                         x="0"
                         y="0"
-                        width="70"
-                        height="70"
+                        width="60"
+                        height="69"
                         patternUnits="userSpaceOnUse"
-                        patternTransform="rotate(45)"
                       >
-                        <rect
-                          x="2"
-                          y="2"
-                          width="66"
-                          height="66"
+                        {/* Top face */}
+                        <polygon
+                          points="30,0 60,17 30,34 0,17"
                           fill="none"
                           stroke="#393939"
-                          strokeWidth="1"
+                          strokeWidth="0.8"
+                        />
+                        {/* Left face */}
+                        <polygon
+                          points="0,17 30,34 30,69 0,52"
+                          fill="none"
+                          stroke="#393939"
+                          strokeWidth="0.8"
+                        />
+                        {/* Right face */}
+                        <polygon
+                          points="30,34 60,17 60,52 30,69"
+                          fill="none"
+                          stroke="#393939"
+                          strokeWidth="0.8"
                         />
                       </pattern>
                     </defs>
@@ -246,8 +261,8 @@ linear-gradient(to right, var(--bg-elevated) 0%, transparent 15%, transparent 85
                       x="0"
                       y="0"
                       width="2000"
-                      height="192"
-                      fill="url(#diamondGrid2)"
+                      height="140"
+                      fill="url(#isoCubes)"
                     />
                   </svg>
                 </div>
