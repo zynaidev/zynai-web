@@ -1,245 +1,242 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import type { ReactNode } from "react";
-import { useRef, useState } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 
-type ResourceCard = {
-  id: string;
-  badge: string;
-  title: string;
-  description: string;
-  readingTime: string;
-  resultHook?: string;
-};
-
-const cards: ResourceCard[] = [
-  {
-    id: "aedificium",
-    badge: "ESETTANULMÁNY",
-    title: "Aedificium Design — 10× elérés AI-vezérelt social mediával",
-    description:
-      "Napi AI posztjavaslat rendszer és prémium weboldal két hét alatt egy budapesti építész tervezőirodánál.",
-    readingTime: "8 PERC OLVASÁS",
-    resultHook: "10× ELÉRÉS · 2 HÉT",
-  },
-  {
-    id: "self-hosted-vs-cloud",
-    badge: "ÖSSZEHASONLÍTÁS",
-    title: "Self-hosted vs. cloud LLM: melyiket válassza egy magyar KKV?",
-    description:
-      "Adatvédelmi, költséghatékonysági és üzemeltetési szempontok a két megközelítés között.",
-    readingTime: "12 PERC OLVASÁS",
-  },
-  {
-    id: "n8n-alapok",
-    badge: "CIKK",
-    title: "n8n alapok: az első automatizációd 30 perc alatt",
-    description:
-      "Lépésről lépésre útmutató a no-code automatizáció első workflow-jának létrehozásához.",
-    readingTime: "6 PERC OLVASÁS",
-  },
-  {
-    id: "ai-agens-vs-chatbot",
-    badge: "CIKK",
-    title: "Mi az AI ágens, és miben különbözik a chatbottól?",
-    description:
-      "A fogalmak tisztázása és gyakorlati példák a magyar vállalkozói környezetből.",
-    readingTime: "7 PERC OLVASÁS",
-  },
-  {
-    id: "validacio",
-    badge: "CIKK",
-    title: "Hogyan validáljuk, hogy egy folyamat valóban automatizálható?",
-    description:
-      "Döntési keret, amellyel a KKV vezetők eldönthetik, mibe érdemes AI-t bevezetni — és mibe nem.",
-    readingTime: "9 PERC OLVASÁS",
-  },
-  {
-    id: "claude-vs-gpt-vs-helyi",
-    badge: "ÖSSZEHASONLÍTÁS",
-    title: "Claude vs. GPT-4 vs. helyi modellek: üzleti automatizációhoz",
-    description:
-      "Pontosság, sebesség, költség és adatkezelés szempontjából a három fő opció elemzése.",
-    readingTime: "10 PERC OLVASÁS",
-  },
-];
-
-function ResourceCardArticle({ card }: { card: ResourceCard }) {
-  return (
-    <article className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md transition-all duration-300 hover:border-[var(--border-default)] hover:bg-[var(--bg-glass-strong)]">
-      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--bg-elevated)]">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-          }}
-        />
-
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
-
-        <div className="absolute left-4 top-4">
-          <span className="rounded-full border border-[var(--border-hairline)] bg-[rgba(0,0,0,0.5)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--text-secondary)] backdrop-blur-md">
-            {card.badge}
-          </span>
-        </div>
-
-        {card.resultHook ? (
-          <div className="absolute bottom-4 right-4 flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--text-secondary)]">
-              {card.resultHook}
-            </span>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="line-clamp-2 text-[18px] font-medium leading-[1.3] tracking-[-0.01em] text-[var(--text-primary)] lg:text-[20px]">
-          {card.title}
-        </h3>
-
-        <p className="mt-3 line-clamp-2 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
-          {card.description}
-        </p>
-
-        <div className="mt-auto flex items-center justify-between pt-6">
-          <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-            {card.readingTime}
-          </span>
-          <ArrowUpRight
-            className="text-[var(--text-tertiary)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
-            size={16}
-          />
-        </div>
-      </div>
-    </article>
-  );
-}
-
 export function Resources() {
-  const shouldReduceMotion = useReducedMotion() ?? false;
+  const ARTICLES_PER_PAGE = 4;
+  const [page, setPage] = useState(0);
 
-  const cardVariants = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: shouldReduceMotion
-        ? { duration: 0 }
-        : { duration: 0.6, ease: "easeOut" as const, delay },
-    }),
-  };
+  const allArticles = [
+    {
+      id: 1,
+      tag: "AI HÍREK",
+      date: "2026. április 27.",
+      title: "GPT-5 és a kis cégek: mit jelent ez valójában?",
+      excerpt:
+        "Az OpenAI legújabb modellje megjelent — de mit változtat ez egy 10 fős vállalkozás napi működésén?",
+      slug: "gpt-5-kis-cegek",
+    },
+    {
+      id: 2,
+      tag: "ÜZLETI ELEMZÉS",
+      date: "2026. április 20.",
+      title: "Automatizálható-e az ügyfélszolgálat 2026-ban?",
+      excerpt:
+        "Három magyar KKV tapasztalatai alapján nézzük meg, hol érdemes AI-t bevetni és hol nem.",
+      slug: "ugyfelszolgalat-automatizalas-2026",
+    },
+    {
+      id: 3,
+      tag: "TRENDEK",
+      date: "2026. április 13.",
+      title: "Helyi AI modellek: az adatvédelem új korszaka",
+      excerpt:
+        "A self-hosted megoldások egyre elérhetőbbek. Mi kell hozzá és mikor éri meg?",
+      slug: "helyi-ai-modellek-adatvedelem",
+    },
+    {
+      id: 4,
+      tag: "LEHETŐSÉGEK",
+      date: "2026. április 6.",
+      title: "n8n workflow automatizáció kezdőknek",
+      excerpt:
+        "A legnépszerűbb nyílt forráskódú automatizációs eszköz — hogyan kezdj el vele?",
+      slug: "n8n-workflow-automatizacio",
+    },
+    {
+      id: 5,
+      tag: "AI HÍREK",
+      date: "2026. március 30.",
+      title: "Claude 3.7 Sonnet: mire jó az üzleti életben?",
+      excerpt: "Az Anthropic legújabb modelljének üzleti alkalmazásai és korlátai.",
+      slug: "claude-37-sonnet-uzleti-elet",
+    },
+    {
+      id: 6,
+      tag: "ÜZLETI ELEMZÉS",
+      date: "2026. március 23.",
+      title: "AI asszisztens vs. AI integráció: mi a különbség?",
+      excerpt:
+        "Sokan összekeverik a két fogalmat. A különbség megértése meghatározza a stratégiát.",
+      slug: "ai-asszisztens-vs-integracio",
+    },
+    {
+      id: 7,
+      tag: "TRENDEK",
+      date: "2026. március 16.",
+      title: "Magyar KKV-k az AI versenyben: hol tartunk?",
+      excerpt:
+        "Felmérés alapján elemezzük, hol állnak a hazai kis- és közepes vállalkozások.",
+      slug: "magyar-kkv-ai-verseny",
+    },
+    {
+      id: 8,
+      tag: "LEHETŐSÉGEK",
+      date: "2026. március 9.",
+      title: "Számlázás automatizálása AI-val: esettanulmány",
+      excerpt:
+        "Egy ügyfélnél 8 óra/hét megtakarítást eredményezett ez a megoldás.",
+      slug: "szamlazas-automatizalas-esettanulmany",
+    },
+    {
+      id: 9,
+      tag: "AI HÍREK",
+      date: "2026. március 2.",
+      title: "Gemini 2.0 Flash: ingyenes és mégis erős",
+      excerpt:
+        "Google legújabb modelljének képességei és korlátai üzleti kontextusban.",
+      slug: "gemini-20-flash-uzleti",
+    },
+    {
+      id: 10,
+      tag: "ÜZLETI ELEMZÉS",
+      date: "2026. február 23.",
+      title: "Mikor NEM éri meg AI-t bevezetni?",
+      excerpt:
+        "Az AI nem minden problémára megoldás. Őszinte elemzés a határokról.",
+      slug: "mikor-nem-erti-meg-ai",
+    },
+  ];
 
-  function MagneticCard({
-    children,
-    delay,
-  }: {
-    children: ReactNode;
-    delay: number;
-  }) {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const [transform, setTransform] = useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-      if (shouldReduceMotion) return;
-      if (!cardRef.current) return;
-
-      const rect = cardRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-
-      const deltaX = e.clientX - centerX;
-      const deltaY = e.clientY - centerY;
-
-      const x = (deltaX / rect.width) * 8;
-      const y = (deltaY / rect.height) * 8;
-
-      setTransform({ x, y });
-    };
-
-    const handleMouseLeave = () => {
-      setTransform({ x: 0, y: 0 });
-    };
-
-    return (
-      <motion.div
-        animate={{
-          x: transform.x,
-          y: transform.y,
-        }}
-        className="h-full"
-        custom={delay}
-        initial="hidden"
-        onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
-        ref={cardRef}
-        transition={{
-          x: { type: "spring", stiffness: 200, damping: 20 },
-          y: { type: "spring", stiffness: 200, damping: 20 },
-        }}
-        variants={cardVariants}
-        viewport={{ once: true, amount: 0.15 }}
-        whileInView="visible"
-      >
-        {children}
-      </motion.div>
-    );
-  }
+  const maxPage = Math.floor((allArticles.length - 1) / ARTICLES_PER_PAGE);
+  const visibleArticles = allArticles.slice(
+    page * ARTICLES_PER_PAGE,
+    page * ARTICLES_PER_PAGE + ARTICLES_PER_PAGE
+  );
 
   return (
-    <section className="relative py-20 md:py-32" id="munkak">
+    <>
+      <style>{`
+        .group:hover [data-hover-line] {
+          transform: scaleX(1) !important;
+        }
+      `}</style>
+      <section className="relative py-20 md:py-32" id="munkak">
       <span aria-hidden="true" className="absolute top-0" id="cikkek" />
       <Container>
-        <SectionLabel number="05" text="ESETTANULMÁNYOK ÉS CIKKEK" />
+        <SectionLabel number="05" text="SZAKMAI ANYAGOK" />
 
         <h2
-          className="mt-6 font-display font-medium leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] lg:max-w-[22ch]"
-          style={{ fontSize: "clamp(32px, 4.5vw, 48px)" }}
+          style={{
+            fontSize: "clamp(36px, 4.5vw, 56px)",
+            lineHeight: "1.1",
+            letterSpacing: "-0.02em",
+          }}
         >
-          Dokumentált projektek és szakmai anyagok.
+          <span className="block text-[var(--text-primary)]">
+            Heti összefoglaló.
+          </span>
+          <span
+            className="block"
+            style={{ opacity: 0.7, color: "var(--text-primary)" }}
+          >
+            Magyar KKV szemmel.
+          </span>
         </h2>
 
         <p className="mt-6 max-w-[60ch] font-sans text-[16px] leading-[1.65] text-[var(--text-secondary)] lg:text-[18px]">
-          Megvalósított rendszerek leírása, technológiai összehasonlítások és
-          alkalmazási útmutatók — magyar vállalkozói kontextusban.
+          Minden vasárnap megjelenő elemzés az AI világ legfontosabb híreivel,
+          trendjeivel és üzleti lehetőségeivel — kifejezetten magyar kis- és
+          középvállalkozóknak, akik nem akarnak lemaradni.
         </p>
 
-        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-          {cards.map((card, index) => (
-            <MagneticCard delay={index * 0.08} key={card.id}>
-              <ResourceCardArticle card={card} />
-            </MagneticCard>
+        {/* Articles header row with pagination */}
+        <div className="mb-6 mt-12 flex items-center justify-between">
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+            LEGUTÓBBI CIKKEK
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              aria-label="Előző cikkek"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-hairline)] text-[var(--text-tertiary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-30"
+              disabled={page === 0}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              type="button"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              aria-label="Következő cikkek"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-hairline)] text-[var(--text-tertiary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-30"
+              disabled={page === maxPage}
+              onClick={() => setPage((p) => Math.min(maxPage, p + 1))}
+              type="button"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+
+        {/* 4-column article grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {visibleArticles.map((article) => (
+            <a
+              key={article.id}
+              className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
+              href={`/blog/${article.slug}`}
+            >
+              {/* Tag + Date */}
+              <div>
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--accent)] opacity-80">
+                    {article.tag}
+                  </span>
+                  <span className="font-mono text-[10px] text-[var(--text-tertiary)]">
+                    {article.date}
+                  </span>
+                </div>
+                <h3 className="font-display mb-3 text-[16px] font-medium leading-[1.35] text-[var(--text-primary)] transition-colors duration-200 group-hover:text-white">
+                  {article.title}
+                </h3>
+                <p className="text-[13px] leading-[1.6] text-[var(--text-tertiary)]">
+                  {article.excerpt}
+                </p>
+              </div>
+
+              {/* Read more */}
+              <div className="mt-auto flex items-center gap-1.5 pt-3 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)] transition-colors duration-200 group-hover:text-[var(--accent)]">
+                Elolvasom
+                <ArrowRight
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                  size={12}
+                />
+              </div>
+              {/* Hover fill line — slides up from bottom to 50% height */}
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 right-0"
+                data-hover-line
+                style={{
+                  height: "2px",
+                  background:
+                    "linear-gradient(to right, transparent 0%, rgba(189,255,0,0.8) 20%, rgba(189,255,0,1) 50%, rgba(189,255,0,0.8) 80%, transparent 100%)",
+                  boxShadow:
+                    "0 0 12px rgba(189,255,0,0.6), 0 0 24px rgba(189,255,0,0.3)",
+                  transform: "scaleX(0)",
+                  transformOrigin: "left center",
+                  transition:
+                    "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
+              />
+            </a>
           ))}
         </div>
 
-        <div className="mt-14 flex justify-center">
+        {/* Összes cikk CTA */}
+        <div className="mt-8 flex items-center justify-center">
           <a
-            className="group flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--text-primary)]"
-            href="/cikkek"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--text-secondary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)]"
+            href="/blog"
           >
-            Összes anyag megtekintése
-            <ArrowRight
-              className="transition-transform duration-300 group-hover:translate-x-1"
-              size={14}
-            />
+            Összes cikk megtekintése
+            <ArrowRight size={14} />
           </a>
         </div>
       </Container>
     </section>
+    </>
   );
 }
