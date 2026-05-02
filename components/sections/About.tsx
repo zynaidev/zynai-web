@@ -2,6 +2,7 @@
 
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -15,9 +16,62 @@ import { SectionLabel } from "@/components/ui/section-label";
 
 const caveat = Caveat({
   subsets: ["latin", "latin-ext"],
-  weight: ["500"],
+  weight: ["600"],
   display: "swap",
 });
+
+function SignatureReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.8 });
+  const prefersReduced = useReducedMotion();
+
+  const duration = prefersReduced ? "0s" : "1.8s";
+  const delay = prefersReduced ? "0s" : "0.3s";
+  const dotDelay = prefersReduced ? "0s" : "2s";
+
+  return (
+    <div
+      ref={ref}
+      className="mx-auto mt-6 flex max-w-[380px] items-center gap-3 lg:mx-0"
+    >
+      <div className="relative overflow-hidden">
+        <span
+          className={`${caveat.className} text-[44px] leading-none text-white`}
+          style={{ letterSpacing: "0.01em" }}
+        >
+          Bakos Attila
+        </span>
+
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background: "var(--bg-base)",
+            transformOrigin: "left center",
+            transform: isInView ? "scaleX(0)" : "scaleX(1)",
+            transition: isInView
+              ? `transform ${duration} cubic-bezier(0.4, 0, 0.2, 1) ${delay}`
+              : "none",
+          }}
+        />
+      </div>
+
+      <span
+        aria-hidden="true"
+        style={{
+          width: "8px",
+          height: "8px",
+          borderRadius: "50%",
+          background: "#BDFF00",
+          boxShadow: "0 0 8px rgba(189,255,0,0.6)",
+          opacity: isInView ? 1 : 0,
+          transition: `opacity 0.4s ease-in-out ${dotDelay}`,
+          flexShrink: 0,
+        }}
+      />
+    </div>
+  );
+}
 
 const technicalCompetencies = [
   "Folyamatautomatizáció",
@@ -71,18 +125,6 @@ export function About() {
         initial: { opacity: 0, scale: 0.96 },
         whileInView: { opacity: 1, scale: 1 },
         transition: { duration: 0.8, ease: "easeOut" as const, delay: 0.3 },
-      };
-
-  const signatureReveal = shouldReduceMotion
-    ? {
-        initial: { opacity: 1, y: 0 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0 },
-      }
-    : {
-        initial: { opacity: 0, y: 12 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.6, ease: "easeOut" as const, delay: 0.7 },
       };
 
   return (
@@ -143,28 +185,29 @@ export function About() {
             </motion.h2>
 
             <motion.div
-              className="mt-8 max-w-[56ch] font-sans leading-[1.65] text-text-secondary"
+              className="mt-8 max-w-[56ch] font-sans text-[18px] leading-[1.65]"
               custom={0.35}
               initial="hidden"
-              style={{ fontSize: "clamp(16px, 1.1vw, 18px)" }}
               variants={fadeUp}
               viewport={{ once: true, amount: 0.2 }}
               whileInView="visible"
             >
-              <p>
-                Közel tíz éve tervezek és valósítok meg webes rendszereket és
-                automatizációs megoldásokat. A cél mindig ugyanaz volt: az
-                ügyfeleim a lehető leghatékonyabban tudjanak működni. Ez nem
-                változott.
+              <p className="text-text-secondary">
+                Több mint tíz éve dolgozom digitális rendszerek tervezésével. Az
+                elmúlt éveket AI-alapú automatizációs projektek megvalósításával
+                töltöttem — magyar KKV-k számára, ahol a cél mindig ugyanaz volt:
+                a meglévő folyamatokat kevesebb emberi erőforrással, pontosabban
+                működtetni.
               </p>
-              <p className="mt-4">
-                Ami változott, az az eszköztár. Az elmúlt éveket tudásom
-                mélyítésével töltöttem — Python programozás, Linux
-                rendszerüzemeltetés és AI ágens fejlesztés területén.{" "}
-                Hiszek benne, hogy a magyar vállalkozásoknak fel kell
-                zárkózniuk az amerikai és nyugat-európai technológiai szintre.
-                Az AI integráció ennek nem egy opcionális eleme — hanem a
-                törzse.
+              <p className="mt-4 font-medium text-text-primary">
+                Nem demókat, hanem napi szinten használt, élesben futó
+                rendszereket.
+                <br></br>
+                <br></br>
+              </p>
+              <p className="text-text-secondary">
+              Hiszek benne, hogy a magyar vállalkozásoknak fel kell zárkózniuk az Amerikai és Nyugat-Európai technológiai megoldásokhoz.
+              Az AI integráció ennek nem egy opcionális eleme hanem a törzse.
               </p>
             </motion.div>
 
@@ -229,7 +272,38 @@ export function About() {
             >
               <motion.div style={{ y: portraitY }}>
                 <div className="relative w-full max-w-[380px] mx-auto lg:mx-0">
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[var(--border-hairline)]">
+                  {/* Lime accent glow — top left */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute"
+                    style={{
+                      top: "-15%",
+                      left: "-20%",
+                      width: "70%",
+                      height: "70%",
+                      background:
+                        "radial-gradient(circle, rgba(189,255,0,0.18) 0%, transparent 70%)",
+                      filter: "blur(50px)",
+                      zIndex: 0,
+                    }}
+                  />
+                  {/* Violet glow — bottom right */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute"
+                    style={{
+                      bottom: "-10%",
+                      right: "-15%",
+                      width: "60%",
+                      height: "60%",
+                      background:
+                        "radial-gradient(circle, rgba(100,60,200,0.15) 0%, transparent 70%)",
+                      filter: "blur(50px)",
+                      zIndex: 0,
+                    }}
+                  />
+
+                  <div className="relative z-10 aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[var(--border-hairline)]">
                     <Image
                       alt="Bakos Attila — AI integrátor"
                       className="object-cover"
@@ -237,6 +311,25 @@ export function About() {
                       priority={false}
                       sizes="380px"
                       src="/brand/attila/bakos_attila_portrai.webp"
+                    />
+
+                    {/* Vignette overlay */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        boxShadow: "inset 0 0 60px 0 rgba(0,0,0,0.4)",
+                        borderRadius: "inherit",
+                      }}
+                    />
+                    {/* Bottom fade — portrait melts into background */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute bottom-0 left-0 right-0 h-1/3"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(9,9,11,0.6) 0%, transparent 100%)",
+                      }}
                     />
 
                     {/* Filmic grain overlay */}
@@ -250,12 +343,14 @@ export function About() {
                       }}
                     />
 
-                    {/* Subtle vignette */}
+                    {/* Left accent line */}
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0"
+                      className="pointer-events-none absolute left-0 top-[15%] bottom-[15%] w-[2px]"
                       style={{
-                        boxShadow: "inset 0 0 80px 0 rgba(0, 0, 0, 0.5)",
+                        background:
+                          "linear-gradient(to bottom, transparent 0%, rgba(189,255,0,0.6) 30%, rgba(189,255,0,0.6) 70%, transparent 100%)",
+                        zIndex: 20,
                       }}
                     />
                   </div>
@@ -274,30 +369,8 @@ export function About() {
               </motion.div>
             </motion.div>
 
-            {/* Signature block */}
-            <motion.div
-              className="mt-6 flex max-w-[380px] mx-auto lg:mx-0 items-center gap-3"
-              initial={signatureReveal.initial}
-              transition={signatureReveal.transition}
-              viewport={{ once: true, amount: 0.5 }}
-              whileInView={signatureReveal.whileInView}
-            >
-              <span
-                className={`${caveat.className} text-[42px] leading-none text-text-primary`}
-                style={{ letterSpacing: "0.01em" }}
-              >
-                Bakos Attila
-              </span>
-              <span
-                aria-hidden="true"
-                className="h-1.5 w-1.5 rounded-full"
-                style={{
-                  background: "var(--accent)",
-                  boxShadow: "0 0 8px var(--accent-glow)",
-                  marginTop: "12px",
-                }}
-              />
-            </motion.div>
+            {/* Animated signature — Caveat + scaleX wipe reveal */}
+            <SignatureReveal />
           </div>
         </div>
       </Container>
