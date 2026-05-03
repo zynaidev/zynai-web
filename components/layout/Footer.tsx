@@ -89,7 +89,7 @@ export function Footer() {
             </p>
             <div className="mt-6 flex items-center gap-3">
               <a
-                href="https://www.linkedin.com/in/bakos-attila/"
+                href="https://www.linkedin.com/in/attila-bakos-4ab0a2353/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -141,9 +141,8 @@ export function Footer() {
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
             <ul className="space-y-3">
               {[
-                { label: "Esettanulmányok", href: "#munkak" },
-                { label: "Cikkek", href: "/cikkek" },
-                { label: "Hírlevél", href: "/hirlevel" },
+                { label: "Esettanulmányok", href: "/esettanulmanyok" },
+                { label: "AI tartalmak", href: "/ai-tartalmak" },
               ].map((link) => (
                 <li key={link.href}>
                   <a
@@ -162,10 +161,9 @@ export function Footer() {
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
             <ul className="space-y-3">
               {[
-                { label: "Időpontfoglalás", href: "/idopontfoglalas" },
-                { label: "hello@zynai.hu", href: "mailto:hello@zynai.hu" },
+                { label: "Időpontfoglalás", href: "/kapcsolatfelvetel" },
+                { label: "info@zynai.hu", href: "mailto:info@zynai.hu" },
                 { label: "Adatvédelem", href: "/adatvedelem" },
-                { label: "ÁSZF", href: "/aszf" },
               ].map((link) => (
                 <li key={link.href}>
                   <a

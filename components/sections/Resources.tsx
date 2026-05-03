@@ -1,112 +1,13 @@
-"use client";
-
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
+import { allArticles as realArticles } from "@/lib/articles";
 
 export function Resources() {
-  const ARTICLES_PER_PAGE = 4;
-  const [page, setPage] = useState(0);
-
-  const allArticles = [
-    {
-      id: 1,
-      tag: "AI HÍREK",
-      date: "2026. április 27.",
-      title: "GPT-5 és a kis cégek: mit jelent ez valójában?",
-      excerpt:
-        "Az OpenAI legújabb modellje megjelent — de mit változtat ez egy 10 fős vállalkozás napi működésén?",
-      slug: "gpt-5-kis-cegek",
-    },
-    {
-      id: 2,
-      tag: "ÜZLETI ELEMZÉS",
-      date: "2026. április 20.",
-      title: "Automatizálható-e az ügyfélszolgálat 2026-ban?",
-      excerpt:
-        "Három magyar KKV tapasztalatai alapján nézzük meg, hol érdemes AI-t bevetni és hol nem.",
-      slug: "ugyfelszolgalat-automatizalas-2026",
-    },
-    {
-      id: 3,
-      tag: "TRENDEK",
-      date: "2026. április 13.",
-      title: "Helyi AI modellek: az adatvédelem új korszaka",
-      excerpt:
-        "A self-hosted megoldások egyre elérhetőbbek. Mi kell hozzá és mikor éri meg?",
-      slug: "helyi-ai-modellek-adatvedelem",
-    },
-    {
-      id: 4,
-      tag: "LEHETŐSÉGEK",
-      date: "2026. április 6.",
-      title: "n8n workflow automatizáció kezdőknek",
-      excerpt:
-        "A legnépszerűbb nyílt forráskódú automatizációs eszköz — hogyan kezdj el vele?",
-      slug: "n8n-workflow-automatizacio",
-    },
-    {
-      id: 5,
-      tag: "AI HÍREK",
-      date: "2026. március 30.",
-      title: "Claude 3.7 Sonnet: mire jó az üzleti életben?",
-      excerpt: "Az Anthropic legújabb modelljének üzleti alkalmazásai és korlátai.",
-      slug: "claude-37-sonnet-uzleti-elet",
-    },
-    {
-      id: 6,
-      tag: "ÜZLETI ELEMZÉS",
-      date: "2026. március 23.",
-      title: "AI asszisztens vs. AI integráció: mi a különbség?",
-      excerpt:
-        "Sokan összekeverik a két fogalmat. A különbség megértése meghatározza a stratégiát.",
-      slug: "ai-asszisztens-vs-integracio",
-    },
-    {
-      id: 7,
-      tag: "TRENDEK",
-      date: "2026. március 16.",
-      title: "Magyar KKV-k az AI versenyben: hol tartunk?",
-      excerpt:
-        "Felmérés alapján elemezzük, hol állnak a hazai kis- és közepes vállalkozások.",
-      slug: "magyar-kkv-ai-verseny",
-    },
-    {
-      id: 8,
-      tag: "LEHETŐSÉGEK",
-      date: "2026. március 9.",
-      title: "Számlázás automatizálása AI-val: esettanulmány",
-      excerpt:
-        "Egy ügyfélnél 8 óra/hét megtakarítást eredményezett ez a megoldás.",
-      slug: "szamlazas-automatizalas-esettanulmany",
-    },
-    {
-      id: 9,
-      tag: "AI HÍREK",
-      date: "2026. március 2.",
-      title: "Gemini 2.0 Flash: ingyenes és mégis erős",
-      excerpt:
-        "Google legújabb modelljének képességei és korlátai üzleti kontextusban.",
-      slug: "gemini-20-flash-uzleti",
-    },
-    {
-      id: 10,
-      tag: "ÜZLETI ELEMZÉS",
-      date: "2026. február 23.",
-      title: "Mikor NEM éri meg AI-t bevezetni?",
-      excerpt:
-        "Az AI nem minden problémára megoldás. Őszinte elemzés a határokról.",
-      slug: "mikor-nem-erti-meg-ai",
-    },
-  ];
-
-  const maxPage = Math.floor((allArticles.length - 1) / ARTICLES_PER_PAGE);
-  const visibleArticles = allArticles.slice(
-    page * ARTICLES_PER_PAGE,
-    page * ARTICLES_PER_PAGE + ARTICLES_PER_PAGE
-  );
+  const allArticles = realArticles
+    .filter((a) => a.slug !== "aedificium-design-esettanulmany")
+    .slice(0, 4);
 
   return (
     <>
@@ -153,38 +54,17 @@ export function Resources() {
           </div>
         </div>
 
-        {/* Articles header row with pagination */}
-        <div className="mb-6 mt-12 flex items-center justify-between">
+        <div className="mb-6 mt-12">
           <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             LEGUTÓBBI CIKKEK
           </span>
-          <div className="flex items-center gap-2">
-            <button
-              aria-label="Előző cikkek"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-hairline)] text-[var(--text-tertiary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-30"
-              disabled={page === 0}
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
-              type="button"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              aria-label="Következő cikkek"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-hairline)] text-[var(--text-tertiary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-30"
-              disabled={page === maxPage}
-              onClick={() => setPage((p) => Math.min(maxPage, p + 1))}
-              type="button"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
         </div>
 
         {/* 4-column article grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {visibleArticles.map((article) => (
+          {allArticles.map((article) => (
             <a
-              key={article.id}
+              key={article.slug}
               className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
               href={`/ai-tartalmak/${article.slug}`}
             >

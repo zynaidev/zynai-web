@@ -13,10 +13,10 @@ import {
 import { Container } from "@/components/ui/container";
 
 const navItems = [
-  { href: "#modszer", label: "Módszer" },
+  { href: "/", label: "Módszer" },
   { href: "/esettanulmanyok", label: "Esettanulmányok" },
-  { href: "#cikkek", label: "Cikkek" },
-  { href: "#rolam", label: "Rólam" },
+  { href: "/ai-tartalmak", label: "AI tartalmak" },
+  { href: "/", label: "Rólam" },
 ];
 
 const SCROLL_START = 0;
@@ -176,7 +176,7 @@ export function Header() {
                   <Link
                     className="rounded-md py-3 transition-colors duration-200 hover:text-text-primary"
                     href={item.href}
-                    key={item.href}
+                    key={item.label}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -220,7 +220,7 @@ export function Header() {
               <Link
                 className="transition-colors duration-200 hover:text-text-primary"
                 href={item.href}
-                key={item.href}
+                key={item.label}
               >
                 {item.label}
               </Link>
