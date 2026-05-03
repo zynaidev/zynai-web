@@ -186,7 +186,7 @@ export function Resources() {
             <a
               key={article.id}
               className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
-              href={`/blog/${article.slug}`}
+              href={`/ai-tartalmak/${article.slug}`}
             >
               {/* Tag + Date */}
               <div>
@@ -238,7 +238,7 @@ export function Resources() {
         <div className="mt-8 flex items-center justify-center">
           <a
             className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--text-secondary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)]"
-            href="/blog"
+            href="/ai-tartalmak"
           >
             Összes cikk megtekintése
             <ArrowRight size={14} />
