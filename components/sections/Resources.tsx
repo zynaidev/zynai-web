@@ -120,29 +120,38 @@ export function Resources() {
       <Container>
         <SectionLabel number="05" text="SZAKMAI ANYAGOK" />
 
-        <h2
-          style={{
-            fontSize: "clamp(36px, 4.5vw, 56px)",
-            lineHeight: "1.1",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          <span className="block text-[var(--text-primary)]">
-            Heti összefoglaló.
-          </span>
-          <span
-            className="block"
-            style={{ opacity: 0.7, color: "var(--text-primary)" }}
-          >
-            Magyar KKV szemmel.
-          </span>
-        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-[100px]">
+            <h2
+              style={{
+                fontSize: "clamp(36px, 4.5vw, 56px)",
+                lineHeight: "1.1",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              <span className="block text-[var(--text-primary)]">
+                Heti összefoglaló.
+              </span>
+              <span
+                className="block"
+                style={{ opacity: 0.7, color: "var(--text-primary)" }}
+              >
+                Magyar KKV szemmel.
+              </span>
+            </h2>
+          </div>
 
-        <p className="mt-6 max-w-[60ch] font-sans text-[16px] leading-[1.65] text-[var(--text-secondary)] lg:text-[18px]">
-          Minden vasárnap megjelenő elemzés az AI világ legfontosabb híreivel,
-          trendjeivel és üzleti lehetőségeivel — kifejezetten magyar kis- és
-          középvállalkozóknak, akik nem akarnak lemaradni.
-        </p>
+          <div className="lg:col-span-7 flex items-start">
+            <p
+              style={{ fontSize: "clamp(16px, 1.2vw, 18px)" }}
+              className="text-[var(--text-secondary)] leading-[1.65] max-w-[56ch]"
+            >
+              Minden vasárnap megjelenő elemzés az AI világ legfontosabb híreivel,
+              trendjeivel és üzleti lehetőségeivel — kifejezetten magyar kis- és
+              középvállalkozóknak, akik nem akarnak lemaradni.
+            </p>
+          </div>
+        </div>
 
         {/* Articles header row with pagination */}
         <div className="mb-6 mt-12 flex items-center justify-between">

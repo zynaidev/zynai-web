@@ -1,31 +1,5 @@
 "use client";
 
-const VERIFIED_ICONS = new Set([
-  "anthropic",
-  "openai",
-  "googlegemini",
-  "mistralai",
-  "meta",
-  "elevenlabs",
-  "huggingface",
-  "n8n",
-  "zapier",
-  "airtable",
-  "notion",
-  "slack",
-  "discord",
-  "telegram",
-  "hubspot",
-  "stripe",
-  "github",
-  "vercel",
-  "cloudflare",
-  "supabase",
-  "postgresql",
-  "linux",
-  "docker",
-]);
-
 const row1Logos = [
   { name: "Claude", iconKey: "anthropic" },
   { name: "OpenAI", iconKey: "openai" },
@@ -38,18 +12,20 @@ const row1Logos = [
 ];
 
 const row2Logos = [
-  { name: "n8n", iconKey: "n8n" },
-  { name: "Make", iconKey: "make" },
-  { name: "Zapier", iconKey: "zapier" },
   { name: "Airtable", iconKey: "airtable" },
   { name: "Notion", iconKey: "notion" },
   { name: "Slack", iconKey: "slack" },
   { name: "Discord", iconKey: "discord" },
   { name: "Telegram", iconKey: "telegram" },
-  { name: "Google Workspace", iconKey: "googleworkspace" },
+  { name: "Google Workspace", iconKey: "google" },
+  { name: "n8n", iconKey: "n8n" },
+  { name: "Make", iconKey: "make" },
+  { name: "Zapier", iconKey: "zapier" },
 ];
 
 const row3Logos = [
+  { name: "Linux", iconKey: "linux" },
+  { name: "Docker", iconKey: "docker" },
   { name: "HubSpot", iconKey: "hubspot" },
   { name: "Stripe", iconKey: "stripe" },
   { name: "GitHub", iconKey: "github" },
@@ -57,8 +33,6 @@ const row3Logos = [
   { name: "Cloudflare", iconKey: "cloudflare" },
   { name: "Supabase", iconKey: "supabase" },
   { name: "PostgreSQL", iconKey: "postgresql" },
-  { name: "Linux", iconKey: "linux" },
-  { name: "Docker", iconKey: "docker" },
 ];
 
 const marqueeStyles = `
@@ -78,20 +52,18 @@ const marqueeStyles = `
 `;
 
 function LogoChip({ name, iconKey }: { name: string; iconKey: string }) {
-  const hasVerifiedIcon = VERIFIED_ICONS.has(iconKey);
-
   return (
     <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md flex-shrink-0 hover:border-[var(--border-default)] hover:bg-[var(--bg-glass-strong)] transition-all duration-300">
-      {hasVerifiedIcon ? (
-        // eslint-disable-next-line @next/next/no-img-element -- Simple Icons CDN, lazy-loaded
-        <img
-          src={`https://cdn.simpleicons.org/${iconKey}/A1A1AA`}
-          alt=""
-          aria-hidden="true"
-          className="w-4 h-4 opacity-80"
-          loading="lazy"
-        />
-      ) : null}
+      <img
+        src={`https://cdn.simpleicons.org/${iconKey}/A1A1AA`}
+        alt=""
+        aria-hidden="true"
+        className="w-4 h-4 opacity-80"
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+        }}
+      />
       <span className="font-mono text-[12px] uppercase tracking-[0.08em] text-[var(--text-secondary)] whitespace-nowrap">
         {name}
       </span>

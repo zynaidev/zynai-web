@@ -3,28 +3,30 @@ import { ArrowRight } from "lucide-react";
 const auroraStyles = `
   @keyframes aurora-drift-1 {
     0%, 100% { transform: translate(0%, 0%) scale(1); }
-    25% { transform: translate(15%, -10%) scale(1.1); }
-    50% { transform: translate(-10%, 5%) scale(0.95); }
-    75% { transform: translate(8%, 12%) scale(1.05); }
+    20% { transform: translate(18%, -15%) scale(1.15); }
+    45% { transform: translate(-12%, 8%) scale(0.92); }
+    70% { transform: translate(10%, 16%) scale(1.1); }
+    85% { transform: translate(-6%, -8%) scale(1.05); }
   }
   @keyframes aurora-drift-2 {
     0%, 100% { transform: translate(0%, 0%) scale(1); }
-    33% { transform: translate(-20%, 8%) scale(1.15); }
-    66% { transform: translate(12%, -15%) scale(0.9); }
+    25% { transform: translate(-22%, 12%) scale(1.18); }
+    55% { transform: translate(16%, -18%) scale(0.88); }
+    80% { transform: translate(-10%, 14%) scale(1.12); }
   }
   @keyframes aurora-drift-3 {
     0%, 100% { transform: translate(0%, 0%) scale(1); }
-    40% { transform: translate(10%, 18%) scale(1.08); }
-    80% { transform: translate(-15%, -8%) scale(0.92); }
+    30% { transform: translate(14%, 22%) scale(1.12); }
+    60% { transform: translate(-18%, -12%) scale(0.88); }
+    85% { transform: translate(8%, 6%) scale(1.08); }
   }
   @keyframes aurora-drift-4 {
     0%, 100% { transform: translate(0%, 0%) scale(0.95); }
-    50% { transform: translate(-8%, -12%) scale(1.1); }
+    35% { transform: translate(-12%, -18%) scale(1.15); }
+    65% { transform: translate(14%, 10%) scale(0.9); }
   }
   @media (prefers-reduced-motion: reduce) {
-    [data-aurora-blob] {
-      animation: none !important;
-    }
+    [data-aurora-blob] { animation: none !important; }
   }
 `;
 
@@ -53,9 +55,9 @@ function AuroraBackground() {
           width: "60%",
           height: "75%",
           background:
-            "radial-gradient(circle, rgba(189, 255, 0, 0.27) 0%, transparent 60%)",
+            "radial-gradient(circle, rgba(189, 255, 0, 0.34) 0%, transparent 60%)",
           filter: "blur(70px)",
-          animation: "aurora-drift-1 22s ease-in-out infinite",
+          animation: "aurora-drift-1 14s ease-in-out infinite",
           willChange: "transform",
         }}
       />
@@ -70,9 +72,9 @@ function AuroraBackground() {
           width: "50%",
           height: "70%",
           background:
-            "radial-gradient(circle, rgba(120, 60, 200, 0.33) 0%, transparent 60%)",
+            "radial-gradient(circle, rgba(120, 60, 200, 0.42) 0%, transparent 60%)",
           filter: "blur(75px)",
-          animation: "aurora-drift-2 28s ease-in-out infinite",
+          animation: "aurora-drift-2 18s ease-in-out infinite",
           willChange: "transform",
         }}
       />
@@ -87,9 +89,9 @@ function AuroraBackground() {
           width: "55%",
           height: "65%",
           background:
-            "radial-gradient(circle, rgba(40, 180, 200, 0.22) 0%, transparent 60%)",
+            "radial-gradient(circle, rgba(40, 180, 200, 0.28) 0%, transparent 60%)",
           filter: "blur(72px)",
-          animation: "aurora-drift-3 30s ease-in-out infinite",
+          animation: "aurora-drift-3 20s ease-in-out infinite",
           willChange: "transform",
         }}
       />
@@ -104,9 +106,9 @@ function AuroraBackground() {
           width: "45%",
           height: "55%",
           background:
-            "radial-gradient(circle, rgba(189, 255, 0, 0.18) 0%, transparent 60%)",
+            "radial-gradient(circle, rgba(189, 255, 0, 0.24) 0%, transparent 60%)",
           filter: "blur(65px)",
-          animation: "aurora-drift-4 25s ease-in-out infinite",
+          animation: "aurora-drift-4 16s ease-in-out infinite",
           willChange: "transform",
         }}
       />
@@ -135,7 +137,7 @@ export function FinalCTA() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: auroraStyles }} />
-      <section className="relative overflow-hidden bg-[var(--bg-base)] py-section-mobile lg:py-section-desktop">
+      <section className="relative overflow-hidden bg-[var(--bg-base)] border-t border-[var(--border-hairline)] py-24 lg:py-40">
         <AuroraBackground />
 
         <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 relative z-10">
