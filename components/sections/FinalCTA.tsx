@@ -293,7 +293,7 @@ function MagneticSplitCta({ prefersReducedMotion }: { prefersReducedMotion: bool
   return (
     <motion.a
       ref={btnRef}
-      href="/idopontfoglalas"
+      href="/kapcsolatfelvetel"
       className="cta-group relative inline-flex overflow-hidden rounded-full"
       style={{
         boxShadow:
