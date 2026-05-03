@@ -18,146 +18,15 @@ function subscribePrefersReducedMotion(onChange: () => void): () => void {
 }
 
 import { SectionLabel } from "@/components/ui/section-label";
+import { allArticles } from "@/lib/articles";
 
 const ARTICLES_PER_PAGE = 9;
 
-const CATEGORIES = [
-  "ÖSSZES",
-  "AI HÍREK",
-  "ÜZLETI ELEMZÉS",
-  "TRENDEK",
-  "LEHETŐSÉGEK",
-  "ESZKÖZÖK",
-  "ESETTANULMÁNY",
-] as const;
+const blogArticles = allArticles.filter(
+  (a) => a.slug !== "aedificium-design-esettanulmany",
+);
 
-const allArticles = [
-  {
-    id: 1,
-    tag: "AI HÍREK",
-    date: "2026. április 27.",
-    title: "GPT-5 és a kis cégek: mit jelent ez valójában?",
-    excerpt:
-      "Az OpenAI legújabb modellje megjelent — de mit változtat ez egy 10 fős vállalkozás napi működésén?",
-    slug: "gpt-5-kis-cegek",
-  },
-  {
-    id: 2,
-    tag: "ÜZLETI ELEMZÉS",
-    date: "2026. április 20.",
-    title: "Automatizálható-e az ügyfélszolgálat 2026-ban?",
-    excerpt:
-      "Három magyar KKV tapasztalatai alapján nézzük meg, hol érdemes AI-t bevetni és hol nem.",
-    slug: "ugyfelszolgalat-automatizalas-2026",
-  },
-  {
-    id: 3,
-    tag: "TRENDEK",
-    date: "2026. április 13.",
-    title: "Helyi AI modellek: az adatvédelem új korszaka",
-    excerpt:
-      "A self-hosted megoldások egyre elérhetőbbek. Mi kell hozzá és mikor éri meg?",
-    slug: "helyi-ai-modellek-adatvedelem",
-  },
-  {
-    id: 4,
-    tag: "LEHETŐSÉGEK",
-    date: "2026. április 6.",
-    title: "n8n workflow automatizáció kezdőknek",
-    excerpt:
-      "A legnépszerűbb nyílt forráskódú automatizációs eszköz — hogyan kezdj el vele?",
-    slug: "n8n-workflow-automatizacio",
-  },
-  {
-    id: 5,
-    tag: "AI HÍREK",
-    date: "2026. március 30.",
-    title: "Claude 3.7 Sonnet: mire jó az üzleti életben?",
-    excerpt: "Az Anthropic legújabb modelljének üzleti alkalmazásai és korlátai.",
-    slug: "claude-37-sonnet-uzleti-elet",
-  },
-  {
-    id: 6,
-    tag: "ÜZLETI ELEMZÉS",
-    date: "2026. március 23.",
-    title: "AI asszisztens vs. AI integráció: mi a különbség?",
-    excerpt:
-      "Sokan összekeverik a két fogalmat. A különbség megértése meghatározza a stratégiát.",
-    slug: "ai-asszisztens-vs-integracio",
-  },
-  {
-    id: 7,
-    tag: "TRENDEK",
-    date: "2026. március 16.",
-    title: "Magyar KKV-k az AI versenyben: hol tartunk?",
-    excerpt:
-      "Felmérés alapján elemezzük, hol állnak a hazai kis- és közepes vállalkozások.",
-    slug: "magyar-kkv-ai-verseny",
-  },
-  {
-    id: 8,
-    tag: "LEHETŐSÉGEK",
-    date: "2026. március 9.",
-    title: "Számlázás automatizálása AI-val: esettanulmány",
-    excerpt:
-      "Egy ügyfélnél 8 óra/hét megtakarítást eredményezett ez a megoldás.",
-    slug: "szamlazas-automatizalas-esettanulmany",
-  },
-  {
-    id: 9,
-    tag: "AI HÍREK",
-    date: "2026. március 2.",
-    title: "Gemini 2.0 Flash: ingyenes és mégis erős",
-    excerpt:
-      "Google legújabb modelljének képességei és korlátai üzleti kontextusban.",
-    slug: "gemini-20-flash-uzleti",
-  },
-  {
-    id: 10,
-    tag: "ÜZLETI ELEMZÉS",
-    date: "2026. február 23.",
-    title: "Mikor NEM éri meg AI-t bevezetni?",
-    excerpt:
-      "Az AI nem minden problémára megoldás. Őszinte elemzés a határokról.",
-    slug: "mikor-nem-erti-meg-ai",
-  },
-  {
-    id: 11,
-    tag: "ESZKÖZÖK",
-    date: "2026. február 16.",
-    title: "5 AI eszköz amit minden KKV-nak ismernie kell 2026-ban",
-    excerpt:
-      "Nem ChatGPT — ezek az eszközök adják a valódi üzleti előnyt.",
-    slug: "5-ai-eszkoz-kkv-2026",
-  },
-  {
-    id: 12,
-    tag: "ESETTANULMÁNY",
-    date: "2026. február 9.",
-    title: "Tízszeres elérés AI-val: az Aedificium Design esete",
-    excerpt:
-      "Hogyan változtatta meg egy kis dizájniroda működését az AI integráció.",
-    slug: "aedificium-design-esettanulmany",
-  },
-  {
-    id: 13,
-    tag: "ESZKÖZÖK",
-    date: "2026. február 2.",
-    title: "Make vs n8n: melyiket válaszd automatizáláshoz?",
-    excerpt:
-      "Két népszerű platform összehasonlítása magyar KKV szemszögből.",
-    slug: "make-vs-n8n-automatizalas",
-  },
-  {
-    id: 14,
-    tag: "ESETTANULMÁNY",
-    date: "2026. január 26.",
-    title: "AI alapú ügyfélkommunikáció: 3 hónap tapasztalat",
-    excerpt:
-      "Valós számok, valós eredmények egy 8 fős szolgáltató cégtől.",
-    slug: "ai-ugyfelkommunikacio-3-honap",
-  },
-] as const;
+const CATEGORIES = ["ÖSSZES", "AI HÍREK", "ÜZLETI ELEMZÉS"] as const;
 
 export default function BlogArchivePage() {
   const [search, setSearch] = useState("");
@@ -167,7 +36,7 @@ export default function BlogArchivePage() {
 
   const filtered = useMemo(
     () =>
-      allArticles.filter((a) => {
+      blogArticles.filter((a) => {
         const matchesCategory =
           activeCategory === "ÖSSZES" || a.tag === activeCategory;
         const q = search.toLowerCase();
@@ -396,7 +265,7 @@ export default function BlogArchivePage() {
                       {heroArticle.excerpt}
                     </p>
                     <p className="mt-3 font-mono text-[11px] text-[var(--text-tertiary)]">
-                      ~ 4 perc olvasás
+                      {heroArticle.readingTime}
                     </p>
                   </div>
 
@@ -438,10 +307,10 @@ export default function BlogArchivePage() {
             >
               {gridArticles.map((article) => (
                 <motion.a
-                  key={article.id}
+                  key={article.slug}
                   variants={gridCardVariants}
                   className="group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
-                  href={`/blog/${article.slug}`}
+                  href={`/ai-tartalmak/${article.slug}`}
                 >
                   <div className="mb-4 h-[180px] w-full overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.04)]">
                     <span className="flex h-full items-center justify-center font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">

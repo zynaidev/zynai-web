@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { SectionLabel } from "@/components/ui/section-label";
 import { ArrowRight } from "lucide-react";
@@ -44,15 +45,17 @@ export default function CaseStudiesIndexPage() {
             className="group relative overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] transition-colors hover:border-[var(--border-default)]"
             href="/esettanulmanyok/aedificium-design"
           >
-            <div className="relative h-[220px] overflow-hidden">
-              <img
-                alt=""
-                className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                src="/esettanulmanyok/Aedificium/aedificium_hero.png"
+            <div className="relative h-[220px] overflow-hidden rounded-t-2xl">
+              <Image
+                alt="Aedificium Design weboldal"
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                fill
+                priority
+                src="/esettanulmanyok/aedificium_hero.png"
               />
               <div
                 aria-hidden
-                className="absolute inset-0 bg-[rgba(9,9,11,0.3)]"
+                className="absolute inset-0 z-[1] bg-[rgba(9,9,11,0.25)]"
               />
             </div>
 

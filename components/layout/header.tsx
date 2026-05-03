@@ -14,7 +14,7 @@ import { Container } from "@/components/ui/container";
 
 const navItems = [
   { href: "#modszer", label: "Módszer" },
-  { href: "#munkak", label: "Munkáim" },
+  { href: "/esettanulmanyok", label: "Esettanulmányok" },
   { href: "#cikkek", label: "Cikkek" },
   { href: "#rolam", label: "Rólam" },
 ];
@@ -185,10 +185,10 @@ export function Header() {
               </nav>
               <Link
                 className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light transition-transform duration-200 hover:scale-[1.02]"
-                href="#kapcsolat"
+                href="/kapcsolatfelvetel"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Időpontfoglalás
+                Kapcsolatfelvétel
               </Link>
             </div>
           ) : null}
@@ -229,9 +229,9 @@ export function Header() {
 
           <Link
             className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light transition-transform duration-200 hover:scale-[1.02]"
-            href="#kapcsolat"
+            href="/kapcsolatfelvetel"
           >
-            Időpontfoglalás
+            Kapcsolatfelvétel
           </Link>
         </Container>
       </motion.header>
