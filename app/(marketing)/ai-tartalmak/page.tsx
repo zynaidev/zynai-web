@@ -230,11 +230,31 @@ export default function BlogArchivePage() {
                 href={`/ai-tartalmak/${heroArticle.slug}`}
               >
                 <div
-                  className="flex h-[320px] items-center justify-center border-b border-[var(--border-hairline)] bg-[rgba(255,255,255,0.04)] lg:h-auto lg:min-h-full lg:border-b-0 lg:border-r"
+                  className="border-b border-[var(--border-hairline)] bg-[rgba(255,255,255,0.04)] lg:border-b-0 lg:border-r"
+                  style={{
+                    height: "320px",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
                 >
-                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
-                    Kiemelt kép
-                  </span>
+                  {heroArticle.coverImage ? (
+                    <img
+                      alt={heroArticle.title}
+                      src={heroArticle.coverImage}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
+                        Kiemelt kép
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex min-h-0 flex-col justify-between p-8 lg:p-12">
@@ -312,10 +332,32 @@ export default function BlogArchivePage() {
                   className="group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
                   href={`/ai-tartalmak/${article.slug}`}
                 >
-                  <div className="mb-4 h-[180px] w-full overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.04)]">
-                    <span className="flex h-full items-center justify-center font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
-                      Kiemelt kép
-                    </span>
+                  <div
+                    style={{
+                      height: "180px",
+                      overflow: "hidden",
+                      borderRadius: "12px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    {article.coverImage ? (
+                      <img
+                        alt={article.title}
+                        src={article.coverImage}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        }}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.04)]">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
+                          Kiemelt kép
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div>

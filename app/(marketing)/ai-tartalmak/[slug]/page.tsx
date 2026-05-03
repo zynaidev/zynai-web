@@ -6,9 +6,8 @@ import {
   type Article,
   allArticles,
   getArticleBySlug,
-  getNextArticle,
 } from "@/lib/articles";
-import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 
 type AiTartalomPageProps = {
   params: Promise<{ slug: string }>;
@@ -52,11 +51,45 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
     notFound();
   }
 
-  const nextArticle = getNextArticle(slug);
+  const relatedArticles = allArticles
+    .filter(
+      (a) =>
+        a.slug !== slug && a.slug !== "aedificium-design-esettanulmany",
+    )
+    .slice(0, 3);
   const readingTime = calculateReadingTime(article.content);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-base)]">
+    <div className="relative min-h-screen bg-[var(--bg-base)]">
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(189,255,0,0.12) 20%, rgba(189,255,0,0.22) 50%, rgba(189,255,0,0.12) 80%, transparent 100%)",
+          bottom: 0,
+          height: "100vh",
+          left: 0,
+          pointerEvents: "none",
+          top: 0,
+          width: 3,
+          zIndex: 20,
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(120,60,200,0.18) 20%, rgba(120,60,200,0.3) 50%, rgba(120,60,200,0.18) 80%, transparent 100%)",
+          height: "100vh",
+          pointerEvents: "none",
+          right: 0,
+          top: 0,
+          width: 3,
+          zIndex: 20,
+        }}
+      />
       <section className="border-b border-[rgba(255,255,255,0.06)] pb-16 pt-32">
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
           <a
@@ -133,65 +166,63 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
         </div>
       </section>
 
-      <article className="mx-auto max-w-[680px] px-6 py-16 lg:px-0">
-        {article.content.map((section, sectionIndex) =>
-          renderArticleSection(section, sectionIndex),
-        )}
-      </article>
+      <div className="mx-auto max-w-[780px] px-6 py-16 lg:px-0">
+        <article>
+          {article.content.map((section, sectionIndex) =>
+            renderArticleSection(section, sectionIndex),
+          )}
+        </article>
+      </div>
 
-      <footer
-        className={`mx-auto max-w-[680px] px-6 lg:px-0 ${nextArticle ? "pt-12 pb-0" : "pt-12 pb-24"}`}
-      >
-        <div className="mb-10 border-t border-[rgba(255,255,255,0.06)]" />
-        <div className="flex items-center justify-between gap-6">
-          <p className="text-[14px] text-[var(--text-secondary)]">
-            Hasznos volt?
-          </p>
-          <a
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#BDFF00] px-5 py-2.5 text-[13px] font-semibold text-[#09090B] transition-opacity hover:opacity-90"
-            href="/kapcsolatfelvetel"
-          >
-            Beszéljük meg
-            <ArrowRight aria-hidden size={14} />
-          </a>
+      <section className="mx-auto max-w-[1280px] border-t border-[rgba(255,255,255,0.06)] px-6 pb-24 pt-12 lg:px-12">
+        <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+          TOVÁBBI CIKKEK
+        </p>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {relatedArticles.map((a) => (
+            <a
+              key={a.slug}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] transition-all duration-300 hover:border-[rgba(255,255,255,0.12)]"
+              href={`/ai-tartalmak/${a.slug}`}
+            >
+              <div className="h-[160px] overflow-hidden">
+                {a.coverImage ? (
+                  <img
+                    alt={a.title}
+                    className="transition-transform duration-500 group-hover:scale-[1.04]"
+                    src={a.coverImage}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-[rgba(255,255,255,0.03)]">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
+                      Kiemelt kép
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-1 flex-col p-5">
+                <span className="mb-3 font-mono text-[10px] uppercase tracking-[0.1em] text-[#BDFF00] opacity-80">
+                  {a.tag}
+                </span>
+                <h3 className="mb-3 font-display text-[15px] font-medium leading-snug text-[var(--text-primary)] transition-colors group-hover:text-white">
+                  {a.title}
+                </h3>
+                <div className="mt-auto flex items-center font-mono text-[11px] text-[var(--text-tertiary)]">
+                  <Clock aria-hidden className="mr-1 shrink-0" size={11} />
+                  <span>{calculateReadingTime(a.content)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
         </div>
-      </footer>
-
-      {nextArticle ? (
-        <section className="mx-auto max-w-[1280px] border-t border-[rgba(255,255,255,0.06)] px-6 pb-24 pt-12 lg:px-12">
-          <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-            Következő cikk
-          </p>
-
-          <a
-            className="group flex items-center justify-between gap-8 rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-8 transition-[border-color] duration-300 hover:border-[rgba(255,255,255,0.12)]"
-            href={`/ai-tartalmak/${nextArticle.slug}`}
-          >
-            <div>
-              <span className="inline-block rounded-full border border-[rgba(189,255,0,0.2)] bg-[rgba(189,255,0,0.08)] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-[#BDFF00]">
-                {nextArticle.tag}
-              </span>
-              <h3
-                className="mt-3 font-display text-[var(--text-primary)] transition-colors duration-300 group-hover:text-white"
-                style={{
-                  fontSize: "clamp(18px, 2vw, 24px)",
-                }}
-              >
-                {nextArticle.title}
-              </h3>
-              <p className="mt-2 font-mono text-[12px] text-[var(--text-tertiary)]">
-                {calculateReadingTime(nextArticle.content)}
-              </p>
-            </div>
-
-            <ArrowRight
-              aria-hidden
-              className="shrink-0 text-[var(--text-tertiary)] transition-all duration-300 group-hover:translate-x-2 group-hover:text-[#BDFF00]"
-              size={24}
-            />
-          </a>
-        </section>
-      ) : null}
+      </section>
     </div>
   );
 }

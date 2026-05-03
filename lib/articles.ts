@@ -25,7 +25,7 @@ export const allArticles: Article[] = [
     tag: "AI HÍREK",
     date: "2026. március 22.",
     readingTime: "~ 3 perc olvasás",
-    coverImage: undefined,
+    coverImage: "/blog/wordpress-ai.webp",
     content: [
       {
         type: "lead",
@@ -81,7 +81,7 @@ export const allArticles: Article[] = [
     tag: "AI HÍREK",
     date: "2026. március 13.",
     readingTime: "~ 4 perc olvasás",
-    coverImage: undefined,
+    coverImage: "/blog/facebook-marketplace.jpg",
     content: [
       {
         type: "lead",
@@ -136,7 +136,7 @@ export const allArticles: Article[] = [
     tag: "AI HÍREK",
     date: "2026. március 4.",
     readingTime: "~ 4 perc olvasás",
-    coverImage: undefined,
+    coverImage: "/blog/chatgpt-claude.webp",
     content: [
       {
         type: "lead",
@@ -215,7 +215,7 @@ export const allArticles: Article[] = [
     tag: "ÜZLETI ELEMZÉS",
     date: "2026. március 1.",
     readingTime: "~ 6 perc olvasás",
-    coverImage: undefined,
+    coverImage: "/blog/ipar-5-0.jpeg",
     content: [
       {
         type: "lead",
