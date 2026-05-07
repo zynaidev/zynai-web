@@ -13,10 +13,10 @@ import {
 import { Container } from "@/components/ui/container";
 
 const navItems = [
-  { href: "/", label: "Módszer" },
+  { href: "/#modszer", label: "Módszer" },
   { href: "/esettanulmanyok", label: "Esettanulmányok" },
   { href: "/ai-tartalmak", label: "AI tartalmak" },
-  { href: "/", label: "Rólam" },
+  { href: "/#rolam", label: "Rólam" },
 ];
 
 const SCROLL_START = 0;
