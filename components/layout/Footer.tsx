@@ -152,15 +152,9 @@ export function Footer() {
             <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
               © 2026 ZYNAI · BAKOS ATTILA
             </p>
-            <div className="flex items-center gap-2">
-              <span className="relative flex w-2 h-2">
-                <span className="absolute inline-flex w-full h-full rounded-full bg-[var(--accent)] opacity-60 animate-ping" />
-                <span className="relative inline-flex w-2 h-2 rounded-full bg-[var(--accent)]" />
+                        <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
+                © 2026 ZynAI · Minden jog fenntartva
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-                MŰKÖDIK · ALL SYSTEMS OPERATIONAL
-              </span>
-            </div>
           </div>
         </div>
       </div>

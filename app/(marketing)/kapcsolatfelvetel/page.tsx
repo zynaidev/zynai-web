@@ -740,8 +740,15 @@ export default function KapcsolatfelvetelPage() {
                                   className="text-sm text-[var(--text-secondary)]"
                                 >
                                   Elolvastam és elfogadom az{" "}
-                                  <a
-                                    href="/adatkezeles"
+
+
+
+
+
+                                                                    <a
+                                    href="/adatvedelem"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="underline underline-offset-2"
                                   >
                                     adatkezelési tájékoztatót
