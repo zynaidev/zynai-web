@@ -116,7 +116,7 @@ export function Header() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.72)] backdrop-blur-xl lg:hidden">
         <div className="relative mx-auto flex h-16 w-full max-w-[var(--container-max)] items-center justify-between px-6 lg:px-12">
           <Link href="/">
-            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" className="h-8 w-auto" />
+            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" width={120} height={40} className="h-8 w-auto" />
           </Link>
 
           <button
@@ -173,7 +173,7 @@ export function Header() {
       >
         <Container className="flex h-16 items-center justify-between">
           <Link href="/">
-            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" className="h-8 w-auto" />
+            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" width={120} height={40} className="h-8 w-auto" />
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center gap-12 font-sans text-sm font-normal text-text-secondary md:flex">
