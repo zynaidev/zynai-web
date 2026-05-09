@@ -81,6 +81,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://zynai.hu",
   },
+  icons: {
+    icon: "/ZynAI_favicon.png",
+    shortcut: "/ZynAI_favicon.png",
+    apple: "/ZynAI_favicon.png",
+  },
 };
 
 export default function RootLayout({

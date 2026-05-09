@@ -26,39 +26,6 @@ const PILL_MAX_WIDTH = 1100;
 const PILL_TARGET_RATIO = 0.6;
 const FALLBACK_VIEWPORT_WIDTH = 1280;
 
-function ZynaiCubeIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      viewBox="0 0 28 28"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M14 2.5 24 8.25v11.5L14 25.5 4 19.75V8.25L14 2.5Z"
-        stroke="var(--accent)"
-        strokeLinejoin="round"
-        strokeWidth="1.6"
-      />
-      <path
-        d="M4.5 8.5 14 14m0 0 9.5-5.5M14 14v11"
-        stroke="var(--accent)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.4"
-      />
-      <path
-        d="m9 11.25 5-2.9 5 2.9v5.5l-5 2.9-5-2.9v-5.5Z"
-        fill="var(--accent)"
-        fillOpacity="0.16"
-        stroke="var(--accent)"
-        strokeLinejoin="round"
-        strokeWidth="1"
-      />
-    </svg>
-  );
-}
 
 function MobileMenuIcon({ open }: { open: boolean }) {
   return (
@@ -148,11 +115,8 @@ export function Header() {
       {/* Mobile — static full-width bar; no pill width animation */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.72)] backdrop-blur-xl lg:hidden">
         <div className="relative mx-auto flex h-16 w-full max-w-[var(--container-max)] items-center justify-between px-6 lg:px-12">
-          <Link className="flex items-center gap-2.5" href="/">
-            <ZynaiCubeIcon className="h-7 w-7" />
-            <span className="font-display text-[18px] font-semibold text-text-primary">
-              ZynAI
-            </span>
+          <Link href="/">
+            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" className="h-8 w-auto" />
           </Link>
 
           <button
@@ -208,11 +172,8 @@ export function Header() {
         }}
       >
         <Container className="flex h-16 items-center justify-between">
-          <Link className="flex items-center gap-2.5" href="/">
-            <ZynaiCubeIcon className="h-7 w-7" />
-            <span className="font-display text-[18px] font-semibold text-text-primary">
-              ZynAI
-            </span>
+          <Link href="/">
+            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" className="h-8 w-auto" />
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center gap-12 font-sans text-sm font-normal text-text-secondary md:flex">
