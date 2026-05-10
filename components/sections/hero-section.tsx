@@ -1,6 +1,6 @@
 "use client";
 
-import type { MouseEvent } from "react";
+import { type MouseEvent, useState, useEffect } from "react";
 
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
@@ -14,7 +14,7 @@ const ParticleSphere = dynamic(
     import("@/components/visuals/ParticleSphere").then(
       (mod) => mod.ParticleSphere,
     ),
-  { ssr: false },
+  { ssr: false, loading: () => null },
 );
 
 
@@ -184,6 +184,15 @@ function HeroBackground() {
 export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
 
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const fadeUp = {
     hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
     visible: (delay: number) => ({
@@ -212,7 +221,7 @@ export function HeroSection() {
     };
 
   return (
-    <section className="relative isolate flex min-h-[75vh] lg:min-h-[88vh] items-start lg:items-center overflow-visible pt-32 lg:pt-36 pb-5 lg:pb-24">
+    <section className="relative isolate flex w-full min-h-[75vh] lg:min-h-[88vh] items-start lg:items-center overflow-hidden pt-32 lg:pt-36 pb-5 lg:pb-24" style={{ isolation: "isolate" }}>
       <HeroBackground />
 
       <Container className="relative z-10 grid pb-6 lg:pb-10 pt-0 gap-12 md:grid-cols-12 md:gap-8 md:items-center lg:gap-12 lg:p-0">
@@ -294,22 +303,24 @@ export function HeroSection() {
         </div>
 
         {/* Desktop: sphere absolutely positioned, breaks out of grid */}
-        <div
-          className="hidden lg:block absolute pointer-events-none"
-          style={{
-            top: "-10%",
-            right: "-5vw",
-            width: "58%",
-            height: "120%",
-            zIndex: 5,
-            maskImage:
-              "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
-          }}
-        >
-          <ParticleSphere />
-        </div>
+        {isDesktop && (
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              top: "-10%",
+              right: "-5vw",
+              width: "58%",
+              height: "120%",
+              zIndex: 5,
+              maskImage:
+                "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 75% 75% at 55% 45%, black 30%, transparent 75%)",
+            }}
+          >
+            <ParticleSphere />
+          </div>
+        )}
       </Container>
     </section>
   );
