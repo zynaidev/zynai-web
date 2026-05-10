@@ -1,12 +1,70 @@
-import { About } from "@/components/sections/About";
-import { Applications } from "@/components/sections/Applications";
-import { FinalCTA } from "@/components/sections/FinalCTA";
+import dynamic from "next/dynamic";
+
 import { HeroSection } from "@/components/sections/hero-section";
-import { HowIWork } from "@/components/sections/HowIWork";
-import { IntegrationStack } from "@/components/sections/IntegrationStack";
-import { Resources } from "@/components/sections/Resources";
-import { Testimonial } from "@/components/sections/Testimonial";
-import WhatIsAI from "@/components/sections/WhatIsAI";
+
+const WhatIsAI = dynamic(
+  () => import("@/components/sections/WhatIsAI"),
+  {
+    loading: () => <div style={{ minHeight: "700px" }} />,
+    ssr: true,
+  }
+);
+
+const HowIWork = dynamic(
+  () => import("@/components/sections/HowIWork").then((mod) => mod.HowIWork),
+  {
+    loading: () => <div style={{ minHeight: "1200px" }} />,
+    ssr: true,
+  }
+);
+
+const Applications = dynamic(
+  () => import("@/components/sections/Applications").then((mod) => mod.Applications),
+  {
+    loading: () => <div style={{ minHeight: "800px" }} />,
+    ssr: true,
+  }
+);
+
+const About = dynamic(
+  () => import("@/components/sections/About").then((mod) => mod.About),
+  {
+    loading: () => <div style={{ minHeight: "700px" }} />,
+    ssr: true,
+  }
+);
+
+const Resources = dynamic(
+  () => import("@/components/sections/Resources").then((mod) => mod.Resources),
+  {
+    loading: () => <div style={{ minHeight: "600px" }} />,
+    ssr: true,
+  }
+);
+
+const Testimonial = dynamic(
+  () => import("@/components/sections/Testimonial").then((mod) => mod.Testimonial),
+  {
+    loading: () => <div style={{ minHeight: "400px" }} />,
+    ssr: true,
+  }
+);
+
+const IntegrationStack = dynamic(
+  () => import("@/components/sections/IntegrationStack").then((mod) => mod.IntegrationStack),
+  {
+    loading: () => <div style={{ minHeight: "500px" }} />,
+    ssr: true,
+  }
+);
+
+const FinalCTA = dynamic(
+  () => import("@/components/sections/FinalCTA").then((mod) => mod.FinalCTA),
+  {
+    loading: () => <div style={{ minHeight: "600px" }} />,
+    ssr: true,
+  }
+);
 
 export default function MarketingHomePage() {
   return (
