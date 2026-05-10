@@ -207,6 +207,17 @@ export function HeroSection() {
     }),
   };
 
+  const fadeUpLCP = {
+    hidden: { opacity: 1, y: shouldReduceMotion ? 0 : 12 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion
+        ? { duration: 0 }
+        : { duration: 0.7, ease: "easeOut" as const, delay },
+    }),
+  };
+
   const handleAnchorClick =
     (anchorId: string) => (event: MouseEvent<HTMLAnchorElement>) => {
       const target = document.getElementById(anchorId);
@@ -255,7 +266,7 @@ export function HeroSection() {
             initial="hidden"
             animate="visible"
             custom={0.15}
-            variants={fadeUp}
+            variants={fadeUpLCP}
           >
             A vállalkozások hatékonyabbak, ha az AI a folyamataik része — nem
             egy különálló eszköz.
