@@ -43,6 +43,9 @@ const heroBackgroundStyles = `
   @media (prefers-reduced-motion: reduce) {
     [data-hero-blob] { animation: none !important; }
   }
+  @media (max-width: 1023px) {
+    [data-hero-blob] { display: none !important; }
+  }
 `;
 
 function HeroBackground() {
