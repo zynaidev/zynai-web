@@ -197,8 +197,8 @@ export function About() {
               whileInView="visible"
             >
               <p className="text-text-secondary">
-                Több mint tíz éve dolgozom digitális rendszerek tervezésével. Az
-                elmúlt éveket AI-alapú automatizációs projektek megvalósításával
+                Bő tíz éve dolgozom digitális rendszerek tervezésével. Az
+                elmúlt évet AI-alapú automatizációs projektek megvalósításával
                 töltöttem — magyar KKV-k számára, ahol a cél mindig ugyanaz volt:
                 a meglévő folyamatokat kevesebb emberi erőforrással, pontosabban
                 működtetni.
@@ -210,7 +210,7 @@ export function About() {
                 <br></br>
               </p>
               <p className="text-text-secondary">
-              Hiszek benne, hogy a magyar vállalkozásoknak fel kell zárkózniuk az Amerikai és Nyugat-Európai technológiai megoldásokhoz.
+              Hiszek benne, hogy a magyar vállalkozásoknak fel kell zárkózniuk az Amerikai és Nyugat-Európai vállalkozások technológiai megoldásaihoz.
               Az AI integráció ennek nem egy opcionális eleme hanem a törzse.
               </p>
             </motion.div>
