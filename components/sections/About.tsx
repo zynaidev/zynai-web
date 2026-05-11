@@ -7,69 +7,73 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { Caveat } from "next/font/google";
 import Image from "next/image";
 import { useRef } from "react";
 
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 
-const caveat = Caveat({
-  subsets: ["latin", "latin-ext"],
-  weight: ["600"],
-  display: "swap",
-});
-
-function SignatureReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.8 });
-  const prefersReduced = useReducedMotion();
-
-  const duration = prefersReduced ? "0s" : "1.8s";
-  const delay = prefersReduced ? "0s" : "0.3s";
-  const dotDelay = prefersReduced ? "0s" : "2s";
+function SignatureAnimate() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <div
-      ref={ref}
-      className="mx-auto mt-6 flex max-w-[380px] items-center gap-3 lg:mx-0"
-    >
-      <div className="relative overflow-hidden">
-        <span
-          className={`${caveat.className} text-[44px] leading-none text-white`}
-          style={{ letterSpacing: "0.01em" }}
-        >
-          Bakos Attila
-        </span>
-
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background: "var(--bg-base)",
-            transformOrigin: "left center",
-            transform: isInView ? "scaleX(0)" : "scaleX(1)",
-            transition: isInView
-              ? `transform ${duration} cubic-bezier(0.4, 0, 0.2, 1) ${delay}`
-              : "none",
-          }}
-        />
-      </div>
-
-      <span
-        aria-hidden="true"
+    <>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes sig-dot-appear {
+          0% { opacity: 0; box-shadow: 0 0 0px 0px rgba(189,255,0,0); }
+          55% { opacity: 1; box-shadow: 0 0 10px 4px rgba(189,255,0,0.65); }
+          100% { opacity: 0.7; box-shadow: 0 0 3px 1px rgba(189,255,0,0.25); }
+        }
+        @keyframes sig-dot-pulse {
+          0%, 100% { opacity: 0.7; box-shadow: 0 0 3px 1px rgba(189,255,0,0.25); }
+          50% { opacity: 1; box-shadow: 0 0 6px 2px rgba(189,255,0,0.5); }
+        }
+      ` }} />
+      <div
+        ref={ref}
         style={{
-          width: "8px",
-          height: "8px",
-          borderRadius: "50%",
-          background: "#BDFF00",
-          boxShadow: "0 0 8px rgba(189,255,0,0.6)",
-          opacity: isInView ? 1 : 0,
-          transition: `opacity 0.4s ease-in-out ${dotDelay}`,
-          flexShrink: 0,
+          marginTop: "28px",
+          display: "flex",
+          justifyContent: "flex-start",
+          paddingLeft: "8px",
         }}
-      />
-    </div>
+      >
+        <div style={{ position: "relative", width: "360px" }}>
+          <img
+            src="/brand/Bakos_Attila_sign.svg"
+            alt="Bakos Attila aláírása"
+            style={{
+              width: "360px",
+              height: "auto",
+              filter: "invert(1)",
+              opacity: 0.8,
+              display: "block",
+              clipPath: isInView ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+              transition: isInView
+                ? "clip-path 3.6s cubic-bezier(0.76, 0, 0.24, 1) 0.3s"
+                : "none",
+            }}
+          />
+          <span
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              right: "8px",
+              bottom: "20%",
+              width: "7px",
+              height: "7px",
+              borderRadius: "50%",
+              background: "var(--accent)",
+              opacity: 0,
+              animation: isInView
+                ? "sig-dot-appear 0.8s ease-out 5.9s forwards, sig-dot-pulse 2.2s ease-in-out 6.7s infinite"
+                : "none",
+            }}
+          />
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -369,8 +373,7 @@ export function About() {
               </motion.div>
             </motion.div>
 
-            {/* Animated signature — Caveat + scaleX wipe reveal */}
-            <SignatureReveal />
+            <SignatureAnimate />
           </div>
         </div>
       </Container>
