@@ -314,7 +314,7 @@ export function About() {
                       fill
                       priority={false}
                       sizes="380px"
-                      src="/brand/attila/bakos_attila_portrai.webp"
+                      src="/brand/attila/bakos_attila_portrait.webp"
                     />
 
                     {/* Vignette overlay */}
