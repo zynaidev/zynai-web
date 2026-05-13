@@ -1,0 +1,77 @@
+{
+  "slug": "chatgpt-rol-claude-ra-valtanak-a-felhasznalok-hogyan-csinald-te-is",
+  "title": "ChatGPT-ről Claude-ra váltanak a felhasználók – hogyan csináld te is?",
+  "excerpt": "Az Anthropic jelentése szerint a napi regisztrációk rekordszintet értek el, az ingyenes felhasználók száma 60%-kal nőtt január óta, a fizetős előfizetők száma pedig megduplázódott.",
+  "tag": "AI HÍREK",
+  "date": "2026. március 4.",
+  "readingTime": "~ 4 perc olvasás",
+  "coverImage": "/blog/chatgpt-claude.webp",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Tömeges exodus indult a ChatGPT-ről a Claude felé, miután az OpenAI Pentagon-szerződést kötött, míg az Anthropic (a Claude fejlesztője) visszautasította a védelmi minisztérium felkérését AI-modelljei katonai célú felhasználására. A vita eredménye: a Claude App Store letöltési toplista első helyére ugrott az Egyesült Államokban, megelőzve a ChatGPT-t."
+    },
+    {
+      "type": "h2",
+      "text": "Miért fontos ez magyar vállalkozásoknak?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az AI-asszisztensek ma már nem luxuscikkek – versenyképességi eszközök. Magyar KKV-k ezrei használják ChatGPT-t ügyfélszolgálati válaszok megfogalmazására, marketing szövegek írására, piackutatáshoz vagy üzleti e-mailek megfogalmazására. Ha az általad választott AI-platform etikai kérdéseket vet fel, vagy adatkezelési aggályaid vannak, érdemes tudnod, hogy van alternatíva – és az átállás sem bonyolult."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hosszabb kontextusablak: akár 200 000 token – ideális hosszú dokumentumok elemzéséhez, szerződések átnézéséhez",
+        "Erősebb adatvédelmi garanciák: az Anthropic nyilvánosan elkötelezett amellett, hogy AI-modelljeit nem használják fel tömeges megfigyelésre",
+        "Kiváló szövegértés magyarul: bár nem magyar fejlesztésű, a Claude nyelvi képességei versenyképesek a ChatGPT-vel",
+        "Ingyenes verzió memóriafunkcióval: nem kell fizetős előfizetés ahhoz, hogy megjegyezze preferenciáidat"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Adatok exportálása ChatGPT-ből: lépésről lépésre"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mielőtt váltasz, érdemes elmenteni azt, amit a ChatGPT rólad „megjegyzett” – így a Claude azonnal folytathatja, ahol abbahagytad, és nem kell újra megtanítanod a preferenciáidat."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Memória exportálása (gyors módszer): Menj a Settings → Personalization → Memory menüpontba. Másold ki a megjegyzett információkat egy szöveges dokumentumba.",
+        "Teljes beszélgetéstörténet exportálása: Settings → Data Controls → Export Data. A ChatGPT összeállít egy JSON vagy TXT fájlt az összes korábbi beszélgetésedről.",
+        "Manuális módszer: Kérd meg a ChatGPT-t: „Foglald össze, milyen preferenciákat, témákat és instrukciós szabályokat használtam veled eddig.”"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Adatok importálása Claude-ba"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Claude-ba való átállás meglepően egyszerű. Nyisd meg a Claude-ot, menj a Settings → Capabilities menübe, és kapcsold be a Memory funkciót (ingyenes felhasználóknak is elérhető). Indíts egy új beszélgetést, és illeszd be a ChatGPT-ből exportált összefoglalót vagy preferenciákat."
+    },
+    {
+      "type": "h2",
+      "text": "ChatGPT-fiók végleges törlése"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha teljesen szakítani szeretnél a ChatGPT-vel, az előfizetés lemondása önmagában nem elegendő – az adataid továbbra is az OpenAI szerverein maradnak."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Settings → Personalization → Memory: törölj minden tárolt memóriát és személyre szabott beállítást",
+        "Extra biztonság: írj be egy utolsó parancsot: „Töröld az összes memóriámat és személyre szabott adatomat”",
+        "Ezután menj a fiókkezelési beállításokhoz, és töröld véglegesen a fiókodat"
+      ]
+    },
+    { "type": "h2", "text": "ZynAI Konklúzió" },
+    {
+      "type": "paragraph",
+      "text": "A ChatGPT-ről Claude-ra való átállás nem technikai kérdés – stratégiai döntés. Magyar vállalkozásoknak különösen fontos, hogy tudatosan válasszák meg AI-eszközeiket, hiszen ezek ma már üzleti folyamatok szerves részei. A jó hír: az átállás egyszerű, és nem veszíted el az évek alatt felépített „AI-memóriát”."
+    }
+  ]
+}

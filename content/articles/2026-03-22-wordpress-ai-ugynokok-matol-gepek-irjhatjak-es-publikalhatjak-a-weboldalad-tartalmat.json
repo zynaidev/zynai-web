@@ -1,0 +1,54 @@
+{
+  "slug": "wordpress-ai-ugynokok-matol-gepek-irjhatjak-es-publikalhatjak-a-weboldalad-tartalmat",
+  "title": "WordPress AI: mától gépek írhatják és publikálhatják a weboldalad tartalmát",
+  "excerpt": "A WordPress.com bejelentette, hogy mostantól mesterséges intelligencia ügynökök – önállóan cselekvő AI-rendszerek – írhatnak, szerkeszthetnek és publikálhatnak tartalmakat a felhasználók weboldalain.",
+  "tag": "AI HÍREK",
+  "date": "2026. március 22.",
+  "readingTime": "~ 3 perc olvasás",
+  "coverImage": "/blog/wordpress-ai.webp",
+  "content": [
+    {
+      "type": "lead",
+      "text": "A WordPress.com bejelentette, hogy mostantól mesterséges intelligencia ügynökök – önállóan cselekvő AI-rendszerek – írhatnak, szerkeszthetnek és publikálhatnak tartalmakat a felhasználók weboldalain. Ez nem csupán egy technikai frissítés: a világ weboldalainak több mint 43%-át kiszolgáló platform döntése alapjaiban változtathatja meg, hogyan készül az online tartalom."
+    },
+    {
+      "type": "h2",
+      "text": "Mit tud pontosan az új WordPress AI-ügynök?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A WordPress.com az úgynevezett MCP (Model Context Protocol) technológiára építi az új funkciókat. Az MCP egy nyílt szabvány, amely lehetővé teszi, hogy AI-rendszerek – például a Claude, a ChatGPT vagy a Cursor – közvetlenül kapcsolódjanak külső platformokhoz, és valódi műveleteket hajtsanak végre."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Blogbejegyzések, landing oldalak és bemutatkozó oldalak írása és publikálása",
+        "Hozzászólások jóváhagyása, megválaszolása és moderálása",
+        "Kategóriák és címkék létrehozása, átnevezése és átrendezése",
+        "Alt szövegek, képfeliratok és oldalcímek javítása SEO érdekében",
+        "A weboldal dizájnjának felismerése és következetes alkalmazása az új tartalmakban"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Miért fontos ez, ha a céges weboldalad WordPress alapon fut?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A válasz egyszerű: a tartalomgyártás költsége és ideje drámaian csökkenthet. Jelenleg egy termékleírás, egy blogbejegyzés vagy egy landing oldal megírása órákat vesz igénybe – vagy külső copywritert igényel. Egy AI-ügynök ugyanezt percek alatt elvégzi, a meglévő weboldal stílusához igazodva, SEO-szempontokat figyelembe véve."
+    },
+    {
+      "type": "h2",
+      "text": "A technológia háttere: miért most jött el az ideje?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A WordPress.com tavaly ősszel vezette be az MCP-támogatást, amely akkor még csak olvasási hozzáférést biztosított. Most ez írási és szerkesztési jogosultsággal bővült – ez az ugrás teszi az egészet igazán érdekessé. A piac többi szereplője sem tétlen: a Meta felvásárolta a Moltbook nevű közösségi hálózatot, ahol AI-ügynökök posztolhatnak."
+    },
+    { "type": "h2", "text": "ZynAI Konklúzió" },
+    {
+      "type": "paragraph",
+      "text": "A WordPress.com döntése egy nagyobb trend első látványos állomása: az AI-ügynökök kilépnek a chatablakból, és valódi, élő rendszerekben kezdenek dolgozni. Ez nem a jövő – ez a jelen, és a korai alkalmazók versenyképessége most a legnagyobb. Magyar KKV-ként a legfontosabb teendő: ne várd meg, amíg a konkurenciád megelőz. Ha WordPress alapú weboldalad van, érdemes már most tesztelni az MCP-funkciókat – akár csak a SEO-metaadatok automatikus javításával kezdve."
+    }
+  ]
+}

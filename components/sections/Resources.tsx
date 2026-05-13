@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
-import { allArticles as realArticles } from "@/lib/articles";
+import { allArticles as realArticles } from "@/lib/article-loader";
 
 export function Resources() {
   const allArticles = realArticles

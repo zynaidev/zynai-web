@@ -1,8 +1,8 @@
-export type ArticleSection = {
-  type: "lead" | "h2" | "h3" | "paragraph" | "quote" | "list";
-  text?: string;
-  items?: string[];
-};
+export type ArticleSection =
+  | { type: "lead" | "h2" | "h3" | "paragraph" | "quote" | "list"; text?: string; items?: string[] }
+  | { type: "divider"; label?: string; text?: string; items?: string[] }
+  | { type: "summary"; label?: string; items: string[]; text?: string }
+  | { type: "conclusion"; label?: string; text: string; items?: string[] };
 
 export type Article = {
   slug: string;
@@ -10,12 +10,70 @@ export type Article = {
   excerpt: string;
   tag: string;
   date: string;
-  readingTime: string;
+  readingTime?: string;
   coverImage?: string;
+  isWeekly?: boolean;
   content: ArticleSection[];
 };
 
 export const allArticles: Article[] = [
+  {
+    slug: "ai-pulzus-2026-05-12",
+    title: "AI Pulzus — A hét legfontosabb fejleményei",
+    date: "2026. május 11.",
+    tag: "AI PULZUS",
+    excerpt:
+      "Heti összefoglaló a legfontosabb AI iparági eseményekről, kutatásokról és üzleti tanulságokról magyar KKV szemmel.",
+    coverImage: "/blog/wordpress-ai.webp",
+    isWeekly: true,
+    content: [
+      {
+        type: "lead",
+        text: "Ez egy minta heti összefoglaló — a Writer automatizmus által generált tartalom helye. Itt jön a hét kontextusa 2-3 mondatban, hogy az olvasó azonnal lássa miért érdemes elolvasnia.",
+      },
+      { type: "divider", label: "HA CSAK EZT OLVASOD" },
+      {
+        type: "summary",
+        label: "A HÉT 5 KULCSPONTJA",
+        items: [
+          "OpenAI és Anthropic új modelleket jelentett be — első helytálló versenyhelyzet üzleti használatban",
+          "EU AI Act újabb mérföldköve: KKV-knak 6 hónap a megfelelésre",
+          "Magyar piacon az AI integráció iránti kereslet 40%-kal nőtt Q1-ben",
+          "Új MCP szabvány: a vállalati rendszerek közvetlenül beszélgethetnek AI-val",
+          "Cursor → Claude Code migráció: miért váltanak a fejlesztők?",
+        ],
+      },
+      { type: "divider", label: "RÉSZLETESEN" },
+      { type: "h2", text: "Modellverseny: OpenAI vs Anthropic" },
+      {
+        type: "paragraph",
+        text: "Töltelék szöveg a részletes szakmai kifejtéshez. Itt jön a hét egyik témájának mélyebb elemzése — kontextus, számok, üzleti hatás magyar KKV-kra. A Writer automatizmus 2-3 bekezdést ír minden főbb témához.",
+      },
+      {
+        type: "paragraph",
+        text: "Második bekezdés ugyanahhoz a témához. Itt konkrét példák és use case-ek jönnek, hogy ne csak elméleti maradjon a tartalom.",
+      },
+      { type: "h2", text: "Szabályozás: Mit jelent az EU AI Act?" },
+      {
+        type: "paragraph",
+        text: "Második téma részletes kifejtése. A heti összefoglaló jellemzően 3-5 fő témát ölel fel, mindegyikhez 1-2 bekezdés tartozik.",
+      },
+      {
+        type: "quote",
+        text: "Ha egy idézet kerül a tartalomba — például egy iparági vezető megszólalása vagy egy kutatási eredmény kiemelése — itt jelenik meg.",
+      },
+      { type: "h2", text: "Magyar piaci hatások" },
+      {
+        type: "paragraph",
+        text: "A harmadik főbb téma — minden héten visszatérő blokk, amely a globális események magyar KKV vonatkozásait elemzi.",
+      },
+      {
+        type: "conclusion",
+        label: "HETI VÉGSZÓ",
+        text: "A heti záró gondolat — egy mondat ami összefoglalja a heti tanulságot, vagy egy stratégiai felvetés a következő hétre. Ez a blokk vizuálisan elkülönül és nyomatékos.",
+      },
+    ],
+  },
   {
     slug: "wordpress-ai-ugynokok-matol-gepek-irjhatjak-es-publikalhatjak-a-weboldalad-tartalmat",
     title:

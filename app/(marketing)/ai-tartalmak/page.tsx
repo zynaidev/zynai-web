@@ -18,7 +18,7 @@ function subscribePrefersReducedMotion(onChange: () => void): () => void {
 }
 
 import { SectionLabel } from "@/components/ui/section-label";
-import { allArticles } from "@/lib/articles";
+import { allArticles } from "@/lib/article-loader";
 
 const ARTICLES_PER_PAGE = 9;
 
@@ -261,12 +261,25 @@ export default function BlogArchivePage() {
                   <div>
                     <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--accent)] opacity-80">
-                          {heroArticle.tag}
-                        </span>
-                        <span className="ml-3 inline-block rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.1)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-[#BDFF00]">
-                          LEGÚJABB
-                        </span>
+                        {heroArticle.isWeekly ? (
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+                            <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#BDFF00", background: "rgba(189,255,0,0.08)", border: "1px solid rgba(189,255,0,0.25)", borderRadius: "999px", padding: "3px 10px" }}>
+                              AI PULZUS
+                            </span>
+                            <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em" }}>
+                              HETI ÖSSZEFOGLALÓ
+                            </span>
+                          </div>
+                        ) : (
+                          <>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--accent)] opacity-80">
+                              {heroArticle.tag}
+                            </span>
+                            <span className="ml-3 inline-block rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.1)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-[#BDFF00]">
+                              LEGÚJABB
+                            </span>
+                          </>
+                        )}
                       </div>
                       <span className="font-mono text-[10px] text-[var(--text-tertiary)]">
                         {heroArticle.date}
@@ -331,6 +344,7 @@ export default function BlogArchivePage() {
                   variants={gridCardVariants}
                   className="group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
                   href={`/ai-tartalmak/${article.slug}`}
+                  style={article.isWeekly ? { borderLeft: "2px solid rgba(189,255,0,0.3)" } : undefined}
                 >
                   <div
                     style={{
@@ -338,6 +352,7 @@ export default function BlogArchivePage() {
                       overflow: "hidden",
                       borderRadius: "12px",
                       marginBottom: "16px",
+                      position: "relative",
                     }}
                   >
                     {article.coverImage ? (
@@ -356,6 +371,11 @@ export default function BlogArchivePage() {
                         <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[rgba(255,255,255,0.2)]">
                           Kiemelt kép
                         </span>
+                      </div>
+                    )}
+                    {article.isWeekly && (
+                      <div style={{ position: "absolute", top: "10px", right: "10px", fontFamily: "var(--font-mono, monospace)", fontSize: "9px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#BDFF00", background: "rgba(9,9,11,0.85)", border: "1px solid rgba(189,255,0,0.2)", borderRadius: "999px", padding: "3px 8px", backdropFilter: "blur(8px)" }}>
+                        AI PULZUS
                       </div>
                     )}
                   </div>

@@ -1,0 +1,62 @@
+{
+  "slug": "aedificium-design-esettanulmany",
+  "title": "Tízszeres elérés AI-val: az Aedificium Design esete",
+  "excerpt": "Hogyan hozta el a ZynAI az Aedificium Design digitális fordulatát — AI-vezérelt social media automatizáció és prémium weboldal-fejlesztés, mérhető eredményekkel, töredék idő alatt.",
+  "tag": "ESETTANULMÁNY",
+  "date": "2026. február 9.",
+  "readingTime": "~ 6 perc olvasás",
+  "coverImage": "/esettanulmanyok/Aedificium/aedificium_hero.png",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Az Aedificium Design Budapest egyik vezető design kivitelezési infrastruktúra szolgáltatója — építészeknek és belsőépítészeknek. Amikor 2025-ben felkerestek minket, digitális jelenlétük messze elmaradt a valódi szakmai szintjüktől."
+    },
+    { "type": "h2", "text": "A kihívás" },
+    {
+      "type": "paragraph",
+      "text": "A csapat napi szinten küzdött két területen: a közösségi média tartalomgyártás rendkívül időigényes volt és nem volt konzisztens, a weboldaluk pedig nem tükrözte azt a prémium minőséget amit a munkájuk képviselt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem egyszerűen eszközöket kerestek — rendszert akartak, ami hosszú távon, emberi beavatkozás nélkül is működik."
+    },
+    {
+      "type": "h2",
+      "text": "1. terület — Social media automatizáció"
+    },
+    {
+      "type": "paragraph",
+      "text": "Napi posztjavaslat-rendszert építettünk, amely minden nap automatikusan egy minőségi tartalomjavaslatot küld — az Aedificium hangvételéhez és céljaihoz igazítva. Nincs több üres tartalomkalendár."
+    },
+    {
+      "type": "paragraph",
+      "text": "A rendszer alapjait úgy terveztük, hogy a szövegek mellé képgenerálás, majd teljesen automatikus, időzített kirakás is csatlakozzon — emberi beavatkozás nélkül."
+    },
+    { "type": "h2", "text": "2. terület — Weboldal fejlesztés" },
+    {
+      "type": "paragraph",
+      "text": "Teljes körű, prémium minőségű weboldalt fejlesztettünk 2 hét alatt — töredék áron, anélkül hogy a minőség csorbult volna. A végeredmény egy kifejezetten design-orientált, stabil és bővíthető platform, amely megfelel egy prémium tervezőiroda elvárásainak és arculatának."
+    },
+    { "type": "h2", "text": "Eredmények egy pillantásra" },
+    {
+      "type": "list",
+      "items": [
+        "10× social media elérés növekedés",
+        "2 hét alatt elkészült a teljes weboldal platform",
+        "100% napi posztjavaslat lefedettség — üres tartalomkalendár nélkül"
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Kezdetleges formájában tízszeres elérést értünk el — ez fantasztikus eredmény. A weboldal nagyon profi, design fókuszú és stabil. Töredék áron kaptuk, ami hasonló minőségért máshol sokszorosa kerülne."
+    },
+    { "type": "h2", "text": "Következő lépések" },
+    {
+      "type": "list",
+      "items": [
+        "Teljes poszt generálás — szöveg és képek egyszerre, automatikusan előállítva",
+        "Automatikus időzített kirakás — a poszt emberi beavatkozás nélkül kerül fel a platformokra"
+      ]
+    }
+  ]
+}

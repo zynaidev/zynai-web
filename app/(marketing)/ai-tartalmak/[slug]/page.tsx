@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import ArticleBackground from "@/components/ui/ArticleBackground";
 
 import {
   type Article,
   allArticles,
   getArticleBySlug,
-} from "@/lib/articles";
+} from "@/lib/article-loader";
 import { ArrowLeft, Clock } from "lucide-react";
 
 type AiTartalomPageProps = {
@@ -60,7 +61,8 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
   const readingTime = calculateReadingTime(article.content);
 
   return (
-    <div className="relative min-h-screen bg-[var(--bg-base)]">
+    <div className="relative z-[1] min-h-screen bg-[var(--bg-base)]">
+      <ArticleBackground />
       <div
         aria-hidden
         style={{
@@ -166,7 +168,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
         </div>
       </section>
 
-      <div className="mx-auto max-w-[780px] px-6 py-16 lg:px-0">
+      <div className="mx-auto max-w-[860px] px-6 py-16 lg:px-0">
         <article>
           {article.content.map((section, sectionIndex) =>
             renderArticleSection(section, sectionIndex),
@@ -322,6 +324,63 @@ function renderArticleSection(section: Article["content"][number], index: number
             </li>
           ))}
         </ul>
+      );
+
+    case "divider":
+      return (
+        <div key={index} style={{ margin: "56px 0", display: "flex", alignItems: "center", gap: "20px" }}>
+          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(189,255,0,0.3), rgba(189,255,0,0.5))" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ width: "5px", height: "5px", background: "#BDFF00", borderRadius: "1px", boxShadow: "0 0 12px rgba(189,255,0,0.5)" }} />
+            {section.label && (
+              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", letterSpacing: "0.18em", color: "#BDFF00", textTransform: "uppercase", fontWeight: 500 }}>
+                {section.label}
+              </span>
+            )}
+            <span style={{ width: "5px", height: "5px", background: "#BDFF00", borderRadius: "1px", boxShadow: "0 0 12px rgba(189,255,0,0.5)" }} />
+          </div>
+          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(189,255,0,0.3), rgba(189,255,0,0.5))" }} />
+        </div>
+      );
+
+    case "summary":
+      return (
+        <div key={index} style={{ margin: "48px 0", padding: "32px 28px", background: "linear-gradient(135deg, rgba(189,255,0,0.04) 0%, rgba(189,255,0,0.01) 100%)", border: "1px solid rgba(189,255,0,0.15)", borderRadius: "16px", position: "relative" }}>
+          {section.label && (
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", letterSpacing: "0.15em", color: "#BDFF00", textTransform: "uppercase", marginBottom: "20px", fontWeight: 500 }}>
+              {section.label}
+            </div>
+          )}
+          <ul style={{ display: "flex", flexDirection: "column", gap: "14px", margin: 0, padding: 0, listStyle: "none" }}>
+            {section.items.map((item, i) => (
+              <li key={i} style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "#BDFF00", fontWeight: 600, paddingTop: "4px", minWidth: "20px" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontSize: "15.5px", lineHeight: 1.7, color: "var(--text-primary)" }}>
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+
+    case "conclusion":
+      return (
+        <div key={index} style={{ margin: "56px 0 32px 0", padding: "36px 32px", background: "linear-gradient(135deg, rgba(120,60,200,0.06) 0%, rgba(120,60,200,0.02) 100%)", border: "1px solid rgba(120,60,200,0.18)", borderRadius: "16px", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: "-40px", right: "-40px", width: "180px", height: "180px", background: "radial-gradient(circle, rgba(120,60,200,0.18), transparent 70%)", pointerEvents: "none" }} />
+          <div style={{ position: "relative" }}>
+            {section.label && (
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", letterSpacing: "0.15em", color: "rgba(180,120,255,0.9)", textTransform: "uppercase", marginBottom: "16px", fontWeight: 500 }}>
+                {section.label}
+              </div>
+            )}
+            <div style={{ fontSize: "18px", lineHeight: 1.65, color: "var(--text-primary)", fontWeight: 400 }}>
+              {section.text}
+            </div>
+          </div>
+        </div>
       );
 
     default:
