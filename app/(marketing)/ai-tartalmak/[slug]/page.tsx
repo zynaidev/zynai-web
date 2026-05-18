@@ -383,6 +383,49 @@ function renderArticleSection(section: Article["content"][number], index: number
         </div>
       );
 
+    case "image":
+      return (
+        <div key={index} className="my-10 overflow-hidden rounded-2xl">
+          <Image
+            alt={section.alt ?? ""}
+            className="w-full object-cover"
+            height={480}
+            src={section.src}
+            width={860}
+          />
+          {section.caption && (
+            <p className="mt-2 text-center font-mono text-[11px] text-[var(--text-tertiary)]">
+              {section.caption}
+            </p>
+          )}
+        </div>
+      );
+
+    case "sources":
+      return (
+        <div key={index} className="mt-12 border-t border-[rgba(255,255,255,0.06)] pt-8">
+          {section.label && (
+            <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+              {section.label}
+            </p>
+          )}
+          <ul className="space-y-2">
+            {section.items.map((item, i) => (
+              <li key={i}>
+                <a
+                  className="font-mono text-[12px] text-[var(--text-tertiary)] transition-colors hover:text-[#BDFF00]"
+                  href={item.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {item.title} ↗
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+
     default:
       return null;
   }

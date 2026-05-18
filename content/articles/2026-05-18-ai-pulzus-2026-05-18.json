@@ -1,0 +1,116 @@
+{
+  "slug": "ai-pulzus-2026-05-18",
+  "title": "Az AI beköltözött a QuickBooks-ba, az Excel-be és a tanácsadókhoz",
+  "date": "2026. május 18.",
+  "tag": "AI PULZUS",
+  "excerpt": "Ezen a héten az Anthropic 15 kész munkafolyamatot tett a KKV-k asztalára, az OpenAI Codex kód nélkül ír CFO-riportot, a PwC pedig 30 000 tanácsadóját képezi Claude-ra. Az AI már nem a jövő – hanem a meglévő eszközeid új rétege.",
+  "coverImage": "/blog/claude-logo-and-app.webp",
+  "isWeekly": true,
+  "content": [
+    {
+      "type": "lead",
+      "text": "Ezen a héten az AI-piac egyetlen irányba mutat: a nagy szereplők abbahagyták a technológia bemutatását, és elkezdték azt a KKV-k asztalára tenni. Az Anthropic kész munkafolyamatokat pakolt a QuickBooks és HubSpot mellé, az OpenAI Codex pénzügyi riportokat és CFO-csomagokat készít meglévő fájljaidból, a PwC pedig 30 000 tanácsadóját képezi ki arra, hogy ezeket a megoldásokat vállalkozásokhoz vigye."
+    },
+    {
+      "type": "divider",
+      "label": "HA CSAK EZT OLVASOD"
+    },
+    {
+      "type": "summary",
+      "label": "A HÉT 5 KULCSPONTJA",
+      "items": [
+        "Az Anthropic Claude for Small Business 15 kész automatizált folyamatot kínál QuickBooks, HubSpot és Canva integrációval.",
+        "Az OpenAI Codex kód nélkül készít pénzügyi riportot, CFO-csomagot és eltéréselemzést meglévő fájljaidból.",
+        "A PwC 30 000 szakembert képez Claude-ra. A nagy tanácsadók már AI-alapon szolgáltatnak.",
+        "Az OpenAI szuper appba vonja össze a Codexet, ChatGPT-t és böngészőt. Az agentikus jövő közeleg.",
+        "Európai figyelmeztetés: kritikus adatokhoz érdemes európai AI-megoldást választani az USA-függőség helyett."
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "RÉSZLETESEN"
+    },
+    {
+      "type": "h2",
+      "text": "Beépített AI: már nem kell semmi extra, csak a meglévő eszközeid"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az Anthropic elindította a Claude for Small Business csomagot, amely 15 kész agentikus munkafolyamatot és 15 ismétlődő feladatokra épülő készséget tartalmaz pénzügy, értékesítés, marketing, HR és ügyfélszolgálat területén. A megoldás közvetlenül integrálódik a QuickBooks, HubSpot, Canva, PayPal, Docusign, Google Workspace és Microsoft 365 rendszerekbe – vagyis nem egy új szoftvert kell megtanulni, hanem a meglévő eszközökre épül rá egy intelligens réteg. A rendszer emberi jóváhagyás nélkül semmit sem küld el, tesz közzé vagy fizet ki, az Anthropic pedig alapértelmezés szerint nem használja fel az ügyféladatokat modelltrénninghez. Egy felmérés szerint a kisvállalkozók 50%-a az adatbiztonságot jelölte meg az AI-val kapcsolatos legnagyobb aggályaként. Ez a megközelítés közvetlenül kezeli ezt a problémát."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az OpenAI Codex ugyanezt a filozófiát viszi a pénzügyi csapatokhoz: 5 fő felhasználási területen (havi üzleti áttekintés, pénzügyi modell elemzés, CFO-riportcsomag, eltéréselemzés és forgatókönyv-tervezés) automatizálja a riportálást, kódolási tudás nélkül. A Codex meglévő Excel-, PowerPoint- és Word-fájlokból, valamint Slack- és Gmail-üzenetekből dolgozik, és minden számot visszavezet az eredeti forrásra. Az AI-alapú Google Finance európai bevezetése azt jelenti, hogy a piaci adatok és elemzések, amelyek eddig csak drága szakmai eszközökben éltek, hamarosan ingyenesen elérhetők lesznek minden vállalkozó számára."
+    },
+    {
+      "type": "quote",
+      "text": "A kisvállalkozások az amerikai gazdaság közel felét adják, de soha nem rendelkeztek a nagyobb cégek erőforrásaival. Az AI az első technológia, amely végre képes áthidalni ezt a szakadékot – ezért indítjuk el a Claude for Small Business-t. — Daniela Amodei, az Anthropic társalapítója és elnöke"
+    },
+    {
+      "type": "h2",
+      "text": "Az AI-tanácsadás iparosodik: amit ma a PwC csinál, holnap te is megkaphatod"
+    },
+    {
+      "type": "paragraph",
+      "text": "A PwC és az Anthropic kibővített stratégiai szövetsége keretében 30 000 PwC-szakembert képeznek ki és minősítenek Claude használatára az Egyesült Államokban. A PwC egy új üzleti egységet indít szabályozott iparágak, köztük bank, biztosítás és egészségügy számára, kizárólag Claude technológiára építve. Az éles produkciós eredmények meggyőzőek: a biztosítási kockázatelbírálás 10 hétről 10 napra csökkent, a kiberbiztonsági incidenskezelés óráról percekre gyorsult, az ügyfelek pedig akár 70%-os hatékonyságnövekedést mértek. Az Advocate Health 167 000 fős munkaereje számára tervezi a Claude teljes bevezetését."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az OpenAI a DeployCo kezdeményezéssel közvetlenül segíti a cégeket az AI beépítésében. A máltai kormány modellje, ahol egy AI-literacy tanfolyam elvégzése után 1 évig ingyenes ChatGPT Plus jár minden állampolgárnak, megmutatja, hogy az AI-kompetencia hamarosan alapelvárássá válik. Málta az első ország a világon, amely ilyen léptékű országos AI-hozzáférési programot indít, és az OpenAI már Észtországgal és Görögországgal is együttműködik hasonló programokon."
+    },
+    {
+      "type": "quote",
+      "text": "Az AI körüli párbeszéd a lehetőségektől a végrehajtás felé tolódott. Az ügyfelek biztonságos, felelős és mérhető eredményeket hozó AI-alkalmazásokat keresnek komplex üzleti környezetben. — Paul Griggs, a PwC amerikai vezérigazgatója"
+    },
+    {
+      "type": "image",
+      "src": "/blog/Anthropic--y-PWC.jpg",
+      "alt": "Anthropic és PwC stratégiai partnerség"
+    },
+    {
+      "type": "h2",
+      "text": "Stratégiai figyelmeztetés: az agentikus jövő és az európai adatfüggőség kockázata"
+    },
+    {
+      "type": "paragraph",
+      "text": "Greg Brockman, az OpenAI társalapítója és elnöke konszolidálta a vállalat termékcsapatait, és egyetlen szuper appba vonja össze a Codexet, a ChatGPT-t és az Atlas böngészőt. A cél egyértelmű: az automatizált AI-ügynökök egyetlen, könnyen kezelhető felületen lesznek elérhetők, fogyasztói és vállalati felhasználók számára egyaránt. Az OpenAI emellett tőzsdei bevezetésre készül, ami stabilabb, skálázhatóbb megoldásokat ígér."
+    },
+    {
+      "type": "paragraph",
+      "text": "Arthur Mensch, a Mistral AI vezérigazgatója francia parlamenti bizottság előtt figyelmeztetett: az európai cégek és intézmények ne bízzák vakon érzékeny adataikat amerikai AI-platformokra. A Mistral jelenleg az egyetlen EU-s vállalat versenyképes nagy nyelvi modellekkel, ahol az amerikai befektetők részesedése 30% alatt van. A cég tőzsdei bevezetést tervez, és nem áll eladó. A kettő együtt egyértelmű stratégiát rajzol ki: az amerikai eszközök hatékonysági előnyei kihasználhatók, de az adatvédelmi határokat pontosan kell ismerni."
+    },
+    {
+      "type": "quote",
+      "text": "A francia hadsereg kódbázisait nem szabad a Mythos-szal átvizsgálni, mert ez szinte visszafordíthatatlan függőséget teremtene. — Arthur Mensch, a Mistral AI társalapítója és vezérigazgatója"
+    },
+    {
+      "type": "h2",
+      "text": "Mit jelent ez a vállalkozásodnak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nézd meg, hogy a már használt eszközeid (QuickBooks, HubSpot, Google Workspace, Canva) kompatibilisek-e a Claude for Small Business vagy a Codex integrációkkal. Ha igen, indíts egy pilot automatizálást egyetlen ismétlődő feladaton (pl. havi riport, ajánlatkészítés).",
+        "Szánj 2 órát a csapatod AI-alapkompetenciájának felmérésére: ki tud már hatékonyan promptolni, ki nem, és tervezz be egy rövid, gyakorlati belső tréninget, mielőtt az AI-eszközök kötelező elvárássá válnak az iparágadban.",
+        "Mielőtt bármilyen AI-eszközt bevezetsz érzékeny adatok (szerződések, pénzügyi adatok, ügyféladatok) kezelésére, ellenőrizd az adatkezelési feltételeket, és fontold meg, hogy európai alternatíva (pl. Mistral-alapú megoldás) jobban illeszkedik-e a GDPR-megfelelőségi igényeidhez."
+      ]
+    },
+    {
+      "type": "conclusion",
+      "label": "HETI VÉGSZÓ",
+      "text": "Az AI ezen a héten nem a jövőről szólt – hanem arról, hogy a meglévő eszközeid mellé beköltözött egy új munkatárs, aki elvégzi a riportokat, az ajánlatokat és az adminisztrációt. A verseny nem az lesz, kinek van jobb AI-megoldása, hanem kinek van jobb rutinja a használatára."
+    },
+    {
+      "type": "sources",
+      "label": "Források",
+      "items": [
+        {"title": "Anthropic: Claude for Small Business bejelentés", "url": "https://www.anthropic.com/news/claude-for-small-business"},
+        {"title": "OpenAI Codex: pénzügyi automatizálás", "url": "https://openai.com/blog/openai-codex"},
+        {"title": "PwC és Anthropic kibővített stratégiai szövetség", "url": "https://www.anthropic.com/customers/pwc"},
+        {"title": "Ramp: B2B AI piaci részesedés (2026 Q1)", "url": "https://ramp.com/blog/q1-2026-software-spend"},
+        {"title": "Mistral AI: Arthur Mensch a francia parlamentben", "url": "https://mistral.ai/news/"},
+        {"title": "Málta: Országos AI-hozzáférési program (OpenAI)", "url": "https://openai.com/global-affairs"}
+      ]
+    }
+  ]
+}
