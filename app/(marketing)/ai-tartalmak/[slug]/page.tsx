@@ -16,7 +16,10 @@ type AiTartalomPageProps = {
 
 function calculateReadingTime(content: Article["content"]): string {
   const text = content
-    .map((s) => s.text || (s.items?.join(" ") ?? ""))
+    .map((s) => {
+      if (s.type === "image" || s.type === "sources") return "";
+      return s.text || (s.items?.join(" ") ?? "");
+    })
     .join(" ");
   const trimmed = text.trim();
   const words = trimmed ? trimmed.split(/\s+/).length : 0;
