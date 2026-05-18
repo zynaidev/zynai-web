@@ -1,7 +1,6 @@
 import type { Article, ArticleSection } from "./article-types";
 
 import aiPulzus0518 from "@/content/articles/2026-05-18-ai-pulzus-2026-05-18.json";
-import aiPulzus from "@/content/articles/2026-05-11-ai-pulzus-2026-05-12.json";
 import wordpress from "@/content/articles/2026-03-22-wordpress-ai-ugynokok-matol-gepek-irjhatjak-es-publikalhatjak-a-weboldalad-tartalmat.json";
 import facebook from "@/content/articles/2026-03-13-facebook-marketplace-ai-automatizalas-a-meta-mesterseges-intelligenciaja-mar-valaszol-a-vevoknek.json";
 import chatgpt from "@/content/articles/2026-03-04-chatgpt-rol-claude-ra-valtanak-a-felhasznalok-hogyan-csinald-te-is.json";
