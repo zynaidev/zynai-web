@@ -11,7 +11,6 @@ export type { Article, ArticleSection };
 
 export const allArticles: Article[] = [
   aiPulzus0518,
-  aiPulzus,
   wordpress,
   facebook,
   chatgpt,
