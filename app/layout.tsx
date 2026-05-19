@@ -78,9 +78,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
     },
   },
-  alternates: {
-    canonical: "https://zynai.hu",
-  },
   icons: {
     icon: "/ZynAI_favicon.png",
     shortcut: "/ZynAI_favicon.png",

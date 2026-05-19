@@ -34,17 +34,52 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: AiTartalomPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const article = getArticleBySlug(slug);
+}: {
+  params: Promise<{ slug: string }> | { slug: string };
+}): Promise<Metadata> {
+  const resolvedParams = await Promise.resolve(params);
+  const article = getArticleBySlug(resolvedParams.slug);
 
   if (!article) {
-    return {};
+    return {
+      title: "Cikk nem található | ZynAI",
+    };
   }
 
+  const articleUrl = `https://zynai.hu/ai-tartalmak/${article.slug}`;
+  const ogImage = article.coverImage?.startsWith("http")
+    ? article.coverImage
+    : `https://zynai.hu${article.coverImage}`;
+
   return {
+    title: `${article.title} | ZynAI`,
     description: article.excerpt,
-    title: `${article.title} — ZynAI`,
+    alternates: {
+      canonical: articleUrl,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url: articleUrl,
+      siteName: "ZynAI",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+          type: "image/webp",
+        },
+      ],
+      locale: "hu_HU",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [ogImage],
+    },
   };
 }
 
