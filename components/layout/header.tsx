@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -52,9 +53,9 @@ export function Header() {
   const { scrollY } = useScroll();
   const shouldReduceMotion = useReducedMotion();
   const smoothScrollY = useSpring(scrollY, {
-    damping: 40,
-    restDelta: 0.5,
-    stiffness: 300,
+    damping: 60,
+    restDelta: 1,
+    stiffness: 200,
   });
   const scrollProgress = shouldReduceMotion ? scrollY : smoothScrollY;
 
@@ -116,7 +117,14 @@ export function Header() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border-hairline)] bg-[rgba(9,9,11,0.72)] backdrop-blur-xl lg:hidden">
         <div className="relative mx-auto flex h-16 w-full max-w-[var(--container-max)] items-center justify-between px-6 lg:px-12">
           <Link href="/">
-            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" width={120} height={40} className="h-8 w-auto" />
+            <Image
+                src="/brand/ZynAI-Logo.svg"
+                alt="ZynAI"
+                width={120}
+                height={32}
+                className="h-8 w-auto object-contain"
+                priority
+              />
           </Link>
 
           <button
@@ -173,7 +181,14 @@ export function Header() {
       >
         <Container className="flex h-16 items-center justify-between">
           <Link href="/">
-            <img src="/brand/ZynAI-Logo.svg" alt="ZynAI" width={120} height={40} className="h-8 w-auto" />
+            <Image
+                src="/brand/ZynAI-Logo.svg"
+                alt="ZynAI"
+                width={120}
+                height={32}
+                className="h-8 w-auto object-contain"
+                priority
+              />
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center gap-12 font-sans text-sm font-normal text-text-secondary md:flex">

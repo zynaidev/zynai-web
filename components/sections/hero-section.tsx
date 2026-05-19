@@ -188,12 +188,18 @@ export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
 
   const [isDesktop, setIsDesktop] = useState(false);
+  const [showSphere, setShowSphere] = useState(false);
 
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 1024);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSphere(true), 800);
+    return () => clearTimeout(timer);
   }, []);
 
   const fadeUp = {
@@ -317,7 +323,7 @@ export function HeroSection() {
         </div>
 
         {/* Desktop: sphere absolutely positioned, breaks out of grid */}
-        {isDesktop && (
+        {isDesktop && showSphere && (
           <div
             className="absolute pointer-events-none"
             style={{

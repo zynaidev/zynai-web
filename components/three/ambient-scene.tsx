@@ -1,10 +1,22 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Float, MeshDistortMaterial } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 export function AmbientScene() {
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  if (isMobile) return null;
+
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
