@@ -9,6 +9,7 @@ import {
   getArticleBySlug,
 } from "@/lib/article-loader";
 import { siteConfig } from "@/config/site";
+import { ShareButtons } from "@/components/ui/share-buttons";
 import { ArrowLeft, Clock } from "lucide-react";
 
 type AiTartalomPageProps = {
@@ -271,6 +272,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
             ))}
           </div>
         </div>
+        <ShareButtons slug={article.slug} title={article.title} />
       </div>
 
       <section className="mx-auto max-w-[1280px] border-t border-[rgba(255,255,255,0.06)] px-6 pb-24 pt-12 lg:px-12">
