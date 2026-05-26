@@ -1,0 +1,110 @@
+{
+  "slug": "ai-pulzus-2026-05-26",
+  "title": "Az AI-eszközök ára padlón, a Google újraírta a szabályokat – és a kiberbiztonsági óra ketyeg",
+  "date": "2026. május 26.",
+  "excerpt": "A 21. héten három frontális változás találkozott egyszerre: az AI-modellek ára historikus mélypontra zuhant, a Google 25 év után újraírta a keresés alaplogikáját, és kiderült, hogy az AI gyorsabban talál biztonsági réseket, mint ahogy be lehet foltozni őket. KKV-tulajdonosoknak mindhárom fejlemény azonnali teendőt jelent.",
+  "content": [
+    {
+      "type": "lead",
+      "text": "2026 21. hetében három dolog történt egyszerre: az AI-modellek ára szabadesésbe kezdett, a Google újraírta a keresés 25 éves szabálykönyvét, és kiderült, hogy az AI gyorsabban talál biztonsági réseket, mint ahogy be lehet foltozni őket. Ha KKV-tulajdonosként csak egy hírlevelet olvasol el ezen a héten, ez legyen az."
+    },
+    {
+      "type": "divider",
+      "label": "HA CSAK EZT OLVASOD"
+    },
+    {
+      "type": "summary",
+      "label": "A HÉT 5 KULCSPONTJA",
+      "items": [
+        "A DeepSeek V4 Pro output tokenje 34x olcsóbb a GPT-5.5-nél. Az AI-használat költsége most töredéke a tavalyinak.",
+        "A Google keresőmező 25 év után változott meg: a hagyományos SEO önmagában már nem elég a láthatósághoz.",
+        "Gmail, Docs, PowerPoint: az irodai AI-automatizálás ma már ingyenes vagy olcsó előfizetéssel elérhető.",
+        "Az OpenAI minden bevételi dollárra 1,22 dollárt költ. A mostani alacsony AI-árak részben szubvencionáltak.",
+        "Claude Mythos 10 000+ kritikus biztonsági rést tárt fel. A KKV-k kiberbiztonsági kockázata nő."
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "RÉSZLETESEN"
+    },
+    {
+      "type": "h2",
+      "text": "Az AI-árak padlón vannak – de meddig?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A DeepSeek állandósított 75%-os árengedménye közvetlen versenykényszert helyez a teljes piacra: a DeepSeek V4 Pro kimeneti tokenjei 1 millió egységenként 0,87 dollárba kerülnek, szemben a GPT-5.5 30 dolláros árával, ami 34,5-szeres különbség. A modell 1 millió tokenes kontextusablakot és legfeljebb 384 000 kimeneti tokent támogat, és mindkét vezető API-formátumot (OpenAI és Anthropic) elfogadja, ami minimálisra csökkenti az átállás technikai terheit. A Gemini 3.5 Flash szintén frontier-szintű teljesítményt nyújt más csúcsmodellek árának kevesebb mint feléért, miközben négyszer gyorsabb kimeneti sebességet mér. A KPMG 276 000 fős szervezetében zajló Claude-integráció jelzi a következő lépést: a nagy tanácsadók és könyvelők AI-alapú platformokra állnak át, és ez hamarosan a KKV-k partnereitől is elvárás lesz."
+    },
+    {
+      "type": "quote",
+      "text": "Az AI-eszközök árai rövid távon mesterségesen alacsonyan tartottak lehetnek a piaci részesedésért folyó verseny miatt, azonban az esetleges tőzsdei bevezetések után az árazási stratégiák megváltozhatnak. — Kurátor elemzés, The Decoder alapján"
+    },
+    {
+      "type": "h2",
+      "text": "Irodai AI ma: Gmail-től a PowerPointig minden automatizálható"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Google Workspace új hangalapú funkciói (Gmail Live, Docs Live, Keep) és a Gemini Spark 24/7-es személyes AI-ügynök 2026 nyarától globálisan elérhetők lesznek a Workspace üzleti ügyfeleknek, és a felhasználó nevében hajtanak végre feladatokat (e-mail küldés, naptárkezelés), mindig megerősítést kérve a kritikus műveletek előtt. Az OpenAI ChatGPT PowerPoint-bővítménye béta verzióban már most elérhető az ingyenes csomagtól az Enterprise szintig: negyedéves jelentések, ügyfél-tájékoztatók és stratégiai prezentációk készíthetők belőle jegyzetek, dokumentumok vagy táblázatok alapján. A béta státusz miatt mentés nélkül nem érdemes éles anyagon használni. A Virgin Atlantic esete megmutatja a fejlesztői oldalon elérhető ugrást: a Codex segítségével az örökölt kódbázisok refaktorálása hetekről órákra csökkent, egyes esetekben 78-80%-os kódméret-csökkentéssel, a karácsonyi szezonra kiadott mobilalkalmazás pedig nulla P1 hibával ment élesbe."
+    },
+    {
+      "type": "quote",
+      "text": "A mérnökök szerepe megváltozik: a jövőben orchestrátorokká válnak, akik AI-eszközöket irányítanak ahelyett, hogy minden kódsort maguk írnának. — Austin Ray, Ramp"
+    },
+    {
+      "type": "image",
+      "src": "/blog/W21/google_overview.webp",
+      "alt": "Google AI Overview"
+    },
+    {
+      "type": "h2",
+      "text": "A Google újraírta a keresés szabályait, és a KKV-k láthatósága forog kockán"
+    },
+    {
+      "type": "paragraph",
+      "text": "Sundar Pichai egy I/O utáni podcastban nyíltan kimondta: a linkek és források már csak \"részei\" a keresésnek, nem alapjai. A Google 25 év után először tervezte újra a keresőmezőjét: mostantól szöveges, képes, PDF-es, videós és Chrome-lapokból érkező bemeneteket egyaránt fogad. Az AI Mode egy év alatt egymilliárd havi felhasználót ért el, az AI Overviews-t havonta több mint 2,5 milliárd felhasználó veszi igénybe, miközben az AI Overviews forrásaira a felhasználóknak mindössze 1 százaléka kattint. Aki nem kerül be a Google AI válaszgenerátorának forrásai közé, az gyakorlatilag láthatatlanná válik. Ezzel párhuzamosan az Anthropic Claude Mythos Preview modellje körülbelül 50 partnerrel együttműködve több mint 10 000 magas vagy kritikus súlyosságú biztonsági rést tárt fel rendszerkritikus szoftverekben – köztük 1 000+ nyílt forráskódú projektben –, gyorsabban, mint ahogy a fejlesztői csapatok képesek azokat ellenőrizni és javítani. A digitális jelenlét és a kiberbiztonság egyszerre szorul felülvizsgálatra."
+    },
+    {
+      "type": "quote",
+      "text": "A hasonló kiberbiztonsági képességekkel rendelkező modellek hamarosan széles körben elérhetők lesznek, ami egy veszélyes átmeneti időszakot teremt, ahol a sebezhetőségeket gyorsan megtalálják, de lassan javítják. — Anthropic figyelmeztetés"
+    },
+    {
+      "type": "h2",
+      "text": "Mit jelent ez a vállalkozásodnak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hasonlítsd össze a jelenlegi AI-eszközeid árát a DeepSeek V4 Pro és Gemini 3.5 Flash aktuális tarifáival. Nagy volumenű API-használat esetén a váltás akár 10-30x költségmegtakarítást hozhat.",
+        "Kapcsold be a Gmail AI Inbox és a Google Docs Live funkciókat (ha Workspace-előfizető vagy), és teszteld a ChatGPT PowerPoint-bővítményt egy valós prezentáción. Mindig mentsd el az anyagot előtte, a béta státusz miatt.",
+        "Vizsgáld felül a weboldalad tartalmát: strukturált, kérdés-válasz formátumú szövegek és vizuális anyagok kellenek ahhoz, hogy a Google AI Overviews forrásai között szerepelj, ne csak a hagyományos kulcsszavak.",
+        "Ellenőrizd, hogy a céged által használt szoftverek, különösen a nyílt forráskódú megoldások, naprakészek-e a biztonsági frissítésekkel, mert az AI-alapú sebezhetőség-keresők hamarosan széles körben elérhetők lesznek rosszindulatú szereplők számára is."
+      ]
+    },
+    {
+      "type": "conclusion",
+      "text": "Az AI-forradalom nem a jövő évi konferencián fog megérkezni – már itt van, és a 21. hét megmutatta, hogy az eszközök olcsók, a kockázatok valósak, a szabályok pedig változnak. Aki most megérti a játékteret, az nem lemaradást pótol, hanem előnyt épít.",
+      "label": "HETI VÉGSZÓ"
+    },
+    {
+      "type": "sources",
+      "label": "Források",
+      "items": [
+        { "title": "DeepSeek 75%-os árengedmény véglegesítve – The Decoder", "url": "https://the-decoder.com/deepseek-makes-its-75-percent-discount-permanent-pricing-output-tokens-at-least-34x-below-gpt-5-5/" },
+        { "title": "Google Workspace frissítések – Google Blog", "url": "https://blog.google/products-and-platforms/products/workspace/workspace-updates/" },
+        { "title": "Gemini 3.5 Flash bejelentés – Google Blog", "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/" },
+        { "title": "Pichai: a linkek a keresés részei – The Decoder", "url": "https://the-decoder.com/google-ceo-pichai-now-calls-links-a-part-of-search-redefining-the-webs-role-in-its-own-product/" },
+        { "title": "ChatGPT PowerPoint bővítmény – The Decoder", "url": "https://the-decoder.com/openai-launches-a-chatgpt-powerpoint-plugin-and-warns-it-might-accidentally-delete-your-content/" },
+        { "title": "Anthropic és KPMG partnerség – Anthropic", "url": "https://www.anthropic.com/news/anthropic-kpmg" },
+        { "title": "Google keresőmező újratervezés – VentureBeat", "url": "https://venturebeat.com/technology/google-just-redesigned-the-search-box-for-the-first-time-in-25-years-heres-why-it-matters-more-than-you-think" },
+        { "title": "Claude Mythos: sebezhetőségek gyorsabb feltárása – The Decoder", "url": "https://the-decoder.com/anthropic-warns-claude-mythos-preview-finds-bugs-faster-than-developers-can-patch-them/" },
+        { "title": "OpenAI és Ramp esetanulmány – OpenAI", "url": "https://openai.com/index/ramp" },
+        { "title": "OpenAI és Virgin Atlantic esetanulmány – OpenAI", "url": "https://openai.com/index/virgin-atlantic" },
+        { "title": "OpenAI pénzügyi adatok – The Decoder", "url": "https://the-decoder.com/openai-burned-through-1-22-per-dollar-earned-even-after-stripping-out-stock-based-compensation/" }
+      ]
+    }
+  ],
+  "tag": "AI PULZUS",
+  "isWeekly": true,
+  "coverImage": "/blog/W21/deepseek.webp"
+}
