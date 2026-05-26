@@ -232,7 +232,7 @@ export default function BlogArchivePage() {
                 <div
                   className="border-b border-[var(--border-hairline)] bg-[rgba(255,255,255,0.04)] lg:border-b-0 lg:border-r"
                   style={{
-                    height: "320px",
+                    minHeight: "320px",
                     overflow: "hidden",
                     position: "relative",
                   }}
@@ -242,6 +242,8 @@ export default function BlogArchivePage() {
                       alt={heroArticle.title}
                       src={heroArticle.coverImage}
                       style={{
+                        position: "absolute",
+                        inset: 0,
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",

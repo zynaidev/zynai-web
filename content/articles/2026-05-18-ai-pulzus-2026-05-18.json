@@ -4,7 +4,7 @@
   "date": "2026. május 18.",
   "tag": "AI PULZUS",
   "excerpt": "Ezen a héten az Anthropic 15 kész munkafolyamatot tett a KKV-k asztalára, az OpenAI Codex kód nélkül ír CFO-riportot, a PwC pedig 30 000 tanácsadóját képezi Claude-ra. Az AI már nem a jövő – hanem a meglévő eszközeid új rétege.",
-  "coverImage": "/blog/claude-logo-and-app.webp",
+  "coverImage": "/blog/W20/claude-logo-and-app.webp",
   "isWeekly": true,
   "content": [
     {
@@ -64,7 +64,7 @@
     },
     {
       "type": "image",
-      "src": "/blog/Anthropic--y-PWC.jpg",
+      "src": "/blog/W20/Anthropic--y-PWC.jpg",
       "alt": "Anthropic és PwC stratégiai partnerség"
     },
     {
