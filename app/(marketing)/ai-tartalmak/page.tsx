@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useMemo, useState, useSyncExternalStore } from "react";
@@ -27,6 +29,7 @@ const blogArticles = allArticles.filter(
 );
 
 const CATEGORIES = ["ÖSSZES", "AI HÍREK", "ÜZLETI ELEMZÉS"] as const;
+const MotionLink = motion.create(Link);
 
 export default function BlogArchivePage() {
   const [search, setSearch] = useState("");
@@ -222,7 +225,7 @@ export default function BlogArchivePage() {
         ) : (
           <>
             {showHero && heroArticle != null ? (
-              <motion.a
+              <MotionLink
                 initial={heroReduced.initial}
                 animate={heroReduced.animate}
                 transition={heroReduced.transition}
@@ -238,17 +241,13 @@ export default function BlogArchivePage() {
                   }}
                 >
                   {heroArticle.coverImage ? (
-                    <img
+                    <Image
                       alt={heroArticle.title}
                       src={heroArticle.coverImage}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center",
-                      }}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover"
+                      quality={80}
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
@@ -330,7 +329,7 @@ export default function BlogArchivePage() {
                       "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                 />
-              </motion.a>
+              </MotionLink>
             ) : null}
 
             <motion.div
@@ -341,7 +340,7 @@ export default function BlogArchivePage() {
               className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
               {gridArticles.map((article) => (
-                <motion.a
+                <MotionLink
                   key={article.slug}
                   variants={gridCardVariants}
                   className="group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
@@ -358,15 +357,13 @@ export default function BlogArchivePage() {
                     }}
                   >
                     {article.coverImage ? (
-                      <img
+                      <Image
                         alt={article.title}
                         src={article.coverImage}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          objectPosition: "center",
-                        }}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                        quality={75}
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.04)]">
@@ -422,7 +419,7 @@ export default function BlogArchivePage() {
                         "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                     }}
                   />
-                </motion.a>
+                </MotionLink>
               ))}
             </motion.div>
 

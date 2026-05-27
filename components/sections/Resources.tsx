@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -63,7 +64,7 @@ export function Resources() {
         {/* 4-column article grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {allArticles.map((article) => (
-            <a
+            <Link
               key={article.slug}
               className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 transition-all duration-300 hover:border-[var(--border-default)]"
               href={`/ai-tartalmak/${article.slug}`}
@@ -110,19 +111,19 @@ export function Resources() {
                     "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               />
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* Összes cikk CTA */}
         <div className="mt-8 flex items-center justify-center">
-          <a
+          <Link
             className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--text-secondary)] transition-all duration-200 hover:border-[var(--border-default)] hover:text-[var(--text-primary)]"
             href="/ai-tartalmak"
           >
             Összes cikk megtekintése
             <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
       </Container>
     </section>

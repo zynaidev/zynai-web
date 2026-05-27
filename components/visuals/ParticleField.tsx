@@ -96,7 +96,15 @@ export function ParticleField() {
       <Canvas
         camera={{ fov: 50, position: [0, 0, 9] }}
         dpr={[1, 2]}
-        style={{ background: "transparent", height: "100%", width: "100%" }}
+        events={undefined}
+        style={{
+          background: "transparent",
+          height: "100%",
+          width: "100%",
+          pointerEvents: "none",
+          touchAction: "none",
+          userSelect: "none",
+        }}
       >
         <Particles />
       </Canvas>

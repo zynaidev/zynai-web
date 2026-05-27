@@ -1,6 +1,13 @@
 import dynamic from "next/dynamic";
 
 import { HeroSection } from "@/components/sections/hero-section";
+const IntegrationStack = dynamic(
+  () => import("@/components/sections/IntegrationStack").then((mod) => mod.IntegrationStack),
+  {
+    loading: () => <div style={{ minHeight: "500px" }} />,
+    ssr: true,
+  }
+);
 
 const WhatIsAI = dynamic(
   () => import("@/components/sections/WhatIsAI"),
@@ -46,14 +53,6 @@ const Testimonial = dynamic(
   () => import("@/components/sections/Testimonial").then((mod) => mod.Testimonial),
   {
     loading: () => <div style={{ minHeight: "400px" }} />,
-    ssr: true,
-  }
-);
-
-const IntegrationStack = dynamic(
-  () => import("@/components/sections/IntegrationStack").then((mod) => mod.IntegrationStack),
-  {
-    loading: () => <div style={{ minHeight: "500px" }} />,
     ssr: true,
   }
 );

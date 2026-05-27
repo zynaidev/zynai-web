@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const row1Logos = [
   { name: "Claude", iconKey: "anthropic" },
   { name: "OpenAI", iconKey: "openai" },
@@ -54,12 +56,13 @@ const marqueeStyles = `
 function LogoChip({ name, iconKey }: { name: string; iconKey: string }) {
   return (
     <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md flex-shrink-0 hover:border-[var(--border-default)] hover:bg-[var(--bg-glass-strong)] transition-all duration-300">
-      <img
+      <Image
         src={`https://cdn.simpleicons.org/${iconKey}/A1A1AA`}
         alt=""
         aria-hidden="true"
-        className="w-4 h-4 opacity-80"
-        loading="lazy"
+        width={16}
+        height={16}
+        className="h-4 w-4 opacity-80"
         onError={(e) => {
           e.currentTarget.style.display = "none";
         }}

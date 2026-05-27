@@ -1,17 +1,8 @@
-"use client";
-
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
-
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 import { ProcessFlowSVG } from "@/components/visuals/ProcessFlowSVG";
 import { NetworkSVG } from "@/components/visuals/NetworkSVG";
 import { ServerSVG } from "@/components/visuals/ServerSVG";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type WorkflowCard = {
   index: string;
@@ -59,51 +50,6 @@ const workflowCards: WorkflowCard[] = [
 ];
 
 export function HowIWork() {
-  const cardsScope = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      if (!cardsScope.current) return;
-
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 1024px)", () => {
-        const articles = gsap.utils.toArray<HTMLElement>(
-          cardsScope.current!.querySelectorAll("[data-workflow-card]"),
-        );
-        if (articles.length < 2) return;
-
-        articles.forEach((el) => {
-          gsap.set(el, { opacity: 1, scale: 1 });
-        });
-
-        const triggers = articles.slice(0, -1).map((article, i) => {
-          const next = articles[i + 1];
-          return ScrollTrigger.create({
-            trigger: next,
-            start: "top bottom",
-            end: "top 100px",
-            scrub: true,
-            animation: gsap.to(article, {
-              ease: "none",
-              opacity: 0.6,
-              scale: 0.94,
-            }),
-          });
-        });
-
-        return () => {
-          triggers.forEach((st) => st.kill());
-        };
-      });
-
-      return () => {
-        mm.revert();
-      };
-    },
-    { scope: cardsScope },
-  );
-
   return (
     <section className="relative py-20 md:py-32 lg:py-40" id="hogyan">
       <Container>
@@ -152,15 +98,13 @@ export function HowIWork() {
           </div>
         </div>
 
-        <div
-          className="mt-16 flex flex-col gap-8 md:mt-24 lg:gap-0"
-          ref={cardsScope}
-        >
+        <div className="mt-16 flex flex-col gap-8 md:mt-24 lg:gap-0">
           {workflowCards.map((card, index) => (
             <article
-              className={`relative rounded-3xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 md:p-10 lg:sticky lg:top-[100px] lg:min-h-[480px] ${cardZIndex[index]}`}
+              className={`relative rounded-3xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 md:p-10 lg:min-h-[480px] lg:sticky lg:top-[100px] ${cardZIndex[index]}`}
               data-workflow-card=""
               key={card.index}
+              style={{ willChange: "transform" }}
             >
               <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-3xl overflow-hidden">
                 <div

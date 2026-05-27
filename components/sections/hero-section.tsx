@@ -3,7 +3,6 @@
 import { type MouseEvent, useState, useEffect } from "react";
 
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -20,25 +19,12 @@ const ParticleSphere = dynamic(
 
 const heroBackgroundStyles = `
   @keyframes hero-blob-1 {
-    0%, 100% { transform: translate(0%, 0%) scale(1); }
-    30% { transform: translate(8%, -12%) scale(1.08); }
-    60% { transform: translate(-6%, 8%) scale(0.94); }
-    80% { transform: translate(10%, 5%) scale(1.04); }
+    0%, 100% { transform: translate3d(0%, 0%, 0) scale(1); }
+    50% { transform: translate3d(8%, -10%, 0) scale(1.05); }
   }
   @keyframes hero-blob-2 {
-    0%, 100% { transform: translate(0%, 0%) scale(1); }
-    25% { transform: translate(-12%, 6%) scale(1.12); }
-    55% { transform: translate(8%, -10%) scale(0.92); }
-    80% { transform: translate(-5%, 12%) scale(1.06); }
-  }
-  @keyframes hero-blob-3 {
-    0%, 100% { transform: translate(0%, 0%) scale(0.96); }
-    40% { transform: translate(6%, 10%) scale(1.06); }
-    70% { transform: translate(-10%, -6%) scale(0.90); }
-  }
-  @keyframes hero-blob-4 {
-    0%, 100% { transform: translate(0%, 0%) scale(1); }
-    50% { transform: translate(-6%, -8%) scale(1.08); }
+    0%, 100% { transform: translate3d(0%, 0%, 0) scale(1); }
+    50% { transform: translate3d(-10%, 8%, 0) scale(1.08); }
   }
   @media (prefers-reduced-motion: reduce) {
     [data-hero-blob] { animation: none !important; }
@@ -78,7 +64,7 @@ function HeroBackground() {
             background:
               "radial-gradient(circle, rgba(189, 255, 0, 0.14) 0%, transparent 65%)",
             filter: "blur(70px)",
-            animation: "hero-blob-1 24s ease-in-out infinite",
+            animation: "hero-blob-1 20s ease-in-out infinite",
             willChange: "transform",
           }}
         />
@@ -95,41 +81,7 @@ function HeroBackground() {
             background:
               "radial-gradient(circle, rgba(100, 40, 180, 0.20) 0%, transparent 60%)",
             filter: "blur(80px)",
-            animation: "hero-blob-2 30s ease-in-out infinite",
-            willChange: "transform",
-          }}
-        />
-
-        {/* LAYER 2C — Mesh blob: teal, lower area */}
-        <div
-          data-hero-blob
-          className="absolute"
-          style={{
-            bottom: "-10%",
-            right: "5%",
-            width: "50%",
-            height: "60%",
-            background:
-              "radial-gradient(circle, rgba(20, 160, 180, 0.12) 0%, transparent 60%)",
-            filter: "blur(85px)",
-            animation: "hero-blob-3 35s ease-in-out infinite",
-            willChange: "transform",
-          }}
-        />
-
-        {/* LAYER 2D — Mesh blob: subtle lime, left side bleed */}
-        <div
-          data-hero-blob
-          className="absolute"
-          style={{
-            top: "20%",
-            left: "-10%",
-            width: "40%",
-            height: "50%",
-            background:
-              "radial-gradient(circle, rgba(189, 255, 0, 0.06) 0%, transparent 60%)",
-            filter: "blur(90px)",
-            animation: "hero-blob-4 28s ease-in-out infinite",
+            animation: "hero-blob-2 20s ease-in-out infinite",
             willChange: "transform",
           }}
         />
@@ -185,8 +137,6 @@ function HeroBackground() {
 }
 
 export function HeroSection() {
-  const shouldReduceMotion = useReducedMotion();
-
   const [isDesktop, setIsDesktop] = useState(false);
   const [showSphere, setShowSphere] = useState(false);
 
@@ -202,28 +152,6 @@ export function HeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  const fadeUp = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: shouldReduceMotion
-        ? { duration: 0 }
-        : { duration: 0.7, ease: "easeOut" as const, delay },
-    }),
-  };
-
-  const fadeUpLCP = {
-    hidden: { opacity: 1, y: shouldReduceMotion ? 0 : 12 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: shouldReduceMotion
-        ? { duration: 0 }
-        : { duration: 0.7, ease: "easeOut" as const, delay },
-    }),
-  };
-
   const handleAnchorClick =
     (anchorId: string) => (event: MouseEvent<HTMLAnchorElement>) => {
       const target = document.getElementById(anchorId);
@@ -234,7 +162,7 @@ export function HeroSection() {
 
       event.preventDefault();
       target.scrollIntoView({
-        behavior: shouldReduceMotion ? "auto" : "smooth",
+        behavior: "smooth",
         block: "start",
       });
       window.history.pushState(null, "", `#${anchorId}`);
@@ -246,13 +174,7 @@ export function HeroSection() {
 
       <Container className="relative z-10 grid pb-6 lg:pb-10 pt-0 gap-12 md:grid-cols-12 md:gap-8 md:items-center lg:gap-12 lg:p-0">
         <div className="md:col-span-7">
-          <motion.div
-            className="flex items-center gap-3"
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            variants={fadeUp}
-          >
+          <div className="flex items-center gap-3">
             <span
               aria-hidden="true"
               className="h-px w-6 bg-[var(--accent)]"
@@ -260,43 +182,31 @@ export function HeroSection() {
             <p className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-text-tertiary">
               AI INTEGRÁCIÓ · ÜZLETI TANÁCSADÁS
             </p>
-          </motion.div>
+          </div>
 
-          <motion.h1
+          <h1
             className="mt-8 max-w-[14ch] font-display font-medium text-text-primary text-balance"
             style={{
               fontSize: "clamp(36px, 7vw, 72px)",
               letterSpacing: "-0.03em",
               lineHeight: 1.05,
             }}
-            initial="hidden"
-            animate="visible"
-            custom={0.15}
-            variants={fadeUpLCP}
           >
             A vállalkozások hatékonyabbak, ha az AI a folyamataik része — nem
             egy különálló eszköz.
-          </motion.h1>
+          </h1>
 
-          <motion.p
+          <p
             className="mt-8 max-w-[50ch] font-sans text-base leading-[1.65] text-text-secondary md:text-lg"
-            initial="hidden"
-            animate="visible"
-            custom={0.35}
-            variants={fadeUp}
           >
             Bakos Attila vagyok — AI integrációval alakítom át az üzleti
             folyamatokat. Ez az oldal bemutatja a módszertanomat, a
             megvalósított projektjeimet és azt, amit ma az AI-ról tényszerűen
             érdemes tudni.
-          </motion.p>
+          </p>
 
-          <motion.div
+          <div
             className="mt-10 flex flex-col gap-3 md:flex-row md:items-center"
-            initial="hidden"
-            animate="visible"
-            custom={0.52}
-            variants={fadeUp}
           >
             <a
               className={cn(
@@ -319,7 +229,7 @@ export function HeroSection() {
             >
               Szakmai cikkek
             </a>
-          </motion.div>
+          </div>
         </div>
 
         {/* Desktop: sphere absolutely positioned, breaks out of grid */}

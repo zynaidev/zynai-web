@@ -130,10 +130,19 @@
   }
   body {
     @apply bg-bg-base font-sans text-base leading-[1.6] text-text-secondary;
+    overflow-x: hidden;
   }
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  @supports (overflow-x: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

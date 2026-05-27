@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleBackground from "@/components/ui/ArticleBackground";
 
@@ -133,13 +134,13 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
       />
       <section className="border-b border-[rgba(255,255,255,0.06)] pb-16 pt-32">
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-          <a
+          <Link
             className="mb-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--text-tertiary)] transition-colors duration-200 hover:text-[var(--text-primary)]"
             href="/ai-tartalmak"
           >
             <ArrowLeft aria-hidden size={14} />
             Vissza a cikkekhez
-          </a>
+          </Link>
 
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px] lg:gap-20">
             <div>
@@ -186,6 +187,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
                     priority
                     sizes="380px"
                     src={article.coverImage}
+                    quality={80}
                   />
                 </div>
               ) : (
@@ -224,22 +226,21 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           {relatedArticles.map((a) => (
-            <a
+            <Link
               key={a.slug}
               className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] transition-all duration-300 hover:border-[rgba(255,255,255,0.12)]"
               href={`/ai-tartalmak/${a.slug}`}
             >
-              <div className="h-[160px] overflow-hidden">
+              <div className="relative h-[160px] overflow-hidden">
                 {a.coverImage ? (
-                  <img
+                  <Image
                     alt={a.title}
                     className="transition-transform duration-500 group-hover:scale-[1.04]"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 33vw"
                     src={a.coverImage}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
+                    quality={75}
+                    style={{ objectFit: "cover" }}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-[rgba(255,255,255,0.03)]">
@@ -262,7 +263,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
                   <span>{calculateReadingTime(a.content)}</span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

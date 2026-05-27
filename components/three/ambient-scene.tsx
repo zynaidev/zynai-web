@@ -6,11 +6,20 @@ import { Canvas } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 export function AmbientScene() {
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return (
+      window.innerWidth < 1024 ||
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+    );
+  });
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
+    const check = () =>
+      setIsMobile(
+        window.innerWidth < 1024 ||
+          /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent),
+      );
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
@@ -19,7 +28,11 @@ export function AmbientScene() {
 
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+      <Canvas
+        camera={{ position: [0, 0, 6], fov: 45 }}
+        events={undefined}
+        style={{ pointerEvents: "none" }}
+      >
         <ambientLight intensity={1.2} />
         <directionalLight intensity={2} position={[3, 4, 5]} />
         <Float floatIntensity={1.5} rotationIntensity={0.7} speed={1.6}>

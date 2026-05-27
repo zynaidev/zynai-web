@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import {
   useCallback,
   useEffect,
@@ -11,8 +10,6 @@ import {
 import { CountUp } from "@/components/animations/CountUp";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
-
-const revealEase = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
   {
@@ -47,16 +44,14 @@ const stats = [
 const DURATION = 5000;
 const STATS_COUNT = 3;
 export default function WhatIsAI() {
-  const shouldReduceMotion = useReducedMotion();
-
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [isPaused, setIsPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false,
+  );
   const [progressKey, setProgressKey] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    setActiveIndex(0);
-  }, []);
 
   const startLoop = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -67,14 +62,6 @@ export default function WhatIsAI() {
   }, []);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      setIsPaused(true);
-      return;
-    }
-
     if (!isPaused) startLoop();
 
     return () => {
@@ -82,22 +69,6 @@ export default function WhatIsAI() {
       intervalRef.current = null;
     };
   }, [isPaused, startLoop]);
-
-  const revealProps = ({
-    duration,
-    delay = 0,
-  }: {
-    duration: number;
-    delay?: number;
-  }) =>
-    shouldReduceMotion
-      ? { initial: false }
-      : {
-          initial: { opacity: 0, y: 16 },
-          transition: { delay, duration, ease: revealEase },
-          viewport: { once: true, margin: "-100px" },
-          whileInView: { opacity: 1, y: 0 },
-        };
 
   return (
     <section className="relative py-20 lg:py-32" id="modszer">
@@ -108,14 +79,11 @@ export default function WhatIsAI() {
         }
       `}</style>
       <Container>
-        <motion.div {...revealProps({ duration: 0.6 })}>
+        <div>
           <SectionLabel number="01" text="MI AZ AI INTEGRÁCIÓ?" />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8"
-          {...revealProps({ delay: 0.1, duration: 0.7 })}
-        >
+        <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8">
           <div className="flex flex-col items-start lg:col-span-5 lg:self-start lg:sticky lg:top-[100px]">
             <h2
               className="font-display font-medium leading-[1.05] tracking-[-0.03em] text-text-primary [font-size:clamp(40px,5vw,64px)]"
@@ -149,12 +117,9 @@ export default function WhatIsAI() {
               Ez az a döntési folyamat, amiben segítek.
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="mt-16 lg:mt-20 grid grid-cols-1 md:grid-cols-3 gap-0"
-          {...revealProps({ delay: 0.2, duration: 0.6 })}
-        >
+        <div className="mt-16 lg:mt-20 grid grid-cols-1 md:grid-cols-3 gap-0">
           {stats.map((stat, index) => (
             <div
               key={stat.index}
@@ -224,7 +189,7 @@ export default function WhatIsAI() {
               />
             </div>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );
