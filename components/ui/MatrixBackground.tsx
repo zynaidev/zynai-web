@@ -18,7 +18,7 @@ export function MatrixBackground() {
   const ripplesRef = useRef<Ripple[]>([]);
   const animFrameRef = useRef<number>(0);
   const lastDrawRef = useRef<number>(0);
-  const FRAME_INTERVAL = 1000 / 10; // 10fps
+  const FRAME_INTERVAL = 1000 / 6; // 6fps for lower CPU load
 
   const handleClick = useCallback((e: MouseEvent) => {
     ripplesRef.current.push({
@@ -32,6 +32,12 @@ export function MatrixBackground() {
   }, []);
 
   useEffect(() => {
+    const shouldDisable =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.innerWidth < 1024;
+    if (shouldDisable) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -91,7 +97,7 @@ export function MatrixBackground() {
         for (let c = 0; c < cols; c++) {
           const x = c * FONT_SIZE * 1.6;
           const y = r * FONT_SIZE * 1.8;
-          let opacity = charOpacities[r][c];
+          const opacity = charOpacities[r][c];
           let rippleBoost = 0;
 
           for (const ripple of ripplesRef.current) {
@@ -114,12 +120,14 @@ export function MatrixBackground() {
 
     initGrid();
     animFrameRef.current = requestAnimationFrame(draw);
+    const onResize = () => initGrid();
     window.addEventListener("click", handleClick, { passive: true });
-    window.addEventListener("resize", () => initGrid(), { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
       cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener("click", handleClick);
+      window.removeEventListener("resize", onResize);
     };
   }, [handleClick, FRAME_INTERVAL]);
 

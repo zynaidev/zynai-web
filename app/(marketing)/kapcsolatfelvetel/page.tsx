@@ -256,7 +256,6 @@ export default function KapcsolatfelvetelPage() {
 
   useEffect(() => {
     clearAdvanceTimeout();
-    setStepError("");
   }, [currentStep, clearAdvanceTimeout]);
 
   useEffect(() => {
@@ -365,6 +364,7 @@ export default function KapcsolatfelvetelPage() {
   function handleBack() {
     if (currentStep <= 0) return;
     clearAdvanceTimeout();
+    setStepError("");
     setDirection("back");
     setCurrentStep((prev) => prev - 1);
   }

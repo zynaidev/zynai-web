@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -101,7 +101,26 @@ function SphereParticles() {
 }
 
 export function ParticleSphere() {
+  const isMobile = useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === "undefined") return () => {};
+      window.addEventListener("resize", onStoreChange);
+      return () => window.removeEventListener("resize", onStoreChange);
+    },
+    () => {
+      if (typeof window === "undefined") return true;
+      return (
+        window.innerWidth < 1024 ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+      );
+    },
+    () => true,
+  );
+
   useEffect(() => {
+    if (isMobile) return;
+
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -112,16 +131,22 @@ export function ParticleSphere() {
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <Canvas
       frameloop="always"
       camera={{ position: [0, 0, 7], fov: 50 }}
+      events={undefined}
       style={{
         width: "100%",
         height: "100%",
         background: "transparent",
+        pointerEvents: "none",
+        touchAction: "none",
+        userSelect: "none",
       }}
       gl={{
         alpha: true,

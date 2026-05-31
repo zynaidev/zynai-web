@@ -1,5 +1,11 @@
 "use client";
 
+const ICON_CDN = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
+
+function iconSrc(iconKey: string) {
+  return `${ICON_CDN}/${iconKey}.svg`;
+}
+
 const row1Logos = [
   { name: "Claude", iconKey: "anthropic" },
   { name: "OpenAI", iconKey: "openai" },
@@ -55,14 +61,14 @@ function LogoChip({ name, iconKey }: { name: string; iconKey: string }) {
   return (
     <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md flex-shrink-0 hover:border-[var(--border-default)] hover:bg-[var(--bg-glass-strong)] transition-all duration-300">
       <img
-        src={`https://cdn.simpleicons.org/${iconKey}/A1A1AA`}
+        src={iconSrc(iconKey)}
         alt=""
         aria-hidden="true"
-        className="w-4 h-4 opacity-80"
+        width={16}
+        height={16}
         loading="lazy"
-        onError={(e) => {
-          e.currentTarget.style.display = "none";
-        }}
+        decoding="async"
+        className="h-4 w-4 shrink-0 opacity-80 brightness-0 invert"
       />
       <span className="font-mono text-[12px] uppercase tracking-[0.08em] text-[var(--text-secondary)] whitespace-nowrap">
         {name}

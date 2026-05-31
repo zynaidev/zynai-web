@@ -346,7 +346,7 @@ export const allArticles: Article[] = [
     tag: "ESETTANULMÁNY",
     date: "2026. február 9.",
     readingTime: "~ 6 perc olvasás",
-    coverImage: "/esettanulmanyok/Aedificium/aedificium_hero.png",
+    coverImage: "/esettanulmanyok/aedificium_hero.png",
     content: [
       {
         type: "lead",

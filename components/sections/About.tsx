@@ -1,11 +1,7 @@
 "use client";
 
 import {
-  motion,
   useInView,
-  useReducedMotion,
-  useScroll,
-  useTransform,
 } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
@@ -40,9 +36,11 @@ function SignatureAnimate() {
         }}
       >
         <div style={{ position: "relative", width: "360px" }}>
-          <img
+          <Image
             src="/brand/Bakos_Attila_sign.svg"
             alt="Bakos Attila aláírása"
+            width={360}
+            height={120}
             style={{
               width: "360px",
               height: "auto",
@@ -94,42 +92,7 @@ const badgeClassName =
 const badgeStyle = { fontSize: "11px", letterSpacing: "0.08em" } as const;
 
 export function About() {
-  const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const portraitY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [20, -20],
-  );
-
-  const fadeUp = {
-    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: shouldReduceMotion
-        ? { duration: 0 }
-        : { duration: 0.6, ease: "easeOut" as const, delay },
-    }),
-  };
-
-  const portraitReveal = shouldReduceMotion
-    ? {
-        initial: { opacity: 1, scale: 1 },
-        whileInView: { opacity: 1, scale: 1 },
-        transition: { duration: 0 },
-      }
-    : {
-        initial: { opacity: 0, scale: 0.96 },
-        whileInView: { opacity: 1, scale: 1 },
-        transition: { duration: 0.8, ease: "easeOut" as const, delay: 0.3 },
-      };
 
   return (
     <section className="relative py-20 md:py-32" id="rolam" ref={sectionRef}>
@@ -137,41 +100,24 @@ export function About() {
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Left column — text content */}
           <div className="lg:col-span-7">
-            <motion.div
-              className="flex items-center gap-6"
-              custom={0}
-              initial="hidden"
-              variants={fadeUp}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView="visible"
-            >
+            <div className="flex items-center gap-6">
               <SectionLabel number="04" text="RÓLAM" />
               <div
                 aria-hidden="true"
                 className="h-px flex-1 bg-gradient-to-r from-[var(--border-default)] via-[var(--border-hairline)] to-transparent"
               />
-            </motion.div>
+            </div>
 
-            <motion.p
+            <p
               className="mt-8 font-mono uppercase text-text-tertiary"
-              custom={0.1}
-              initial="hidden"
               style={{ fontSize: "12px", letterSpacing: "0.12em" }}
-              variants={fadeUp}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView="visible"
             >
               BAKOS ATTILA · AI INTEGRÁTOR &amp; ÜZLETI TANÁCSADÓ
-            </motion.p>
+            </p>
 
-            <motion.h2
+            <h2
               className="mt-6 font-display font-medium leading-[1.1] tracking-[-0.02em] text-text-primary"
-              custom={0.2}
-              initial="hidden"
               style={{ fontSize: "clamp(32px, 4.5vw, 48px)", maxWidth: "18ch" }}
-              variants={fadeUp}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView="visible"
             >
               Technológiai háttér, üzleti{" "}
               <span className="relative inline-block">
@@ -186,15 +132,10 @@ export function About() {
                 />
               </span>
               .
-            </motion.h2>
+            </h2>
 
-            <motion.div
+            <div
               className="mt-8 max-w-[56ch] font-sans text-[18px] leading-[1.65]"
-              custom={0.35}
-              initial="hidden"
-              variants={fadeUp}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView="visible"
             >
               <p className="text-text-secondary">
                 Bő tíz éve dolgozom digitális rendszerek tervezésével. Az
@@ -213,17 +154,10 @@ export function About() {
               Hiszek benne, hogy a magyar vállalkozásoknak fel kell zárkózniuk az Amerikai és Nyugat-Európai vállalkozások technológiai megoldásaihoz.
               Az AI integráció ennek nem egy opcionális eleme hanem a törzse.
               </p>
-            </motion.div>
+            </div>
 
             {/* Competencies */}
-            <motion.div
-              className="mt-12 space-y-6"
-              custom={0.5}
-              initial="hidden"
-              variants={fadeUp}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView="visible"
-            >
+            <div className="mt-12 space-y-6">
               <div>
                 <p
                   className="mb-3 font-mono uppercase text-text-tertiary"
@@ -263,18 +197,13 @@ export function About() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right column — portrait + signature */}
           <div className="lg:col-span-5">
-            <motion.div
-              initial={portraitReveal.initial}
-              transition={portraitReveal.transition}
-              viewport={{ once: true, amount: 0.2 }}
-              whileInView={portraitReveal.whileInView}
-            >
-              <motion.div style={{ y: portraitY }}>
+            <div>
+              <div>
                 <div className="relative w-full max-w-[380px] mx-auto lg:mx-0">
                   {/* Lime accent glow — top left */}
                   <div
@@ -370,8 +299,8 @@ export function About() {
                     }}
                   />
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             <SignatureAnimate />
           </div>

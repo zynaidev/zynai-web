@@ -78,11 +78,16 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
     },
   },
+  alternates: {
+    canonical: "https://zynai.hu",
+  },
+  category: "technology",
   icons: {
     icon: "/ZynAI_favicon.png",
     shortcut: "/ZynAI_favicon.png",
     apple: "/ZynAI_favicon.png",
   },
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({
