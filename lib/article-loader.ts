@@ -1,5 +1,6 @@
 import type { Article, ArticleSection } from "./article-types";
 
+import aiPulzus0531 from "@/content/articles/2026-05-31-ai-pulzus-2026-05-31.json";
 import aiPulzus0526 from "@/content/articles/2026-05-26-ai-pulzus-2026-05-26.json";
 import aiPulzus0518 from "@/content/articles/2026-05-18-ai-pulzus-2026-05-18.json";
 import wordpress from "@/content/articles/2026-03-22-wordpress-ai-ugynokok-matol-gepek-irjhatjak-es-publikalhatjak-a-weboldalad-tartalmat.json";
@@ -11,6 +12,7 @@ import aedificium from "@/content/articles/2025-01-01-aedificium-design-esettanu
 export type { Article, ArticleSection };
 
 export const allArticles: Article[] = [
+  aiPulzus0531,
   aiPulzus0526,
   aiPulzus0518,
   wordpress,
