@@ -215,10 +215,6 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
             renderArticleSection(section, sectionIndex),
           )}
         </article>
-<<<<<<< HEAD
-=======
-
->>>>>>> main
         <ShareButtons slug={article.slug} title={article.title} />
       </div>
 
