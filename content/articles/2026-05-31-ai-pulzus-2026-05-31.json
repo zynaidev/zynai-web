@@ -1,0 +1,96 @@
+{
+  "slug": "ai-pulzus-2026-05-31",
+  "title": "Az AI-ügynökök korszaka megérkezett — aki most vezeti be kontrolláltan, versenyelőnyt szerez",
+  "date": "2026. május 31.",
+  "excerpt": "231 napból 13 nap, 18 hónapos ütemterv 7 hónapra zsugorítva, 151%-os termelékenységnövekedés — az AI-ügynökök már mért üzleti valóság. Ugyanakkor egyetlen vállalat egy hónap alatt 500 millió dollárt égetett el kontrollálatlan AI-használattal. A héten a számok megmutatják, mi a tét mindkét oldalon.",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Ezen a héten a számok magukért beszélnek: 231 napból 13 nap, 18 hónapos fejlesztési ütemterv 7 hónapra zsugorítva, 151%-os termelékenységnövekedés. Az AI-ügynökök már nem ígéret — hanem mért üzleti valóság. De ugyanezen a héten egy vállalat egyetlen hónap alatt **500 millió dollárt** égetett el kontrollálatlan AI-használattal. A kérdés nem az, hogy bevezeted-e az AI-t, hanem hogy hogyan."
+    },
+    {
+      "type": "divider",
+      "label": "HA CSAK EZT OLVASOD"
+    },
+    {
+      "type": "summary",
+      "label": "A HÉT 5 KULCSPONTJA",
+      "items": [
+        "Salesforce: 231 napról 13 napra rövidült egy migráció AI-ügynökökkel — 18-szoros gyorsulás, 151%-os termelékenységnövekedés.",
+        "Egy vállalat 500 millió dollárt égetett el egyetlen hónap alatt Claude-on, mert nem volt beállítva használati korlát.",
+        "A szervezetek 85%-a agentic AI-t akar 3 éven belül, de 76%-uk infrastruktúrája még nem áll készen.",
+        "ChatGPT- és Claude-linkeken terjed malware — az 'LLMShare' technika Google Ads-hirdetéseken át támad.",
+        "Az OpenAI kivezeti a GPT-4.5-öt (2026. jún. 27.) és az o3-at (2026. aug. 26.) — azonnali teendő."
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "RÉSZLETESEN"
+    },
+    {
+      "type": "h2",
+      "text": "Az AI-ügynökök már nem kísérlet — hanem mért üzleti eredmény"
+    },
+    {
+      "type": "paragraph",
+      "text": "A **Salesforce** 33 API-végpont migrációját **231 személynapról 13 napra** rövidítette AI-ügynökökkel — ez 18-szoros gyorsulás, amelyet az Anthropic Claude Code eszközével ért el korlátlan token-használat mellett. Ugyanabban az időszakban az egy fejlesztőre jutó pull requestek száma **79%-kal nőtt**, az ML-alapú Effective Output Score mutató **151,3%-kal javult**, miközben az incidensek száma 5%-kal csökkent. Olaszországban a **Satispay** fintech cég a Claude bevezetésével 18 hónapos fejlesztési ütemtervét **7 hónapra rövidítette**, alapvető fizetési rendszerét tízszer gyorsabban frissítve a tervezettnél. Az adóügyi fronton a Thrive Holdings és az OpenAI által fejlesztett **Tax AI** rendszer 7 000 adóbevallást dolgozott fel a pilot szezonban: hat hét alatt a megfelelően kitöltött bevallások aránya 25%-ról **86%-ra emelkedett**, a végső pontosság eléri a 97%-ot. Egy nagyvállalati példa szerint az eredményalapú mérési rendszerre váltás **megháromszorozta az agentic AI-ból mért ROI-t** — miközben a szervezetek 85%-a ilyen képességeket akar kiépíteni 3 éven belül, de 76%-uk infrastruktúrája még nem áll készen."
+    },
+    {
+      "type": "h2",
+      "text": "Az AI-eszközpiac átrendeződik: amit most kell tudnod"
+    },
+    {
+      "type": "paragraph",
+      "text": "A **Microsoft 365 Copilot** 2026 májusában sebességnövelésen és dizájnfrissítésen esett át: az asszisztens kétszeres sebességgel, strukturáltabb válaszokkal segíti a napi irodai munkát — közvetlen előny dokumentumkészítési és e-mail-írási feladatoknál. Az **Anthropic Claude Opus 4.8** (megjelenés: 2026. május 28.) megbízhatóság terén lép tovább: a modell nyíltabban ismeri el, ha hibázik vagy nem tudja elvégezni a feladatot, csökkentve az AI-alapú döntések kockázatát. A **Google I/O 2026** bejelentette a Search-be épített háttér-információs ágenseket, amelyek 24/7 működnek és személyre szabott frissítéseket küldenek, valamint az **Antigravity** technológiát, amely valós időben generál egyedi, interaktív felületeket és mini alkalmazásokat — drága szoftverfejlesztés nélkül. Közben az **OpenAI** kivezeti a GPT-4.5-öt **2026. június 27-én** a ChatGPT-ből (az API-ból már korábban eltávolították), az o3-at pedig **2026. augusztus 26-án** — aki ezekre épített automatizált folyamatot, azonnal ellenőrizze az érintettséget."
+    },
+    {
+      "type": "h2",
+      "text": "A kontroll nélküli AI a legnagyobb üzleti kockázat — nem a technológia"
+    },
+    {
+      "type": "paragraph",
+      "text": "A héten napvilágra került, hogy egy meg nem nevezett vállalat **egyetlen hónap alatt 500 millió dollárt** költött Claude AI-ra, mert senki nem állított be használati korlátokat a licencekre. Ez nem elszigetelt eset: a vállalati AI-kiadások legnagyobb hajtóerői a visszaélésszerű használat és a rossz modellválasztás — az Uber operatív igazgatója szerint az AI-kiadások egyre nehezebben indokolhatók, amíg a tényleges megtérülés nehezen mérhető. Párhuzamosan egy új támadási technika, az **'LLMShare'** a ChatGPT és Claude megbízható domainjeit használja malware terjesztésére: a **Push Security** által azonosított módszer során a támadók Google Ads-hirdetéseken keresztül irányítják az áldozatokat hamis, de hivatalosnak tűnő AI-csevegés-linkekre. A ChatGPT kódrenderelési funkcióját kihasználva **hamis hibaoldalakat** építenek, a Claude platformon megosztott csevegések pedig Apple-támogatási útmutatónak álcázzák magukat, rosszindulatú Terminal-parancsokat tartalmazva."
+    },
+    {
+      "type": "quote",
+      "text": "A vállalatok hajlamosak az AI-t olyan feladatokra alkalmazni, amelyeket senki sem akar elvégezni — nem pedig bevételt termelő munkákra. — Sophia Velastegui, a Microsoft korábbi AI-vezetője"
+    },
+    {
+      "type": "h2",
+      "text": "Mit jelent ez a vállalkozásodnak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ellenőrizd, hogy vállalkozásod használ-e GPT-4.5-öt vagy o3-at API-n vagy automatizált folyamatban — ha igen, tervezd meg az átállást 2026 júniusa előtt.",
+        "Vezess be AI-használati korlátokat és jóváhagyási szabályokat még a szélesebb körű bevezetés előtt: határozd meg, ki, mire és mennyi AI-erőforrást használhat.",
+        "Tájékoztasd munkatársaidat az 'LLMShare' típusú fenyegetésről: ChatGPT- és Claude-linkekről soha ne töltsenek le szoftvert, még ha a domain megbízhatónak tűnik is.",
+        "Válassz ki egy ismétlődő, dokumentumintenzív folyamatot (pl. ajánlatkészítés, könyvelési előkészítés, e-mail-sablonok) és tesztelj rajta egy AI-ügynök megoldást mért eredménycélokkal."
+      ]
+    },
+    {
+      "type": "conclusion",
+      "text": "Az AI-ügynökök korszaka nem 2030-ban kezdődik — hanem most, ezen a héten, a versenytársaidnál. A jó hír: **a belépési korlát soha nem volt alacsonyabb, az eredmények soha nem voltak mérhetőbbek.** Aki kontrolláltan, egy-egy folyamattal kezdi, és méri az eredményt, az nem lemaradó lesz — hanem az élmezőny.",
+      "label": "HETI VÉGSZÓ"
+    },
+    {
+      "type": "sources",
+      "label": "Források",
+      "items": [
+        "Forrás: https://the-decoder.com/salesforce-claims-ai-agents-cut-a-231-day-migration-to-13-days-with-fewer-incidents/",
+        "Forrás: https://www.theverge.com/tech/939273/microsoft-365-copilot-redesign",
+        "Forrás: https://the-decoder.com/one-company-reportedly-spent-500-million-on-claude-in-one-month-after-failing-to-cap-ai-usage/",
+        "Forrás: https://the-decoder.com/attackers-abuse-shared-chatgpt-and-claude-chats-to-spread-malware/",
+        "Forrás: https://openai.com/index/building-self-improving-tax-agents-with-codex",
+        "Forrás: https://www.theverge.com/ai-artificial-intelligence/939094/anthropic-claude-4-8-opus-honesty-effort",
+        "Forrás: https://blog.google/innovation-and-ai/technology/ai/io-2026-keynote-moment-videos/",
+        "Forrás: https://www.technologyreview.com/2026/05/26/1137584/rethinking-organizational-design-in-the-age-of-agentic-ai/",
+        "Forrás: https://the-decoder.com/openai-gives-gpt-5-5-instant-a-readability-upgrade-while-phasing-out-two-older-models/",
+        "Forrás: https://www.anthropic.com/news/milan-office-opening"
+      ]
+    }
+  ],
+  "tag": "AI PULZUS",
+  "isWeekly": true,
+  "coverImage": "/blog/ai-pulzus-default.webp"
+}
