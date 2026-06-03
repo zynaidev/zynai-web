@@ -1,6 +1,7 @@
 "use client";
 
-import { type MouseEvent, useState, useEffect } from "react";
+import { type MouseEvent, useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
@@ -16,6 +17,61 @@ const ParticleSphere = dynamic(
   { ssr: false, loading: () => null },
 );
 
+
+function TypewriterText({ text, color }: { text: string; color: string }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayed(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) {
+        clearInterval(interval);
+        setDone(true);
+      }
+    }, 95);
+    return () => clearInterval(interval);
+  }, [isInView, text]);
+
+  return (
+    <motion.span
+      ref={ref}
+      style={{ color }}
+      animate={done ? {
+        textShadow: [
+          "0 0 0px rgba(189,255,0,0)",
+          "0 0 18px rgba(189,255,0,0.35)",
+          "0 0 0px rgba(189,255,0,0)",
+        ],
+      } : {}}
+      transition={done ? {
+        duration: 3.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      } : {}}
+    >
+      {displayed}
+      {!done && displayed.length > 0 && (
+        <span
+          style={{
+            display: "inline-block",
+            width: "2px",
+            height: "0.85em",
+            background: color,
+            marginLeft: "2px",
+            verticalAlign: "middle",
+            animation: "blink 0.7s step-end infinite",
+          }}
+        />
+      )}
+    </motion.span>
+  );
+}
 
 const heroBackgroundStyles = `
   @keyframes hero-blob-1 {
@@ -192,8 +248,8 @@ export function HeroSection() {
               lineHeight: 1.05,
             }}
           >
-            A vállalkozások hatékonyabbak, ha az AI a folyamataik része — nem
-            egy különálló eszköz.
+            A vállalkozások hatékonyabbak, ha az AI a folyamataik része —{" "}
+            <TypewriterText text="nem egy különálló eszköz." color="#BDFF00" />
           </h1>
 
           <p
