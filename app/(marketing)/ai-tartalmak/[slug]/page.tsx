@@ -215,7 +215,8 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
             renderArticleSection(section, sectionIndex),
           )}
         </article>
-        <ShareButtons slug={article.slug} title={article.title} />
+
+        <ShareButtons slug={article.slug} title={article.title} coverImage={article.coverImage} />
       </div>
 
       <section className="mx-auto max-w-[1280px] border-t border-[rgba(255,255,255,0.06)] px-6 pb-24 pt-12 lg:px-12">

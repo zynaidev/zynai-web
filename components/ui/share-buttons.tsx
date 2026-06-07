@@ -3,6 +3,7 @@
 interface ShareButtonsProps {
   slug: string;
   title: string;
+  coverImage?: string;
 }
 
 export function ShareButtons({ slug, title }: ShareButtonsProps) {
