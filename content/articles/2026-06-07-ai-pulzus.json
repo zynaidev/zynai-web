@@ -44,6 +44,11 @@
       "text": "Az AI bevezetése szervezeti kultúraváltás, nem pusztán IT-projekt. Az Endava -- egy globális szoftverfejlesztő cég -- az OpenAI-t választotta vállalati AI-platformjának, és minden dolgozójának hozzáférést biztosított a ChatGPT Enterprise-hoz és a Codex-hez. Az eredmény: az AI-adoptáció túlterjedt a fejlesztőcsapatokon, a jogi, pénzügyi és operatív területek is beépítették a mindennapi munkájukba. Az Endava az AI-jártasságot beépítette a felvételi és előléptetési elvárások közé. Egy belső árazási megbeszélésen a táblázatok helyett azonnal használható, AI által generált egyoldalas mini-alkalmazást építettek, ami gyökeresen megváltoztatta a döntéshozatali folyamatot. A másik oldalt Satya Nadella mutatta meg: a Microsoft vezérigazgatója nyilvánosan bírálta azt a belső feljegyzést, amely a Scout AI-ügynök felhasználóinak tudatos függővé tételét javasolta. Nadella mintegy 50 vezető mérnöknek írt válaszában egyértelművé tette: a függőség kialakítása nem cél, az AI-nak valódi értéket kell teremtenie. A tanulság mindkét esetből ugyanaz: a bevezetés sikerét a vezető személyes elkötelezettsége és az értékteremtés fókusza dönti el."
     },
     {
+      "type": "image",
+      "src": "/blog/W23/ai_spending_zynai.webp",
+      "alt": "AI-alapú kibertámadások növekvő kockázata"
+    },
+    {
       "type": "h2",
       "text": "AI-biztonság: amit a kkv-knak most tudniuk kell"
     },
@@ -73,19 +78,19 @@
       "type": "sources",
       "label": "Források",
       "items": [
-        "MIT Technology Review -- The Meta hack shows there's more to AI security than Mythos: https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
-        "MIT Technology Review -- How small businesses can leverage AI: https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/",
-        "OpenAI -- Codex for every role, tool, and workflow: https://openai.com/index/codex-for-every-role-tool-workflow",
-        "OpenAI -- Codex is becoming a productivity tool for everyone: https://openai.com/index/codex-for-knowledge-work",
-        "OpenAI -- Dreaming: Better memory for a more helpful ChatGPT: https://openai.com/index/chatgpt-memory-dreaming",
-        "The Decoder -- Satya Nadella publicly torches a VP's plan: https://the-decoder.com/satya-nadella-publicly-torches-a-vps-plan-to-make-microsofts-ai-agent-deliberately-addictive/",
-        "The Decoder -- Meta's Hatch AI agent: https://the-decoder.com/metas-hatch-ai-agent-could-cost-up-to-200-a-month-and-marks-its-first-paid-ai-product/",
-        "Anthropic -- What we learned mapping a year's worth of AI-enabled cyber threats: https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack",
-        "OpenAI -- How Endava is redesigning software delivery around AI agents: https://openai.com/index/endava-frontiers"
+        { "title": "MIT Technology Review -- The Meta hack shows there's more to AI security than Mythos", "url": "https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/" },
+        { "title": "MIT Technology Review -- How small businesses can leverage AI", "url": "https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/" },
+        { "title": "OpenAI -- Codex for every role, tool, and workflow", "url": "https://openai.com/index/codex-for-every-role-tool-workflow" },
+        { "title": "OpenAI -- Codex is becoming a productivity tool for everyone", "url": "https://openai.com/index/codex-for-knowledge-work" },
+        { "title": "OpenAI -- Dreaming: Better memory for a more helpful ChatGPT", "url": "https://openai.com/index/chatgpt-memory-dreaming" },
+        { "title": "The Decoder -- Satya Nadella publicly torches a VP's plan", "url": "https://the-decoder.com/satya-nadella-publicly-torches-a-vps-plan-to-make-microsofts-ai-agent-deliberately-addictive/" },
+        { "title": "The Decoder -- Meta's Hatch AI agent", "url": "https://the-decoder.com/metas-hatch-ai-agent-could-cost-up-to-200-a-month-and-marks-its-first-paid-ai-product/" },
+        { "title": "Anthropic -- What we learned mapping a year's worth of AI-enabled cyber threats", "url": "https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack" },
+        { "title": "OpenAI -- How Endava is redesigning software delivery around AI agents", "url": "https://openai.com/index/endava-frontiers" }
       ]
     }
   ],
   "tag": "AI PULZUS",
   "isWeekly": true,
-  "coverImage": "/blog/ai-pulzus-default.webp"
+  "coverImage": "/blog/W23/w23_ai_pulzus_zynai.webp"
 }
