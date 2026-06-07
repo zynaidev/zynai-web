@@ -1,0 +1,91 @@
+{
+  "slug": "ai-pulzus-2026-06-07",
+  "title": "AI-eszközök a megtérülési zónában -- de a biztonsági kockázatok is felgyorsultak",
+  "date": "2026. június 7.",
+  "excerpt": "A hét tanulsága: az AI-eszközök KKV-szinten is mérhető időt és pénzt takarítanak meg, de az AI-ügynökök új típusú sebezhetőségeket hoznak. A tudatos bevezetés ma már nem óvatosság, hanem üzleti racionalitás.",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Ezen a héten az AI-piac egyszerre mutatja meg az érem két oldalát: a ChatGPT memóriája, a Codex és a Meta Hatch ügynöke konkrét munkaórákat spórolnak meg — miközben a Meta saját AI-ügynökének feltörése és egy éves kiberfenyegetés-térkép figyelmeztet, hogy a sietős bevezetés komoly kockázatot hordoz. A két oldal nem zárja ki egymást — a tudatos bevezetés mérhető megtérülést hozhat, miközben a kockázatok kezelhetők maradnak."
+    },
+    {
+      "type": "divider",
+      "label": "HA CSAK EZT OLVASOD"
+    },
+    {
+      "type": "summary",
+      "label": "A HÉT 5 KULCSPONTJA",
+      "items": [
+        "Iparág-specifikus AI-eszközök (pl. Rain kézműveseknél) 60-80%-kal csökkenthetik az adminisztrációs időt.",
+        "A ChatGPT Dreaming memóriarendszere megjegyzi a vállalkozás kontextusát -- kevesebb ismétlés, több produktivitás.",
+        "A Meta AI-ügynökét egyszerű szöveges kéréssel törték fel: AI-ügynök bevezetés előtt biztonsági audit kötelező.",
+        "AI-alapú kibertámadások közepes+ kockázati aránya egy év alatt 33%-ról 56%-ra nőtt az Anthropic felmérése szerint.",
+        "Az Endava esete bizonyítja: az AI-bevezetés szervezeti kultúraváltás, nem csak IT-projekt."
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "RÉSZLETESEN"
+    },
+    {
+      "type": "h2",
+      "text": "Konkrét AI-eszközök, amelyek ma már pénzt termelnek KKV-knak"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az AI-eszközök KKV-szinten is kiléptek a kísérleti fázisból. Sam Finnegan-Dehn londoni magántanár a Notion AI-t használja ügyfélnyilvántartásra, óratervezésre, számlázásra és közösségimédia-posztok generálására -- egyetlen platformon. Az arizonai Grandma's Quilt Shop a Rain nevű, kézműves cégekre szabott szoftverrel a terméklistázás idejét 60-80%-kal csökkentette. Az OpenAI Codex-et immár nem csak fejlesztőknek szánja: természetes nyelvű utasításokból generál kódot, így programozói háttér nélkül is automatizálhatók ismétlődő üzleti folyamatok. A ChatGPT június 4-én bemutatott Dreaming memóriarendszere háttérfolyamatként szintetizálja a korábbi beszélgetéseket, és releváns kontextust biztosít anélkül, hogy a felhasználónak újra el kellene magyaráznia vállalkozása profilját. A Meta Hatch ügynöke -- havi akár 200 dolláros áron -- önállóan képes szoftvereszközöket építeni, időpontokat ütemezni és e-maileket küldeni. Az eszközök eltérő árkategóriát képviselnek, de közös bennük, hogy a napi adminisztrációban mérhető időmegtakarítást hoznak."
+    },
+    {
+      "type": "h2",
+      "text": "Hogyan vezessük be az AI-t -- és hogyan ne"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az AI bevezetése szervezeti kultúraváltás, nem pusztán IT-projekt. Az Endava -- egy globális szoftverfejlesztő cég -- az OpenAI-t választotta vállalati AI-platformjának, és minden dolgozójának hozzáférést biztosított a ChatGPT Enterprise-hoz és a Codex-hez. Az eredmény: az AI-adoptáció túlterjedt a fejlesztőcsapatokon, a jogi, pénzügyi és operatív területek is beépítették a mindennapi munkájukba. Az Endava az AI-jártasságot beépítette a felvételi és előléptetési elvárások közé. Egy belső árazási megbeszélésen a táblázatok helyett azonnal használható, AI által generált egyoldalas mini-alkalmazást építettek, ami gyökeresen megváltoztatta a döntéshozatali folyamatot. A másik oldalt Satya Nadella mutatta meg: a Microsoft vezérigazgatója nyilvánosan bírálta azt a belső feljegyzést, amely a Scout AI-ügynök felhasználóinak tudatos függővé tételét javasolta. Nadella mintegy 50 vezető mérnöknek írt válaszában egyértelművé tette: a függőség kialakítása nem cél, az AI-nak valódi értéket kell teremtenie. A tanulság mindkét esetből ugyanaz: a bevezetés sikerét a vezető személyes elkötelezettsége és az értékteremtés fókusza dönti el."
+    },
+    {
+      "type": "h2",
+      "text": "AI-biztonság: amit a kkv-knak most tudniuk kell"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az AI-ügynökök új típusú sebezhetőségeket hoznak, amelyekre a hagyományos védelmi szemlélet nem elegendő. 2026. június 5-én derült ki, hogy hackerek a Meta AI ügyfélszolgálati ügynökét használták fel Instagram-fiókok ellopására: egyszerűen megkérték az ügynököt az e-mail cím megváltoztatására. Az egyik támadó így vette át az Obama Fehér Ház inaktív Instagram-fiókját, és Irán-párti bejegyzéseket tett közzé rajta. A Meta a rést azóta megszüntette, de az eset rávilágít: az AI-ügynökök rugalmas viselkedése alapvetően más sebezhetőségeket teremt, mint a hagyományos szoftverek. Az Anthropic egy éves kiberfenyegetés-térképe megerősíti a trendet: a vállalat 832 rosszindulatú fiókot vizsgált meg 2025 márciusától 2026 márciusáig. A fiókok 67,3%-a AI-t használt kártékony szoftverek írásához. A közepes vagy magasabb kockázatú támadók aránya az első félévben 33%-ról a második félévben 56%-ra ugrott -- közel 1,7-szeres növekedés. A legveszélyesebb szereplők megkülönböztető jegye, hogy az AI-t a támadási lánc autonóm, emberi beavatkozást alig igénylő összehangolására használják. A kkv-knak tehát az AI-ügynök bevezetése előtt szűkíteniük kell a hozzáférési jogosultságokat, és biztonsági tesztelést kell végezniük."
+    },
+    {
+      "type": "h2",
+      "text": "Mit jelent ez a vállalkozásodnak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mérje fel, melyik ismétlődő adminisztratív feladatra (számlázás, készletleírás, ügyfél-összefoglaló) létezik már iparág-specifikus AI-eszköz -- és tesztelje 2 hétig. Ha ChatGPT-t használ üzleti célra, aktiválja a memóriafunkciót, és rögzítse a vállalkozása kontextusát a személyre szabott válaszokért.",
+        "Mielőtt AI-ügynököt vezet be ügyfélkommunikációba vagy folyamatautomatizálásba, készítsen hozzáférési jogosultság-térképet: az ügynök csak azt érhesse el, ami a feladatához szükséges. A Meta esete bizonyítja, hogy egyetlen ellenőrizetlen jogosultság is elegendő a visszaéléshez.",
+        "Kérje meg IT-partnerét vagy könyvelőjét, hogy értékelje az AI-eszközök GDPR-megfelelőségét -- különösen, ha felhőalapú megoldást (ChatGPT-t, Claude-ot) használ érzékeny ügyféladatokhoz. Érzékeny adatok kezelésekor fontolja meg helyi, nyílt forráskódú AI-modellek alkalmazását.",
+        "Az AI-bevezetést ne IT-projektként kezelje: vonja be a jogi, pénzügyi és operatív csapatokat is, és vezetőként személyesen használja az eszközöket. Az Endava tapasztalata szerint a szervezeti adoptáció a vezetői példamutatáson áll vagy bukik."
+      ]
+    },
+    {
+      "type": "conclusion",
+      "text": "A 2026-W23-as hét összképe egyértelmű: az AI-eszközök KKV-szinten is elérték azt az érettségi szintet, ahol a bevezetés megtérülése mérhető. Ugyanakkor az AI-ügynökök terjedésével párhuzamosan a biztonsági kockázatok is gyorsabban nőnek, mint azt a legtöbb vállalkozás feltételezi. A két trend együtt azt jelenti, hogy a tudatos, lépésről lépésre történő bevezetés mérhető megtérülést hozhat, miközben a kockázatok kezelhetők maradnak.",
+      "label": "HETI VÉGSZÓ"
+    },
+    {
+      "type": "sources",
+      "label": "Források",
+      "items": [
+        "MIT Technology Review -- The Meta hack shows there's more to AI security than Mythos: https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/",
+        "MIT Technology Review -- How small businesses can leverage AI: https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/",
+        "OpenAI -- Codex for every role, tool, and workflow: https://openai.com/index/codex-for-every-role-tool-workflow",
+        "OpenAI -- Codex is becoming a productivity tool for everyone: https://openai.com/index/codex-for-knowledge-work",
+        "OpenAI -- Dreaming: Better memory for a more helpful ChatGPT: https://openai.com/index/chatgpt-memory-dreaming",
+        "The Decoder -- Satya Nadella publicly torches a VP's plan: https://the-decoder.com/satya-nadella-publicly-torches-a-vps-plan-to-make-microsofts-ai-agent-deliberately-addictive/",
+        "The Decoder -- Meta's Hatch AI agent: https://the-decoder.com/metas-hatch-ai-agent-could-cost-up-to-200-a-month-and-marks-its-first-paid-ai-product/",
+        "Anthropic -- What we learned mapping a year's worth of AI-enabled cyber threats: https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack",
+        "OpenAI -- How Endava is redesigning software delivery around AI agents: https://openai.com/index/endava-frontiers"
+      ]
+    }
+  ],
+  "tag": "AI PULZUS",
+  "isWeekly": true,
+  "coverImage": "/blog/ai-pulzus-default.webp"
+}
