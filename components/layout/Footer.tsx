@@ -1,15 +1,6 @@
 "use client";
 
-function ZynaiCubeIconSmall() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <polygon points="14,2 26,9 26,19 14,26 2,19 2,9" fill="#0d1a0d" stroke="#BDFF00" strokeWidth="1.5" />
-      <polygon points="14,2 26,9 14,16 2,9" fill="#1a2e1a" stroke="#BDFF00" strokeWidth="0.5" />
-      <polygon points="14,16 26,9 26,19 14,26" fill="#0a1a0a" stroke="#BDFF00" strokeWidth="0.5" />
-      <polygon points="14,16 2,9 2,19 14,26" fill="#112211" stroke="#BDFF00" strokeWidth="0.5" />
-    </svg>
-  );
-}
+import Image from "next/image";
 
 function LinkedinIcon() {
   return (
@@ -39,19 +30,26 @@ export function Footer() {
   return (
     <footer className="relative border-t border-[var(--border-hairline)] bg-[var(--bg-elevated)]">
       <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-8">
           {/* Column 1 — Brand */}
-          <div>
-            <div className="flex items-center gap-2.5">
-              <ZynaiCubeIconSmall />
-              <span className="font-display font-semibold text-[18px] tracking-tight text-[var(--text-primary)]">
+          <div className="col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-2.5 text-[18px]">
+              <Image
+                src="/ZynAI_favicon.png"
+                alt=""
+                width={28}
+                height={28}
+                className="h-[1.55em] w-[1.55em] shrink-0"
+                aria-hidden
+              />
+              <span className="font-display font-semibold tracking-tight text-[var(--text-primary)]">
                 ZynAI
               </span>
             </div>
-            <p className="mt-4 text-[14px] leading-[1.6] text-[var(--text-secondary)] max-w-[28ch]">
+            <p className="mt-4 text-[14px] leading-[1.6] text-[var(--text-secondary)] max-w-none lg:max-w-[28ch]">
               AI integráció és üzleti tanácsadás magyar vállalkozásoknak.
             </p>
-                        <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 flex items-center gap-3">
               <a
                 href="https://www.linkedin.com/in/attila-bakos-4ab0a2353/"
                 target="_blank"
@@ -83,10 +81,10 @@ export function Footer() {
           </div>
 
           {/* Column 2 — Tartalom */}
-          <div>
+          <div className="min-w-0">
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">TARTALOM</p>
             <ul className="space-y-3">
-                            {[
+              {[
                 { label: "Mi az AI integráció?", href: "/#modszer" },
                 { label: "Hogyan dolgozom?", href: "/#hogyan" },
                 { label: "Alkalmazási területek", href: "/#alkalmazas" },
@@ -104,58 +102,54 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Anyagok */}
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
-            <ul className="space-y-3">
-              {[
-                { label: "Esettanulmányok", href: "/esettanulmanyok" },
-                { label: "AI tartalmak", href: "/ai-tartalmak" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Columns 3–4 — Anyagok + Kapcsolat (stacked on mobile, separate on lg) */}
+          <div className="flex min-w-0 flex-col gap-8 lg:contents">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
+              <ul className="space-y-3">
+                {[
+                  { label: "Esettanulmányok", href: "/esettanulmanyok" },
+                  { label: "AI tartalmak", href: "/ai-tartalmak" },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Column 4 — Kapcsolat */}
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
-            <ul className="space-y-3">
-              {[
-                { label: "Időpontfoglalás", href: "/kapcsolatfelvetel" },
-                { label: "info@zynai.hu", href: "mailto:info@zynai.hu" },
-                { label: "Adatvédelem", href: "/adatvedelem" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
+              <ul className="space-y-3">
+                {[
+                  { label: "Időpontfoglalás", href: "/kapcsolatfelvetel" },
+                  { label: "info@zynai.hu", href: "mailto:info@zynai.hu" },
+                  { label: "Adatvédelem", href: "/adatvedelem" },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom row */}
         <div className="mt-16 lg:mt-20 pt-8 border-t border-[var(--border-hairline)]">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-              © 2026 ZYNAI · BAKOS ATTILA
-            </p>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-                © 2026 ZynAI · Minden jog fenntartva
-              </span>
-          </div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
+            © 2026 ZynAI · Minden jog fenntartva
+          </p>
         </div>
       </div>
     </footer>
