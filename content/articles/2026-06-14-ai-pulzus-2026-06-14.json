@@ -2,6 +2,7 @@
   "slug": "ai-pulzus-2026-06-14",
   "title": "Ellenőrzés és mérés: a KKV-k legfontosabb AI-kompetenciája 2026 közepén",
   "date": "2026. június 14.",
+  "publishedAt": "2026-06-14",
   "excerpt": "A KPMG kitalált AI-esetpéldákat publikált, a Meta milliárdos belső AI-kiadásai kicsúsztak az irányítás alól, Nadella pedig beismerte: a legerősebb modell reflexszerű használata pénzügyi csapda. Közben egy fejlesztő 3-4 óra alatt szállít éles funkciót AI-ügynökkel, a nyílt modellek 12-szeres árelőnnyel versenyeznek – és az EU szabályozási kerete egyre közelebb ér.",
   "content": [
     {
@@ -85,20 +86,20 @@
       "type": "sources",
       "label": "Források",
       "items": [
-        "KPMG fabricated AI case studies (The Decoder) — https://the-decoder.com/kpmg-fabricated-ai-case-studies-in-a-report-designed-to-sell-clients-on-ai-adoption/",
-        "Learning to lead in a hybrid human-AI enterprise (MIT Technology Review) — https://www.technologyreview.com/2026/06/09/1137830/learning-to-lead-in-a-hybrid-human-ai-enterprise/",
-        "Supporting Europe's trustworthy AI ecosystem (OpenAI) — https://openai.com/index/supporting-eu-trustworthy-ai-ecosystem",
-        "Meta shifts from tokenmaxxing to token managing (The Decoder) — https://the-decoder.com/meta-shifts-from-tokenmaxxing-to-token-managing-as-internal-ai-costs-reportedly-hit-billions/",
-        "Microsoft CEO Satya Nadella admits he's a token-maxer (The Decoder) — https://the-decoder.com/microsoft-ceo-satya-nadella-admits-hes-a-token-maxer-too-its-addictive/",
-        "Kimi K2.7 Code undercuts GPT-5.5 and Claude by up to 12x (The Decoder) — https://the-decoder.com/moonshots-open-model-kimi-k2-7-code-undercuts-gpt-5-5-and-claude-by-up-to-12x-on-price-per-token/",
-        "What Codex unlocks for Notion (OpenAI) — https://openai.com/index/notion",
-        "New OpenAI Academy courses for the next era of work (OpenAI) — https://openai.com/index/academy-courses-applying-ai-at-work",
-        "Microsoft's SkillOpt boosts GPT-5.5 with a Markdown file (The Decoder) — https://the-decoder.com/microsofts-skillopt-boosts-gpt-5-5-by-using-nothing-but-a-trained-markdown-file/",
-        "Claude Fable 5 outpaces GPT-5.5 on FrontierMath (The Decoder) — https://the-decoder.com/claude-fable-5-outpaces-gpt-5-5-by-13-points-on-frontiermaths-toughest-problems/"
+        { "title": "KPMG fabricated AI case studies (The Decoder)", "url": "https://the-decoder.com/kpmg-fabricated-ai-case-studies-in-a-report-designed-to-sell-clients-on-ai-adoption/" },
+        { "title": "Learning to lead in a hybrid human-AI enterprise (MIT Technology Review)", "url": "https://www.technologyreview.com/2026/06/09/1137830/learning-to-lead-in-a-hybrid-human-ai-enterprise/" },
+        { "title": "Supporting Europe's trustworthy AI ecosystem (OpenAI)", "url": "https://openai.com/index/supporting-eu-trustworthy-ai-ecosystem" },
+        { "title": "Meta shifts from tokenmaxxing to token managing (The Decoder)", "url": "https://the-decoder.com/meta-shifts-from-tokenmaxxing-to-token-managing-as-internal-ai-costs-reportedly-hit-billions/" },
+        { "title": "Microsoft CEO Satya Nadella admits he's a token-maxer (The Decoder)", "url": "https://the-decoder.com/microsoft-ceo-satya-nadella-admits-hes-a-token-maxer-too-its-addictive/" },
+        { "title": "Kimi K2.7 Code undercuts GPT-5.5 and Claude by up to 12x (The Decoder)", "url": "https://the-decoder.com/moonshots-open-model-kimi-k2-7-code-undercuts-gpt-5-5-and-claude-by-up-to-12x-on-price-per-token/" },
+        { "title": "What Codex unlocks for Notion (OpenAI)", "url": "https://openai.com/index/notion" },
+        { "title": "New OpenAI Academy courses for the next era of work (OpenAI)", "url": "https://openai.com/index/academy-courses-applying-ai-at-work" },
+        { "title": "Microsoft's SkillOpt boosts GPT-5.5 with a Markdown file (The Decoder)", "url": "https://the-decoder.com/microsofts-skillopt-boosts-gpt-5-5-by-using-nothing-but-a-trained-markdown-file/" },
+        { "title": "Claude Fable 5 outpaces GPT-5.5 on FrontierMath (The Decoder)", "url": "https://the-decoder.com/claude-fable-5-outpaces-gpt-5-5-by-13-points-on-frontiermaths-toughest-problems/" }
       ]
     }
   ],
   "tag": "AI PULZUS",
   "isWeekly": true,
-  "coverImage": "/blog/ai-pulzus-default.webp"
+  "coverImage": "/blog/W24/ai_spend_zynai.webp"
 }
