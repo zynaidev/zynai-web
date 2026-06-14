@@ -12,6 +12,8 @@ export type Article = {
   excerpt: string;
   tag: string;
   date: string;
+  /** ISO 8601 date (YYYY-MM-DD) for SEO and structured data */
+  publishedAt?: string;
   readingTime?: string;
   coverImage?: string;
   isWeekly?: boolean;

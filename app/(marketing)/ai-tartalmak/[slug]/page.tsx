@@ -9,6 +9,13 @@ import {
   allArticles,
   getArticleBySlug,
 } from "@/lib/article-loader";
+import {
+  buildArticleJsonLd,
+  getArticleCanonicalUrl,
+  getArticleOgImageUrl,
+  getArticlePublishedAt,
+  getOgImageMimeType,
+} from "@/lib/article-seo";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { ArrowLeft, Clock } from "lucide-react";
 
@@ -47,10 +54,9 @@ export async function generateMetadata({
     };
   }
 
-  const articleUrl = `https://zynai.hu/ai-tartalmak/${article.slug}`;
-  const ogImage = article.coverImage?.startsWith("http")
-    ? article.coverImage
-    : `https://zynai.hu${article.coverImage}`;
+  const articleUrl = getArticleCanonicalUrl(article.slug);
+  const publishedAt = getArticlePublishedAt(article);
+  const ogImage = getArticleOgImageUrl(article);
 
   return {
     title: `${article.title} | ZynAI`,
@@ -63,23 +69,32 @@ export async function generateMetadata({
       description: article.excerpt,
       url: articleUrl,
       siteName: "ZynAI",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: article.title,
-          type: "image/webp",
-        },
-      ],
+      ...(ogImage && {
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: article.title,
+            type: getOgImageMimeType(ogImage),
+          },
+        ],
+      }),
       locale: "hu_HU",
       type: "article",
+      ...(publishedAt && {
+        publishedTime: `${publishedAt}T00:00:00+02:00`,
+        modifiedTime: `${publishedAt}T00:00:00+02:00`,
+      }),
+      authors: ["Bakos Attila"],
+      section: article.tag,
+      tags: [article.tag],
     },
     twitter: {
       card: "summary_large_image",
       title: article.title,
       description: article.excerpt,
-      images: [ogImage],
+      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
@@ -99,9 +114,14 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
     )
     .slice(0, 3);
   const readingTime = calculateReadingTime(article.content);
+  const articleJsonLd = buildArticleJsonLd(article);
 
   return (
     <div className="relative z-[1] min-h-screen bg-[var(--bg-base)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <ArticleBackground />
       <div
         aria-hidden
@@ -181,7 +201,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
               {article.coverImage ? (
                 <div className="relative h-[240px] w-full overflow-hidden rounded-2xl">
                   <Image
-                    alt=""
+                    alt={article.title}
                     className="object-cover"
                     fill
                     priority

@@ -1,0 +1,105 @@
+{
+  "slug": "ai-pulzus-2026-06-14",
+  "title": "Ellenőrzés és mérés: a KKV-k legfontosabb AI-kompetenciája 2026 közepén",
+  "date": "2026. június 14.",
+  "publishedAt": "2026-06-14",
+  "excerpt": "A KPMG kitalált AI-esetpéldákat publikált, a Meta milliárdos belső AI-kiadásai kicsúsztak az irányítás alól, Nadella pedig beismerte: a legerősebb modell reflexszerű használata pénzügyi csapda. Közben egy fejlesztő 3-4 óra alatt szállít éles funkciót AI-ügynökkel, a nyílt modellek 12-szeres árelőnnyel versenyeznek – és az EU szabályozási kerete egyre közelebb ér.",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Ezen a héten kiderült, hogy a KPMG kitalált esetpéldákkal adta el az AI-t nagyvállalati ügyfeleknek – miközben a Meta és a Microsoft is beismerte, hogy saját belső AI-kiadásaik kicsúsztak az irányítás alól. Ha a világ legnagyobb tanácsadói és tech-óriásai sem immunisak ezekre a csapdákra, egy magyar KKV-nak különösen érdemes tudni, mire figyeljen. A jó hír: az eszközök ára csökken, teljesítményük nő – de csak akkor hoznak megtérülést, ha tudatosan használják őket."
+    },
+    {
+      "type": "divider",
+      "label": "HA CSAK EZT OLVASOD"
+    },
+    {
+      "type": "summary",
+      "label": "A HÉT 5 KULCSPONTJA",
+      "items": [
+        "A KPMG kitalált AI-esetpéldákat publikált – még a nagy tanácsadók riportjai sem ellenőrzés nélkül megbízhatók.",
+        "A Meta és a Microsoft is tokenmaxxing-problémával küzd: az AI-használat mennyisége nem egyenlő üzleti értékkel.",
+        "Az agentic AI 300%-os növekedése várható 2 éven belül; ügyfélszolgálaton és HR-ben 30-50% termelékenységnövekedés mérhető.",
+        "Nyílt AI-modellek (pl. Kimi K2.7 Code) akár 12-szeres árelőnnyel kínálnak alternatívát a drága frontier modellekkel szemben.",
+        "Egyetlen fejlesztő 3-4 óra alatt szállított éles funkciót AI-ügynökkel – kis csapatok kapacitása megsokszorozható."
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "RÉSZLETESEN"
+    },
+    {
+      "type": "h2",
+      "text": "Megbízhatóság válságban: mikor higgyünk az AI-nak – és kinek?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A KPMG \"Redefining excellence in the age of agentic AI\" című jelentése kitalált esettanulmányokat tartalmazott az UBS, az NHS, a Svájci Szövetségi Vasutak és a Transport for London AI-használatáról – az összes érintett szervezet cáfolta a róluk tett állításokat. A GPTZero AI-detektáló cég fedezte fel a hibákat, a Financial Times független vizsgálattal erősítette meg azokat. A KPMG ezt követően több weboldaláról is eltávolította a jelentést. A GPTZero vezérigazgatója szerint a nagy tanácsadó cégek hibás jelentései \"másodlagos hallucinációkat\" terjesztenek: ezeket a forrásokat hitelesnek tekintik és tovább idézik. A jelenséget a GPTZero \"vibe citing\"-nak nevezi – a hivatkozások valós forrásoknak csupán laza parafrázisai, sokszor hiányzó URL-ekkel, helytelen szerzőkkel, egyes esetekben nem létező eredeti forrásokra mutatva. Az EU AI-átláthatósági kódexének előrehaladása ebbe a kontextusba illeszkedik: az OpenAI aktívan kommunikál az európai szabályozási folyamatokkal kapcsolatos álláspontjáról, jelezve, hogy a megfelelési kötelezettségek egyre közelebb érnek a magyar vállalkozásokhoz is."
+    },
+    {
+      "type": "quote",
+      "text": "A nagy tanácsadó cégek hibás jelentései másodlagos hallucinációkat terjesztenek, mivel ezeket a forrásokat hitelesnek tekintik és tovább idézik."
+    },
+    {
+      "type": "h2",
+      "text": "Költségkontroll az AI-korban: ne fizess a legerősebbért, ha nem kell"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Meta belső AI-használata milliárdos nagyságrendű költségeket generált – erről egy kb. 6000 alkalmazottnak küldött belső emlékeztetőben számoltak be. A korábbi \"tokenmaxxing\" során az alkalmazottak mesterségesen felduzzasztották AI-fogyasztásukat egy \"Claudeonomics\" nevű belső ranglistán, 30 nap alatt 73,7 billió tokent halmozva fel. A Meta 2027-től token-költségvetésekkel, allokációkkal és egy \"AI Gateway\" nevű központi irányítópulttal kívánja szorosabban kezelni a belső AI-felhasználást. Satya Nadella, a Microsoft vezérigazgatója saját bevallása szerint maga is token-maxer – \"függőséget okozónak\" nevezi a legerősebb modellek használatát –, ugyanakkor figyelmeztet: a termelékenységjavítás határköltségének arányban kell állnia a tokenek határköltségével, különben nem keletkezik valódi gazdasági növekedés. A Moonshot AI Kimi K2.7 Code modellje ebbe a képbe illeszkedik: API-ára 0,95 dollár millió bemeneti tokenenként és 4,00 dollár millió kimeneti tokenenként, ami akár 12-szeres árelőnyt jelent a Claude Fable 5-höz képest. Az MCPMark Verified ágensalapú benchmarkon a K2.7 Code 81,1 pontot ér el, felülmúlva a Claude Opus 4.8-at (76,4 pont), miközben a modell nyílt súlyozású verzióként is elérhető a Hugging Face-en."
+    },
+    {
+      "type": "quote",
+      "text": "A termelékenységjavítás határköltségének arányban kell állnia a tokenek határköltségével, különben nem keletkezik valódi gazdasági növekedés."
+    },
+    {
+      "type": "h2",
+      "text": "Kapacitásbővítés kis csapattal: az agentic AI mint termelékenységi eszköz"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az AI-ügynökök bevezetése várhatóan 300%-kal nő a következő két évben. Az agentic AI korai alkalmazásai az ügyfélszolgálat, HR és értékesítés területén 30-50%-os termelékenységnövekedést eredményeztek. A Wipro vállalat egy egyedi AI-asszisztenst vezetett be az Ema Unlimited platformmal közösen, amely 50 HR-feladatot vett át az emberi alkalmazottaktól – az alkalmazotti kérdésekre adott átlagos válaszidő 48 óráról 5 másodpercre csökkent. A Notion és az OpenAI Codex integrációja konkrét fejlesztői példát mutat: Ryan Nystrom a Notion AI hangbeviteli funkcióját egyedül, mindössze 3-4 óra alatt fejlesztette le a webre, a Codex egyetlen menetben generálta a teljes funkciót, amely másnap már éles környezetbe kerülhetett. A Microsoft SkillOpt módszere egyetlen Markdown-fájllal több mint 20 ponttal javítja a GPT-5.5 teljesítményét eljárásalapú feladatokon – a skill-dokumentumok tömörek maradnak (300-2000 token), és átvihetők: egy nagyobb modellen tanított skill kisebb modelleket is javít, újratanítás nélkül. Az OpenAI Academy az AI munkahelyi alkalmazására fókuszáló oktatási programot indított, amely a következő munkakorszakra való felkészülést tűzi ki célul."
+    },
+    {
+      "type": "quote",
+      "text": "A Notion mérnökei a Codex segítségével párhuzamosan több feladaton is dolgozhatnak egyszerre, ami korábban nem volt lehetséges."
+    },
+    {
+      "type": "h2",
+      "text": "Mit jelent ez a vállalkozásodnak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ellenőrizz minden AI-vonatkozású tanácsadói anyagot: keresd meg az eredeti forrást, és nézd meg, hogy az érintett szervezet valóban megerősíti-e az állítást – a nagy név nem garancia.",
+        "Vezess be AI-használati mérést a cégedben: rögzítsd, melyik eszközt mire használják, és negyedévente értékeld, hogy a kiadás arányban áll-e a tényleges időmegtakarítással vagy bevételi hatással.",
+        "Vizsgáld meg a nyílt és olcsóbb AI-modell-alternatívákat (pl. Kimi K2.7 Code) szoftverfejlesztési vagy adatfeldolgozási feladatokhoz – az árkülönbség akár 12-szeres is lehet azonos teljesítmény mellett.",
+        "Iratkozz fel az OpenAI Academy kurzusaira, és jelölj ki legalább egy munkatársat, aki strukturáltan sajátítja el az AI-munkafolyamatok alapjait – ez a befektetés a hibrid ember-AI munkakörnyezetre való felkészülés első lépése."
+      ]
+    },
+    {
+      "type": "conclusion",
+      "text": "A 2026-W24-es hét legfontosabb üzenete: az AI-bevezetés érettségi szintje nem az eszközök számán, hanem az ellenőrzés és mérés minőségén mérhető. A modellek teljesítménye és árazása gyorsan javul, az EU-s szabályozási keret közeledik – a tudatos, dokumentált AI-stratégia egyre inkább alapkövetelmény.",
+      "label": "HETI VÉGSZÓ"
+    },
+    {
+      "type": "sources",
+      "label": "Források",
+      "items": [
+        { "title": "KPMG fabricated AI case studies (The Decoder)", "url": "https://the-decoder.com/kpmg-fabricated-ai-case-studies-in-a-report-designed-to-sell-clients-on-ai-adoption/" },
+        { "title": "Learning to lead in a hybrid human-AI enterprise (MIT Technology Review)", "url": "https://www.technologyreview.com/2026/06/09/1137830/learning-to-lead-in-a-hybrid-human-ai-enterprise/" },
+        { "title": "Supporting Europe's trustworthy AI ecosystem (OpenAI)", "url": "https://openai.com/index/supporting-eu-trustworthy-ai-ecosystem" },
+        { "title": "Meta shifts from tokenmaxxing to token managing (The Decoder)", "url": "https://the-decoder.com/meta-shifts-from-tokenmaxxing-to-token-managing-as-internal-ai-costs-reportedly-hit-billions/" },
+        { "title": "Microsoft CEO Satya Nadella admits he's a token-maxer (The Decoder)", "url": "https://the-decoder.com/microsoft-ceo-satya-nadella-admits-hes-a-token-maxer-too-its-addictive/" },
+        { "title": "Kimi K2.7 Code undercuts GPT-5.5 and Claude by up to 12x (The Decoder)", "url": "https://the-decoder.com/moonshots-open-model-kimi-k2-7-code-undercuts-gpt-5-5-and-claude-by-up-to-12x-on-price-per-token/" },
+        { "title": "What Codex unlocks for Notion (OpenAI)", "url": "https://openai.com/index/notion" },
+        { "title": "New OpenAI Academy courses for the next era of work (OpenAI)", "url": "https://openai.com/index/academy-courses-applying-ai-at-work" },
+        { "title": "Microsoft's SkillOpt boosts GPT-5.5 with a Markdown file (The Decoder)", "url": "https://the-decoder.com/microsofts-skillopt-boosts-gpt-5-5-by-using-nothing-but-a-trained-markdown-file/" },
+        { "title": "Claude Fable 5 outpaces GPT-5.5 on FrontierMath (The Decoder)", "url": "https://the-decoder.com/claude-fable-5-outpaces-gpt-5-5-by-13-points-on-frontiermaths-toughest-problems/" }
+      ]
+    }
+  ],
+  "tag": "AI PULZUS",
+  "isWeekly": true,
+  "coverImage": "/blog/W24/ai_spend_zynai.webp"
+}
