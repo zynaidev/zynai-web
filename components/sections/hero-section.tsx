@@ -248,17 +248,18 @@ export function HeroSection() {
               lineHeight: 1.05,
             }}
           >
-            A vállalkozások hatékonyabbak, ha az AI a folyamataik része —{" "}
-            <TypewriterText text="nem egy különálló eszköz." color="#BDFF00" />
+            Nem több emberre van szükséged,
+            <br />
+            <TypewriterText text="hanem hatékonyabb emberi munkára." color="#BDFF00" />
           </h1>
 
           <p
             className="mt-8 max-w-[50ch] font-sans text-base leading-[1.65] text-text-secondary md:text-lg"
           >
-            Bakos Attila vagyok — AI integrációval alakítom át az üzleti
-            folyamatokat. Ez az oldal bemutatja a módszertanomat, a
-            megvalósított projektjeimet és azt, amit ma az AI-ról tényszerűen
-            érdemes tudni.
+            Ajánlatadás, e-mailezés, adatrögzítés, riportolás — a legtöbb
+            cégnél ezek viszik el a hét felét. Megmutatom, melyik váltható ki,
+            és mi lesz belőle. Bakos Attila vagyok, AI integrátor és üzleti
+            tanácsadó.
           </p>
 
           <div
@@ -269,10 +270,10 @@ export function HeroSection() {
                 "inline-flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 font-sans text-sm font-semibold text-[var(--accent-on-light)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_24px_var(--accent-glow)]",
                 "w-full md:w-auto",
               )}
-              href="#munkak"
-              onClick={handleAnchorClick("munkak")}
+              href="#idorablok"
+              onClick={handleAnchorClick("idorablok")}
             >
-              Esettanulmányok
+              Nézzük meg, hol veszítesz időt
               <ArrowRight aria-hidden="true" size={16} />
             </a>
             <a

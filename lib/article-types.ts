@@ -6,11 +6,24 @@ export type ArticleSection =
   | { type: "image"; src: string; alt?: string; caption?: string }
   | { type: "sources"; label?: string; items: { title: string; url: string }[] };
 
+/**
+ * A content/articles/*.json fájlokban ténylegesen előforduló `tag` értékek —
+ * egyetlen forrás, amiből a listaoldal kategória-szűrője is épül.
+ */
+export const ARTICLE_TAGS = [
+  "AI HÍREK",
+  "ÜZLETI ELEMZÉS",
+  "AI PULZUS",
+  "ESETTANULMÁNY",
+] as const;
+
+export type ArticleTag = (typeof ARTICLE_TAGS)[number];
+
 export type Article = {
   slug: string;
   title: string;
   excerpt: string;
-  tag: string;
+  tag: ArticleTag;
   date: string;
   /** ISO 8601 date (YYYY-MM-DD) for SEO and structured data */
   publishedAt?: string;

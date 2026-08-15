@@ -21,6 +21,7 @@ function subscribePrefersReducedMotion(onChange: () => void): () => void {
 
 import { SectionLabel } from "@/components/ui/section-label";
 import { allArticles } from "@/lib/article-loader";
+import { ARTICLE_TAGS } from "@/lib/article-types";
 
 const ARTICLES_PER_PAGE = 9;
 
@@ -28,7 +29,16 @@ const blogArticles = allArticles.filter(
   (a) => a.slug !== "aedificium-design-esettanulmany",
 );
 
-const CATEGORIES = ["ÖSSZES", "AI HÍREK", "ÜZLETI ELEMZÉS"] as const;
+// A pillek csak azokat a tag-eket mutatják, amik ténylegesen előfordulnak
+// a blogArticles feedben — az ARTICLE_TAGS sorrendjét megtartva. Így egy
+// olyan tag (pl. "ESETTANULMÁNY"), aminek egyetlen cikke sincs ebben a
+// feedben, automatikusan nem jelenik meg pilleként, és ha ez a jövőben
+// változik (új esettanulmány kerül a feedbe, vagy egy tag kikerül), a
+// lista magától követi — nincs kézzel karbantartott lista.
+const presentTags = ARTICLE_TAGS.filter((tag) =>
+  blogArticles.some((a) => a.tag === tag),
+);
+const CATEGORIES = ["ÖSSZES", ...presentTags] as const;
 const MotionLink = motion.create(Link);
 
 export default function BlogArchivePage() {

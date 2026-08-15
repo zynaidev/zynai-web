@@ -1,6 +1,14 @@
 import dynamic from "next/dynamic";
 
 import { HeroSection } from "@/components/sections/hero-section";
+const PainPoints = dynamic(
+  () => import("@/components/sections/PainPoints").then((mod) => mod.PainPoints),
+  {
+    loading: () => <div style={{ minHeight: "900px" }} />,
+    ssr: true,
+  }
+);
+
 const IntegrationStack = dynamic(
   () => import("@/components/sections/IntegrationStack").then((mod) => mod.IntegrationStack),
   {
@@ -95,6 +103,7 @@ export default function MarketingHomePage() {
         }}
       />
       <HeroSection />
+      <PainPoints />
       <WhatIsAI />
       <HowIWork />
       <Applications />

@@ -7,7 +7,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { SectionLabel } from "@/components/ui/section-label";
-import { getArticleBySlug } from "@/lib/articles";
+import { getArticleBySlug } from "@/lib/article-loader";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const STATS = [

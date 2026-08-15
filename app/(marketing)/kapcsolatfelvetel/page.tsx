@@ -2,11 +2,13 @@
 
 import {
   type FormEvent,
+  Suspense,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -231,9 +233,28 @@ function stepSlideProps(direction: "forward" | "back") {
   };
 }
 
-export default function KapcsolatfelvetelPage() {
+function KapcsolatfelvetelForm() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // A PainPoints szekció kártyáiról érkező ?pain=<id> csak akkor érvényes,
+  // ha a PAIN_POINTS listában szereplő, valódi id — az "egyeb" kivétel,
+  // mert az a wizard szabad szöveges opciója, nem előre bejelölhető pont.
+  // Hibás/hamis érték esetén némán figyelmen kívül hagyjuk.
+  const rawPain = searchParams.get("pain");
+  const validPainId =
+    rawPain && rawPain !== "egyeb" && PAIN_POINTS.some((p) => p.id === rawPain)
+      ? rawPain
+      : null;
+
   const [currentStep, setCurrentStep] = useState(0);
-  const [fields, setFields] = useState<FieldsState>(initialFields);
+  const [fields, setFields] = useState<FieldsState>(() =>
+    validPainId
+      ? { ...initialFields, painPoints: [validPainId] }
+      : initialFields,
+  );
+  const [cameFromPainPoint] = useState(() => validPainId !== null);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -243,6 +264,17 @@ export default function KapcsolatfelvetelPage() {
 
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const focusRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const strippedPainParamRef = useRef(false);
+
+  // A ?pain= paramot csak az induláshoz használjuk — miután beolvastuk,
+  // eltüntetjük az URL-ből, hogy frissítésnél vagy megosztásnál ne
+  // maradjon ott, és a beküldés utáni URL is tiszta legyen.
+  useEffect(() => {
+    if (!strippedPainParamRef.current && searchParams.get("pain")) {
+      strippedPainParamRef.current = true;
+      router.replace(pathname, { scroll: false });
+    }
+  }, [searchParams, pathname, router]);
 
   const clearAdvanceTimeout = useCallback(() => {
     if (advanceTimeoutRef.current) {
@@ -721,6 +753,12 @@ export default function KapcsolatfelvetelPage() {
                             {step.type === "checkbox-multi" &&
                               step.field === "painPoints" && (
                                 <div>
+                                  {cameFromPainPoint ? (
+                                    <p className="mb-4 text-[13px] text-[var(--text-tertiary)]">
+                                      Ezt jelölted be az előbb — egészítsd ki,
+                                      ha több is igaz.
+                                    </p>
+                                  ) : null}
                                   <div className="flex flex-wrap gap-3">
                                     {PAIN_POINTS.map((opt) => {
                                       const sel = fields.painPoints.includes(
@@ -944,5 +982,15 @@ export default function KapcsolatfelvetelPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function KapcsolatfelvetelPage() {
+  return (
+    <Suspense
+      fallback={<div className="min-h-screen bg-[var(--bg-base)] pt-32 pb-24" />}
+    >
+      <KapcsolatfelvetelForm />
+    </Suspense>
   );
 }
