@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 
+import { painPointLabel } from "@/lib/contact-types";
+
 function escapeHtml(value: unknown): string {
   if (value === null || value === undefined) return "";
   return String(value)
@@ -44,7 +46,8 @@ export async function POST(req: Request) {
       company,
       website,
       teamSize,
-      biggestChallenge,
+      painPoints,
+      painPointOther,
       aiStage,
       availability,
       privacyAccepted,
@@ -53,14 +56,17 @@ export async function POST(req: Request) {
     const nameStr = typeof name === "string" ? name.trim() : "";
     const emailStr = typeof email === "string" ? email.trim() : "";
     const websiteStr = typeof website === "string" ? website.trim() : "";
-    const challengeStr =
-      typeof biggestChallenge === "string" ? biggestChallenge.trim() : "";
+    const painPointIds = Array.isArray(painPoints)
+      ? painPoints.filter((p): p is string => typeof p === "string")
+      : [];
+    const painPointOtherStr =
+      typeof painPointOther === "string" ? painPointOther.trim() : "";
 
-    if (!nameStr || !emailStr || !challengeStr) {
+    if (!nameStr || !emailStr || painPointIds.length === 0) {
       return Response.json(
         {
           error:
-            "Hiányzó kötelező mezők: név, e-mail és legnagyobb kihívás kötelező.",
+            "Hiányzó kötelező mezők: név, e-mail és legalább egy időrabló folyamat kötelező.",
         },
         { status: 400 },
       );
@@ -75,6 +81,8 @@ export async function POST(req: Request) {
 
     const resend = new Resend(apiKey);
 
+    const painPointLabels = painPointIds.map((id) => painPointLabel(id) ?? id);
+
     const html = `<!DOCTYPE html>
 <html lang="hu">
 <head><meta charset="utf-8"/></head>
@@ -87,7 +95,8 @@ export async function POST(req: Request) {
       ${formatField("Cég", company)}
       ${formatField("Cég weboldala", websiteStr ? websiteStr : "Nem adta meg")}
       ${formatField("Csapatméret", teamSize)}
-      ${formatField("Legnagyobb kihívás", challengeStr)}
+      ${formatField("Időrabló folyamatok", painPointLabels.join(", "))}
+      ${painPointOtherStr ? formatField("Egyéb (saját megfogalmazás)", painPointOtherStr) : ""}
       ${formatField("AI szakasz", aiStage)}
       ${formatField("Elérhetőség / időpont", availability)}
       ${formatField("Adatvédelem elfogadva", true)}
@@ -112,7 +121,7 @@ export async function POST(req: Request) {
 
     // N8N webhook — fire and forget, nem blokkolja a választ
     try {
-      await fetch("https://n8n.zynai.hu/webhook/zynai-urlap", {
+      await fetch("https://n8n.zynai.hu/webhook-test/zynai-urlap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -121,7 +130,9 @@ export async function POST(req: Request) {
           company: company ?? "",
           website: websiteStr,
           teamSize: teamSize ?? "",
-          biggestChallenge: challengeStr,
+          painPoints: painPointIds,
+          painPointLabels,
+          painPointOther: painPointOtherStr,
           aiStage: aiStage ?? "",
           availability: availability ?? "",
           submittedAt: new Date().toISOString(),

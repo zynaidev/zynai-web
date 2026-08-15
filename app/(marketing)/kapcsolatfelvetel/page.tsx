@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { PAIN_POINTS } from "@/lib/contact-types";
 
 const TOTAL_STEPS = 7;
 
@@ -62,12 +63,10 @@ const CONVERSATION_STEPS = [
     required: false,
   },
   {
-    question: "Mi veszi el a legtöbb időt a munkában?",
-    subtext: "Leírhatod szabadon — nem kell tökéletesnek lennie.",
-    type: "textarea",
-    field: "biggestChallenge",
-    placeholder:
-      "pl. ajánlatkészítés, ügyfélkommunikáció, riportok összeállítása...",
+    question: "Mi veszi el a legtöbb időt a munkátokban?",
+    subtext: "Válaszd ki az összeset, ami jellemző.",
+    type: "checkbox-multi",
+    field: "painPoints",
     required: true,
   },
   {
@@ -83,7 +82,7 @@ const CONVERSATION_STEPS = [
     required: false,
   },
   {
-    question: "Mikor lenne ideális neked a 30 perces audit?",
+    question: "Mikor lenne ideális neked a 30 perces átbeszélés?",
     subtext: "30 perc, díjmentes, nincs elköteleződés.",
     type: "radio",
     field: "availability",
@@ -99,10 +98,10 @@ const AFTER_STEPS = [
   },
   {
     title: "Felveszem veled a kapcsolatot",
-    desc: "Egyeztetünk egy 30 perces díjmentes AI auditon, ahol konkrét lehetőségeket nézünk át.",
+    desc: "Egyeztetünk egy 30 perces díjmentes átbeszélésen, ahol konkrét lehetőségeket nézünk át.",
   },
   {
-    title: "Audit — elköteleződés nélkül",
+    title: "Átbeszélés — elköteleződés nélkül",
     desc: "Díjmentes, kockázatmentes. Választ kapsz a kérdéseidre, konkrét képet a lehetőségekről.",
   },
 ] as const;
@@ -202,7 +201,8 @@ type FieldsState = {
   company: string;
   website: string;
   teamSize: string;
-  biggestChallenge: string;
+  painPoints: string[];
+  painPointOther: string;
   aiStage: string;
   availability: string;
   privacyAccepted: boolean;
@@ -214,7 +214,8 @@ const initialFields: FieldsState = {
   company: "",
   website: "",
   teamSize: "",
-  biggestChallenge: "",
+  painPoints: [],
+  painPointOther: "",
   aiStage: "",
   availability: "",
   privacyAccepted: false,
@@ -283,7 +284,10 @@ export default function KapcsolatfelvetelPage() {
           teamSize: fields.teamSize || undefined,
           aiStage: fields.aiStage || undefined,
           availability: fields.availability || undefined,
-          biggestChallenge: fields.biggestChallenge.trim(),
+          painPoints: fields.painPoints,
+          painPointOther: fields.painPoints.includes("egyeb")
+            ? fields.painPointOther.trim()
+            : undefined,
           privacyAccepted: fields.privacyAccepted === true,
         }),
       });
@@ -329,11 +333,16 @@ export default function KapcsolatfelvetelPage() {
     if (step.type === "radio") {
       return true;
     }
-    if (step.type === "textarea") {
-      if (!fields.biggestChallenge.trim()) {
-        setStepError(
-          "Kérlek, írd le, mi a legnagyobb időrabló folyamat a cégednél.",
-        );
+    if (step.type === "checkbox-multi") {
+      if (fields.painPoints.length === 0) {
+        setStepError("Kérlek, válassz ki legalább egy lehetőséget.");
+        return false;
+      }
+      if (
+        fields.painPoints.includes("egyeb") &&
+        fields.painPointOther.trim().length < 3
+      ) {
+        setStepError("Kérlek, írd le pár szóban, mire gondolsz.");
         return false;
       }
       return true;
@@ -387,6 +396,19 @@ export default function KapcsolatfelvetelPage() {
     }, 400);
   }
 
+  function togglePainPoint(id: string) {
+    setStepError("");
+    setFields((f) => {
+      const has = f.painPoints.includes(id);
+      return {
+        ...f,
+        painPoints: has
+          ? f.painPoints.filter((p) => p !== id)
+          : [...f.painPoints, id],
+      };
+    });
+  }
+
   function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return;
     const t = e.currentTarget.type;
@@ -434,7 +456,7 @@ export default function KapcsolatfelvetelPage() {
           >
             Töltsd ki az alábbi űrlapot — feldolgozom a megküldött információkat,
             áttekintem a céggel kapcsolatos publikus adatokat, majd felveszem
-            veled a kapcsolatot egy díjmentes 30 perces AI audit egyeztetéséhez.
+            veled a kapcsolatot egy díjmentes 30 perces átbeszélés egyeztetéséhez.
           </p>
         </header>
 
@@ -696,29 +718,75 @@ export default function KapcsolatfelvetelPage() {
                                 </div>
                               )}
 
-                            {step.type === "textarea" && (
-                              <motion.textarea
-                                ref={
-                                  focusRef as React.RefObject<HTMLTextAreaElement>
-                                }
-                                id="kf-step-challenge"
-                                name="biggestChallenge"
-                                value={fields.biggestChallenge}
-                                onChange={(e) =>
-                                  setFields((f) => ({
-                                    ...f,
-                                    biggestChallenge: e.target.value,
-                                  }))
-                                }
-                                placeholder={step.placeholder}
-                                className={cn(
-                                  inputClass,
-                                  "min-h-[140px] resize-none",
-                                )}
-                                rows={4}
-                                aria-invalid={!!stepError}
-                              />
-                            )}
+                            {step.type === "checkbox-multi" &&
+                              step.field === "painPoints" && (
+                                <div>
+                                  <div className="flex flex-wrap gap-3">
+                                    {PAIN_POINTS.map((opt) => {
+                                      const sel = fields.painPoints.includes(
+                                        opt.id,
+                                      );
+                                      return (
+                                        <button
+                                          key={opt.id}
+                                          type="button"
+                                          role="checkbox"
+                                          aria-checked={sel}
+                                          onClick={() =>
+                                            togglePainPoint(opt.id)
+                                          }
+                                          className={cn(
+                                            pillBase,
+                                            !sel && pillHoverUnselected,
+                                            sel && pillSelected,
+                                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BDFF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]",
+                                          )}
+                                        >
+                                          {opt.label}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+
+                                  <AnimatePresence initial={false}>
+                                    {fields.painPoints.includes("egyeb") && (
+                                      <motion.div
+                                        key="pain-point-other"
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{
+                                          opacity: 1,
+                                          height: "auto",
+                                        }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{
+                                          duration: 0.26,
+                                          ease: "easeOut",
+                                        }}
+                                        className="overflow-hidden"
+                                      >
+                                        <textarea
+                                          id="kf-pain-point-other"
+                                          name="painPointOther"
+                                          value={fields.painPointOther}
+                                          onChange={(e) =>
+                                            setFields((f) => ({
+                                              ...f,
+                                              painPointOther: e.target.value,
+                                            }))
+                                          }
+                                          placeholder="Írd le pár szóban…"
+                                          className={cn(
+                                            inputClass,
+                                            "mt-4 min-h-[100px] resize-none",
+                                          )}
+                                          rows={3}
+                                          aria-invalid={!!stepError}
+                                        />
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              )}
 
                             {currentStep === 6 && (
                               <div className="mt-6 flex items-start gap-3">
