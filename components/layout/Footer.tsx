@@ -127,7 +127,7 @@ export function Footer() {
               <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
               <ul className="space-y-3">
                 {[
-                  { label: "Időpontfoglalás", href: "/kapcsolatfelvetel" },
+                  { label: "Időpontfoglalás", href: "/idopontfoglalas" },
                   { label: "info@zynai.hu", href: "mailto:info@zynai.hu" },
                   { label: "Adatvédelem", href: "/adatvedelem" },
                 ].map((link) => (
