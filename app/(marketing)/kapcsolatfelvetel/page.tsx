@@ -14,6 +14,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { PAIN_POINTS } from "@/lib/contact-types";
+import { CalEmbed } from "@/components/CalEmbed";
 
 const TOTAL_STEPS = 7;
 
@@ -530,6 +531,19 @@ function KapcsolatfelvetelForm() {
                     <p className="mt-3 text-[15px] text-[var(--text-secondary)]">
                       Az első lépés mindig a legnehezebb, te már megtetted.
                     </p>
+
+                    <div className="mt-10 w-full border-t border-[rgba(255,255,255,0.08)] pt-10">
+                      <h4 className="font-display text-[18px] font-medium text-[var(--text-primary)]">
+                        Foglalj időpontot most
+                      </h4>
+                      <p className="mt-3 text-[15px] text-[var(--text-secondary)]">
+                        Ha nem akarsz e-mailre várni, válassz egy időpontot
+                        itt.
+                      </p>
+                      <div className="mt-6">
+                        <CalEmbed />
+                      </div>
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.div
