@@ -541,7 +541,7 @@ function KapcsolatfelvetelForm() {
                         itt.
                       </p>
                       <div className="mt-6">
-                        <CalEmbed />
+                        <CalEmbed layout="month_view" />
                       </div>
                     </div>
                   </motion.div>

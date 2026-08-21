@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
+import type { PrefillAndIframeAttrsConfig } from "@calcom/embed-core";
 
 import { cn } from "@/lib/utils";
 
@@ -15,8 +16,26 @@ const CAL_EMAIL = "info@zynai.hu";
 // a látogató sosem maradhat üres felület előtt.
 const LOAD_TIMEOUT_MS = 10_000;
 
+// A @calcom/embed-core publikus felületén nincs önállóan exportálva a
+// BookerLayouts unió — a PrefillAndIframeAttrsConfig (a <Cal config={...}>
+// prop valódi típusa) "layout" mezőjéből vezetjük le, hogy pontosan azt a
+// három értéket ("month_view" | "week_view" | "column_view") fogadjuk el,
+// amit a csomag ténylegesen ismer, string helyett.
+type CalLayout = NonNullable<PrefillAndIframeAttrsConfig["layout"]>;
+
+// A "column_view"/"week_view" napi oszlopokat jelenít meg egymás mellett,
+// ezért érdemben magasabb helyet igényel, mint a kompaktabb "month_view" —
+// enélkül a szűkebb (pl. kapcsolatfelvételi kártyában lévő) elhelyezés
+// belső görgetésre kényszerülne.
+const CAL_HEIGHT_CLASSES: Record<CalLayout, string> = {
+  month_view: "h-[520px] sm:h-[600px] lg:h-[680px]",
+  week_view: "h-[640px] sm:h-[780px] lg:h-[900px]",
+  column_view: "h-[640px] sm:h-[780px] lg:h-[900px]",
+};
+
 type CalEmbedProps = {
   className?: string;
+  layout?: CalLayout;
 };
 
 /**
@@ -24,7 +43,7 @@ type CalEmbedProps = {
  * kapcsolatfelvételi űrlap sikeres beküldés utáni nézete is ezt használja,
  * hogy a téma/branding konfiguráció egy helyen éljen.
  */
-export function CalEmbed({ className }: CalEmbedProps) {
+export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading",
   );
@@ -89,11 +108,8 @@ export function CalEmbed({ className }: CalEmbedProps) {
   return (
     <div
       className={cn(
-        // A "column_view" elrendezés napi oszlopokat jelenít meg egymás
-        // mellett, ezért érdemben magasabb (és szélesebb) helyet igényel,
-        // mint a korábbi "month_view" — ami már önmagában is belső
-        // görgetésre kényszerült a régi 520/600/680px-es magasságoknál.
-        "relative h-[640px] w-full sm:h-[780px] lg:h-[900px]",
+        "relative w-full",
+        CAL_HEIGHT_CLASSES[layout],
         className,
       )}
     >
@@ -101,7 +117,7 @@ export function CalEmbed({ className }: CalEmbedProps) {
       <Cal
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
-        config={{ theme: "dark", layout: "column_view" }}
+        config={{ theme: "dark", layout }}
         style={{ width: "100%", height: "100%", overflow: "auto" }}
         className={cn(
           "rounded-2xl transition-opacity duration-300",
