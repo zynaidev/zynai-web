@@ -89,7 +89,11 @@ export function CalEmbed({ className }: CalEmbedProps) {
   return (
     <div
       className={cn(
-        "relative h-[520px] w-full sm:h-[600px] lg:h-[680px]",
+        // A "column_view" elrendezés napi oszlopokat jelenít meg egymás
+        // mellett, ezért érdemben magasabb (és szélesebb) helyet igényel,
+        // mint a korábbi "month_view" — ami már önmagában is belső
+        // görgetésre kényszerült a régi 520/600/680px-es magasságoknál.
+        "relative h-[640px] w-full sm:h-[780px] lg:h-[900px]",
         className,
       )}
     >
@@ -97,7 +101,7 @@ export function CalEmbed({ className }: CalEmbedProps) {
       <Cal
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
-        config={{ theme: "dark", layout: "month_view" }}
+        config={{ theme: "dark", layout: "column_view" }}
         style={{ width: "100%", height: "100%", overflow: "auto" }}
         className={cn(
           "rounded-2xl transition-opacity duration-300",
