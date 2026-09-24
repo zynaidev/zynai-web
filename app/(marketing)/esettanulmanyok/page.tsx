@@ -118,6 +118,81 @@ export default function CaseStudiesIndexPage() {
             />
           </a>
 
+          <a
+            className="group relative overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] transition-colors hover:border-[var(--border-default)]"
+            href="/esettanulmanyok/silverlimo"
+          >
+            <div className="relative h-[220px] overflow-hidden rounded-t-2xl">
+              <Image
+                alt="SilverLimo weboldal"
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                fill
+                src="/esettanulmanyok/silverlimo_hero.webp"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 z-[1] bg-[rgba(9,9,11,0.25)]"
+              />
+            </div>
+
+            <div className="p-8">
+              <span className="inline-block font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--accent)] opacity-80">
+                ESETTANULMÁNY
+              </span>
+
+              <h2 className="mt-3 font-display text-[22px] font-medium text-[var(--text-primary)]">
+                SilverLimo × ZynAI
+              </h2>
+
+              <p className="mt-3 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
+                14× gyorsabb első tartalom és 24× gyorsabb szerverválasz.
+              </p>
+
+              <div className="mt-6 flex gap-6">
+                <div>
+                  <p className="font-display text-[24px] text-[#BDFF00]">
+                    14×
+                  </p>
+                  <p className="mt-0.5 font-mono text-[11px] uppercase text-[var(--text-tertiary)]">
+                    első tartalom
+                  </p>
+                </div>
+                <div>
+                  <p className="font-display text-[24px] text-[#BDFF00]">
+                    24×
+                  </p>
+                  <p className="mt-0.5 font-mono text-[11px] uppercase text-[var(--text-tertiary)]">
+                    szerverválasz
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)] transition-colors duration-200 group-hover:text-[#BDFF00]">
+                Elolvasom
+                <ArrowRight
+                  aria-hidden
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                  size={12}
+                />
+              </div>
+            </div>
+
+            <div
+              className="pointer-events-none absolute bottom-0 left-0 right-0"
+              data-hover-line
+              style={{
+                height: "2px",
+                background:
+                  "linear-gradient(to right, transparent 0%, rgba(189,255,0,0.8) 20%, rgba(189,255,0,1) 50%, rgba(189,255,0,0.8) 80%, transparent 100%)",
+                boxShadow:
+                  "0 0 12px rgba(189,255,0,0.6), 0 0 24px rgba(189,255,0,0.3)",
+                transform: "scaleX(0)",
+                transformOrigin: "left center",
+                transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            />
+          </a>
+
           <div className="flex min-h-[300px] items-center justify-center rounded-2xl border border-dashed border-[rgba(255,255,255,0.08)] p-8">
             <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
               Hamarosan újabb esettanulmányok
