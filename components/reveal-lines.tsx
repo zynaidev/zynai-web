@@ -2,8 +2,7 @@
 
 import {
   Children,
-  type ComponentPropsWithoutRef,
-  type ElementType,
+  type CSSProperties,
   type ReactNode,
   useEffect,
   useState,
@@ -18,25 +17,28 @@ import {
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const STEM = "0.22em";
 
-type RevealLinesProps<T extends ElementType = "div"> = {
+type RevealTag = "div" | "h1" | "h2" | "h3" | "p";
+
+type RevealLinesProps = {
   children: ReactNode;
   delay?: number;
   stagger?: number;
-  as?: T;
+  as?: RevealTag;
   className?: string;
-} & Omit<ComponentPropsWithoutRef<T>, "as" | "children">;
+  style?: CSSProperties;
+};
 
-export function RevealLines<T extends ElementType = "div">({
+export function RevealLines({
   children,
   delay = 0,
   stagger = REVEAL_LINE_STAGGER_MS,
-  as,
+  as = "div",
   className,
-  ...rest
-}: RevealLinesProps<T>) {
-  const Tag = (as ?? "div") as ElementType;
-  const LineTag =
-    Tag === "h1" || Tag === "h2" || Tag === "h3" || Tag === "h4" ? "span" : "div";
+  style,
+}: RevealLinesProps) {
+  const Tag = as;
+  const LineTag: "span" | "div" =
+    Tag === "h1" || Tag === "h2" || Tag === "h3" ? "span" : "div";
   const reduced = useReducedMotion();
   const [canAnimate, setCanAnimate] = useState(false);
   const [entered, setEntered] = useState(false);
@@ -62,7 +64,7 @@ export function RevealLines<T extends ElementType = "div">({
   // Így JS nélkül és az LCP-méréskor is olvasható.
 
   return (
-    <Tag className={className} {...rest}>
+    <Tag className={className} style={style}>
       {Children.map(children, (child, index) => {
         if (child == null || child === false) return child;
         const wait = delay + index * stagger;
@@ -72,7 +74,7 @@ export function RevealLines<T extends ElementType = "div">({
             style={{ paddingBottom: STEM }}
           >
             <LineTag
-            className="reveal-line__inner block"
+              className="reveal-line__inner block"
               style={{
                 marginBottom: `-${STEM}`,
                 paddingBottom: STEM,
