@@ -17,6 +17,14 @@ import {
   X,
 } from "lucide-react";
 
+import { HeroGrain } from "@/components/hero-grain";
+import { heroLayers } from "@/components/hero-layers";
+import { RevealLines } from "@/components/reveal-lines";
+import {
+  heroShimmerStartMs,
+  revealLineFinishMs,
+} from "@/components/reveal-lines-timing";
+import { Shimmer } from "@/components/shimmer";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
 import { Reveal } from "@/components/animations/reveal";
@@ -267,30 +275,34 @@ function SectionHeading({ children }: { children: ReactNode }) {
 
 function PrimaryCta({ label, full }: { label: string; full?: boolean }) {
   return (
-    <a
-      href="#jelentkezes"
-      className={`group relative inline-flex overflow-hidden rounded-full ${
-        full ? "w-full" : ""
-      }`}
+    <span
+      className={`inline-flex rounded-full ${full ? "w-full" : ""}`}
       style={{
         boxShadow: "0 0 40px rgba(189,255,0,0.3), 0 0 80px rgba(189,255,0,0.1)",
       }}
     >
-      <span className="flex flex-1 items-center justify-center px-8 py-4 text-[15px] font-medium text-[#09090B] bg-[#BDFF00]">
-        {label}
-      </span>
-      <span
-        aria-hidden
-        className="pointer-events-none w-px shrink-0 self-stretch bg-[rgba(9,9,11,0.15)]"
-      />
-      <span className="flex items-center bg-[#BDFF00] px-5 py-4">
-        <ArrowRight
+      <a
+        href="#jelentkezes"
+        className={`group relative inline-flex overflow-hidden rounded-full ${
+          full ? "w-full" : ""
+        }`}
+      >
+        <span className="flex flex-1 items-center justify-center bg-[#BDFF00] px-8 py-4 text-[15px] font-medium text-[#09090B]">
+          {label}
+        </span>
+        <span
           aria-hidden
-          size={16}
-          className="text-[#09090B] transition-transform duration-200 group-hover:translate-x-0.5"
+          className="pointer-events-none w-px shrink-0 self-stretch bg-[rgba(9,9,11,0.15)]"
         />
-      </span>
-    </a>
+        <span className="flex items-center bg-[#BDFF00] px-5 py-4">
+          <ArrowRight
+            aria-hidden
+            size={16}
+            className="text-[#09090B] transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </span>
+      </a>
+    </span>
   );
 }
 
@@ -308,22 +320,15 @@ export default function VibeCodingPilotPage() {
       <PilotStickyCta />
 
       {/* 1. Hero */}
-      <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-24">
+      <section className="relative pt-14 pb-20 sm:pt-16 lg:pt-20 lg:pb-24">
+        <HeroGrain />
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[-10%] z-0 h-[560px] w-[880px] -translate-x-1/2"
-          style={{
-            background:
-            "radial-gradient(ellipse at center, rgba(189,255,0,0.12) 0%, transparent 68%)",
-            filter: "blur(50px)",
-          }}
+          className="hero-dot-grid pointer-events-none absolute inset-0"
+          style={{ zIndex: heroLayers.grid }}
         />
-        <div
-          aria-hidden
-          className="hero-dot-grid pointer-events-none absolute inset-0 z-0"
-        />
-        <Container className="relative z-10">
-          <div className="mx-auto max-w-3xl text-center">
+        <Container className="relative" style={{ zIndex: heroLayers.content }}>
+          <div className="mx-auto mb-16 max-w-3xl text-center lg:mb-20">
             <Reveal>
               <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-4 py-1.5 text-center font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-[#BDFF00] sm:text-[11px] sm:tracking-[0.14em]">
                 <span className="relative flex size-2 shrink-0">
@@ -337,20 +342,33 @@ export default function VibeCodingPilotPage() {
                 </span>
               </span>
             </Reveal>
-            <Reveal delay={0.05}>
-              <h1
-                className="mt-7 font-display font-medium text-[var(--text-primary)]"
+            <Shimmer className="mt-7 block" delayMs={heroShimmerStartMs(1)}>
+              <RevealLines
+                as="h1"
+                className="font-display font-medium text-[var(--text-primary)]"
                 style={{
                   fontSize: "clamp(36px, 6vw, 64px)",
                   letterSpacing: "-0.03em",
                   lineHeight: 1.05,
                 }}
               >
-                Építs AI-jal weboldalt — úgy, hogy{" "}
-                <span className="text-[#BDFF00]">érted is</span>, mit csinálsz
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
+                <span className="hero-laminate">
+                  Építs AI-jal weboldalt — úgy, hogy
+                </span>
+                <span>
+                  <span
+                    className="hero-laminate hero-laminate--accent hero-draw-underline"
+                    style={{
+                      ["--hero-draw-delay" as string]: `${revealLineFinishMs(1)}ms`,
+                    }}
+                  >
+                    érted is
+                  </span>
+                  <span className="hero-laminate">, mit csinálsz</span>
+                </span>
+              </RevealLines>
+            </Shimmer>
+            <RevealLines delay={260}>
               <p className="mx-auto mt-7 max-w-xl text-[18px] leading-[1.7] text-[var(--text-secondary)] lg:text-[20px]">
                 Hat hét, kis csoport, előzetes tapasztalat nélkül. A végére egy
                 bemutatkozó- vagy szolgáltatói oldalt végig tudsz vinni.
@@ -359,12 +377,10 @@ export default function VibeCodingPilotPage() {
                 Technikai előképzettség <Em>nem kell</Em>. Tanulásra való
                 hajlandóság <span className="text-[#BDFF00]">igen</span>.
               </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="mt-10 flex justify-center">
+              <div className="mt-10 flex justify-center px-8 pb-16 pt-6">
                 <PrimaryCta label="Jelentkezem a beszélgetésre" />
               </div>
-            </Reveal>
+            </RevealLines>
           </div>
           <HeroStats />
         </Container>

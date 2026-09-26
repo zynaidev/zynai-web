@@ -84,6 +84,16 @@
   --text-mono: #a1a1aa;
   --accent: #bdff00;
   --accent-glow: rgba(189, 255, 0, 0.15);
+  --hero-bg: var(--bg-base);
+  --hero-accent: var(--accent);
+  --hero-cyan: rgb(64, 196, 208);
+  --hero-grid: rgba(255, 255, 255, 0.08);
+  --hero-grain-opacity: 0.035;
+  --hero-z-background: 0;
+  --hero-z-grid: 1;
+  --hero-z-vignette: 2;
+  --hero-z-content: 10;
+  --hero-underline-ms: 520ms;
   --accent-text: #bdff00;
   --accent-on-light: #1a1a00;
   --space-section-desktop: 64px;
@@ -204,10 +214,105 @@
     letter-spacing: -0.02em;
   }
 
+  .hero-draw-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-draw-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background: var(--hero-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: hero-draw-underline var(--hero-underline-ms, 520ms) ease-out
+      var(--hero-draw-delay, 0ms) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-line__inner {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      transition: none !important;
+    }
+    .hero-draw-underline::after {
+      animation: none;
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes hero-draw-underline {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .hero-laminate {
+    --hero-laminate-fill: var(--text-primary);
+    background-image: linear-gradient(
+      110deg,
+      var(--hero-laminate-fill) 0%,
+      var(--hero-laminate-fill) 42%,
+      color-mix(in srgb, white 72%, var(--hero-laminate-fill)) 50%,
+      var(--hero-laminate-fill) 58%,
+      var(--hero-laminate-fill) 100%
+    );
+    background-size: 220% 100%;
+    background-position: 120% 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: hero-laminate 7s ease-in-out var(--hero-shimmer-delay, 0ms)
+      infinite;
+  }
+
+  .hero-laminate--accent {
+    --hero-laminate-fill: var(--hero-accent);
+  }
+
+  @keyframes hero-laminate {
+    0% {
+      background-position: 120% 50%;
+    }
+    20% {
+      background-position: -20% 50%;
+    }
+    20.01%,
+    100% {
+      background-position: -20% 50%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-laminate {
+      animation: none;
+      background-image: none;
+      color: var(--hero-laminate-fill);
+      -webkit-text-fill-color: var(--hero-laminate-fill);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-laminate {
+      animation: none;
+      background-image: none;
+      color: var(--hero-laminate-fill);
+      -webkit-text-fill-color: var(--hero-laminate-fill);
+    }
+  }
+
   .hero-dot-grid {
     background-image: radial-gradient(
       circle at center,
-      rgba(255, 255, 255, 0.08) 1px,
+      var(--hero-grid) 1px,
       transparent 1px
     );
     background-size: 32px 32px;
@@ -222,7 +327,7 @@
 
   .hero-noise-grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
-    opacity: 0.035;
+    opacity: var(--hero-grain-opacity);
     mix-blend-mode: screen;
   }
 }

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 import { SmoothScroll } from "@/components/animations/smooth-scroll";
 import { Footer } from "@/components/layout/Footer";
@@ -17,11 +18,14 @@ export default function MarketingLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const pathname = usePathname();
+  const hideHeader = pathname === "/vibecoding-pilot";
+
   return (
     <SmoothScroll>
       <div className="flex min-h-screen flex-col">
         <MatrixBackground />
-        <Header />
+        {hideHeader ? null : <Header />}
         <main className="relative z-10 flex-1">{children}</main>
         <Footer />
       </div>

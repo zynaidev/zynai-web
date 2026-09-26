@@ -67,7 +67,7 @@ export function HeroStats() {
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto mt-16 grid w-full grid-cols-2 divide-x divide-y divide-[rgba(255,255,255,0.06)] overflow-hidden rounded-3xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] sm:grid-cols-4 sm:divide-y-0"
+      className="mx-auto grid w-full grid-cols-2 divide-x divide-y divide-[rgba(255,255,255,0.06)] overflow-hidden rounded-3xl border border-[rgba(255,255,255,0.08)] bg-transparent sm:grid-cols-4 sm:divide-y-0"
     >
       {STATS.map((stat) => (
         <StatCell key={stat.label} stat={stat} active={inView} />
