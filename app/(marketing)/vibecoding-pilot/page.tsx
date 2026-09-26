@@ -28,9 +28,9 @@ import { LandingExamples } from "./LandingExamples";
 import { PilotStickyCta } from "./PilotStickyCta";
 
 export const metadata: Metadata = {
-  title: "VibeCoding 1.0 - Pilot — építs AI-jal weboldalt, október 8-tól",
+  title: "VibeCoding 1.0 – Pilot — építs AI-jal weboldalt, október 8-tól",
   description:
-    "VibeCoding 1.0 - Pilot, hat hét. Előzetes tapasztalat nélkül, kész architektúrán tanulod meg a folyamatot egy gyakorlóprojekten, és elindítod a sajátodat.",
+    "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül, kész architektúrán tanulod meg a folyamatot egy gyakorlóprojekten, és elindítod a sajátodat.",
 };
 
 const RESULTS = [
@@ -64,7 +64,7 @@ const WEEKS: {
   },
   {
     n: "04",
-    title: "Designolt oldal",
+    title: "Megtervezett oldal",
     text: "Kapsz egy kész, megtervezett oldalt, és látod, mitől konvertál az egyik, a másik miért nem.",
   },
   {
@@ -89,7 +89,7 @@ const INCLUDES = [
   "Legfeljebb 4 fős kör",
   "Páros rendszer két alkalom között",
   "Zárt Discord-csoport",
-  "A webinárok felvétele 1 évig visszanézhető",
+  "A webinárok felvétele egy évig visszanézhető",
   "+30 nap utánkövetés, utána a fejlesztői közösség",
   "A munkakészlet véglegesen a tiéd",
 ];
@@ -115,7 +115,7 @@ const SUPPORT: { icon: typeof Users; lead: string; text: string }[] = [
 const TOOLKIT: { icon: typeof FileText; label: string }[] = [
   { icon: FileText, label: "Specifikációs sablon" },
   { icon: ScrollText, label: "Projektszabályok" },
-  { icon: Terminal, label: "Prompt-minták" },
+  { icon: Terminal, label: "Promptminták" },
   { icon: ClipboardList, label: "Élesítés előtti ellenőrzőlista" },
   { icon: Map, label: "Menetrend elakadásra" },
 ];
@@ -171,7 +171,7 @@ const SKILLS = [
   },
   {
     lead: "Költség",
-    text: "Kézben tartod, melyik eszköz mire való, és mi drágítja.",
+    text: "Kézben tartod, melyik eszköz mire való, és mi viszi fel a költséget.",
   },
 ];
 
@@ -209,7 +209,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Mi történik, ha elakadok?",
     answer:
-      "Van páros rendszered: két alkalom között van kihez fordulnod. Ha kell, külön élő Q&A alkalmat iktatunk be, és bármilyen elakadásnál addig megyünk, amíg meg nem oldjuk. Emellett zárt Discord-csoport, ahová képernyőképet vagy kérdést küldhetsz — munkanapokon 24 órán belül válaszolok.",
+      "Van páros rendszered: két webinár között van kihez fordulnod. Ha kell, külön élő Q&A alkalmat iktatunk be, és bármilyen elakadásnál addig megyünk, amíg meg nem oldjuk. Emellett zárt Discord-csoport, ahová képernyőképet vagy kérdést küldhetsz — munkanapokon 24 órán belül válaszolok.",
   },
   {
     question: "Windows vagy Mac kell?",
@@ -222,12 +222,12 @@ const FAQ_ITEMS: FaqItem[] = [
       "A tiéd, mindenestül: a kód, a domain, a fiókok. Ez nem mellékes részlet, hanem az egyik dolog, amit itt megtanulsz: minden a tulajdonos nevén legyen.",
   },
   {
-    question: "Élőben zajlanak az alkalmak?",
+    question: "Élőben zajlanak a webinárok?",
     answer:
       "Igen. Tizenkét élő webinár, egyenként 60 perc, plusz egy technikai belépő a képzés előtt. Nem előre felvett videók. Az élő időn a gyakorlóprojekttel dolgozunk, a kérdéseidre ott kapsz választ.",
   },
   {
-    question: "Lesz felvétel az alkalmakról?",
+    question: "Lesz felvétel a webinárokról?",
     answer: "Igen. A webinárok felvétele egy évig visszanézhető.",
   },
 ];
@@ -331,10 +331,8 @@ export default function VibeCodingPilotPage() {
                   <span className="relative inline-flex size-2 rounded-full bg-[#BDFF00]" />
                 </span>
                 <span>
-                  VibeCoding 1.0 - Pilot
-                  <span className="mx-1.5" aria-hidden>
-                    ·
-                  </span>
+                  VibeCoding 1.0 – Pilot
+                  {" · "}
                   <span className="whitespace-nowrap">csak 4 hely</span>
                 </span>
               </span>
@@ -509,7 +507,7 @@ export default function VibeCodingPilotPage() {
                   Prémium weboldal, két hét alatt.
                 </p>
                 <p className="mt-3 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
-                  A stúdió social media elérése{" "}
+                  A stúdió közösségimédia-elérése{" "}
                   <Em>tízszeresére nőtt</Em>.
                 </p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-[#BDFF00]">
@@ -532,13 +530,13 @@ export default function VibeCodingPilotPage() {
         <Container>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 lg:grid-cols-[1fr_minmax(0,380px)] lg:gap-14">
             <Reveal>
-              <SectionLabel number="02" text="VIBECODING 1.0 - PILOT" />
+              <SectionLabel number="02" text="VIBECODING 1.0 – PILOT" />
               <SectionHeading>Belépő az AI-fejlesztés világába</SectionHeading>
               <div className="mt-8 space-y-5 text-[16px] leading-[1.8] text-[var(--text-secondary)]">
                 <p>
                   A tananyag és a munkamódszer kész,{" "}
                   <Em>valódi ügyfélprojektekben készült</Em>. Ezt a képzést
-                  csoportban viszont most tartom először.
+                  viszont most tartom először csoportban.
                 </p>
                 <p>
                   A VibeCoding 1.0 <Em>2027-ben indul</Em>. Ez a Pilot: ezt a
@@ -570,7 +568,7 @@ export default function VibeCodingPilotPage() {
                 />
                 <div className="relative z-10">
                   <span className="inline-flex rounded-full bg-[#BDFF00] px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[#09090B]">
-                    VibeCoding 1.0 - Pilot
+                    VibeCoding 1.0 – Pilot
                   </span>
                   <div className="mt-5 flex items-end gap-2">
                     <span
@@ -629,8 +627,8 @@ export default function VibeCodingPilotPage() {
             <Reveal delay={0.1}>
               <div className="mt-8 space-y-5 text-[16px] leading-[1.8] text-[var(--text-secondary)]">
                 <p>
-                  A legtöbb kezdő annál akad el, hogy{" "}
-                  <Em>ott ül az üres képernyő előtt</Em>, és nem tudja, mit
+                  A legtöbb kezdő ott akad el, hogy{" "}
+                  <Em>csak ül az üres képernyő előtt</Em>, és nem tudja, mit
                   kérjen az AI-tól. Ezért nem a semmiből indulsz.
                 </p>
               </div>
@@ -998,7 +996,7 @@ export default function VibeCodingPilotPage() {
                   <p className="mt-3 text-[18px] leading-[1.7] text-[var(--text-secondary)]">
                     Két előfizetés (Claude és Cursor), és a saját domained.
                     Ezeket közvetlenül a szolgáltatóknak fizeted, a várható
-                    összeget az első beszélgetésen átvesszük.
+                    összeget az első telefonbeszélgetésen átvesszük.
                   </p>
                 </div>
               </div>
@@ -1020,10 +1018,9 @@ export default function VibeCodingPilotPage() {
                 <SectionHeading>Legfeljebb négy hely van</SectionHeading>
                 <p className="mx-auto mt-6 max-w-xl text-[18px] leading-[1.75] text-[var(--text-secondary)]">
                   Heti nagyjából hat óra, a saját kezeddel. A jelentkezés nem
-                  vásárlás: először néhány perces telefonbeszélgetésen
-                  átbeszéljük a céljaidat, hogy mit tudok nyújtani, és a
-                  kérdéseket, amik közben felmerülnek. Ha bármelyikünk úgy
-                  látja, hogy nem illik, azt kimondjuk.
+                  vásárlás: először egy néhány perces telefonbeszélgetésen
+                  átbeszéljük a céljaidat, azt, hogy én mit tudok nyújtani, és
+                  a közben felmerülő kérdéseket.
                 </p>
               </div>
             </Reveal>

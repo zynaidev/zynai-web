@@ -45,7 +45,7 @@ export function PilotStickyCta() {
           <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(13,13,16,0.85)] px-4 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:px-5">
             <div className="min-w-0">
               <p className="truncate font-display text-[14px] font-medium text-[var(--text-primary)] sm:text-[15px]">
-                VibeCoding 1.0 - Pilot
+                VibeCoding 1.0 – Pilot
               </p>
               <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
                 <span className="sm:hidden">br. 49 000 Ft</span>

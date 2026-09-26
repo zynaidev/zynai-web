@@ -68,7 +68,7 @@ export async function POST(req: Request) {
 <html lang="hu">
 <head><meta charset="utf-8"/></head>
 <body style="font-family:system-ui,sans-serif;line-height:1.5;background:#fafafa;padding:24px;">
-  <h1 style="font-size:18px;color:#18181b;margin:0 0 16px;">Új VibeCoding 1.0 - Pilot jelentkezés</h1>
+  <h1 style="font-size:18px;color:#18181b;margin:0 0 16px;">Új VibeCoding 1.0 – Pilot jelentkezés</h1>
   <table style="width:100%;max-width:560px;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);">
     <tbody>
       ${formatField("Név", nameStr)}
@@ -82,9 +82,9 @@ export async function POST(req: Request) {
 </html>`;
 
     const { error } = await resend.emails.send({
-      from: "ZynAI VibeCoding 1.0 - Pilot <onboarding@resend.dev>",
+      from: "ZynAI VibeCoding 1.0 – Pilot <onboarding@resend.dev>",
       to: "zynai.dev@gmail.com",
-      subject: `Új VibeCoding 1.0 - Pilot jelentkezés: ${nameStr}`,
+      subject: `Új VibeCoding 1.0 – Pilot jelentkezés: ${nameStr}`,
       html,
     });
 
