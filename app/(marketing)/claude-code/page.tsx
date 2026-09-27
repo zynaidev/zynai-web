@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   },
   description:
     "Magyarul írod le, mit szeretnél, és pontos hatókörű angol promptot kapsz Claude Code-hoz. Ingyenes eszköz, tíz prompttípussal.",
+  alternates: {
+    canonical: "/claude-code",
+  },
   openGraph: {
     images: [OG_IMAGE],
   },
