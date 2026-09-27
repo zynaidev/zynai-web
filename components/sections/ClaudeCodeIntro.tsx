@@ -26,27 +26,43 @@ export function ClaudeCodeIntro() {
 
           <Shimmer className="mt-7 block" delayMs={heroShimmerStartMs(0)}>
             <RevealLines as="h1" className="type-hero">
-              <span className="hero-laminate">Prompt-építő Claude Code-hoz</span>
+              <span className="hero-laminate">Promptépítő Claude Code-hoz</span>
             </RevealLines>
           </Shimmer>
 
           <p className="type-body-large mx-auto mt-7 max-w-xl">
             Magyarul írod le, mit szeretnél. Angol promptot kapsz, pontos
-            hatókörrel — úgy, ahogy egy valódi projekten is használnám.
+            hatókörrel — úgy, ahogy egy valódi webfejlesztési projekten is
+            használnám.
           </p>
-          <p className="type-body mx-auto mt-5 max-w-xl">
+          <p className="type-body-large mx-auto mt-5 max-w-xl text-text-primary">
             A legtöbb hiba nem ott keletkezik, ahol az AI kódol, hanem ott,
             ahol elindítod. Ha nem mondod meg, melyik fájlt módosíthatja,
             hozzányúl máshoz is. Ha nem kéred, hogy előbb olvasson,
             találgatni fog. Ha nem zárod le, megy tovább. Ez az eszköz
             ezeket teszi bele helyetted.
           </p>
-          <p className="type-body mx-auto mt-5 max-w-xl">
+          <div className="mx-auto mt-6 max-w-xl rounded-lg border-l-2 border-accent bg-accent-glow p-card-mobile text-left md:p-card-desktop">
+            <p className="type-body">
+              <strong className="font-medium text-text-primary">
+                Mire való:
+              </strong>{" "}
+              weboldalak és webalkalmazások fejlesztése Claude Code-dal —
+              fájlok módosítása, hibakeresés, megjelenés, publikálás.
+            </p>
+            <p className="type-body mt-3">
+              <strong className="font-medium text-text-primary">
+                Mire nem:
+              </strong>{" "}
+              általános szövegírás, kutatás, ötletelés. Ezekhez másfajta
+              promptok kellenek.
+            </p>
+          </div>
+          <p className="mx-auto mt-6 max-w-xl text-sm text-text-tertiary">
             A prompt angolul pontosabb, mert a modellek túlnyomórészt angol
             kódon és angol dokumentáción tanultak. A jelentést viszont
-            magyarul kéred vissza, mert azt neked kell értened. Ez nem stílus
-            kérdése: a saját projektedet a végén neked kell tudnod
-            karbantartani.
+            magyarul kéred vissza, mert azt neked kell értened: a saját
+            projektedet a végén neked kell tudnod karbantartani.
           </p>
         </div>
       </Container>

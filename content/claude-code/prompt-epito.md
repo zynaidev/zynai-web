@@ -1,4 +1,4 @@
-# Prompt-építő — szövegkészlet
+# Promptépítő — szövegkészlet
 
 > A `docs/szovegek/` mappába. Minden látható szöveg innen jön.
 > Készült: 2026. szeptember 27.
@@ -9,15 +9,19 @@
 
 **Kis címke:** Ingyenes eszköz
 
-**Cím:** Prompt-építő Claude Code-hoz
+**Cím:** Promptépítő Claude Code-hoz
 
-**Alcím:** Magyarul írod le, mit szeretnél. Angol promptot kapsz, pontos hatókörrel — úgy, ahogy egy valódi projekten is használnám.
+**Alcím:** Magyarul írod le, mit szeretnél. Angol promptot kapsz, pontos hatókörrel — úgy, ahogy egy valódi webfejlesztési projekten is használnám.
 
-**Bevezető bekezdés:**
+**Első bekezdés (kiemelt):**
 A legtöbb hiba nem ott keletkezik, ahol az AI kódol, hanem ott, ahol elindítod. Ha nem mondod meg, melyik fájlt módosíthatja, hozzányúl máshoz is. Ha nem kéred, hogy előbb olvasson, találgatni fog. Ha nem zárod le, megy tovább. Ez az eszköz ezeket teszi bele helyetted.
 
-**Miért angol a prompt:**
-A prompt angolul pontosabb, mert a modellek túlnyomórészt angol kódon és angol dokumentáción tanultak. A jelentést viszont magyarul kéred vissza, mert azt neked kell értened. Ez nem stílus kérdése: a saját projektedet a végén neked kell tudnod karbantartani.
+**Hatókör-blokk (kiemelt dobozban):**
+Mire való: weboldalak és webalkalmazások fejlesztése Claude Code-dal — fájlok módosítása, hibakeresés, megjelenés, publikálás.
+Mire nem: általános szövegírás, kutatás, ötletelés. Ezekhez másfajta promptok kellenek.
+
+**Második bekezdés (halványabb, kisebb):**
+A prompt angolul pontosabb, mert a modellek túlnyomórészt angol kódon és angol dokumentáción tanultak. A jelentést viszont magyarul kéred vissza, mert azt neked kell értened: a saját projektedet a végén neked kell tudnod karbantartani.
 
 ---
 
@@ -589,6 +593,12 @@ Még nincs mentett promptod. Ha összeállítasz egyet, amit többször is haszn
 **Adatkezelési megjegyzés:**
 Amit ide beírsz, a saját böngésződben marad. Nem küldjük el sehová, és nem tároljuk. Ha törlöd a böngésződ adatait, a mentett promptjaid is eltűnnek — ezért van a letöltés gomb.
 
+**Futásidejű üzenetek:**
+- Tárolás nem elérhető: A mentés jelenleg nem érhető el ebben a böngészőben.
+- Mentés sikertelen: A mentés nem sikerült — valószínűleg megtelt a böngésző tárhelye, vagy le van tiltva.
+- Visszatöltés sikertelen: A fájl nem olvasható be, vagy a mentés nem sikerült.
+- Visszatöltés eredménye: [hozzáadott szám] bejegyzés hozzáadva, [kihagyott szám] kihagyva.
+
 ---
 
 ## 5. A három szabály (kiemelt blokk az eszköz alatt)
@@ -660,6 +670,6 @@ A VibeCoding képzésen ezt tanítom: nem a kódolást, hanem a döntéseket. Mi
 
 ## 8. Meta
 
-**Oldal címe (title):** Prompt-építő Claude Code-hoz — magyar nyelvű promptgenerátor | ZynAI
+**Oldal címe (title):** Promptépítő Claude Code-hoz — magyar nyelvű promptgenerátor | ZynAI
 
 **Leírás (description):** Magyarul írod le, mit szeretnél, és pontos hatókörű angol promptot kapsz Claude Code-hoz. Ingyenes eszköz, tíz prompttípussal.

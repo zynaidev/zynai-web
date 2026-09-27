@@ -10,6 +10,10 @@ import {
 } from "@/components/sections/ClaudeCodeStackSelector";
 import { ClaudeCodeTypeSelector } from "@/components/sections/ClaudeCodeTypeSelector";
 import { Container } from "@/components/ui/container";
+import {
+  SAVE_FAILED_MESSAGE,
+  STORAGE_UNAVAILABLE_MESSAGE,
+} from "@/content/claude-code/futasideju-uzenetek";
 import { promptTypes } from "@/content/claude-code/prompt-tipusok";
 import {
   assembleClaudeCodePrompt,
@@ -100,9 +104,7 @@ export function ClaudeCodePromptBuilder() {
     if (result) {
       setSaveMessage(null);
     } else {
-      setSaveMessage(
-        "A mentés nem sikerült — valószínűleg megtelt a böngésző tárhelye, vagy le van tiltva.",
-      );
+      setSaveMessage(SAVE_FAILED_MESSAGE);
     }
   }
 
@@ -205,7 +207,7 @@ export function ClaudeCodePromptBuilder() {
                   </button>
                 ) : (
                   <p className="text-sm text-text-tertiary">
-                    A mentés jelenleg nem érhető el ebben a böngészőben.
+                    {STORAGE_UNAVAILABLE_MESSAGE}
                   </p>
                 )}
               </div>

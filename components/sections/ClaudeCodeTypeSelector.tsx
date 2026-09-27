@@ -14,11 +14,15 @@ export function ClaudeCodeTypeSelector({
   selectedId,
 }: ClaudeCodeTypeSelectorProps) {
   const groupName = useId();
+  const headingId = useId();
   const selected = promptTypes.find((type) => type.id === selectedId) ?? null;
 
   return (
     <div className="flex flex-col gap-4">
-      <fieldset>
+      <h2 className="type-card-heading" id={headingId}>
+        Prompt típusa
+      </h2>
+      <fieldset aria-labelledby={headingId}>
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {promptTypes.map((type) => {
             const inputId = `${groupName}-${type.id}`;

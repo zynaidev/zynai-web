@@ -3,6 +3,11 @@
 import type { ChangeEvent } from "react";
 import { useState, useSyncExternalStore } from "react";
 
+import {
+  IMPORT_UNREADABLE_MESSAGE,
+  STORAGE_UNAVAILABLE_MESSAGE,
+  formatImportResultMessage,
+} from "@/content/claude-code/futasideju-uzenetek";
 import { promptTypes } from "@/content/claude-code/prompt-tipusok";
 import {
   deleteSavedPrompt,
@@ -69,13 +74,11 @@ export function ClaudeCodeSavedPrompts({ onLoad }: ClaudeCodeSavedPromptsProps) 
     const result = importSavedPrompts(text, entries, validTypeIds);
 
     if (!result) {
-      setImportMessage("A fájl nem olvasható be, vagy a mentés nem sikerült.");
+      setImportMessage(IMPORT_UNREADABLE_MESSAGE);
       return;
     }
 
-    setImportMessage(
-      `${result.imported} bejegyzés hozzáadva, ${result.skipped} kihagyva.`,
-    );
+    setImportMessage(formatImportResultMessage(result.imported, result.skipped));
   }
 
   const sorted = entries.slice().sort((a, b) => b.savedAt - a.savedAt);
@@ -86,7 +89,7 @@ export function ClaudeCodeSavedPrompts({ onLoad }: ClaudeCodeSavedPromptsProps) 
 
       {!storageOk ? (
         <p className="text-sm text-text-tertiary">
-          A mentés jelenleg nem érhető el ebben a böngészőben.
+          {STORAGE_UNAVAILABLE_MESSAGE}
         </p>
       ) : null}
 

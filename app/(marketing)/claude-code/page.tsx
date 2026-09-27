@@ -1,8 +1,36 @@
+import type { Metadata } from "next";
+
 import { ClaudeCodeClosing } from "@/components/sections/ClaudeCodeClosing";
 import { ClaudeCodeIntro } from "@/components/sections/ClaudeCodeIntro";
 import { ClaudeCodePromptBuilder } from "@/components/sections/ClaudeCodePromptBuilder";
 import { ClaudeCodeTips } from "@/components/sections/ClaudeCodeTips";
 import { Container } from "@/components/ui/container";
+
+// Cím és leírás szó szerint: content/claude-code/prompt-epito.md, 8. szakasz.
+// A cím "absolute"-ként van megadva, mert a szöveg már saját maga
+// tartalmazza a "| ZynAI" végződést — a gyökér layout "%s — ZynAI"
+// sablonja duplázná a márkajelzést, ha egyszerű stringként adnánk meg.
+const OG_IMAGE = {
+  url: "/claude-code/zynai-claude-code.png",
+  width: 1200,
+  height: 630,
+  alt: "Pixelgrafika három színes, Space Invaders-stílusú alakkal a „Promptépítő Claude Code-hoz” felirat felett, sötét háttéren.",
+};
+
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      "Promptépítő Claude Code-hoz — magyar nyelvű promptgenerátor | ZynAI",
+  },
+  description:
+    "Magyarul írod le, mit szeretnél, és pontos hatókörű angol promptot kapsz Claude Code-hoz. Ingyenes eszköz, tíz prompttípussal.",
+  openGraph: {
+    images: [OG_IMAGE],
+  },
+  twitter: {
+    images: [OG_IMAGE],
+  },
+};
 
 export default function ClaudeCodePage() {
   return (
@@ -35,7 +63,7 @@ export default function ClaudeCodePage() {
             <li className="rounded-lg border border-border-hairline bg-bg-elevated p-card-mobile md:p-card-desktop">
               <h3 className="type-card-heading">Zárd le, és kérj jelentést.</h3>
               <p className="type-body mt-2">
-                A „Stop when done" nélkül továbbmegy. A kért jelentés
+                A „Stop when done&quot; nélkül továbbmegy. A kért jelentés
                 nélkül pedig neked kell kitalálnod, mi történt.
               </p>
             </li>
