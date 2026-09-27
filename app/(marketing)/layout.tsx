@@ -19,7 +19,8 @@ export default function MarketingLayout({
   children: ReactNode;
 }>) {
   const pathname = usePathname();
-  const hideHeader = pathname === "/vibecoding-pilot";
+  const hideHeader =
+    pathname === "/vibecoding-pilot" || pathname === "/claude-code";
 
   return (
     <SmoothScroll>
