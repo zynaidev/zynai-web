@@ -540,14 +540,18 @@ Nem adtál meg pontos elérési utat. Enélkül az AI maga választja ki, melyik
 **Kategória útvonal helyett:**
 Ez inkább kategóriának tűnik, mint fájlnak. Add meg a teljes elérési utat, például `src/components/layout/Header.tsx`.
 
-**Két feladat egyben:**
-Úgy tűnik, két dolgot kérsz egyszerre. Bontsd ketté: egy prompt, egy változás, egy mentés. Ha egy kérésből nem lesz egyetlen értelmes mentés, túl nagy volt.
-
 **Döntés átengedése:**
 A leírásodban szerepel olyan szó, ami döntést enged át az AI-nak („döntsd el", „válaszd ki", „ahogy jónak látod"). Ilyenkor a drága munka rossz helyen történik. Döntsd el te, és írd le.
 
 **Hiányzó hibaüzenet:**
 Hibajavításhoz a teljes hibaüzenet kell, vágatlanul. A rövidített vagy átfogalmazott üzenetből az AI találgatni fog.
+
+### Amire nem figyelmeztet
+
+Ezt a kettőt nem tudja automatikusan észrevenni — ezekre neked kell figyelned.
+
+**Két feladat egyben:**
+Úgy tűnik, két dolgot kérsz egyszerre. Bontsd ketté: egy prompt, egy változás, egy mentés. Ha egy kérésből nem lesz egyetlen értelmes mentés, túl nagy volt.
 
 **Túl rövid leírás:**
 Ez a leírás valószínűleg nem elég ahhoz, hogy azt kapd, amire gondolsz. Írd le, mi történik most, és minek kellene történnie helyette.

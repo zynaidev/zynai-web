@@ -12,6 +12,9 @@ import type {
   PromptType,
 } from "@/content/claude-code/prompt-tipusok";
 
+const fieldControlClass =
+  "w-full rounded-md border border-border-default bg-bg-base px-4 py-3 text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent";
+
 function resolvePlaceholder(
   placeholder: PromptFieldPlaceholder,
   stack: StackChoice,
@@ -46,6 +49,7 @@ function AutoGrowTextarea({
   return (
     <textarea
       aria-describedby={ariaDescribedBy}
+      className={`${fieldControlClass} resize-none overflow-hidden`}
       id={id}
       onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
         onChange(event.target.value)
@@ -76,10 +80,12 @@ function ClaudeCodeFormField({
   const placeholder = resolvePlaceholder(field.placeholder, stack);
 
   return (
-    <div>
-      <label htmlFor={inputId}>
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-text-primary" htmlFor={inputId}>
         {field.label}
-        {field.optional ? " (opcionális)" : null}
+        {field.optional ? (
+          <span className="text-text-tertiary"> (opcionális)</span>
+        ) : null}
       </label>
       {field.inputType === "textarea" ? (
         <AutoGrowTextarea
@@ -92,6 +98,7 @@ function ClaudeCodeFormField({
       ) : (
         <input
           aria-describedby={field.help ? helpId : undefined}
+          className={fieldControlClass}
           id={inputId}
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             onChange(event.target.value)
@@ -101,7 +108,41 @@ function ClaudeCodeFormField({
           value={value}
         />
       )}
-      {field.help ? <p id={helpId}>{field.help}</p> : null}
+      {field.help ? (
+        <p className="text-sm text-text-tertiary" id={helpId}>
+          {field.help}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function ClaudeCodeManualChecksNote() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-medium text-text-tertiary">
+        Amire nem figyelmeztet
+      </h3>
+      <p className="text-sm text-text-tertiary">
+        Ezt a kettőt nem tudja automatikusan észrevenni — ezekre neked kell
+        figyelned.
+      </p>
+      <p className="text-sm text-text-tertiary">
+        <strong className="font-medium text-text-secondary">
+          Két feladat egyben:
+        </strong>{" "}
+        Úgy tűnik, két dolgot kérsz egyszerre. Bontsd ketté: egy prompt, egy
+        változás, egy mentés. Ha egy kérésből nem lesz egyetlen értelmes
+        mentés, túl nagy volt.
+      </p>
+      <p className="text-sm text-text-tertiary">
+        <strong className="font-medium text-text-secondary">
+          Túl rövid leírás:
+        </strong>{" "}
+        Ez a leírás valószínűleg nem elég ahhoz, hogy azt kapd, amire
+        gondolsz. Írd le, mi történik most, és minek kellene történnie
+        helyette.
+      </p>
     </div>
   );
 }
@@ -120,7 +161,7 @@ function ClaudeCodeFieldsForm({
   type,
 }: ClaudeCodeFieldsFormProps) {
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       {type.fields.map((field, index) => (
         <ClaudeCodeFormField
           field={field}
@@ -134,6 +175,7 @@ function ClaudeCodeFieldsForm({
           value={fieldValues[index] ?? ""}
         />
       ))}
+      <ClaudeCodeManualChecksNote />
     </div>
   );
 }
@@ -152,22 +194,33 @@ function ClaudeCodeChoiceForm({
   const groupName = useId();
 
   return (
-    <fieldset>
-      <legend>{type.choiceLabel}</legend>
-      <ul>
+    <fieldset className="flex flex-col gap-4">
+      <legend className="type-card-heading">{type.choiceLabel}</legend>
+      <ul className="flex flex-col gap-3 sm:flex-row">
         {type.options.map((option) => {
           const inputId = `${groupName}-${option.id}`;
           return (
-            <li key={option.id}>
-              <input
-                checked={selectedOptionId === option.id}
-                id={inputId}
-                name={groupName}
-                onChange={() => onSelectOption(option.id)}
-                type="radio"
-                value={option.id}
-              />
-              <label htmlFor={inputId}>{option.label}</label>
+            <li
+              className="flex-1 rounded-lg border border-border-hairline bg-bg-elevated has-[:checked]:border-accent has-[:checked]:bg-bg-glass-strong"
+              key={option.id}
+            >
+              <label
+                className="flex h-full cursor-pointer items-center gap-3 p-card-mobile md:p-card-desktop"
+                htmlFor={inputId}
+              >
+                <input
+                  checked={selectedOptionId === option.id}
+                  className="size-4 shrink-0 accent-accent"
+                  id={inputId}
+                  name={groupName}
+                  onChange={() => onSelectOption(option.id)}
+                  type="radio"
+                  value={option.id}
+                />
+                <span className="text-sm font-medium text-text-primary">
+                  {option.label}
+                </span>
+              </label>
             </li>
           );
         })}

@@ -16,6 +16,9 @@ import {
   type SavedPromptEntry,
 } from "@/lib/claude-code-saved-prompts";
 
+const secondaryButtonClass =
+  "inline-flex items-center justify-center rounded-md border border-border-default bg-bg-elevated px-4 py-2 text-sm font-medium text-text-primary hover:border-border-accent disabled:cursor-not-allowed disabled:opacity-50";
+
 type ClaudeCodeSavedPromptsProps = {
   onLoad: (entry: SavedPromptEntry) => void;
 };
@@ -78,59 +81,81 @@ export function ClaudeCodeSavedPrompts({ onLoad }: ClaudeCodeSavedPromptsProps) 
   const sorted = entries.slice().sort((a, b) => b.savedAt - a.savedAt);
 
   return (
-    <div>
-      <h2>Saját promptjaim</h2>
+    <div className="flex flex-col gap-4">
+      <h2 className="type-card-heading">Saját promptjaim</h2>
 
       {!storageOk ? (
-        <p>A mentés jelenleg nem érhető el ebben a böngészőben.</p>
+        <p className="text-sm text-text-tertiary">
+          A mentés jelenleg nem érhető el ebben a böngészőben.
+        </p>
       ) : null}
 
       {sorted.length === 0 ? (
-        <p>
+        <p className="type-body">
           Még nincs mentett promptod. Ha összeállítasz egyet, amit többször is
           használnál, mentsd el — a saját gépeden marad.
         </p>
       ) : (
-        <ul>
+        <ul className="flex flex-col gap-2">
           {sorted.map((entry) => (
-            <li key={entry.id}>
-              <span>
+            <li
+              className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border-hairline bg-bg-elevated px-4 py-3"
+              key={entry.id}
+            >
+              <span className="text-sm text-text-primary">
                 {typeName(entry.typeId)} — {formatSavedAt(entry.savedAt)}
               </span>
-              <button onClick={() => onLoad(entry)} type="button">
-                Betöltés
-              </button>
-              <button
-                disabled={!storageOk}
-                onClick={() => handleDelete(entry.id)}
-                type="button"
-              >
-                Törlés
-              </button>
+              <span className="flex gap-2">
+                <button
+                  className={secondaryButtonClass}
+                  onClick={() => onLoad(entry)}
+                  type="button"
+                >
+                  Betöltés
+                </button>
+                <button
+                  className={secondaryButtonClass}
+                  disabled={!storageOk}
+                  onClick={() => handleDelete(entry.id)}
+                  type="button"
+                >
+                  Törlés
+                </button>
+              </span>
             </li>
           ))}
         </ul>
       )}
 
-      <button
-        disabled={entries.length === 0}
-        onClick={handleDownload}
-        type="button"
-      >
-        Letöltés JSON-ban
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          className={secondaryButtonClass}
+          disabled={entries.length === 0}
+          onClick={handleDownload}
+          type="button"
+        >
+          Letöltés JSON-ban
+        </button>
 
-      <label>
-        Visszatöltés fájlból
-        <input
-          accept="application/json"
-          disabled={!storageOk}
-          onChange={handleUploadChange}
-          type="file"
-        />
-      </label>
+        <label
+          className={`${secondaryButtonClass} cursor-pointer${
+            storageOk ? "" : " cursor-not-allowed opacity-50"
+          }`}
+        >
+          Visszatöltés fájlból
+          <input
+            accept="application/json"
+            className="sr-only"
+            disabled={!storageOk}
+            onChange={handleUploadChange}
+            type="file"
+          />
+        </label>
+      </div>
 
-      {importMessage ? <p>{importMessage}</p> : null}
+      {importMessage ? (
+        <p className="text-sm text-text-tertiary">{importMessage}</p>
+      ) : null}
     </div>
   );
 }

@@ -26,6 +26,9 @@ import {
 const EMPTY_STATE_TEXT =
   "Válassz egy típust fent, töltsd ki a mezőket, és itt megjelenik a kész prompt.";
 
+const secondaryButtonClass =
+  "inline-flex items-center justify-center rounded-md border border-border-default bg-bg-elevated px-4 py-2 text-sm font-medium text-text-primary hover:border-border-accent disabled:cursor-not-allowed disabled:opacity-50";
+
 export function ClaudeCodePromptBuilder() {
   const [stack, setStack] = useState<StackChoice>("generic");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -128,13 +131,13 @@ export function ClaudeCodePromptBuilder() {
 
   return (
     <>
-      <section>
+      <section className="py-8 md:py-12">
         <Container>
           <ClaudeCodeStackSelector onStackChange={setStack} stack={stack} />
         </Container>
       </section>
 
-      <section>
+      <section className="py-8 md:py-12">
         <Container>
           <ClaudeCodeTypeSelector
             onSelect={setSelectedId}
@@ -143,7 +146,7 @@ export function ClaudeCodePromptBuilder() {
         </Container>
       </section>
 
-      <section>
+      <section className="py-8 md:py-12">
         <Container>
           {selectedType ? (
             <ClaudeCodePromptForm
@@ -155,47 +158,68 @@ export function ClaudeCodePromptBuilder() {
               type={selectedType}
             />
           ) : (
-            <p>{EMPTY_STATE_TEXT}</p>
+            <p className="type-body">{EMPTY_STATE_TEXT}</p>
           )}
         </Container>
       </section>
 
-      <section>
+      <section className="py-8 md:py-12">
         <Container>
           {assembled ? (
-            <>
+            <div className="flex flex-col gap-4">
               {warnings.length > 0 ? (
-                <div>
-                  <h2>Figyelmeztetések</h2>
-                  <ul>
+                <div className="rounded-lg border-l-2 border-accent bg-accent-glow px-4 py-3">
+                  <h2 className="text-sm font-medium text-text-primary">
+                    Figyelmeztetések
+                  </h2>
+                  <ul className="mt-2 flex flex-col gap-2">
                     {warnings.map((warning) => (
-                      <li key={warning.id}>
-                        <strong>{warning.title}</strong> {warning.text}
+                      <li className="text-sm text-text-secondary" key={warning.id}>
+                        <strong className="font-medium text-text-primary">
+                          {warning.title}
+                        </strong>{" "}
+                        {warning.text}
                       </li>
                     ))}
                   </ul>
                 </div>
               ) : null}
-              <pre>{assembled}</pre>
-              <button onClick={handleCopy} type="button">
-                {copyLabel}
-              </button>
-              {storageAvailable ? (
-                <button onClick={handleSave} type="button">
-                  Mentés a sajátjaim közé
+              <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-border-default bg-bg-elevated p-card-mobile font-mono text-sm leading-relaxed text-text-primary md:p-card-desktop">
+                {assembled}
+              </pre>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  className={secondaryButtonClass}
+                  onClick={handleCopy}
+                  type="button"
+                >
+                  {copyLabel}
                 </button>
-              ) : (
-                <p>A mentés jelenleg nem érhető el ebben a böngészőben.</p>
-              )}
-              {saveMessage ? <p>{saveMessage}</p> : null}
-            </>
+                {storageAvailable ? (
+                  <button
+                    className={secondaryButtonClass}
+                    onClick={handleSave}
+                    type="button"
+                  >
+                    Mentés a sajátjaim közé
+                  </button>
+                ) : (
+                  <p className="text-sm text-text-tertiary">
+                    A mentés jelenleg nem érhető el ebben a böngészőben.
+                  </p>
+                )}
+              </div>
+              {saveMessage ? (
+                <p className="text-sm text-text-tertiary">{saveMessage}</p>
+              ) : null}
+            </div>
           ) : (
-            <p>{EMPTY_STATE_TEXT}</p>
+            <p className="type-body">{EMPTY_STATE_TEXT}</p>
           )}
         </Container>
       </section>
 
-      <section>
+      <section className="border-t border-border-hairline py-8 md:py-12">
         <Container>
           <ClaudeCodeSavedPrompts onLoad={handleLoadEntry} />
         </Container>
