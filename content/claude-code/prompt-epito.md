@@ -48,7 +48,7 @@ Ha nem tudod, melyiket válaszd, a másodikat válaszd. Az mindenhol működik.
 - **Melyik fájlt módosíthatja?**
   Helyőrző (A): `src/app/kapcsolat/page.tsx`
   Helyőrző (B): `index.html` vagy `styles/fooldal.css`
-  Súgó: Teljes elérési út, ne kategória. A „a kapcsolat oldal" nem elég pontos — abból a modell hármat is találhat.
+  Súgó: Teljes elérési út, ne kategória. Az „a kapcsolat oldal" nem elég pontos — abból a modell hármat is találhat.
 
 - **Mi történik most?**
   Helyőrző: A gomb a szekció alján van, és mobilon kilóg a képernyőből.

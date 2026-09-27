@@ -73,7 +73,7 @@ export const promptTypes: readonly PromptType[] = [
           nextjs: '`src/app/kapcsolat/page.tsx`',
           generic: '`index.html` vagy `styles/fooldal.css`',
         },
-        help: 'Teljes elérési út, ne kategória. A „a kapcsolat oldal" nem elég pontos — abból a modell hármat is találhat.',
+        help: 'Teljes elérési út, ne kategória. Az „a kapcsolat oldal" nem elég pontos — abból a modell hármat is találhat.',
         optional: false,
         inputType: "text",
       },
