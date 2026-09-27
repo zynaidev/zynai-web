@@ -54,20 +54,11 @@ export const metadata: Metadata = {
     title: "ZynAI — AI integráció magyar vállalkozásoknak",
     description:
       "Automatizáció, folyamatfejlesztés és AI bevezetés magyar KKV-knak. Díjmentes 30 perces audit.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ZynAI — AI integráció magyar vállalkozásoknak",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ZynAI — AI integráció magyar vállalkozásoknak",
     description: "Automatizáció és AI bevezetés magyar KKV-knak.",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
