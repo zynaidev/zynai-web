@@ -612,19 +612,29 @@ Ha ezt a hármat betartod, a promptjaid nyolcvan százaléka rendben lesz. A mar
 **Bevezető:**
 Ez a rész változik, ahogy a modellek változnak. Minden bejegyzés dátumozva van — ha régi, kezeld fenntartással.
 
-**Induló bejegyzések:**
+**Induló bejegyzések:** (legújabb elöl)
 
-*2026. 09. — A kontextus a legdrágább erőforrásod*
-Nem a kimenet kerül sokba, hanem az, hogy minden üzenetnél viszed magaddal az egész előzményt. Ezért olcsó a pontos prompt, és drága a felderítés, a hosszú szál és a teljes képernyős képernyőkép. Feladatonként új beszélgetés.
+**Dátum:** 2026. 09.
+**Cím:** Ami beágyazható, azt ne építsd meg
+**Szöveg:** Foglalás, térkép, videó: ezekre van kész beágyazás. Az AI szívesen megépíti neked a sajátodat, de azt neked kell karbantartanod.
 
-*2026. 09. — A képernyőkép a leggyorsabb hibajelentés*
-Vizuális hibánál illeszd be a képet, és írd mellé, mit látsz és mit vártál helyette. Csak a releváns részről készíts képet — a teljes oldalas kép sokba kerül és keveset mond.
+***
 
-*2026. 09. — Az „eltűnt a hiba, de nem tudom, miért" gyanús*
-Ez azt jelenti, hogy elnyomta, nem javította. Keress `any`-t, `@ts-ignore`-t és üres `catch` blokkot. Ugyanígy gyanús, ha teljes átírást javasol: az azt jelenti, hogy nem találja a hibát.
+**Dátum:** 2026. 09.
+**Cím:** Az „eltűnt a hiba, de nem tudom, miért" gyanús
+**Szöveg:** Ez azt jelenti, hogy elnyomta, nem javította. Keress `any`-t, `@ts-ignore`-t és üres `catch` blokkot. Ugyanígy gyanús, ha teljes átírást javasol: az azt jelenti, hogy nem találja a hibát.
 
-*2026. 09. — Ami beágyazható, azt ne építsd meg*
-Foglalás, térkép, videó: ezekre van kész beágyazás. Az AI szívesen megépíti neked a sajátodat, de azt neked kell karbantartanod.
+***
+
+**Dátum:** 2026. 09.
+**Cím:** A képernyőkép a leggyorsabb hibajelentés
+**Szöveg:** Vizuális hibánál illeszd be a képet, és írd mellé, mit látsz és mit vártál helyette. Csak a releváns részről készíts képet — a teljes oldalas kép sokba kerül és keveset mond.
+
+***
+
+**Dátum:** 2026. 09.
+**Cím:** A kontextus a legdrágább erőforrásod
+**Szöveg:** Nem a kimenet kerül sokba, hanem az, hogy minden üzenetnél viszed magaddal az egész előzményt. Ezért olcsó a pontos prompt, és drága a felderítés, a hosszú szál és a teljes képernyős képernyőkép. Feladatonként új beszélgetés.
 
 ---
 
