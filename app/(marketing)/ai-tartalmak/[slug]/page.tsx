@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleBackground from "@/components/ui/ArticleBackground";
+import { CodeBlock } from "./CodeBlock";
 
 import {
   type Article,
@@ -27,6 +29,8 @@ function calculateReadingTime(content: Article["content"]): string {
   const text = content
     .map((s) => {
       if (s.type === "image" || s.type === "sources") return "";
+      if (s.type === "code") return s.code;
+      if (s.type === "table") return [...s.headers, ...s.rows.flat()].join(" ");
       return s.text || (s.items?.join(" ") ?? "");
     })
     .join(" ");
@@ -291,6 +295,103 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
   );
 }
 
+// Egy link stílusa mindenhol ugyanaz: örökli a környező szöveg színét (nem
+// harsány), aláhúzva regisztrált tokennel, hover-en a cikk saját accent
+// színére vált — ugyanaz a nyelv, amit a többi interaktív elem is használ.
+const INLINE_LINK_CLASSNAME =
+  "underline decoration-[var(--border-default)] underline-offset-2 transition-colors duration-200 hover:text-[#BDFF00] hover:decoration-[#BDFF00]";
+
+// Inline `kód`, **félkövér** és [link](url) feloldása egy szövegsztringen
+// belül, csendes DOM-elem-építéssel (nincs dangerouslySetInnerHTML). Minden
+// más karakter — egy magányos csillag, aláhúzás, szögletes zárójel — szó
+// szerint megmarad. Egy pár nélküli nyitójel (backtick, "**" vagy "[") is
+// szó szerinti karakterként jelenik meg, nem tűnik el.
+function renderInlineText(text: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  let buffer = "";
+  let key = 0;
+  let i = 0;
+
+  const flush = () => {
+    if (buffer) {
+      nodes.push(buffer);
+      buffer = "";
+    }
+  };
+
+  while (i < text.length) {
+    if (text[i] === "*" && text[i + 1] === "*") {
+      const closeIndex = text.indexOf("**", i + 2);
+      if (closeIndex !== -1) {
+        flush();
+        const inner = text.slice(i + 2, closeIndex);
+        nodes.push(
+          <strong className="font-semibold text-[var(--text-primary)]" key={key++}>
+            {renderInlineText(inner)}
+          </strong>,
+        );
+        i = closeIndex + 2;
+        continue;
+      }
+    }
+
+    if (text[i] === "`") {
+      const closeIndex = text.indexOf("`", i + 1);
+      if (closeIndex !== -1) {
+        flush();
+        const code = text.slice(i + 1, closeIndex);
+        nodes.push(
+          <code
+            className="rounded-[4px] bg-[var(--border-hairline)] px-[5px] py-[2px] font-mono text-[0.9em]"
+            key={key++}
+          >
+            {code}
+          </code>,
+        );
+        i = closeIndex + 1;
+        continue;
+      }
+    }
+
+    if (text[i] === "[") {
+      const closeBracket = text.indexOf("]", i + 1);
+      if (closeBracket !== -1 && text[closeBracket + 1] === "(") {
+        const closeParen = text.indexOf(")", closeBracket + 2);
+        if (closeParen !== -1) {
+          flush();
+          const label = text.slice(i + 1, closeBracket);
+          const url = text.slice(closeBracket + 2, closeParen);
+          nodes.push(
+            url.startsWith("/") ? (
+              <Link className={INLINE_LINK_CLASSNAME} href={url} key={key++}>
+                {renderInlineText(label)}
+              </Link>
+            ) : (
+              <a
+                className={INLINE_LINK_CLASSNAME}
+                href={url}
+                key={key++}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {renderInlineText(label)}
+              </a>
+            ),
+          );
+          i = closeParen + 1;
+          continue;
+        }
+      }
+    }
+
+    buffer += text[i];
+    i++;
+  }
+
+  flush();
+  return nodes;
+}
+
 function renderArticleSection(section: Article["content"][number], index: number) {
   switch (section.type) {
     case "lead":
@@ -304,7 +405,7 @@ function renderArticleSection(section: Article["content"][number], index: number
             lineHeight: 1.8,
           }}
         >
-          {section.text}
+          {renderInlineText(section.text ?? "")}
         </p>
       );
 
@@ -318,7 +419,7 @@ function renderArticleSection(section: Article["content"][number], index: number
             lineHeight: 1.2,
           }}
         >
-          {section.text}
+          {renderInlineText(section.text ?? "")}
           <span style={{ color: "#BDFF00" }}>.</span>
         </h2>
       );
@@ -329,7 +430,7 @@ function renderArticleSection(section: Article["content"][number], index: number
           className="font-display mb-3 mt-8 text-[20px] text-[var(--text-primary)]"
           key={index}
         >
-          {section.text}
+          {renderInlineText(section.text ?? "")}
         </h3>
       );
 
@@ -340,7 +441,7 @@ function renderArticleSection(section: Article["content"][number], index: number
           key={index}
           style={{ lineHeight: 1.85 }}
         >
-          {section.text}
+          {renderInlineText(section.text ?? "")}
         </p>
       );
 
@@ -361,7 +462,7 @@ function renderArticleSection(section: Article["content"][number], index: number
             paddingTop: "24px",
           }}
         >
-          {section.text}
+          {renderInlineText(section.text ?? "")}
         </blockquote>
       );
 
@@ -381,7 +482,7 @@ function renderArticleSection(section: Article["content"][number], index: number
                   lineHeight: 1.75,
                 }}
               >
-                {item}
+                {renderInlineText(item)}
               </span>
             </li>
           ))}
@@ -420,7 +521,7 @@ function renderArticleSection(section: Article["content"][number], index: number
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span style={{ fontSize: "15.5px", lineHeight: 1.7, color: "var(--text-primary)" }}>
-                  {item}
+                  {renderInlineText(item)}
                 </span>
               </li>
             ))}
@@ -439,7 +540,7 @@ function renderArticleSection(section: Article["content"][number], index: number
               </div>
             )}
             <div style={{ fontSize: "18px", lineHeight: 1.65, color: "var(--text-primary)", fontWeight: 400 }}>
-              {section.text}
+              {renderInlineText(section.text)}
             </div>
           </div>
         </div>
@@ -488,7 +589,75 @@ function renderArticleSection(section: Article["content"][number], index: number
         </div>
       );
 
-    default:
+    case "code":
+      return (
+        <CodeBlock code={section.code} key={index} language={section.language} />
+      );
+
+    case "table": {
+      if (process.env.NODE_ENV !== "production") {
+        section.rows.forEach((row, rowIndex) => {
+          if (row.length !== section.headers.length) {
+            throw new Error(
+              `Táblázat-sor hosszeltérés a(z) ${index}. szakaszban, a(z) ${rowIndex}. sorban: ${row.length} cella a fejléc ${section.headers.length} oszlopa helyett — ${JSON.stringify(row)}`,
+            );
+          }
+        });
+      }
+
+      return (
+        <div
+          className="my-10 overflow-hidden rounded-2xl border border-[var(--border-hairline)]"
+          key={index}
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[480px] border-collapse text-left">
+              <thead>
+                <tr className="bg-[var(--bg-elevated)]">
+                  {section.headers.map((header, headerIndex) => (
+                    <th
+                      className="border-b border-[var(--border-hairline)] px-4 py-3 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]"
+                      key={headerIndex}
+                      scope="col"
+                    >
+                      {renderInlineText(header)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="[&>tr:last-child>td]:border-b-0">
+                {section.rows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                      <td
+                        className="border-b border-[var(--border-hairline)] px-4 py-3 text-[14px] text-[var(--text-secondary)]"
+                        key={cellIndex}
+                        style={{ lineHeight: 1.6 }}
+                      >
+                        {renderInlineText(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {section.caption && (
+            <p className="border-t border-[var(--border-hairline)] px-4 py-2.5 font-mono text-[11px] text-[var(--text-tertiary)]">
+              {section.caption}
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    default: {
+      if (process.env.NODE_ENV !== "production") {
+        throw new Error(
+          `Ismeretlen cikk-szakasz típus a(z) ${index}. indexen: ${JSON.stringify(section)}`,
+        );
+      }
       return null;
+    }
   }
 }

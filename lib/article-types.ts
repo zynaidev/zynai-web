@@ -4,7 +4,9 @@ export type ArticleSection =
   | { type: "summary"; label?: string; items: string[]; text?: string }
   | { type: "conclusion"; label?: string; text: string; items?: string[] }
   | { type: "image"; src: string; alt?: string; caption?: string }
-  | { type: "sources"; label?: string; items: { title: string; url: string }[] };
+  | { type: "sources"; label?: string; items: { title: string; url: string }[] }
+  | { type: "code"; code: string; language?: string }
+  | { type: "table"; headers: string[]; rows: string[][]; caption?: string };
 
 /**
  * A content/articles/*.json fájlokban ténylegesen előforduló `tag` értékek —
