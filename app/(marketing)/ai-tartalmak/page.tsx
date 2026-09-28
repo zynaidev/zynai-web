@@ -20,7 +20,7 @@ function subscribePrefersReducedMotion(onChange: () => void): () => void {
 }
 
 import { SectionLabel } from "@/components/ui/section-label";
-import { allArticles } from "@/lib/article-loader";
+import { allArticles, getFeaturedArticle } from "@/lib/article-loader";
 import { ARTICLE_TAGS } from "@/lib/article-types";
 
 const ARTICLES_PER_PAGE = 9;
@@ -29,14 +29,21 @@ const blogArticles = allArticles.filter(
   (a) => a.slug !== "aedificium-design-esettanulmany",
 );
 
+// Explicit hero pick (see lib/article-loader.ts#getFeaturedArticle). undefined
+// when nothing is marked `featured`, so the page falls back to treating the
+// first article in blogArticles as the hero — the pre-`featured` behaviour.
+const featuredArticle = getFeaturedArticle(blogArticles);
+
 // A pillek csak azokat a tag-eket mutatják, amik ténylegesen előfordulnak
 // a blogArticles feedben — az ARTICLE_TAGS sorrendjét megtartva. Így egy
 // olyan tag (pl. "ESETTANULMÁNY"), aminek egyetlen cikke sincs ebben a
 // feedben, automatikusan nem jelenik meg pilleként, és ha ez a jövőben
 // változik (új esettanulmány kerül a feedbe, vagy egy tag kikerül), a
 // lista magától követi — nincs kézzel karbantartott lista.
-const presentTags = ARTICLE_TAGS.filter((tag) =>
-  blogArticles.some((a) => a.tag === tag),
+// A "CLAUDE" ez alól kivétel: mindig látszik, még mielőtt bármelyik cikket
+// megjelölnék vele, hogy a szűrő ne várjon meg egy jövőbeli feltöltést.
+const presentTags = ARTICLE_TAGS.filter(
+  (tag) => tag === "CLAUDE" || blogArticles.some((a) => a.tag === tag),
 );
 const CATEGORIES = ["ÖSSZES", ...presentTags] as const;
 const MotionLink = motion.create(Link);
@@ -61,22 +68,38 @@ export default function BlogArchivePage() {
     [search, activeCategory],
   );
 
-  const totalPages = Math.ceil(filtered.length / ARTICLES_PER_PAGE);
+  // With no category filter and no search, the featured article (if any) is
+  // pulled out of the feed entirely and only shown in the hero card — it
+  // never reappears in the grid, on this or any later page. With a filter or
+  // search active it has no special status and stays in `filtered` at its
+  // normal position, same as every other article.
+  const noFilterActive = activeCategory === "ÖSSZES" && search.trim() === "";
+  const heroIsFeatured = noFilterActive && featuredArticle != null;
+
+  const gridSource = heroIsFeatured
+    ? filtered.filter((a) => a.slug !== featuredArticle!.slug)
+    : filtered;
+
+  const totalPages = Math.ceil(gridSource.length / ARTICLES_PER_PAGE);
   const maxPage = Math.max(0, totalPages - 1);
   const pageIndex = Math.min(page, maxPage);
 
   const visibleArticles =
-    filtered.length === 0
+    gridSource.length === 0
       ? []
-      : filtered.slice(
+      : gridSource.slice(
           pageIndex * ARTICLES_PER_PAGE,
           pageIndex * ARTICLES_PER_PAGE + ARTICLES_PER_PAGE,
         );
 
   const showHero = pageIndex === 0 && filtered.length > 0;
-  const heroArticle = visibleArticles[0];
+  // Fallback (nothing marked featured): current behaviour — the hero is
+  // whichever article is first on the page, removed from the grid below it.
+  const heroArticle = heroIsFeatured ? featuredArticle : visibleArticles[0];
   const gridArticles = showHero
-    ? visibleArticles.slice(1)
+    ? heroIsFeatured
+      ? visibleArticles
+      : visibleArticles.slice(1)
     : visibleArticles;
 
   const prefersReduced = useSyncExternalStore(

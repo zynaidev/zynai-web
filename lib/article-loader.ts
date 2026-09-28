@@ -35,3 +35,18 @@ export function getNextArticle(currentSlug: string): Article | undefined {
   if (index === -1 || index === allArticles.length - 1) return undefined;
   return allArticles[index + 1];
 }
+
+/**
+ * Explicit hero-card pick for the /ai-tartalmak listing. Among the articles
+ * marked `featured`, the most recent one by `publishedAt` wins (missing
+ * `publishedAt` sorts as oldest); ties keep the first one encountered.
+ * Returns undefined when nothing is marked, so callers can fall back to
+ * their previous "first in the list" behaviour.
+ */
+export function getFeaturedArticle(articles: Article[]): Article | undefined {
+  const candidates = articles.filter((a) => a.featured);
+  if (candidates.length === 0) return undefined;
+  return candidates.reduce((latest, a) =>
+    (a.publishedAt ?? "") > (latest.publishedAt ?? "") ? a : latest,
+  );
+}

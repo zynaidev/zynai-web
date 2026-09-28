@@ -14,6 +14,7 @@ export type ArticleSection =
  */
 export const ARTICLE_TAGS = [
   "AI HÍREK",
+  "CLAUDE",
   "ÜZLETI ELEMZÉS",
   "AI PULZUS",
   "ESETTANULMÁNY",
@@ -32,5 +33,7 @@ export type Article = {
   readingTime?: string;
   coverImage?: string;
   isWeekly?: boolean;
+  /** Explicit hero-card pick on the /ai-tartalmak listing (see getFeaturedArticle). */
+  featured?: boolean;
   content: ArticleSection[];
 };
