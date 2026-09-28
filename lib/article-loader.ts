@@ -1,5 +1,6 @@
 import type { Article, ArticleSection } from "./article-types";
 
+import claudeCodeVibecoding from "@/content/articles/2026-09-28-claude-code-vibecoding.json";
 import aiPulzusW24 from "@/content/articles/2026-06-14-ai-pulzus-2026-06-14.json";
 import aiPulzusW23 from "@/content/articles/2026-06-07-ai-pulzus.json";
 import aiPulzusW22 from "@/content/articles/2026-05-31-ai-pulzus.json";
@@ -14,6 +15,7 @@ import aedificium from "@/content/articles/2025-01-01-aedificium-design-esettanu
 export type { Article, ArticleSection };
 
 export const allArticles: Article[] = [
+  claudeCodeVibecoding,
   aiPulzusW24,
   aiPulzusW23,
   aiPulzusW22,

@@ -1,0 +1,995 @@
+{
+  "slug": "claude-code-vibecoding-esettanulmany",
+  "title": "Claude Code fejlesztés a gyakorlatban: nyolc commit, négy és fél óra, egy működő eszköz",
+  "excerpt": "Nyolc commit, négy és fél óra, egy működő promptépítő a zynai.hu-n. Végigmegyünk a munkán az első diagnosztikai prompttól az élesítésig: mit kérj, hogyan szeleteld, mit csinálj, amikor elakad, és miért nem bizonyíték az, hogy valami kész.",
+  "tag": "CLAUDE",
+  "date": "2026. szeptember 28.",
+  "publishedAt": "2026-09-28",
+  "featured": true,
+  "content": [
+    {
+      "type": "h2",
+      "text": "1. Egy délután, egy működő eszköz"
+    },
+    {
+      "type": "lead",
+      "text": "Van egy oldal a zynai.hu-n, ami magyarul kérdez, és angol promptokat ad Claude Code-hoz. Megnyithatod most is, ingyenes, és nem kell regisztrálni hozzá: **[zynai.hu/claude-code](/claude-code)**"
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy délután alatt készült el. Nyolc commit, négy és fél óra, tizenhét fájl. Nem egy demó, nem egy prototípus, hanem egy működő eszköz, amit azóta is használok."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a cikk arról szól, hogyan."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem általánosságban mutatom be a Claude Code-ot, mert olyan cikkből már van elég. Végigmegyünk ezen a konkrét munkán az első promptjától az élesítésig, és közben kiderül, mi az, ami működik, és mi az, ami nem. Minden promptot, amit itt látsz, tényleg beírtam. Minden hibát, amiről szó lesz, tényleg elkövettem."
+    },
+    {
+      "type": "paragraph",
+      "text": "A végén pontosan tudni fogod, hogyan kell dolgozni vele, és azt is, hogy mikor ne."
+    },
+    {
+      "type": "h3",
+      "text": "Kinek szól ez"
+    },
+    {
+      "type": "paragraph",
+      "text": "Annak, aki webes dolgokat akar építeni: oldalakat, eszközöket, apró alkalmazásokat. Mindegy, hogy fejlesztő vagy, vagy csak eleged van abból, hogy mindenre meg kell várnod valakit."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem kell tudnod programozni ahhoz, hogy elkezdd. Ahhoz viszont kell némi türelem, hogy jól csináld, és ez a cikk nagyrészt erről szól."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "2. Mire jó, és mire nem"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezt mindjárt az elején tisztázzuk, mert így nem pazarlod az idődet."
+    },
+    {
+      "type": "h3",
+      "text": "Erre jó"
+    },
+    {
+      "type": "paragraph",
+      "text": "Webfejlesztésre. Fájlok módosítására egy meglévő projektben, új oldalak és komponensek létrehozására, hibakeresésre, a megjelenés kialakítására, publikálásra."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezekben tényleg erős. Nem azért, mert kreatívabb nálad, hanem mert gyorsabban ír le pontosan azt, amit megfogalmazol, és nem fárad el a negyedik körben."
+    },
+    {
+      "type": "h3",
+      "text": "Erre nem való"
+    },
+    {
+      "type": "paragraph",
+      "text": "Éles rendszerre, ami más emberek adatait kezeli, ha te magad nem érted, mi történik benne. Fizetési folyamatra. Bármire, aminek a hibája pénzbe vagy jogi következménybe kerül."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem azért, mert nem tudná megcsinálni. Azért, mert nem fogod tudni ellenőrizni, hogy jól csinálta-e, és az ilyesminél az ellenőrizhetőség fontosabb, mint a sebesség."
+    },
+    {
+      "type": "paragraph",
+      "text": "A határ egyszerű: **ha az alkalmazás más emberek adatait kezeli, fizetést dolgoz fel, vagy bárki elérheti az interneten, nézesse át valaki, aki ért hozzá, mielőtt élesbe megy.** Ha a saját gépeden futó szkriptről vagy egy adatot nem gyűjtő oldalról van szó, ez a lépés kihagyható."
+    },
+    {
+      "type": "h3",
+      "text": "Amiről ez a cikk nem szól"
+    },
+    {
+      "type": "paragraph",
+      "text": "Általános promptolásról. Szövegírásról, kutatásról, ötletelésről. Azokhoz másfajta promptok kellenek, és másfajta gondolkodás."
+    },
+    {
+      "type": "paragraph",
+      "text": "Itt végig kódról lesz szó."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "3. Három szerep"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a legfontosabb dolog az egész cikkben, és a legtöbben pont ezt hagyják ki."
+    },
+    {
+      "type": "paragraph",
+      "text": "Amikor AI-jal dolgozol, három szerep van, és ezek nem keverhetők össze:"
+    },
+    {
+      "type": "paragraph",
+      "text": "**A tervező.** Kitalálja, mit kell csinálni, milyen sorrendben, és megírja a promptot. Ehhez érteni kell a feladatot, de nem kell kódot írni hozzá."
+    },
+    {
+      "type": "paragraph",
+      "text": "**A végrehajtó.** Elolvassa a kódot, módosítja, lefuttatja, és jelent. Ez a Claude Code."
+    },
+    {
+      "type": "paragraph",
+      "text": "**A döntéshozó.** Jóváhagy, ellenőriz, prioritást ad. Ez mindig te vagy, és ez nem delegálható."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a szétválasztás azért számít, mert ha összemosod őket, elveszíted a kontrollt anélkül, hogy észrevennéd. Beírsz egy laza kérést, a modell eldönti helyetted a részleteket, és a végén ott egy kódbázis, ami működik ugyan, de nem tudod, miért."
+    },
+    {
+      "type": "paragraph",
+      "text": "Én magam a tervezéshez is AI-t használok, csak egy másik beszélgetésben: ott gondolkodom végig a lépéseket, és ott áll össze a prompt. A végrehajtás külön megy. A döntés viszont mindig az enyém marad, mert a végén az én oldalam, és nekem kell tudnom karbantartani."
+    },
+    {
+      "type": "paragraph",
+      "text": "Erre a kettősségre épül minden, ami ezután jön."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "4. Az első prompt nem épít semmit"
+    },
+    {
+      "type": "paragraph",
+      "text": "A legtöbben úgy kezdenek egy meglévő projektnél, hogy rögtön kérnek valamit. „Csinálj egy új oldalt, ami ezt tudja.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez akkor működne, ha a modell ismerné a projektedet. De nem ismeri. Nem tudja, hova kerülnek nálad az oldalak, hogyan hívod a komponenseket, hol vannak a színeid, és hogy van-e már megoldás arra, amit kérsz."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha nem kérdezed meg, ki fogja találni. És amit kitalál, az önmagában lehet teljesen jó, csak nem illeszkedik ahhoz, ami már ott van."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezért az első prompt nálam soha nem épít semmit. Csak olvas."
+    },
+    {
+      "type": "code",
+      "code": "DIAGNOSTIC ONLY — do not modify, create or delete anything.\n\nRead the project structure and report, in Hungarian:\n\n- the exact folder convention for routes, and where a new page\n  would go\n- where section components live, and the naming convention used\n- where copy or content files live, if there is such a folder\n- how design tokens are defined (colours, fonts, container width),\n  and in which file\n- whether a layout adds a header and footer to every page, and how\n  a page could render without the header\n- which existing page is closest in structure to a long,\n  single-column content page\n\nQuote the relevant lines with file paths. If something does not\nexist in this project, say so instead of guessing.\n\nDo not change any file."
+    },
+    {
+      "type": "image",
+      "src": "/blog/claude-code/VScode.webp",
+      "alt": "VS Code a prompt-tipusok.ts fájllal, mellette a Claude Code diagnosztikai jelentése és a terminál git logja.",
+      "caption": "A munkakörnyezet: a kód balra, a Claude Code panel jobbra, a terminál alul."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az utolsó előtti mondat a legfontosabb az egészben. Ha nem írod oda, hogy mondja meg, ha valami nincs a projektben, akkor hihetően hangzó válaszokat fogsz kapni olyasmiről, ami nem is létezik."
+    },
+    {
+      "type": "h3",
+      "text": "Mi lett a válaszból"
+    },
+    {
+      "type": "paragraph",
+      "text": "Öt perc olvasás, és három dolog derült ki, ami az egész munkát meghatározta."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az egyik, hogy a fejléc elrejtésére már volt bevett megoldás a zynai.hu-n, mert a VibeCoding oldalam pontosan ezt csinálja. Ha ezt nem kérdezem meg, kap egy másodikat, és két különböző megoldás él egymás mellett ugyanarra. Fél év múlva én fogok keresgélni, hogy melyik az igazi."
+    },
+    {
+      "type": "paragraph",
+      "text": "A másik, hogy a projektben nincs általános szövegmappa, csak cikkeknek van. Így tudtam, hogy csinálnom kell egyet, nem pedig belezsúfolni valamit egy meglévőbe, ami nem arra való."
+    },
+    {
+      "type": "paragraph",
+      "text": "A harmadik, hogy a színek és betűk egy konkrét fájlban, regisztrált formában élnek. Ezt onnantól minden design-promptba be tudtam írni, és nem kellett aggódnom, hogy a modell kitalál egy új árnyalatot."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezekből mindhárom olyan, ami építés közben derült volna ki, csak akkor már javítani kellett volna."
+    },
+    {
+      "type": "h3",
+      "text": "Amit a jelentésből kiírtam magamnak"
+    },
+    {
+      "type": "paragraph",
+      "text": "A válaszból négy értéket jegyeztem fel, és ezek onnantól minden promptba bekerültek: a route útvonala, a komponensek mappája, a token-fájl neve, és a referenciaoldal, aminek a megjelenéséhez igazodni akartam."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez nem sok. Négy sor egy jegyzetben. De ettől lett minden további prompt pontos, ahelyett hogy körülírásokból dolgoztunk volna."
+    },
+    {
+      "type": "h2",
+      "text": "5. Hogyan néz ki egy jó prompt"
+    },
+    {
+      "type": "paragraph",
+      "text": "A legtöbben úgy kezdik, hogy leírják, mit szeretnének, és megnyomják az entert. Ez működik is, amíg a projekt elfér a fejedben. Amikor már nem fér el, onnantól minden olyan prompt, ami nem mondja meg pontosan, hol dolgozhat a modell, egy kicsit szétzilálja a kódbázist."
+    },
+    {
+      "type": "paragraph",
+      "text": "Négy dolgot teszek bele minden promptba. Nem azért, mert így elegáns, hanem mert mind a négyet egy elrontott délután tanította meg."
+    },
+    {
+      "type": "h3",
+      "text": "Hatókör"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a legfontosabb, és ezt hagyják ki a leggyakrabban."
+    },
+    {
+      "type": "code",
+      "code": "SCOPE: Modify ONLY components/sections/ClaudeCodeTypeSelector.tsx.\nDo not touch other files. npm run build and npm run lint must pass."
+    },
+    {
+      "type": "paragraph",
+      "text": "Három mondat, és mind a háromra szükség van. Az első megmondja, hol dolgozhat. A második kimondja, hogy máshol nem, mert enélkül segíteni fog, és átír egy szomszédos fájlt is, amiről te csak három nappal később szerzel tudomást. A harmadik egy ellenőrzési feltétel, mert nem attól lesz kész valami, hogy a modell késznek mondja."
+    },
+    {
+      "type": "paragraph",
+      "text": "A pontosság itt nem stílus kérdése. Ha azt írod, hogy „a típusválasztó komponens\", abból a modell hármat is találhat, és ő fogja eldönteni, melyikre gondoltál. Teljes elérési út, mindig."
+    },
+    {
+      "type": "h3",
+      "text": "Diagnózis"
+    },
+    {
+      "type": "paragraph",
+      "text": "Meglévő kódnál ez az egy sor spórolja a legtöbb időt:"
+    },
+    {
+      "type": "code",
+      "code": "DIAGNOSTIC FIRST: Read the file and report its current structure\nbefore changing anything."
+    },
+    {
+      "type": "paragraph",
+      "text": "Enélkül a modell feltételezésekből dolgozik. A feltételezés néha stimmel, néha nem, és amikor nem, akkor nem egyszerűen rossz kódot kapsz, hanem olyat, ami rossz alapon jó."
+    },
+    {
+      "type": "paragraph",
+      "text": "Jó példa erre ennek a munkának a legelső promptja. Nem építettem vele semmit, csak megkérdeztem a saját weboldalamról, hogy mit lát benne:"
+    },
+    {
+      "type": "code",
+      "code": "DIAGNOSTIC ONLY — do not modify, create or delete anything.\n\nRead the project structure and report, in Hungarian:\n- the exact folder convention for routes\n- where section components live, and the naming convention used\n- how design tokens are defined, and in which file\n- whether a layout adds a header to every page, and how a page\n  could render without it\n\nQuote the relevant lines with file paths. If something does not\nexist in this project, say so instead of guessing."
+    },
+    {
+      "type": "paragraph",
+      "text": "Kiderült belőle, hogy a fejléc elrejtésére már van egy bevett megoldás a zynai.hu-n, mert a VibeCoding oldal pontosan ezt csinálja. Ha nem kérdezem meg, a modell kitalál egy másodikat, és két különböző megoldás él egymás mellett ugyanarra a feladatra. A saját oldaladon ez különösen bosszantó, mert fél év múlva te fogsz keresgélni, hogy most akkor melyik az igazi."
+    },
+    {
+      "type": "paragraph",
+      "text": "Öt perc olvasás, és nem kellett később rendbe tenni semmit."
+    },
+    {
+      "type": "h3",
+      "text": "Lezárás"
+    },
+    {
+      "type": "code",
+      "code": "Stop when done."
+    },
+    {
+      "type": "paragraph",
+      "text": "Enélkül továbbmegy. Befejezi a feladatot, aztán elkezd még valamit javítani, amit közben észrevett. Jó szándékkal, és ez a legrosszabb fajta változtatás, mert nem kérted, nem tudsz róla, és a következő hibánál nem fogod tudni, honnan jött."
+    },
+    {
+      "type": "h3",
+      "text": "Jelentés"
+    },
+    {
+      "type": "paragraph",
+      "text": "A „kész\" önmagában használhatatlan. Ezt kérem minden prompt végén:"
+    },
+    {
+      "type": "code",
+      "code": "Report in Hungarian:\n- which files changed\n- what changed, in one or two plain sentences\n- what you checked\n- what I should look at with my own eyes\n- anything you assumed or could not verify"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az utolsó sor a legértékesebb. Ez írja ki, hol tévedhetett, és ezt magától soha nem mondaná el."
+    },
+    {
+      "type": "paragraph",
+      "text": "Munka közben volt erre egy szép példa. Be kellett kötnie egy Facebook-linket, de a szövegfájlban nem adtam meg az URL-t. Nem talált ki egyet, ami hihetően nézett volna ki. Helyőrzőt hagyott a helyén, és a jelentés végén megkérdezte, mi a valódi cím."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a különbség aközött, hogy dolgozik neked valaki, és aközött, hogy dolgozik helyetted valaki."
+    },
+    {
+      "type": "quote",
+      "text": "**Ezt a négy elemet a promptépítő automatikusan beleteszi.** Magyarul leírod, mit szeretnél, és megkapod az angol promptot, pontos hatókörrel. → [zynai.hu/claude-code](/claude-code)"
+    },
+    {
+      "type": "image",
+      "src": "/blog/claude-code/promptepito-zynai-1.webp",
+      "alt": "A promptépítő projekt- és prompttípus-választója, a Módosítás típus kiválasztva.",
+      "caption": "Első lépés: milyen projekten dolgozol, és milyen típusú promptra van szükséged."
+    },
+    {
+      "type": "image",
+      "src": "/blog/claude-code/promptepito-zynai-2.webp",
+      "alt": "A promptépítő kitöltött mezői a Módosítás típushoz, alattuk az Amire nem figyelmeztet blokk.",
+      "caption": "Második lépés: magyarul leírod, mi történik most, és minek kellene történnie."
+    },
+    {
+      "type": "image",
+      "src": "/blog/claude-code/promptepito-zynai-3.webp",
+      "alt": "A legenerált angol nyelvű prompt SCOPE, DIAGNOSTIC FIRST és TASK szakaszokkal, alatta a Másolás gombbal.",
+      "caption": "Harmadik lépés: a kész angol prompt, pontos hatókörrel, másolásra készen."
+    },
+    {
+      "type": "h3",
+      "text": "Két dolog, amit soha ne írj bele"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ne bízd rá a döntést. Ha szerepel a promptban, hogy „döntsd el\", „válaszd ki\", vagy „ahogy jónak látod\", akkor a legdrágább munka rossz helyen történik. A modell a végrehajtásban jó, nem abban, hogy kitalálja, mit akartál."
+    },
+    {
+      "type": "paragraph",
+      "text": "És ne osztályneveket adj meg, hanem viselkedést. „Legyen `flex-col`\" helyett azt írd, hogy mobilon egymás alatt legyenek. Az elsőt te találod ki helyette, a másodikat ő oldja meg, és ő ismeri jobban azt a rendszert, amiben dolgozik."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "6. Egy prompt, egy változás, egy commit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a szabály unalmasan hangzik, amíg meg nem szeged."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az eszköz nyolc commitban készült el, négy és fél óra alatt, egyetlen délutánon. Ha megnézed a git-történetet, öt commit időbélyege két percen belül van egymáshoz képest. Ez nem öt gyors lépés volt. Ez egyetlen utólagos rendezés, amikor a végén megpróbáltam szétszedni a munkát értelmes commitokra."
+    },
+    {
+      "type": "paragraph",
+      "text": "És ott derült ki, hogy egy fájlt már nem lehet."
+    },
+    {
+      "type": "paragraph",
+      "text": "A form komponenst három egymás utáni feladatban módosítottuk. Mindhárom jó volt külön-külön, csak épp egyik után sem commitoltam. A modell ezt jelentette, amikor kértem a felbontást:"
+    },
+    {
+      "type": "quote",
+      "text": "„ezeket a `git`-ben sorok szintjén már nem lehetett volna szétválasztani anélkül, hogy a fájlt többször teljesen újraépítsem.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "A három lépés összeolvadt egyetlen, átláthatatlan változtatássá. Egy hónap múlva, ha valamelyik elromlik, nem fogom tudni, melyik okozta."
+    },
+    {
+      "type": "h3",
+      "text": "Honnan tudod, hogy túl nagy a prompt"
+    },
+    {
+      "type": "paragraph",
+      "text": "Három jel van, és bármelyik elég."
+    },
+    {
+      "type": "paragraph",
+      "text": "Több fájlt érint. Ez nem feltétlenül baj, de gondold át, tényleg egyetlen változás-e."
+    },
+    {
+      "type": "paragraph",
+      "text": "Több különálló dolgot sorol fel. „Állítsd be a mezőket, és generáld a promptot, és tedd hozzá a mentést\" az három prompt, nem egy."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az „és\" két külön dolgot köt össze. Ez a leggyorsabb teszt. Ha a mondat közepén van egy „és\", ami után új téma kezdődik, ott a vágópont."
+    },
+    {
+      "type": "paragraph",
+      "text": "A mérce egyszerű. Ha a változásból nem lesz egyetlen értelmes commitüzenet, akkor túl nagy volt."
+    },
+    {
+      "type": "h3",
+      "text": "Hogyan szeleteld"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az oldal tíz szeletre bomlott, és mindegyik lefutott, mielőtt a következő indult:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Diagnosztika, hogy mit lát a projektben",
+        "Az adatszerkezet, a prompttípusok tipizált formában",
+        "A váz, minden blokk a helyén, végleges szöveggel, nulla designnal",
+        "A választók, interaktívvá téve",
+        "A mezők, a kiválasztott típus szerint",
+        "A generálás, itt volt a legtöbb iteráció",
+        "A figyelmeztetések",
+        "A mentés a böngészőben",
+        "A megjelenés, három külön körben",
+        "A minőségi átvizsgálás"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "A sorrend nem véletlen. A design a nyolcadik, nem az első. Ha előbb formázod meg, minden szerkezeti változásnál újra kell csinálnod. Legyen ott előbb minden, végleges szöveggel, csúnyán, és csak utána nézzen ki jól."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "7. Amikor nem megy"
+    },
+    {
+      "type": "paragraph",
+      "text": "Menni fog rosszul, ez a munka természete. Ami számít, az az, hogy mit csinálsz akkor."
+    },
+    {
+      "type": "h3",
+      "text": "A kétszeri elakadás"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha ugyanaz a javítás kétszer nem működik, ne legyen harmadik próbálkozás ugyanabban a beszélgetésben."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ennek technikai oka van. A beszélgetés minden üzenetnél viszi magával a teljes előzményt, beleértve a két rossz irányt is. A harmadik próbálkozás már a szennyezett kontextusból dolgozik, és rendszerint rosszabb lesz, mint az első volt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Helyette nyiss új beszélgetést, és vidd magaddal, ami számít:"
+    },
+    {
+      "type": "code",
+      "code": "Fresh start on this task. Previous attempts are not in your\ncontext, so here is what matters:\n\nTask: [min dolgoztatok]\n\nAlready tried, did not work: [mi nem működött]\nDo not repeat these approaches.\n\nCurrent state: [jelenlegi állapot]\n\nDIAGNOSTIC FIRST: Before changing anything, tell me where you\nthink the problem is and what you need to read to confirm it.\n\nStop and wait for my answer."
+    },
+    {
+      "type": "paragraph",
+      "text": "A középső mező a lényeg. Enélkül az új beszélgetés ugyanazokat a zsákutcákat járja be, mint az előző."
+    },
+    {
+      "type": "h3",
+      "text": "Gyanús jelek"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Amit mond",
+        "Amit jelent"
+      ],
+      "rows": [
+        [
+          "„Eltűnt a hiba, de nem tudom, miért\"",
+          "Elnyomta, nem javította. Keress `any`-t, `@ts-ignore`-t, üres `catch`-et"
+        ],
+        [
+          "„Teljes átírást javasolok\"",
+          "Nem találja a hibát. Ne engedd"
+        ],
+        [
+          "Harmadszor javítja rosszul",
+          "Szennyezett kontextus. Új beszélgetés"
+        ],
+        [
+          "Egyre lassabb és butább",
+          "Tele a kontextus. Új beszélgetés"
+        ],
+        [
+          "Átírt egy fájlt, amit nem kértél",
+          "Hiányzott a pontos hatókör"
+        ],
+        [
+          "Átfogalmazta a szövegedet",
+          "Hiányzott a szövegfájlra hivatkozás"
+        ],
+        [
+          "Élesben más, mint lokálisan",
+          "Környezeti változó, vagy a fájlnév kis- és nagybetűje"
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "A legveszélyesebb az első. Egy eltűnt hiba jól hangzik, közben lehet, hogy csak elhallgattatták."
+    },
+    {
+      "type": "h3",
+      "text": "A visszavonás gomb"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Git. Nem kell értened, hogyan működik, elég egyszer kérned a projekt elején:"
+    },
+    {
+      "type": "code",
+      "code": "Set up Git for this project if it is not set up yet.\n\nAfter each completed task, commit the change with a short, clear\nmessage in Hungarian describing what was done.\nOne task, one commit.\n\nNever commit files containing secrets. Make sure .env and any\nlocal configuration files are ignored."
+    },
+    {
+      "type": "paragraph",
+      "text": "Onnantól bármikor vissza tudsz lépni egy működő állapotra. Nálam egyszer élesben is kellett. A hero hátterébe építettünk egy animált elemet, aztán úgy döntöttem, mégsem kell. Egy prompt, és eltűnt, anélkül hogy a mellette készült munka is eltűnt volna vele."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha ez nincs, ott ülsz egy félig visszacsinált állapottal, és nem emlékszel, mi volt az eredeti."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "8. Amikor jól csinálja"
+    },
+    {
+      "type": "paragraph",
+      "text": "Erről sehol nem esik szó, pedig fontosabb, mint a hibalista. Ha nem tudod, mi az elvárható működés, el fogod fogadni a rosszabbat."
+    },
+    {
+      "type": "paragraph",
+      "text": "Négy dolog ebből a munkából."
+    },
+    {
+      "type": "paragraph",
+      "text": "**Rákérdezett ahelyett, hogy kitalált volna.** Hiányzott egy URL a szövegfájlból, és nem tett a helyére egy hihetőt. Helyőrzőt hagyott, és megkérdezte. Ez a `Bizonytalan:` sor haszna, csak kérni kell."
+    },
+    {
+      "type": "paragraph",
+      "text": "**Nem lépte túl a hatókört, pedig igaza lett volna.** Egy ponton a kódban és a szövegfájlban eltért két gombfelirat. A javítás csak a komponensre volt korlátozva. A modell elvégezte, amit kértem, külön jelezte, hogy a szövegfájl most nem egyezik, de nem nyúlt hozzá. A hatókör akkor ér valamit, ha akkor is tartja magát, amikor kényelmetlen."
+    },
+    {
+      "type": "paragraph",
+      "text": "**Jobb megoldást választott, mint amit kértem.** Azt kértem, hogy a kiválasztott kártya szegélye legyen vastagabb. Jelezte, hogy ez elcsúsztatná az elrendezést, mert ha a szegély egy pixelről kettőre nő, a kártya belseje beljebb ugrik, és a szomszédos elemek megmozdulnak. Helyette olyat javasolt, ami nem mozgat semmit. Igaza volt."
+    },
+    {
+      "type": "paragraph",
+      "text": "**Szólt, hogy két szabályt nem tud megbízhatóan megcsinálni.** Az eszközben figyelmeztetéseket akartam, köztük olyat, ami szól, ha a felhasználó két feladatot ír egy promptba. A modell a többit megcsinálta, ezt kihagyta, és megindokolta:"
+    },
+    {
+      "type": "quote",
+      "text": "„nincs megbízható nyelvi jel arra, hogy egy leírás egy vagy két feladatot ír-e le. Kötőszó-számlálással rengeteg jogos, egyetlen feladatot leíró mondatot is jelezne hamisan, például »a gomb legyen nagyobb és középre igazítva« egy feladat, mégis van benne »és«.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "Igaza volt ebben is. Egy hamis figyelmeztetés rosszabb, mint semmi, mert két nap alatt megtanulnád figyelmen kívül hagyni, és akkor a valódiakat is elnéznéd. A két szabály végül nem tűnt el, csak átkerült egy csendes emlékeztetőbe a mezők alá."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha ezek egyike sem történik meg nálad, ha soha nem kérdez vissza, soha nem jelzi a bizonytalanságát, és mindig mindenre azt mondja, hogy kész, akkor nem a modellel van baj, hanem azzal, amit kérsz tőle. A visszakérdezést kérni kell. A bizonytalanságot kérni kell. A hatókört be kell írni. Egyik sem jön magától."
+    },
+    {
+      "type": "h2",
+      "text": "9. A floor: ahol nincs ízlésvita"
+    },
+    {
+      "type": "paragraph",
+      "text": "A legtöbb döntés a te dolgod. Milyen színek legyenek, milyen sorrendben jöjjenek a szekciók, mit mondjon a szöveg. Ezekben nincs helyes válasz, csak a tiéd, és ha rosszul döntesz, azt később átírod."
+    },
+    {
+      "type": "paragraph",
+      "text": "Van viszont néhány dolog, ami nem ízlés kérdése. Ezeket hívom floor-nak magyarul padló vagy alapkövetelmény. Ha itt tévedsz, az nem esztétikai baj, hanem hiba, és rendszerint olyan, ami csak hetekkel később derül ki."
+    },
+    {
+      "type": "paragraph",
+      "text": "Öt ilyen van."
+    },
+    {
+      "type": "h3",
+      "text": "Titok soha nem kerül a kódba"
+    },
+    {
+      "type": "paragraph",
+      "text": "API-kulcs, jelszó, hozzáférési token. Ezek környezeti változóba valók, nem a kódba, és soha nem a böngészőbe letöltődő részbe."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez azért kegyetlen szabály, mert a törlés nem elég. Ha egyszer bekerült egy commitba, ott is marad a git-történetben, és a repót klónozó bárki megtalálja. Ilyenkor a kulcsot vissza kell vonni a szolgáltatónál és újat kérni. Nincs más megoldás."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezt minden fordulóban ellenőriztettem, és a jelentésben külön ki kellett mondania, hogy tiszta."
+    },
+    {
+      "type": "h3",
+      "text": "A szöveg nem a kódban él"
+    },
+    {
+      "type": "paragraph",
+      "text": "Minden látható szöveg egyetlen forrásból jön: a cím, a gomb felirata, a mezők címkéi, a helyőrzők, a hibaüzenetek, a képek alt szövege. Nálam ez a `content/claude-code/` mappa."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ennek két haszna van. Az egyik, hogy a modell nem fogalmazhat át semmit, mert a promptban benne van, hogy szó szerint onnan másolja. A másik, hogy egy év múlva pontosan tudni fogod, hol kell javítanod egy elírást."
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy fordulóban jól látszott, mennyire számít ez. A modell két gombfeliratot vitt be a kódba, amit én adtam meg neki szóban, de a szövegfájlba nem írtam bele. Jelentette, hogy a kettő most eltér, és megkérdezte, pótolja-e. Ha nem szól, hetek múlva jöttem volna rá, hogy a szövegfájl már nem a valóságot írja le."
+    },
+    {
+      "type": "h3",
+      "text": "Minden mezőnek van címkéje, minden vezérlő elérhető billentyűzettel"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez nem jótékonyság. Egy képernyőolvasót használó ember pontosan úgy ügyfél, mint bárki más, és a legtöbb hiba, ami őt megállítja, öt perc alatt javítható, ha az elején odafigyelsz."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az átvizsgálás nálam egy ilyet talált. A típusválasztó rádiógombjai egy csoportba tartoztak, de a csoportnak nem volt neve, tehát a képernyőolvasó nem tudta bemondani, miről is választ az ember. Látó felhasználó ebből semmit nem vesz észre."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha nem futtatom le az átvizsgálást, ez bent marad."
+    },
+    {
+      "type": "h3",
+      "text": "Ami mozog, az álljon meg, ha a felhasználó kéri"
+    },
+    {
+      "type": "paragraph",
+      "text": "A böngészőben van egy beállítás arra, hogy valaki nem kér az animációkból. Van, akinek szédülést vagy migrént okoz. Ezt tiszteletben kell tartani, és egyetlen extra sor az egész."
+    },
+    {
+      "type": "paragraph",
+      "text": "Itt egy tanulságos dolog derült ki. A modell átvette a VibeCoding oldalamról egy pulzáló elem megoldását, aztán jelezte, hogy az eredeti nem kezeli ezt a beállítást. Vagyis a saját, régebbi oldalamon ott ült egy hiba, amit addig nem vettem észre."
+    },
+    {
+      "type": "paragraph",
+      "text": "Erre nem számítottam, de pontosan ezért érdemes kérni, hogy mindig mondja el, mit talált."
+    },
+    {
+      "type": "h3",
+      "text": "És a legfontosabb: a „kész\" nem bizonyíték"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a legjobb példa, amit valaha kaptam erre, és a saját oldalamról való."
+    },
+    {
+      "type": "paragraph",
+      "text": "A megosztásnál használt kép beállítása két éve ott volt a kódban, a megfelelő helyen, hibátlan szintaxissal. A `<head>`-ben pontosan az szerepelt, aminek szerepelnie kellett. Bármelyik ellenőrzés, ami a kódot nézi, azt mondta volna rá, hogy rendben."
+    },
+    {
+      "type": "paragraph",
+      "text": "Csak épp a hivatkozott képfájl nem létezett. Soha nem is létezett."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez azt jelenti, hogy a zynai.hu minden oldala, a főoldal és a VibeCoding oldal is, kép nélkül osztódott meg mindenhol, amióta él. És sosem derült volna ki, mert a kód hibátlan volt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Akkor bukott ki, amikor a promptépítő oldal megosztását vizsgáltuk, és a modell nem elégedett meg azzal, hogy a beállítás jó. Lekérte a képet, és megnézte, mit válaszol a szerver. A többi oldal képe 404-et adott."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ebből két dolgot tanultam meg."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az egyik, hogy nem elég ellenőrizni, hogy be van-e állítva valami. Meg kell nézni, hogy működik-e. A promptban ezért kérem mindig, hogy mondja meg, hogyan ellenőrizte, ne csak azt, hogy kész."
+    },
+    {
+      "type": "paragraph",
+      "text": "A másik, hogy ezt a hibát én csináltam, jóval a Claude Code előtt, és két évig nem tűnt fel. Az AI nem okozta, de az AI találta meg, mert megkértem rá, hogy nézzen utána."
+    },
+    {
+      "type": "h3",
+      "text": "A floor ellenőrzése"
+    },
+    {
+      "type": "paragraph",
+      "text": "Amikor az oldal elkészült, ezt futtattam le rá:"
+    },
+    {
+      "type": "code",
+      "code": "DIAGNOSTIC ONLY — do not modify anything.\n\nRead every file belonging to this page and report, in Hungarian,\nwith file paths and line numbers:\n\n- any visible text that does not come from the content folder\n- any colour, font size or spacing value not taken from the\n  registered tokens\n- any input without a bound label\n- any control not reachable or operable by keyboard\n- any state indicated by colour alone\n- any network request or external resource\n- any `any`, @ts-ignore, empty catch block or leftover console.log\n- anything that breaks below 375px width\n- any animation that does not respect prefers-reduced-motion\n\nFor each finding, say how serious it is. Do not fix anything yet."
+    },
+    {
+      "type": "paragraph",
+      "text": "A „ne javíts semmit\" rész fontos. Ha egyszerre kérsz átvizsgálást és javítást, akkor a javítás közben módosul a kód, és a lista végére már nem tudod, mire vonatkozott az eleje. Előbb a teljes lista, aztán te döntesz, mit javíttatsz és milyen sorrendben."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "10. A friss szem"
+    },
+    {
+      "type": "paragraph",
+      "text": "Van egy lépés, amit gyakorlatilag senki nem csinál, pedig ez az egyetlen, ami a saját vakfoltjaidat megtalálja."
+    },
+    {
+      "type": "paragraph",
+      "text": "Amikor kész az oldal, **nyiss egy új beszélgetést egy másik cég modelljével**, és nézesd át vele ugyanezt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem azért, mert az a modell okosabb. Azért, mert nem volt ott."
+    },
+    {
+      "type": "h3",
+      "text": "Miért működik"
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy hosszú munka végén a beszélgetés tele van olyan döntésekkel, amiket együtt hoztatok. Ezek a modell számára már nem kérdések, hanem elfogadott állapot. Ha megkérded ugyanabban a szálban, hogy jó-e így, lényegében arra kéred, hogy a saját munkáját bírálja felül, méghozzá úgy, hogy közben minden indoklás ott van előtte, amivel korábban meggyőzted."
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy másik modell semmit nem tud erről. Csak a kódot látja, és azt, hogy minek kellene teljesülnie. Ami neked a beszélgetés alapján magától értetődő, azt ő megkérdőjelezi."
+    },
+    {
+      "type": "paragraph",
+      "text": "És ami ennél is fontosabb: **másképp téved.** Ahol az egyiknek van vakfoltja, ott a másiknak rendszerint nincs."
+    },
+    {
+      "type": "h3",
+      "text": "Hogyan csináld"
+    },
+    {
+      "type": "paragraph",
+      "text": "Új beszélgetés, másik szolgáltató. Csatold a kódot és azt a listát, aminek meg kell felelnie. A build-beszélgetést ne, és a magyarázatot se, mert azzal pont azt a kontextust adnád át, ami elől menekülsz."
+    },
+    {
+      "type": "code",
+      "code": "Attached: a web tool and the quality floor it was built against.\n\nYou did not build this. Review it as an outside reviewer.\n\nDoes this code meet this floor? List every deviation: what is\nwrong, where, and how serious.\n\nPay particular attention to:\n- accessibility of the form controls and the generated output\n- whether any visible text is hardcoded instead of coming from\n  the content folder\n- the storage code paths, including failure cases\n- anything that breaks below 375px\n\nDo not fix anything. Do not praise anything.\nWrite the list in Hungarian."
+    },
+    {
+      "type": "paragraph",
+      "text": "A „ne dicsérj semmit\" nem udvariatlanság. Ha nem írod oda, a lista elejére kerül egy bekezdés arról, hogy milyen jól strukturált a kód, és az elveszi a figyelmet arról, amiért az egészet csinálod."
+    },
+    {
+      "type": "paragraph",
+      "text": "A listát pedig ne ott javíttasd, ahol kaptad. Vidd vissza abba a beszélgetésbe, ahol a kódot ismerik, és onnan add ki a javításokat egyesével."
+    },
+    {
+      "type": "h3",
+      "text": "Mit várhatsz tőle"
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem azt, hogy mindent megtalál. Azt, hogy talál két-három olyat, amit te már nem vettél volna észre, mert túl közel voltál hozzá."
+    },
+    {
+      "type": "paragraph",
+      "text": "A saját munkánál ez nagyjából mindig igaz. Az ember a harmadik óra után már nem a kódot olvassa, hanem azt, amit emlékezetből tud róla."
+    },
+    {
+      "type": "h2",
+      "text": "11. Mibe kerül"
+    },
+    {
+      "type": "paragraph",
+      "text": "Erről kevesen írnak konkrétan, pedig ez az első kérdés, ami eldönti, belevágsz-e."
+    },
+    {
+      "type": "h3",
+      "text": "Az előfizetés"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Claude Code nem használható ingyenes fiókkal. Legalább Pro előfizetés kell hozzá. Létezik Max elöfizu is ami abban különbözik hogy 20x több felhasználható token áll rendelkezésre."
+    },
+    {
+      "type": "paragraph",
+      "text": "ÁR: A belépő szintű előfizetés 2026 szeptemberében havi 22,86 euró volt magánszemélyként, áfával együtt, ami nagyjából 8,400 forint. Az árak változnak, és a csomagtól is függ, ezért publikálás előtt mindig nézd meg a hivatalos oldalon."
+    },
+    {
+      "type": "paragraph",
+      "text": "A belépő szint tanulásra és kisebb projektekre elég. Ha egy egész délutánt dolgozol vele folyamatosan, ahogy én ezzel az oldallal, akkor bele fogsz futni a korlátba. Ilyenkor vagy befizetsz Max-ra, vagy vársz kicsit."
+    },
+    {
+      "type": "h3",
+      "text": "Ami tényleg drága"
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem a kimenet. A kontextus."
+    },
+    {
+      "type": "paragraph",
+      "text": "A modell minden egyes üzenetnél magával viszi a teljes addigi beszélgetést. Ez azt jelenti, hogy a huszadik üzenet sokkal többe kerül, mint az első, akkor is, ha ugyanolyan hosszú. Ezért drága a felderítés, a hosszú szál, és a teljes oldalas képernyőkép."
+    },
+    {
+      "type": "paragraph",
+      "text": "És ezért olcsó a pontos prompt. Ha megmondod, melyik fájlt olvassa el, egy fájlt olvas el. Ha nem mondod meg, végigpásztázza a projektet, hogy megtalálja, és ezt te fizeted."
+    },
+    {
+      "type": "paragraph",
+      "text": "Három szokás, ami a legtöbbet spórolja:"
+    },
+    {
+      "type": "paragraph",
+      "text": "Feladatonként új beszélgetés. Ha a feladat lezárult, kezdd elölről. Amit át kell vinni, azt írd le pár sorban."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tisztán olvasó kérdésre olcsóbb eszközt használj. Ha csak azt akarod tudni, mi van egy fájlban, ne módosító promptot adj."
+    },
+    {
+      "type": "paragraph",
+      "text": "Képernyőképből csak a lényeget. A teljes oldalas kép sokba kerül és keveset mond."
+    },
+    {
+      "type": "h3",
+      "text": "Mikor éri meg"
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy egyszerű landing oldal megrendelése magyar piacon jellemzően több tízezer forint, és hetekbe telik. Ha ezt egyszer nem kell megrendelned, mert magad megcsinálod, az előfizetés egy évre megtérült."
+    },
+    {
+      "type": "paragraph",
+      "text": "De nem ez a lényeg, és nem is ezt adnám el."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az igazi haszon az, hogy a saját oldaladon nem kell megvárnod senkit. Eszedbe jut valami hétfő este, és szerdán már fent van. Az eszköz, amiről ez a cikk szól, egy délután alatt készült el egy ötletből. Megrendelve ez négy hét lett volna, és a végén nem tudnám, mi van benne."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a különbség nem pénzben mérhető, hanem abban, hogy mennyi dolog készül el egyáltalán."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "12. Amit eddig kihagytam: a telepítés"
+    },
+    {
+      "type": "paragraph",
+      "text": "Szándékosan hagytam a végére. Ha a telepítéssel kezdek, az első akadálynál elveszítelek, és nem jutsz el odáig, hogy megértsd, miért éri meg egyáltalán."
+    },
+    {
+      "type": "paragraph",
+      "text": "Most viszont, ha idáig eljutottál, jöhet."
+    },
+    {
+      "type": "h3",
+      "text": "Mire lesz szükséged"
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy gépre, internetre és egy fizetős Anthropic előfizetésre. Ennyi."
+    },
+    {
+      "type": "paragraph",
+      "text": "A Claude Code több felületen fut. Kezdőknek a VS Code bővítményt ajánlom, mert ott a fájlok ott vannak a beszélgetés mellett, és látod, mihez nyúl. Terminálból is megy, én magam is úgy szoktam, de ahhoz már kell némi bátorság, és nem ez az a pont, ahol azt érdemes gyűjteni."
+    },
+    {
+      "type": "h3",
+      "text": "A sorrend"
+    },
+    {
+      "type": "paragraph",
+      "text": "Telepítsd a VS Code-ot, ha még nincs. Telepítsd a Claude Code bővítményt. Jelentkezz be. Nyiss meg egy mappát."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ennyi. Innentől beszélgetsz vele."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az első dolog, ami meg fog lepni, az az engedélykérő ablak. Amikor fájlt akar módosítani vagy parancsot futtatni, megkérdezi. Ez nem hiba, hanem az egyetlen dolog, ami miatt nyugodtan alhatsz. Olvasd el, mit kér, és csak akkor engedd, ha érted."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az első időben mindent engedélyeztess egyesével. Később, amikor már látod a mintát, gyorsíthatsz rajta."
+    },
+    {
+      "type": "h3",
+      "text": "Ha elakadsz"
+    },
+    {
+      "type": "paragraph",
+      "text": "A hibaüzenetet másold be a claude.ai chatbe, és kérdezd meg, mit jelent. Az esetek túlnyomó részében ez megoldja."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha az sem, kérdezz a [Claude Code – Kezdőknek](https://www.facebook.com/groups/1355789193061643) csoportban. Pont ezért csináltam."
+    },
+    {
+      "type": "h3",
+      "text": "Mit tanulj meg először"
+    },
+    {
+      "type": "paragraph",
+      "text": "Nem kell programozni tanulnod ahhoz, hogy elkezdd. De négy dolog van, ami nélkül hamar falba ütközöl, és mind megtanulható egy hétvége alatt:"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mi az a fájl és mappa, és hogyan néz ki egy projekt szerkezete. Ha nem tudod, hol mi van, nem tudsz pontos hatókört adni, és minden promptod pontatlan lesz."
+    },
+    {
+      "type": "paragraph",
+      "text": "Mit csinál nagyjából a HTML, a CSS és a JavaScript. Nem írni kell tudni, csak felismerni, melyik mit intéz."
+    },
+    {
+      "type": "paragraph",
+      "text": "Mi az a Git, és mit jelent egy commit. Elég annyi, hogy ez a visszavonás gomb."
+    },
+    {
+      "type": "paragraph",
+      "text": "Mit jelent az, hogy publikálsz valamit. Hogyan lesz a gépeden lévő mappából egy cím, amit meg tudsz osztani."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez a négy dolog nem programozás. Ez az, ami elválasztja azt, aki irányít, attól, aki reménykedik."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "13. Ami ebből marad"
+    },
+    {
+      "type": "paragraph",
+      "text": "Végigmentünk egy valódi munkán. Volt benne diagnózis, tíz szelet, néhány elrontott kör, egy visszavont hero, és a végén egy kétéves hiba, ami a saját oldalamon ült."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha egyetlen dolgot viszel magaddal, az ez legyen: a Claude Code nem attól lesz jó, hogy okos, hanem attól, hogy pontosan mondod meg neki, mit csináljon és hol. A modell a végrehajtásban erős. A döntés a tiéd marad, és ez így is van rendjén, mert a végén a te kódbázisod lesz, és neked kell tudnod karbantartani."
+    },
+    {
+      "type": "h3",
+      "text": "A hét dolog, amit érdemes megjegyezni"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pontos elérési út, mindig. Nem kategória, nem körülírás."
+    },
+    {
+      "type": "paragraph",
+      "text": "Előbb olvasson, aztán írjon. Feltételezett okra ne adj parancsot."
+    },
+    {
+      "type": "paragraph",
+      "text": "Egy prompt, egy változás, egy commit. Ha nem lesz belőle egy értelmes commitüzenet, túl nagy volt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Zárd le, és kérj jelentést. Külön kérdezd meg, miben bizonytalan."
+    },
+    {
+      "type": "paragraph",
+      "text": "Kétszeri elakadás után új beszélgetés. A harmadik próbálkozás már a szennyezett előzményből dolgozik."
+    },
+    {
+      "type": "paragraph",
+      "text": "A szöveg nem a kódban él. Egy forrás, mindenhol."
+    },
+    {
+      "type": "paragraph",
+      "text": "A „kész\" nem bizonyíték. Nézd meg, hogy tényleg működik-e."
+    },
+    {
+      "type": "h3",
+      "text": "Ahol folytathatod"
+    },
+    {
+      "type": "paragraph",
+      "text": "A promptépítő eszköz, amiről szó volt, itt érhető el, és ingyenes. Ott van benne mind a tíz prompttípus kitölthető formában, magyarul, és időnként új tippekkel bővül. → **[zynai.hu/claude-code](/claude-code)**"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha kérdésed van, vagy elakadtál, gyere a **[Claude Code – Kezdőknek](https://www.facebook.com/groups/1355789193061643)** csoportba. Ott konkrét projektekről beszélgetünk, nem elméletről."
+    },
+    {
+      "type": "paragraph",
+      "text": "És ha azt szeretnéd, hogy valaki végigvezessen egy saját projekten, ugyanezzel a módszerrel, amit itt láttál: a VibeCoding képzésen ezt tanítom. Nem a kódolást, hanem a döntéseket. Mit építs, milyen sorrendben, és honnan tudod, hogy tényleg kész van. → **[zynai.hu/vibecoding-pilot](/vibecoding-pilot)**"
+    }
+  ],
+  "coverImage": "/blog/claude-code/claude-code-gyakorlatban.webp"
+}
