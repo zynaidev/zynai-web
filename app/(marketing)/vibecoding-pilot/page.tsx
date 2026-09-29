@@ -36,7 +36,7 @@ import { LandingExamples } from "./LandingExamples";
 import { PilotStickyCta } from "./PilotStickyCta";
 
 export const metadata: Metadata = {
-  title: "VibeCoding 1.0 – Pilot — építs AI-jal weboldalt, október 8-tól",
+  title: "VibeCoding 1.0 – Pilot — építs AI-jal weboldalt, október 22-től",
   description:
     "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül, kész architektúrán tanulod meg a folyamatot egy gyakorlóprojekten, és elindítod a sajátodat.",
 };
@@ -184,7 +184,7 @@ const SKILLS = [
 ];
 
 const DATA_ROWS: { label: string; value: ReactNode }[] = [
-  { label: "Indulás", value: "2026. október 8., csütörtök" },
+  { label: "Indulás", value: "2026. október 22., csütörtök" },
   { label: "Időtartam", value: "6 hét, heti 2×60 perc élő webinár" },
   { label: "0. alkalom", value: "technikai belépő a képzés előtt" },
   {
@@ -1047,7 +1047,7 @@ export default function VibeCodingPilotPage() {
             </Reveal>
             <Reveal delay={0.15}>
               <p className="mt-6 text-center text-[14px] leading-[1.7] text-[var(--text-tertiary)]">
-                Jelentkezési határidő: 2026. október 6., kedd, 12:00. A VibeCoding
+                Jelentkezési határidő: 2026. október 20., kedd, 12:00. A VibeCoding
                 1.0 2027-ben indul.
               </p>
             </Reveal>
@@ -1088,7 +1088,7 @@ export default function VibeCodingPilotPage() {
             <div className="relative z-10">
               <Reveal>
                 <p className="mb-4 font-mono text-[13px] uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
-                  Indulás október 8.
+                  Indulás október 22.
                 </p>
                 <h2
                   className="font-display font-medium text-[var(--text-primary)]"
@@ -1098,7 +1098,7 @@ export default function VibeCodingPilotPage() {
                     lineHeight: 1.1,
                   }}
                 >
-                  Október 8-án indulunk
+                  Október 22-én indulunk
                 </h2>
                 <p className="mx-auto mt-6 max-w-md text-[16px] leading-[1.7] text-[var(--text-secondary)]">
                   Legfeljebb négy hely van, és ez nem marketingfogás:{" "}
