@@ -116,11 +116,13 @@ export function LandingExamples() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#BDFF00]">
-            Ilyen előlapot viszel végig
+            Ilyen oldalakat építhetsz
           </p>
           <p className="mt-3 max-w-2xl text-[16px] leading-[1.7] text-[var(--text-secondary)]">
-            Bemutatkozó- és szolgáltatói oldalak, ezen a szinten. A példák v0
-            sablonok. A tiéd a saját briefedből készül, nem ezek másolata.
+            Bemutatkozó- és szolgáltatói oldalak, ezen a szinten: kattints a
+            példákra. Ha van saját ötleted vagy vállalkozásod, azt viszed
+            végig, ha nincs, vállalkozástípust választasz egy listából. A tiéd
+            a saját briefedből készül, nem ezek másolata. A példák v0 sablonok.
           </p>
         </div>
         <div className="flex shrink-0 gap-2">

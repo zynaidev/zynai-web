@@ -121,7 +121,7 @@ export async function POST(req: Request) {
 
     // N8N webhook — fire and forget, nem blokkolja a választ
     try {
-      await fetch("https://n8n.zynai.hu/webhook-test/zynai-urlap", {
+      await fetch("https://n8n.zynai.hu/webhook/zynai-urlap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -38,12 +38,11 @@ import { PilotStickyCta } from "./PilotStickyCta";
 export const metadata: Metadata = {
   title: "VibeCoding 1.0 – Pilot — építs AI-jal weboldalt, október 22-től",
   description:
-    "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül, kész architektúrán tanulod meg a folyamatot egy gyakorlóprojekten, és elindítod a sajátodat.",
+    "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül tanulod meg a folyamatot: a saját projektedet építed végig élőben, és saját domainen élesíted.",
 };
 
 const RESULTS = [
-  "Kész gyakorlóoldal, amin a módszert megtanulod",
-  "Elindított saját projekt, saját domainen",
+  "Kész, élő projekt, saját domainen",
   "Működő űrlap és mérés, amiről tudod, hogy tényleg mér",
   "A munkarendszered: brief, szabályok, promptok, hibakeresés, minőségi kapu",
   "Ajánlat és karbantartás a következő projekthez",
@@ -58,32 +57,32 @@ const WEEKS: {
   {
     n: "01",
     title: "Brief",
-    text: "Kapsz egy kész briefet, és tudod, mit vállalhatsz el — és mit nem.",
+    text: "Elkészíted a saját briefedet, és tudod, mit vállalhatsz el — és mit nem. Ehhez minden szükséges anyagot megkapsz.",
   },
   {
     n: "02",
     title: "Első élő oldal",
-    text: "Kapsz egy éles oldalt, még mielőtt tétje lenne, és egy menetet arra, hogyan állsz vissza, ha elromlik.",
+    text: "Élesre teszel egy üres oldalt, még mielőtt tétje lenne, és megtanulod, hogyan állsz vissza, ha elromlik.",
   },
   {
     n: "03",
     title: "Teljes váz",
-    text: "Kapsz egy kész oldalszerkezetet, és azt a módszert, amivel egy változtatás egy helyen marad.",
+    text: "Felépíted a saját oldalad teljes szerkezetét, és megtanulod azt a módszert, amivel egy változtatás egy helyen marad.",
   },
   {
     n: "04",
     title: "Megtervezett oldal",
-    text: "Kapsz egy kész, megtervezett oldalt, és látod, mitől konvertál az egyik, a másik miért nem.",
+    text: "Megtervezed az oldalad, és látod, mitől konvertál az egyik oldal, a másik miért nem.",
   },
   {
     n: "05",
     title: "Űrlap, e-mail, mérés",
-    text: "Kapsz működő űrlapot, valódi e-mail-kézbesítést és mérést. A jel, hogy kész: megérkezett az e-mail.",
+    text: "Működő űrlapot, valódi e-mail-kézbesítést és mérést építesz. A jel, hogy kész: megérkezett az e-mail.",
   },
   {
     n: "06",
     title: "Minőségi kapu",
-    text: "Önállóan, segítség nélkül indítasz el egy projektet a saját briefedből. Itt derül ki, rögzült-e a módszer.",
+    text: "Végigmész a minőségi kapun a saját projekteden. Itt derül ki, rögzült-e a módszer.",
     extra: {
       title: "Ajánlat és átadás",
       text: "Kapsz árazást, ajánlatot és átadási menetet. Egy folyamatot, amit a következő munkánál újra használsz.",
@@ -212,7 +211,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Mi van, ha nincs saját projektötletem?",
     answer:
-      "A gyakorlóprojekt kész brieffel önmagában is végigvihető. Saját ötlet nélkül is részt vehetsz, a módszer ugyanaz.",
+      "Semmi baj. A vállalkozástípusok listájából választasz egyet (például tanácsadó, fotós, autószerviz), és minden szükséges anyagot megkapsz ahhoz, hogy megfelelően kialakítsd a bemutató projektedet. Az oldal bemutató jellegű: kitalált cégnévvel, kitalált referencia, ár és vélemény nélkül. A listát a jelentkezés utáni beszélgetésen megkapod, a típust az 1. alkalomig kell kiválasztanod.",
   },
   {
     question: "Mi történik, ha elakadok?",
@@ -232,7 +231,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Élőben zajlanak a webinárok?",
     answer:
-      "Igen. Tizenkét élő webinár, egyenként 60 perc, plusz egy technikai belépő a képzés előtt. Nem előre felvett videók. Az élő időn a gyakorlóprojekttel dolgozunk, a kérdéseidre ott kapsz választ.",
+      "Igen. Tizenkét élő webinár, egyenként 60 perc, plusz egy technikai belépő a képzés előtt. Nem előre felvett videók. Az élő időn a saját projektjeiteken dolgozunk, én a listáról választott típust építem végig, a kérdéseidre ott kapsz választ.",
   },
   {
     question: "Lesz felvétel a webinárokról?",
@@ -396,7 +395,7 @@ export default function VibeCodingPilotPage() {
             <Reveal>
               <SectionLabel number="01" text="AZ EREDMÉNY" />
               <SectionHeading>
-                A gyakorlóoldalon tanulod meg, a sajátodon élesíted
+                A saját projektedet építed végig, és saját domainen élesíted
               </SectionHeading>
             </Reveal>
             <Reveal delay={0.1}>
@@ -431,28 +430,30 @@ export default function VibeCodingPilotPage() {
           <Reveal>
             <div className="mx-auto mt-14 max-w-3xl text-[18px] leading-[1.75] text-[var(--text-secondary)]">
               <p>
-                A módszert egy közös gyakorlóprojekten tanuljuk meg, kész
-                brieffel — így a figyelem a folyamaton van, nem a szövegíráson.
-                A saját projekted a 2. héttől fut a háttérben, és a képzés alatt
-                élesíted, saját domainen. Ha még nincs saját ötleted, a
-                gyakorlóprojekt önmagában is végigvihető.
+                Mindenki a saját projektjét építi az első naptól. Ha van
+                vállalkozásod vagy ötleted, azt viszed végig. Ha nincs, egy
+                listából választasz vállalkozástípust, és bemutató projektet
+                építesz belőle. Minden szükséges anyagot megkapsz ahhoz, hogy
+                megfelelően kialakítsd a saját vállalkozásodat vagy a bemutató
+                projektedet.
+                Én is a listából választok egyet, és azt építem végig élőben,
+                hibákkal együtt.
               </p>
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
                   <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#BDFF00]">
-                    Gyakorlóprojekt
+                    Saját ötlet vagy vállalkozás
                   </p>
                   <p className="mt-3 text-[15px] leading-[1.65]">
-                    Kész brief. Az 1–5. héten ezen tanuljuk a módszert, közösen.
+                    Ezt építed végig. A második alkalmon közösen átnézzük, belefér-e a keretbe.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
                   <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#BDFF00]">
-                    Saját projekt
+                    Vállalkozástípus a listából
                   </p>
                   <p className="mt-3 text-[15px] leading-[1.65]">
-                    A 2. héttől a háttérben, a 6. héttől önállóan. Ezt élesíted,
-                    saját domainen.
+                    Ha nincs fix ötleted, választasz egyet (például fotós, autószerviz, személyi edző). Kész briefet és szöveget nem kapsz, az oldal bemutató jellegű.
                   </p>
                 </div>
               </div>
@@ -564,9 +565,14 @@ export default function VibeCodingPilotPage() {
                 </p>
                 <p>
                   <Em>
-                    Nem egy videótárat veszel meg: a gyakorlóprojekten együtt
-                    haladunk, hétről hétre.
+                    Nem egy videótárat veszel meg: a saját projekteden haladunk,
+                    hétről hétre, és élőben látod, ahogy én is felépítek egyet.
                   </Em>
+                </p>
+                <p>
+                  Cserébe annyit kérek, hogy légy őszinte: írd le, hol akadtál
+                  el, mi volt zavaros, és mit kellett volna másképp
+                  elmagyaráznom. Ebből alakítom ki a 2027-es képzést.
                 </p>
               </div>
             </Reveal>
