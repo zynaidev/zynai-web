@@ -1,6 +1,5 @@
-"use client";
-
 import Image from "next/image";
+import Link from "next/link";
 
 function LinkedinIcon() {
   return (
@@ -26,13 +25,41 @@ function GithubIcon() {
   );
 }
 
+const linkClass =
+  "inline-flex min-h-11 items-center text-[14px] text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--text-primary)] lg:min-h-0";
+
+const labelClass =
+  "mb-5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-secondary)]";
+
+const socialClass =
+  "flex size-11 items-center justify-center text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--accent)] lg:size-auto";
+
+const ctaBase =
+  "inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-5 py-2.5 font-sans text-sm font-semibold transition-colors duration-200";
+
 export function Footer() {
   return (
     <footer className="relative border-t border-[var(--border-hairline)] bg-[var(--bg-elevated)]">
       <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-16 lg:py-20">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-8">
+        {/* CTA row */}
+        <div className="mb-10 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/vibecoding-pilot"
+            className={`${ctaBase} border-transparent bg-[var(--accent)] text-[#09090B] hover:brightness-110`}
+          >
+            VibeCoding képzés
+          </Link>
+          <Link
+            href="/kapcsolatfelvetel"
+            className={`${ctaBase} border-[var(--accent)] text-[var(--accent)] hover:bg-[rgba(189,255,0,0.1)]`}
+          >
+            Kapcsolatfelvétel
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-8">
           {/* Column 1 — Brand */}
-          <div className="col-span-2 lg:col-span-1">
+          <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <div className="flex items-center gap-2.5 text-[18px]">
               <Image
                 src="/ZynAI_favicon.png"
@@ -46,16 +73,16 @@ export function Footer() {
                 ZynAI
               </span>
             </div>
-            <p className="mt-4 text-[14px] leading-[1.6] text-[var(--text-secondary)] max-w-none lg:max-w-[28ch]">
+            <p className="mt-4 max-w-none text-[14px] leading-[1.6] text-[var(--text-secondary)] md:max-w-md lg:max-w-[28ch]">
               AI integráció és üzleti tanácsadás magyar vállalkozásoknak.
             </p>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="-ml-3.5 mt-4 flex items-center gap-1 lg:ml-0 lg:mt-6 lg:gap-3">
               <a
                 href="https://www.linkedin.com/in/attila-bakos-4ab0a2353/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="text-[var(--text-tertiary)] hover:text-[#BDFF00] transition-colors duration-200"
+                className={socialClass}
               >
                 <LinkedinIcon />
               </a>
@@ -64,7 +91,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="text-[var(--text-tertiary)] hover:text-[#BDFF00] transition-colors duration-200"
+                className={socialClass}
               >
                 <FacebookIcon />
               </a>
@@ -73,7 +100,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="text-[var(--text-tertiary)] hover:text-[#BDFF00] transition-colors duration-200"
+                className={socialClass}
               >
                 <GithubIcon />
               </a>
@@ -82,64 +109,58 @@ export function Footer() {
 
           {/* Column 2 — Tartalom */}
           <div className="min-w-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">TARTALOM</p>
-            <ul className="space-y-3">
+            <p className={labelClass}>TARTALOM</p>
+            <ul className="space-y-0 lg:space-y-3">
               {[
                 { label: "Mi az AI integráció?", href: "/#modszer" },
                 { label: "Hogyan dolgozom?", href: "/#hogyan" },
-                { label: "Alkalmazási területek", href: "/#alkalmazas" },
                 { label: "Rólam", href: "/#rolam" },
               ].map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Columns 3–4 — Anyagok + Kapcsolat (stacked on mobile, separate on lg) */}
-          <div className="flex min-w-0 flex-col gap-8 lg:contents">
+          {/* Columns 3–4 — Anyagok + Kapcsolat (stacked below md, separate from md up) */}
+          <div className="flex min-w-0 flex-col gap-8 md:contents">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">ANYAGOK</p>
-              <ul className="space-y-3">
+              <p className={labelClass}>ANYAGOK</p>
+              <ul className="space-y-0 lg:space-y-3">
                 {[
                   { label: "Esettanulmányok", href: "/esettanulmanyok" },
                   { label: "AI tartalmak", href: "/ai-tartalmak" },
                 ].map((link) => (
                   <li key={link.href}>
-                    <a
-                      href={link.href}
-                      className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
-                    >
+                    <Link href={link.href} className={linkClass}>
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)] mb-5">KAPCSOLAT</p>
-              <ul className="space-y-3">
-                {[
-                  { label: "Időpontfoglalás", href: "/idopontfoglalas" },
-                  { label: "info@zynai.hu", href: "mailto:info@zynai.hu" },
-                  { label: "Adatvédelem", href: "/adatvedelem" },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      className="text-[14px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+              <p className={labelClass}>KAPCSOLAT</p>
+              <ul className="space-y-0 lg:space-y-3">
+                <li>
+                  <Link href="/idopontfoglalas" className={linkClass}>
+                    Időpontfoglalás
+                  </Link>
+                </li>
+                <li>
+                  <a href="mailto:info@zynai.hu" className={linkClass}>
+                    info@zynai.hu
+                  </a>
+                </li>
+                <li>
+                  <Link href="/adatvedelem" className={linkClass}>
+                    Adatvédelem
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -147,7 +168,7 @@ export function Footer() {
 
         {/* Bottom row */}
         <div className="mt-16 lg:mt-20 pt-8 border-t border-[var(--border-hairline)]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-secondary)]">
             © 2026 ZynAI · Minden jog fenntartva
           </p>
         </div>

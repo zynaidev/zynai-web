@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 
 function prefersReducedMotion(): boolean {
   return (
@@ -49,10 +50,26 @@ const CATEGORIES = ["ÖSSZES", ...presentTags] as const;
 const MotionLink = motion.create(Link);
 
 export default function BlogArchivePage() {
+  return (
+    <Suspense fallback={null}>
+      <BlogArchive />
+    </Suspense>
+  );
+}
+
+function BlogArchive() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] =
     useState<(typeof CATEGORIES)[number]>("ÖSSZES");
   const [page, setPage] = useState(0);
+
+  // A fejléc "AI tartalmak" lenyílója ?kategoria=... linkekkel érkezik ide.
+  const categoryParam = useSearchParams().get("kategoria");
+  useEffect(() => {
+    const next = CATEGORIES.find((c) => c === categoryParam) ?? "ÖSSZES";
+    setActiveCategory(next);
+    setPage(0);
+  }, [categoryParam]);
 
   const filtered = useMemo(
     () =>
