@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Container } from "@/components/ui/container";
 
 const navItems = [
   { href: "/#modszer", label: "Módszer" },
@@ -33,9 +32,9 @@ const primaryCta = { href: "/vibecoding-pilot", label: "VibeCoding képzés" };
 const secondaryCta = { href: "/kapcsolatfelvetel", label: "Kapcsolatfelvétel" };
 
 const primaryCtaClass =
-  "header-cta inline-flex items-center justify-center whitespace-nowrap rounded-full border border-transparent bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light lg:px-4 lg:text-[13px] xl:px-5 xl:text-sm";
+  "header-cta inline-flex items-center justify-center whitespace-nowrap rounded-full border border-transparent bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-on-light lg:px-4 lg:text-[13px] xl:px-5 xl:text-sm 2xl:px-6 2xl:text-[15px]";
 const secondaryCtaClass =
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full border border-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent/10 lg:px-4 lg:text-[13px] xl:px-5 xl:text-sm";
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full border border-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent/10 lg:px-4 lg:text-[13px] xl:px-5 xl:text-sm 2xl:px-6 2xl:text-[15px]";
 
 const headerCtaCss = `
 .header-cta {
@@ -209,22 +208,22 @@ export function Header() {
 
       {/* Desktop — full-width fixed bar */}
       <header className="fixed inset-x-0 top-0 z-[70] hidden border-b border-[rgba(255,255,255,0.08)] bg-[rgba(9,9,11,0.88)] backdrop-blur-xl lg:block">
-        <Container className="flex h-24 items-center">
+        <div className="mx-auto flex h-20 w-full max-w-[1760px] items-center px-8 xl:px-12 2xl:px-16">
           <Link className="shrink-0" href="/">
             <Image
                 src="/brand/ZynAI-Logo.svg"
                 alt="ZynAI"
                 width={156}
                 height={42}
-                className="h-9 w-auto object-contain xl:h-[42px]"
+                className="h-9 w-auto object-contain xl:h-[42px] 2xl:h-[46px]"
                 priority
               />
           </Link>
 
-          <nav className="flex h-full flex-1 items-center justify-center gap-4 whitespace-nowrap font-sans text-[15px] font-normal text-text-secondary xl:gap-10 xl:text-[18px]">
+          <nav className="flex h-full flex-1 items-center justify-evenly whitespace-nowrap font-sans text-[15px] font-normal text-text-secondary xl:text-[17px] 2xl:text-[18px]">
             {navItems.map((item) =>
               item.href === "/ai-tartalmak" ? (
-                <div className="group relative flex h-full items-center" key={item.label}>
+                <div className="group relative flex h-full items-center px-1.5 xl:px-2" key={item.label}>
                   <Link
                     className="inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-text-primary group-hover:text-text-primary group-focus-within:text-text-primary"
                     href={item.href}
@@ -260,7 +259,7 @@ export function Header() {
                 </div>
               ) : (
                 <Link
-                  className="transition-colors duration-200 hover:text-text-primary"
+                  className="px-1.5 transition-colors xl:px-2 duration-200 hover:text-text-primary"
                   href={item.href}
                   key={item.label}
                 >
@@ -270,7 +269,7 @@ export function Header() {
             )}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 2xl:gap-4">
             <Link className={secondaryCtaClass} href={secondaryCta.href}>
               {secondaryCta.label}
             </Link>
@@ -278,7 +277,7 @@ export function Header() {
               {primaryCta.label}
             </Link>
           </div>
-        </Container>
+        </div>
       </header>
     </>
   );
