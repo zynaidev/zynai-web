@@ -220,7 +220,7 @@ export function Header() {
               />
           </Link>
 
-          <nav className="flex h-full flex-1 items-center justify-evenly whitespace-nowrap font-sans text-[15px] font-normal text-text-secondary xl:text-[17px] 2xl:text-[18px]">
+          <nav className="flex h-full flex-1 items-center justify-center gap-0 whitespace-nowrap font-sans text-base font-normal text-text-secondary xl:gap-4 2xl:gap-6">
             {navItems.map((item) =>
               item.href === "/ai-tartalmak" ? (
                 <div className="group relative flex h-full items-center px-1.5 xl:px-2" key={item.label}>
