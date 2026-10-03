@@ -133,6 +133,7 @@ export function Footer() {
                 {[
                   { label: "Esettanulmányok", href: "/esettanulmanyok" },
                   { label: "AI tartalmak", href: "/ai-tartalmak" },
+                  { label: "Promptépítő", href: "/claude-code" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className={linkClass}>

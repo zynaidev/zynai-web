@@ -10,6 +10,7 @@ const navItems = [
   { href: "/#modszer", label: "Módszer" },
   { href: "/esettanulmanyok", label: "Esettanulmányok" },
   { href: "/ai-tartalmak", label: "AI tartalmak" },
+  { href: "/claude-code", label: "Promptépítő" },
   { href: "/#rolam", label: "Rólam" },
 ];
 
@@ -209,7 +210,7 @@ export function Header() {
       {/* Desktop — full-width fixed bar */}
       <header className="fixed inset-x-0 top-0 z-[70] hidden border-b border-[rgba(255,255,255,0.08)] bg-[rgba(9,9,11,0.88)] backdrop-blur-xl lg:block">
         <Container className="flex h-24 items-center">
-          <Link href="/">
+          <Link className="shrink-0" href="/">
             <Image
                 src="/brand/ZynAI-Logo.svg"
                 alt="ZynAI"
@@ -220,7 +221,7 @@ export function Header() {
               />
           </Link>
 
-          <nav className="flex h-full flex-1 items-center justify-center gap-5 whitespace-nowrap font-sans text-base font-normal text-text-secondary xl:gap-14 xl:text-[18px]">
+          <nav className="flex h-full flex-1 items-center justify-center gap-4 whitespace-nowrap font-sans text-[15px] font-normal text-text-secondary xl:gap-10 xl:text-[18px]">
             {navItems.map((item) =>
               item.href === "/ai-tartalmak" ? (
                 <div className="group relative flex h-full items-center" key={item.label}>
