@@ -283,9 +283,8 @@ function BlogArchive() {
                 href={`/ai-tartalmak/${heroArticle.slug}`}
               >
                 <div
-                  className="border-b border-[var(--border-hairline)] bg-[rgba(255,255,255,0.04)] lg:border-b-0 lg:border-r"
+                  className="aspect-[1200/630] border-b border-[var(--border-hairline)] bg-[rgba(255,255,255,0.04)] lg:self-center lg:border-b-0"
                   style={{
-                    minHeight: "320px",
                     overflow: "hidden",
                     position: "relative",
                   }}
@@ -399,7 +398,8 @@ function BlogArchive() {
                 >
                   <div
                     style={{
-                      height: "180px",
+                      aspectRatio: "1200 / 630",
+                      background: "rgba(255,255,255,0.04)",
                       overflow: "hidden",
                       borderRadius: "12px",
                       marginBottom: "16px",

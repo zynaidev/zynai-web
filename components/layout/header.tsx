@@ -5,13 +5,23 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
+const toolLinks = [
+  { href: "/claude-code", label: "Promptépítő", external: false },
+  { href: "https://ai-munkaprofil.zynai.hu/", label: "AI-Munkaprofil", external: true },
+];
+
 const navItems = [
   { href: "/#modszer", label: "Módszer" },
   { href: "/esettanulmanyok", label: "Esettanulmányok" },
   { href: "/ai-tartalmak", label: "AI tartalmak" },
-  { href: "/claude-code", label: "Promptépítő" },
+  { href: "", label: "Eszközök" },
   { href: "/#rolam", label: "Rólam" },
 ];
+
+// Mobilon az „Eszközök” almenü elemei egyszerű sorokként jelennek meg.
+const mobileNavItems = navItems.flatMap((item) =>
+  item.label === "Eszközök" ? toolLinks : [{ ...item, external: false }],
+);
 
 const aiCategories = [
   { href: "/ai-tartalmak", label: "Összes cikk" },
@@ -96,6 +106,68 @@ const headerCtaCss = `
 }
 `;
 
+type DropdownItem = { href: string; label: string; external?: boolean };
+
+function NavDropdown({
+  label,
+  href,
+  title,
+  items,
+}: {
+  label: string;
+  href?: string;
+  title: string;
+  items: DropdownItem[];
+}) {
+  const triggerClass =
+    "inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-text-primary group-hover:text-text-primary group-focus-within:text-text-primary";
+  const chevron = (
+    <ChevronDown
+      aria-hidden
+      size={16}
+      className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+    />
+  );
+
+  return (
+    <div className="group relative flex h-full items-center px-1.5 xl:px-2">
+      {href ? (
+        <Link className={triggerClass} href={href}>
+          {label}
+          {chevron}
+        </Link>
+      ) : (
+        <button className={triggerClass} type="button">
+          {label}
+          {chevron}
+        </button>
+      )}
+      <div className="invisible absolute left-1/2 top-full z-[80] w-64 -translate-x-1/2 translate-y-1 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+        <div className="rounded-2xl border border-[rgba(255,255,255,0.09)] bg-[rgba(9,9,11,0.94)] p-2 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+          <p className="px-3 pb-1.5 pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-text-tertiary">
+            {title}
+          </p>
+          {items.map((item) => (
+            <Link
+              className="group/item flex items-center justify-between rounded-xl px-3 py-2.5 text-[15px] text-text-secondary transition-colors duration-150 hover:bg-[rgba(189,255,0,0.08)] hover:text-text-primary focus-visible:bg-[rgba(189,255,0,0.08)] focus-visible:text-text-primary focus-visible:outline-none"
+              href={item.href}
+              key={item.label}
+              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
+              {item.label}
+              <ArrowRight
+                aria-hidden
+                size={14}
+                className="-translate-x-1 text-accent opacity-0 transition-all duration-150 group-hover/item:translate-x-0 group-hover/item:opacity-100 group-focus-visible/item:translate-x-0 group-focus-visible/item:opacity-100"
+              />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MobileMenuIcon({ open }: { open: boolean }) {
   return (
     <svg
@@ -177,11 +249,12 @@ export function Header() {
             id="mobile-nav"
           >
               <nav className="flex flex-col gap-1 whitespace-nowrap font-sans text-sm font-normal text-text-secondary">
-                {navItems.map((item) => (
+                {mobileNavItems.map((item) => (
                   <Link
                     className="rounded-md py-3 transition-colors duration-200 hover:text-text-primary"
                     href={item.href}
                     key={item.label}
+                    {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -221,43 +294,29 @@ export function Header() {
           </Link>
 
           <nav className="flex h-full flex-1 items-center justify-center gap-0 whitespace-nowrap font-sans text-base font-normal text-text-secondary xl:gap-4 2xl:gap-6">
-            {navItems.map((item) =>
-              item.href === "/ai-tartalmak" ? (
-                <div className="group relative flex h-full items-center px-1.5 xl:px-2" key={item.label}>
-                  <Link
-                    className="inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-text-primary group-hover:text-text-primary group-focus-within:text-text-primary"
+            {navItems.map((item) => {
+              if (item.href === "/ai-tartalmak") {
+                return (
+                  <NavDropdown
                     href={item.href}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      aria-hidden
-                      size={16}
-                      className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
-                    />
-                  </Link>
-                  <div className="invisible absolute left-1/2 top-full z-[80] w-64 -translate-x-1/2 translate-y-1 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                    <div className="rounded-2xl border border-[rgba(255,255,255,0.09)] bg-[rgba(9,9,11,0.94)] p-2 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-xl">
-                      <p className="px-3 pb-1.5 pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-text-tertiary">
-                        Kategóriák
-                      </p>
-                      {aiCategories.map((cat) => (
-                        <Link
-                          className="group/item flex items-center justify-between rounded-xl px-3 py-2.5 text-[15px] text-text-secondary transition-colors duration-150 hover:bg-[rgba(189,255,0,0.08)] hover:text-text-primary focus-visible:bg-[rgba(189,255,0,0.08)] focus-visible:text-text-primary focus-visible:outline-none"
-                          href={cat.href}
-                          key={cat.label}
-                        >
-                          {cat.label}
-                          <ArrowRight
-                            aria-hidden
-                            size={14}
-                            className="-translate-x-1 text-accent opacity-0 transition-all duration-150 group-hover/item:translate-x-0 group-hover/item:opacity-100 group-focus-visible/item:translate-x-0 group-focus-visible/item:opacity-100"
-                          />
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : (
+                    items={aiCategories}
+                    key={item.label}
+                    label={item.label}
+                    title="Kategóriák"
+                  />
+                );
+              }
+              if (item.label === "Eszközök") {
+                return (
+                  <NavDropdown
+                    items={toolLinks}
+                    key={item.label}
+                    label={item.label}
+                    title="Eszközök"
+                  />
+                );
+              }
+              return (
                 <Link
                   className="px-1.5 transition-colors xl:px-2 duration-200 hover:text-text-primary"
                   href={item.href}
@@ -265,8 +324,8 @@ export function Header() {
                 >
                   {item.label}
                 </Link>
-              ),
-            )}
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-3 2xl:gap-4">

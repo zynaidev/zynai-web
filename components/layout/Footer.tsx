@@ -134,9 +134,20 @@ export function Footer() {
                   { label: "Esettanulmányok", href: "/esettanulmanyok" },
                   { label: "AI tartalmak", href: "/ai-tartalmak" },
                   { label: "Promptépítő", href: "/claude-code" },
+                  {
+                    label: "AI-Munkaprofil",
+                    href: "https://ai-munkaprofil.zynai.hu/",
+                    external: true,
+                  },
                 ].map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className={linkClass}>
+                    <Link
+                      href={link.href}
+                      className={linkClass}
+                      {...(link.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
                       {link.label}
                     </Link>
                   </li>

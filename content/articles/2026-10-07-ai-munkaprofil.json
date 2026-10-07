@@ -1,0 +1,134 @@
+{
+  "slug": "ai-munkaprofil-elveszi-az-ai-a-munkadat",
+  "title": "Elveszi az AI a munkádat? Építettem egy eszközt, ami őszintén megmondja",
+  "excerpt": "Az AI-Munkaprofil feladatokra bontja a munkakörödet, és megmutatja, melyik részét érinti az AI, mennyit vesz át ténylegesen, és mi fékezi. Nem jóslat, hanem négy szint egyike: Védett, Felerősödő, Átalakuló vagy Automatizálódó.",
+  "tag": "CLAUDE",
+  "date": "2026. október 7.",
+  "publishedAt": "2026-10-07",
+  "featured": true,
+  "readingTime": "~ 5 perc olvasás",
+  "coverImage": "/blog/ai-munkaprofil/og-fooldal.png",
+  "content": [
+    {
+      "type": "lead",
+      "text": "Mindenki ezt kérdezi. A LinkedInen, a családi ebédnél, a kávégépnél. A válaszok két végletből jönnek: „semmi baj, az AI csak egy eszköz”, vagy „öt év múlva mindenkit lecserélnek”. Egyik sem segít annak, aki holnap reggel is bemegy dolgozni."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ezért építettem az **AI-Munkaprofilt**. Beírod a munkakörödet, és megmutatja, mi történik vele. → **[ai-munkaprofil.zynai.hu](https://ai-munkaprofil.zynai.hu)**"
+    },
+    {
+      "type": "h2",
+      "text": "Nem jóslat, hanem feladatok"
+    },
+    {
+      "type": "paragraph",
+      "text": "A munka nem egy dolog, hanem feladatok csomagja. Egy könyvelő nem csak könyvel: egyeztet, ellenőriz, magyaráz, felelősséget vállal. Az AI ezek közül néhányat ma is megcsinál, másokat évek múlva sem fog, megint másokat veled együtt csinál jobban."
+    },
+    {
+      "type": "paragraph",
+      "text": "Az eszköz ezért feladatokra bontja a munkakört, és mindegyiknél megnézi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "mennyire érinti az AI,",
+        "mennyit vesz át ténylegesen, és mennyit csak segít,",
+        "mi fékezi: fizikai jelenlét, jogi felelősség, szabályozás, vagy az, hogy az emberek embert akarnak látni."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Az eredmény nem egy ijesztő százalék, hanem négy szint egyike: **Védett, Felerősödő, Átalakuló, Automatizálódó**. Mellé pedig az, hogy mit érdemes most tanulnod."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "Mire épül"
+    },
+    {
+      "type": "paragraph",
+      "text": "Négy nyilvános forrást kötöttem össze:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "az amerikai **O*NET-adatbázist**, ami több száz foglalkozás feladatait írja le,",
+        "egy **OpenAI-kutatást** arról, melyik feladatot mennyire érinti a nyelvi modell,",
+        "az **Anthropic Economic Indexet**, ami azt méri, mire használják ténylegesen az emberek a Claude-ot: átadják-e a munkát, vagy együtt dolgoznak vele,",
+        "a **KSH FEOR-08** rendszerét, hogy a magyar munkakörök összeérjenek a nemzetközi adatokkal."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Az összekötés volt a legnehezebb. A magyar munkakörkódot több lépésben kell lefordítani, mire az amerikai adatokhoz ér. Ezt egy saját adatfeldolgozó lánc csinálja, a végén minden munkakört kézzel átnéztem."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "Ahol elbuktam"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az első pontozási szabályom rossz volt. Az 50 munkakörből 58% lett „Védett”, és mindössze egy automatizálódó. Papíron logikus volt, a valóságban használhatatlan."
+    },
+    {
+      "type": "paragraph",
+      "text": "Kidobtam, és egyetlen egyszerű mutatóra cseréltem: mennyire érinti az AI a munkaidődet, ezt mennyire fékezik a körülmények, és abból mennyit vesz át ténylegesen. Az új eloszlás: **18 védett, 11 felerősödő, 17 átalakuló, 4 automatizálódó.**"
+    },
+    {
+      "type": "paragraph",
+      "text": "A szintek határai szakmai becslések, nem tudományos mérések. Ezt a módszertan oldalon is leírtam. Inkább legyen őszinte, mint látványos."
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "Hogyan készült"
+    },
+    {
+      "type": "paragraph",
+      "text": "Az egészet AI-jal építettem. Én voltam a tervező és az ellenőr, a kódot egy Claude-ügynök írta."
+    },
+    {
+      "type": "paragraph",
+      "text": "Ez nem azt jelenti, hogy „írtam egy promptot, és kész lett”. Kis szeletekben haladtunk, és minden lépés után ellenőriztem: zöldek-e a tesztek, igaz-e, amit az oldal állít, működik-e élesben."
+    },
+    {
+      "type": "paragraph",
+      "text": "Amire büszke vagyok:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "**Gyors:** minden oldal előre elkészül, nincs várakozás.",
+        "**Nem kér adatot:** nincs regisztráció, nincs süti, nincs követőkód.",
+        "**Tanul:** ha nem találod a munkakörödet, jelezheted, és ha nem értesz egyet a besorolással, megmondhatod."
+      ]
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "h2",
+      "text": "Ez az első kör"
+    },
+    {
+      "type": "paragraph",
+      "text": "50 munkakörrel indul. Ha használjátok, és jönnek a visszajelzések, bővül. Az adatfeldolgozás 500 munkakörre is fel van készítve."
+    },
+    {
+      "type": "paragraph",
+      "text": "Nézd meg, melyik szinten vagy, és mondd meg, ha szerinted tévedek: → **[ai-munkaprofil.zynai.hu](https://ai-munkaprofil.zynai.hu)**"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ha kíváncsi vagy, mit jelent ez a csapatodra vagy a cégedre, beszéljünk: → **[zynai.hu/kapcsolatfelvetel](/kapcsolatfelvetel)**"
+    }
+  ]
+}

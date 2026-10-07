@@ -203,13 +203,13 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
 
             <div className="self-start lg:pt-2">
               {article.coverImage ? (
-                <div className="relative h-[240px] w-full overflow-hidden rounded-2xl">
+                <div className="relative aspect-[1200/630] w-full overflow-hidden rounded-2xl bg-[rgba(255,255,255,0.04)]">
                   <Image
                     alt={article.title}
                     className="object-cover"
                     fill
                     priority
-                    sizes="380px"
+                    sizes="(max-width: 1023px) 100vw, 380px"
                     src={article.coverImage}
                     quality={80}
                   />
@@ -255,7 +255,7 @@ export default async function AiTartalomArticlePage({ params }: AiTartalomPagePr
               className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] transition-all duration-300 hover:border-[rgba(255,255,255,0.12)]"
               href={`/ai-tartalmak/${a.slug}`}
             >
-              <div className="relative h-[160px] overflow-hidden">
+              <div className="relative aspect-[1200/630] overflow-hidden bg-[rgba(255,255,255,0.04)]">
                 {a.coverImage ? (
                   <Image
                     alt={a.title}
