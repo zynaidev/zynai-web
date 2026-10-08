@@ -13,8 +13,8 @@
 | J2 — X-Powered-By és biztonsági fejlécek | kész | `54c84c3` |
 | J3 — Edge runtime eltávolítása | kész | `89a7132` |
 | J4 — A három lint-hiba | kész | `89b47b3` |
-| J5 — `/blog` helyőrző törlése | kész | (commit után) |
-| J6 — Nem szabványos favicon | hátravan | — |
+| J5 — `/blog` helyőrző törlése | kész | `588e158` |
+| J6 — Nem szabványos favicon | kész | (a következő bejegyzésnél) |
 | J7 — CDN-ikonok helyi kiszolgálása | hátravan | — |
 | J8 — Sitemap kiegészítése | kész | `c31d5ee` |
 | J9 — E-mail és webhook env-be | kész | `e79ceb5` |
@@ -82,8 +82,16 @@ Ati dönt / Ati ellenőrzi: a `/kapcsolatfelvetel` e-mail lépésénél példáu
 
 ## J5 — A `/blog` helyőrző törlése (D3)
 Állapot: kész
-Commit: (a J6 bejegyzésénél)
+Commit: 588e158
 Mit és miért: Az angol nyelvű `/blog/[slug]` helyőrző oldal törölve, mert semmi nem hivatkozott rá (a `/blog` szó csak a `public/blog` képeknél és külső URL-eknél fordult elő). A `public/blog` képmappa megmaradt, a cikkek képei ott vannak.
 Fájlok: `app/blog/[slug]/page.tsx` (törölve)
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start` után `curl -sI /blog/brand-foundation` → `404 Not Found`
 Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a tsc a build előtt az elavult `.next/types` miatt hibát jelezhet; build után zöld.
+
+## J6 — A nem szabványos favicon
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: A `favicon.ico.png` nem szabványos név, és semmi nem hivatkozott rá, ezért törölve. Az oldal ikonja a `/ZynAI_favicon.png`, ahogy a `layout.tsx` és a `manifest.ts` beállítja.
+Fájlok: `app/favicon.ico.png` (törölve)
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓
+Ati dönt / Ati ellenőrzi: a böngészőfülön az ikon továbbra is megjelenik-e.
