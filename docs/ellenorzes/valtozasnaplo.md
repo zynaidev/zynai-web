@@ -159,8 +159,8 @@ c31d5ee Add booking and privacy pages to sitemap
 | M3 — Sütibanner | kész | `a4785b7` |
 | M4 — E-mail-kattintás | kész | `e4a5d52` |
 | M5 — Űrlapkonverziók | kész | `79c6502` |
-| M6 — Cal.com kattintásra | kész | (a következő bejegyzésnél) |
-| M7 — Önellenőrzés | hátravan | — |
+| M6 — Cal.com kattintásra | kész | `b5b292f` |
+| M7 — Önellenőrzés | kész | ez a napló-commit (`Document analytics self-check in change log`) |
 
 ## M1 — Az analitikai könyvtár
 Állapot: kész
@@ -224,7 +224,7 @@ Ati dönt / Ati ellenőrzi: élesben, elfogadott sütikkel, a GA4 DebugView-ban 
 
 ## M6 — Cal.com: kattintásra betöltés és foglalási konverzió (D4)
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: b5b292f
 Mit és miért: A Cal.com naptár már nem töltődik be magától: a helyén egy, a naptár magasságát előre lefoglaló doboz áll a „Naptár megnyitása” gombbal, egy magyarázó sorral és egy közvetlen Cal.com-linkkel. Így a látogató böngészője csak akkor kér bármit a cal.com-tól, ha ő maga megnyitja. Sikeres (éles) foglalás után `booking_complete` esemény megy a `dataLayer`-be, foglalásonként egyszer, személyes adat nélkül.
 Diagnózis:
 - `@calcom/embed-react` 1.5.3; `getCalApi(options?: { embedJsUrl?, namespace? })`; a komponens a `felmeres` namespace-t használja, a `getCalApi({ namespace })` a namespace-es API-t adja vissza, így a figyelő azon fut.
@@ -235,3 +235,54 @@ Szövegek (tegező, M3 szerint, szó szerint a `02`-ből): „Naptár megnyitás
 Fájlok: `components/CalEmbed.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`, `/idopontfoglalas` HTML: `embed/embed.js` = 0, Cal.com iframe = 0, a gomb és a link megvan.
 Ati dönt / Ati ellenőrzi: böngészőben a hálózati fülön a gombnyomás előtt nincs `cal.com` kérés, utána a naptár betölt. Élesben valódi tesztfoglalás → egy `booking_complete` a GA4 DebugView-ban, utána a foglalás lemondása. A kapcsolatfelvételi sikerképernyőn a naptár mostantól szintén gombnyomásra nyílik.
+
+## M7 — Önellenőrzés
+Állapot: kész (csak diagnózis, kódváltozás nincs)
+Commit: `Document analytics self-check in change log` (a saját hash-ét nem tartalmazhatja; lásd `git log`)
+Mit és miért: A mérés bekötésének tíz kritikus pontját ellenőriztem a kódban és a buildelt HTML-ben.
+Fájlok: `docs/ellenorzes/valtozasnaplo.md`
+
+1. **Consent default inline `<script>` a `<head>`-ben, a GTM előtt?** Igen. `app/layout.tsx:102–109`: a `<head>`-ben egyetlen nyers `<script dangerouslySetInnerHTML={{ __html: consentDefaultScript() }}>`; a GTM `next/script` `afterInteractive` (`:124`). Buildelt HTML-ben (`GTM-KBHN7GX6`): `consent', 'default` a 4487. bájtnál a `<head>`-en (197–5053) belül, `googletagmanager.com/gtm.js` a 155556. bájtnál.
+2. **Mind a négy paraméter `denied` a defaultban?** Igen: `lib/analytics/consent.ts`, `consentDefaultScript()`: `ad_storage`, `analytics_storage`, `ad_user_data`, `ad_personalization` = `'denied'`, `wait_for_update: 500`.
+3. **Elfogadás és elutasítás is küld `update`-et?** Igen: `saveConsent(choice)` mindkét ágon `window.gtag?.('consent', 'update', {…: choice})`; a banner mindkét gombja ezt hívja (`ConsentBanner.tsx`, `choose`).
+4. **A tárolt döntés minden betöltéskor újra érvényesül az inline szkriptben?** Igen: az inline szkript `localStorage.getItem("zynai_consent_v1")`, és `'granted'` esetén `update` granted-re, még a GTM előtt. `'denied'`-nél a default marad (minden tiltva). A `gtag` az `arguments`-et teszi a `dataLayer`-be.
+5. **`grep -rn "G-[A-Z0-9]\{6,\}\|AW-[0-9]\|gtag/js\|googleadservices" app components lib` → üres?** Igen, üres. Google-azonosító a kódban nincs; a GTM-ID is csak a `NEXT_PUBLIC_GTM_ID` változóból jön.
+6. **Van kódból küldött `page_view`?** Nincs (`grep page_view` üres).
+7. **Eseménynevek a D1 szerint? `form_submit`/`form_start`?** A `track()` hívások: `generate_lead` (`kapcsolatfelvetel/page.tsx:345`), `pilot_application` (`PilotApplicationForm.tsx:83`), `booking_complete` (`CalEmbed.tsx:140`), `email_click` (`MailtoLink.tsx:19`). A `phone_click` a szerződésben van, de nincs `tel:` link, így nem hívódik. `form_submit`/`form_start` csak az `events.ts` tiltó kommentjében szerepel.
+8. **Minden konverzió csak siker után szól?** Igen: a két űrlapnál a `!res.ok` és a `!data.success` ág után, közvetlenül a `setStatus("success")` előtt; hibánál nincs esemény, és a `useRef` zár miatt egy beküldés egy esemény. A foglalás csak a `bookingSuccessfulV2` után (a teszt foglalás külön esemény, nem figyeljük), uid szerint egyszer. Az `email_click` kattintási esemény, nem konverzió.
+9. **Kerül személyes adat a `track()`-be vagy a `dataLayer`-be?** Nem. A paraméterek: `{ lead_type: "contact_form" }` (konstans), a többi `{}`; a típus (`TrackEventParams`) mást nem enged. A Cal.com payloadból csak az `uid` kerül egy memóriabeli `Set`-be, az eseménybe semmi. A `MailtoLink` a címet nem küldi. A `dataLayer`-be máshol nem írunk (`grep dataLayer` csak a hivatalos GTM-snippetben).
+10. **`NEXT_PUBLIC_GTM_ID` nélkül a buildelt HTML-ben nincs mérés?** Igen: env nélküli build után a főoldal HTML-jében `googletagmanager` = 0, `'consent'` = 0, `Süti-beállítások` = 0, banner = 0. A munkakönyvtárban most is env nélküli build van.
+
+---
+
+## Kézi teendők (Ati) — 2. lépés
+
+A kód ezeket feltételezi (`03-kezi-beallitasok.md`):
+
+1. **K2 — build-argumentum:** az éles Docker-build `--build-arg NEXT_PUBLIC_GTM_ID=GTM-KBHN7GX6`-tal fusson; enélkül élesben nincs se mérés, se banner. Csak új build után hat. Helyben a `.env.local`-ban maradjon üresen.
+2. **K4 — GTM (`GTM-KBHN7GX6`):** consent overview bekapcsolva; Google tag (GA4 mérési azonosító) **Initialization – All Pages** triggerrel, további kötelező hozzájárulás nélkül; öt Custom Event trigger pontos egyezéssel (`generate_lead`, `pilot_application`, `booking_complete`, `phone_click`, `email_click`); öt GA4 Event tag, a `generate_lead`-nél `lead_type` paraméterrel (Data Layer Variable); History Change page_view trigger nincs; közzététel. A GA4 mérési azonosítót **csak a GTM-be** kell beírni, a kódba nem.
+3. **K5 — GA4:** enhanced measurement: history-alapú oldalváltás be, űrlapinterakciók ki; kulcsesemények: `generate_lead`, `pilot_application`, `booking_complete`; adatmegőrzés 14 hónap; belső forgalom szűrése (a helyi és saját tesztek miatt).
+4. **K7 — `/adatvedelem`:** a tényleges működés (GA4/GTM hozzájárulás után sütikkel, előtte süti nélküli jelzésekkel; Cal.com; n8n; Resend; pilot űrlap; „Süti-beállítások” link). Jogi szöveg, te hagyod jóvá.
+5. **K8 — Cal.com sütik:** élesben, inkognitóban a naptár megnyitása után nézd meg a `cal.com` sütijeit; ha mérő/hirdetési is van, szólj, és a betöltést a hozzájáruláshoz kötjük.
+6. **Böngészős ellenőrzések** (M3, M5, M6 „Ati ellenőrzi”): banner és lábléc link működése, `dataLayer` consent default/update, GA4 DebugView-ban `generate_lead`, `pilot_application`, `booking_complete`, `email_click`, a Cal.com csak gombnyomásra tölt. Helyi próbánál a valódi tárolóval (Advanced mód) localhostos találatok kerülhetnek a GA4-be.
+7. **Fejlesztői figyelmeztetés:** a `npm run dev` (webpack) által generált `.next/dev/types` szigorúbb típusellenőrzést ad, és az `app/(marketing)/ai-tartalmak/[slug]/page.tsx` `generateMetadata` paramétertípusa (`Promise<…> | { slug: string }`) miatt dev futás után a `npm run build` elbukik, amíg a `.next/dev` mappa ott van. Megoldás: dev szerver leállítása és `.next/dev` törlése, vagy a típus javítása (külön, a `02` hatókörén kívül).
+
+## git log --oneline -15 (2. lépés, a záró commit előtt)
+
+```
+b5b292f Load Cal.com embed on click and track completed bookings
+79c6502 Fire lead events after confirmed form submissions
+e4a5d52 Track phone and email link clicks
+a4785b7 Add cookie consent banner and settings link
+4a1d68a Load GTM after Consent Mode v2 default in root layout
+5e1ea2d Add analytics event contract, track helper and consent helpers
+b5c0780 Finalize step 1 change log
+425f3f2 Hide missing config names from API responses
+bb5c158 Track .env.example in git
+2edce5b Self-host integration icons
+3be145d Remove unused favicon file
+588e158 Remove placeholder blog route
+614a0e7 Add change log, replacing step 1 result file
+0572c6f Update audit runbooks
+1b0c18a Add step 1 results summary
+```
