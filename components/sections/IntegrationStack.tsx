@@ -1,14 +1,18 @@
 "use client";
 
-const ICON_CDN = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
+// Az ikonok a simple-icons 16.34.0 verziójából valók (licenc: CC0 1.0
+// Universal), helyben kiszolgálva: public/icons/integrations/<slug>.svg.
+// Az openai és a slack ikon nincs meg ebben a verzióban, ezért azok chipje
+// ikon nélkül, csak névvel jelenik meg.
+import Image from "next/image";
 
 function iconSrc(iconKey: string) {
-  return `${ICON_CDN}/${iconKey}.svg`;
+  return `/icons/integrations/${iconKey}.svg`;
 }
 
 const row1Logos = [
   { name: "Claude", iconKey: "anthropic" },
-  { name: "OpenAI", iconKey: "openai" },
+  { name: "OpenAI" },
   { name: "Gemini", iconKey: "googlegemini" },
   { name: "Mistral", iconKey: "mistralai" },
   { name: "Llama", iconKey: "meta" },
@@ -20,7 +24,7 @@ const row1Logos = [
 const row2Logos = [
   { name: "Airtable", iconKey: "airtable" },
   { name: "Notion", iconKey: "notion" },
-  { name: "Slack", iconKey: "slack" },
+  { name: "Slack" },
   { name: "Discord", iconKey: "discord" },
   { name: "Telegram", iconKey: "telegram" },
   { name: "Google Workspace", iconKey: "google" },
@@ -57,19 +61,19 @@ const marqueeStyles = `
   }
 `;
 
-function LogoChip({ name, iconKey }: { name: string; iconKey: string }) {
+function LogoChip({ name, iconKey }: { name: string; iconKey?: string }) {
   return (
     <div className="flex items-center gap-3 px-5 py-2.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-glass)] backdrop-blur-md flex-shrink-0 hover:border-[var(--border-default)] hover:bg-[var(--bg-glass-strong)] transition-all duration-300">
-      <img
-        src={iconSrc(iconKey)}
-        alt=""
-        aria-hidden="true"
-        width={16}
-        height={16}
-        loading="lazy"
-        decoding="async"
-        className="h-4 w-4 shrink-0 opacity-80 brightness-0 invert"
-      />
+      {iconKey ? (
+        <Image
+          src={iconSrc(iconKey)}
+          alt=""
+          aria-hidden="true"
+          width={16}
+          height={16}
+          className="h-4 w-4 shrink-0 opacity-80 brightness-0 invert"
+        />
+      ) : null}
       <span className="font-mono text-[12px] uppercase tracking-[0.08em] text-[var(--text-secondary)] whitespace-nowrap">
         {name}
       </span>
@@ -83,7 +87,7 @@ function Marquee({
   duration = 60,
 }: {
   direction: "left" | "right";
-  logos: { name: string; iconKey: string }[];
+  logos: { name: string; iconKey?: string }[];
   duration?: number;
 }) {
   const items = [...logos, ...logos];

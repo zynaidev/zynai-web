@@ -14,8 +14,8 @@
 | J3 — Edge runtime eltávolítása | kész | `89a7132` |
 | J4 — A három lint-hiba | kész | `89b47b3` |
 | J5 — `/blog` helyőrző törlése | kész | `588e158` |
-| J6 — Nem szabványos favicon | kész | (a következő bejegyzésnél) |
-| J7 — CDN-ikonok helyi kiszolgálása | hátravan | — |
+| J6 — Nem szabványos favicon | kész | `3be145d` |
+| J7 — CDN-ikonok helyi kiszolgálása | kész | (a következő bejegyzésnél) |
 | J8 — Sitemap kiegészítése | kész | `c31d5ee` |
 | J9 — E-mail és webhook env-be | kész | `e79ceb5` |
 | J10 — E-mail-formátum kliensoldalon | kész | `d432abf` |
@@ -90,8 +90,16 @@ Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a tsc a build előtt az elavult 
 
 ## J6 — A nem szabványos favicon
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: 3be145d
 Mit és miért: A `favicon.ico.png` nem szabványos név, és semmi nem hivatkozott rá, ezért törölve. Az oldal ikonja a `/ZynAI_favicon.png`, ahogy a `layout.tsx` és a `manifest.ts` beállítja.
 Fájlok: `app/favicon.ico.png` (törölve)
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 Ati dönt / Ati ellenőrzi: a böngészőfülön az ikon továbbra is megjelenik-e.
+
+## J7 — A CDN-ikonok helyi kiszolgálása
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: A főoldali integráció-sáv ikonjait eddig a jsDelivr szolgálta ki verzió nélkül (`simple-icons@latest`), így a látogató IP-címe hozzájárulás nélkül egy külső szolgáltatóhoz került. Most a 24 ikon a saját szerverünkről jön, a rögzített simple-icons 16.34.0 verzióból (licenc: CC0 1.0, a csomag `LICENSE.md`-je szerint). Az OpenAI és a Slack ikon nincs meg ebben a verzióban, ezért azok chipje Ati döntése alapján (A változat) csak a névvel jelenik meg.
+Fájlok: `components/sections/IntegrationStack.tsx`, `public/icons/integrations/*.svg` (24 új fájl)
+Ellenőrzés: tsc ✓ · lint ✓ (figyelmeztetés nélkül) · build ✓ · a forrásban nincs `jsdelivr` · `npm start`: a főoldal HTML-jében az ikonok `/_next/image?url=/icons/integrations/…` címen jönnek, ez `200 image/svg+xml`.
+Ati dönt / Ati ellenőrzi: a főoldalon az ikonok ugyanúgy jelennek-e meg (fehérre invertálva), és az OpenAI/Slack chip ikon nélkül is rendben néz-e ki. A `next.config.ts` `cdn.simpleicons.org` engedélye már nem kell semmihez; nem módosítottam (hatókörön kívül).
