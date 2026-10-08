@@ -328,3 +328,10 @@ Mit és miért: Az `/ai-tartalmak/[slug]` oldal `generateMetadata` függvénye a
 Fájlok: `app/(marketing)/ai-tartalmak/[slug]/page.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · egy rövid `next dev --webpack` futás után, a generált `.next/dev/types`-szal együtt is tsc ✓; utána a `.next/dev` mappa törölve.
 Ati dönt / Ati ellenőrzi: nincs
+
+## Az API-hibák ne szivárogjanak a böngészőbe
+Állapot: kész
+Mit és miért: Ha a Resend elutasította a küldést, a hibaüzenete (ami e-mail-címet is tartalmazhat) változatlanul a látogatóhoz került; ugyanígy a route-ok váratlan hibáinak nyers üzenete. Most a látogató a meglévő általános szöveget kapja („Az e-mail küldése sikertelen volt.”, illetve „Váratlan szerverhiba történt.”), 500-as státusszal. A szerver naplójába a Resend hibakódja és HTTP-státusza, illetve a váratlan hiba neve kerül, személyes adat nélkül.
+Fájlok: `app/api/contact/route.ts`, `app/api/pilot/route.ts`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · a route-okban a kliensnek adott válaszban már nincs `message`.
+Ati dönt / Ati ellenőrzi: nincs. Ha élesben egy beküldés hibát ad, a Coolify Logs-ban a `[contact] Resend hiba: …` sor mutatja az okot.

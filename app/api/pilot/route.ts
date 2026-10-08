@@ -147,8 +147,13 @@ export async function POST(req: Request) {
     });
 
     if (error) {
+      // A Resend üzenete címet is tartalmazhat: a látogató csak általános
+      // hibát kap, a naplóba a hibakód és a státusz kerül.
+      console.error(
+        `[pilot] Resend hiba: ${error.name} (HTTP ${error.statusCode ?? "?"})`,
+      );
       return Response.json(
-        { error: error.message ?? "Az e-mail küldése sikertelen volt." },
+        { error: "Az e-mail küldése sikertelen volt." },
         { status: 500 },
       );
     }
@@ -181,8 +186,11 @@ export async function POST(req: Request) {
 
     return Response.json({ success: true });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Váratlan szerverhiba történt.";
-    return Response.json({ error: message }, { status: 500 });
+    const errName = err instanceof Error ? err.name : "UnknownError";
+    console.error(`[pilot] Váratlan hiba: ${errName}`);
+    return Response.json(
+      { error: "Váratlan szerverhiba történt." },
+      { status: 500 },
+    );
   }
 }
