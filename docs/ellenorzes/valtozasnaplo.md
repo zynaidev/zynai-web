@@ -20,7 +20,7 @@
 | J9 — E-mail és webhook env-be | kész | `e79ceb5` |
 | J10 — E-mail-formátum kliensoldalon | kész | `d432abf` |
 | J11 — `.env.example` követése | hátravan | — |
-| J12 — Hiányzó beállítás ne szivárogjon | kész | (lásd a git log) |
+| J12 — Hiányzó beállítás ne szivárogjon | kész | `425f3f2` |
 
 ---
 
@@ -123,3 +123,23 @@ Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: ha a Resend maga ad hibát, az �
 5. **J10:** a `/kapcsolatfelvetel` e-mail lépése érvénytelen címre hibát ad-e.
 6. **J6:** a böngészőfül ikonja megvan-e.
 7. A `Resend` hibaüzenet kliensnek adása (J12 megjegyzés): döntsd el, kell-e szigorítani.
+
+## git log --oneline -15
+
+```
+425f3f2 Hide missing config names from API responses
+bb5c158 Track .env.example in git
+2edce5b Self-host integration icons
+3be145d Remove unused favicon file
+588e158 Remove placeholder blog route
+614a0e7 Add change log, replacing step 1 result file
+0572c6f Update audit runbooks
+1b0c18a Add step 1 results summary
+d432abf Validate email format on contact form
+e79ceb5 Move mail and webhook settings to environment variables
+c31d5ee Add booking and privacy pages to sitemap
+89b47b3 Fix set-state-in-effect lint errors
+89a7132 Use Node runtime for root OG image
+54c84c3 Hide X-Powered-By and add security headers
+24f1483 Upgrade Node to 24 in Docker and engines
+```
