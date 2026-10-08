@@ -58,7 +58,7 @@ Bizonytalan: nincs
 
 ## J4 — A három lint-hiba
 Állapot: kész
-Commit: (a következő commitban kerül be)
+Commit: 89b47b3
 Fájlok: `app/(marketing)/ai-tartalmak/page.tsx`, `components/reveal-lines.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, csak a `no-img-element` figyelmeztetés, ezt a J7 viszi) · build ✓
 Diagnózis:
@@ -67,3 +67,38 @@ Diagnózis:
 - `reveal-lines.tsx:53`: reduced módban állította be az `entered`-et. A `useReducedMotion` hook `true`-val indul, és effectben áll be, ezért ha csak a `canAnimate` cserélődik, kliensoldali navigációnál versenyhelyzet lenne. A komponens ezért a reduced értéket is `useSyncExternalStore`-ral olvassa (szerver: `true`, kliens: a media query), ugyanazzal a mintával, amit a `page.tsx` is használ. Az `entered` csak a `requestAnimationFrame`-callbackben áll be. Reduced módban a `shown` már a reduced miatt igaz, így a viselkedés ugyanaz, és egy későbbi beállításváltás sem játssza le újra a belépést.
 Nézd meg: `/ai-tartalmak?kategoria=…` szűr-e (a fejléc lenyílójából is, már a lapon állva), és a főoldali és aloldali címek sor-animációja rendben fut-e, betöltéskor és oldalváltáskor is.
 Bizonytalan: két apró eltérés, mindkettő villanást szüntet meg, a végállapot ugyanaz. (1) `?kategoria=` linkkel érkezve a lista azonnal szűrve jelenik meg; korábban egy renderig az „ÖSSZES” állt, és a pill átcsúszhatott. (2) Kliensoldali navigációnál a cím nem villan fel a belépő animáció előtt. A `components/hooks/use-reduced-motion.ts` hook változatlan, máshol továbbra is használatban van.
+
+## J5 — A `/blog` helyőrző törlése (D3)
+Állapot: **megállt** (jogosultság)
+Commit: —
+Fájlok: `app/blog/[slug]/page.tsx` (törlendő)
+Ellenőrzés: diagnózis ✓. A `grep -rn "/blog" app components lib content config` szerint semmi nem mutat a `/blog` útvonalra: a találatok a `public/blog/…` képek, plusz külső URL-ek (`openai.com/blog`, `blog.google`, `ramp.com/blog`).
+Nézd meg: az ágens Claude Code jogosultsági szabálya (auto mode, „irreversible local destruction”) letiltotta a mappa törlését. Kézzel: `git rm -r app/blog`, majd `npm run build`, és `npm start` után a `curl -sI http://localhost:3000/blog/brand-foundation` 404-et adjon. Commit: `Remove placeholder blog route`.
+Bizonytalan: nincs
+
+## J6 — A nem szabványos favicon
+Állapot: **megállt** (jogosultság, ugyanaz az ok, mint a J5-nél)
+Commit: —
+Fájlok: `app/favicon.ico.png` (törlendő)
+Ellenőrzés: diagnózis ✓. Az `app/favicon.ico.png`-re semmi nem hivatkozik. Az ikon a `/ZynAI_favicon.png` (`app/layout.tsx:77-79`, `app/manifest.ts:16,21`).
+Nézd meg: kézzel `git rm app/favicon.ico.png`, build, commit: `Remove unused favicon file`.
+Bizonytalan: nincs
+
+## J7 — A CDN-ikonok helyi kiszolgálása
+Állapot: **megállt** (ÁLLJ: hiányzó ikonok)
+Commit: —
+Fájlok: nincs változás
+Ellenőrzés: diagnózis ✓
+- A simple-icons aktuális verziója: `16.34.0`. Licenc a csomag `LICENSE.md`-je szerint: **CC0 1.0 Universal**.
+- A használt 26 slug: `anthropic, openai, googlegemini, mistralai, meta, perplexity, elevenlabs, huggingface, airtable, notion, slack, discord, telegram, google, n8n, make, zapier, linux, docker, hubspot, stripe, github, vercel, cloudflare, supabase, postgresql`.
+- **Nincs meg a 16.34.0-ban (HTTP 404): `openai`, `slack`.** A többi 24 megvan.
+Nézd meg: döntés kell a két ikonról (például: a chip ikon nélkül marad, saját vagy a márka hivatalos SVG-je kerül be, vagy a chip kikerül). Mivel az oldal most `@latest`-et tölt, ez a két ikon élesben valószínűleg már most törött képként jelenik meg.
+Bizonytalan: nincs
+
+## J8 — A sitemap kiegészítése
+Állapot: kész
+Commit: (a következő commitban kerül be)
+Fájlok: `app/sitemap.ts`
+Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, 1 ismert figyelmeztetés: a `no-img-element` a J7 megállása miatt maradt) · build ✓ · a `curl -s http://localhost:3000/sitemap.xml` kimenetében ott van a `https://zynai.hu/idopontfoglalas` és a `https://zynai.hu/adatvedelem`
+Nézd meg: nincs
+Bizonytalan: a munkafájl nem adott értékeket, ezeket én választottam: `/idopontfoglalas` monthly / 0.8 (konverziós oldal, a `/kapcsolatfelvetel` után), `/adatvedelem` yearly / 0.3.

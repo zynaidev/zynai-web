@@ -20,6 +20,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${base}/idopontfoglalas`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/vibecoding-pilot`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -54,6 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,
+    },
+    {
+      url: `${base}/adatvedelem`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
     ...articleUrls,
   ];
