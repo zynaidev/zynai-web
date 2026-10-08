@@ -46,9 +46,17 @@ function formatField(label: string, value: unknown): string {
 export async function POST(req: Request) {
   try {
     const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
+    const toEmail = process.env.CONTACT_TO_EMAIL;
+    const fromEmail = process.env.CONTACT_FROM_EMAIL;
+    if (!apiKey || !toEmail || !fromEmail) {
+      const missing = [
+        !apiKey && "RESEND_API_KEY",
+        !toEmail && "CONTACT_TO_EMAIL",
+        !fromEmail && "CONTACT_FROM_EMAIL",
+      ].filter(Boolean);
+      console.error(`[contact] Hiányzó környezeti változó: ${missing.join(", ")}`);
       return Response.json(
-        { error: "A szerver nincs konfigurálva (hiányzó RESEND_API_KEY)." },
+        { error: `A szerver nincs konfigurálva (hiányzó ${missing.join(", ")}).` },
         { status: 500 },
       );
     }
@@ -171,8 +179,8 @@ export async function POST(req: Request) {
 </html>`;
 
     const { error } = await resend.emails.send({
-      from: "ZynAI Kapcsolatfelvétel <onboarding@resend.dev>",
-      to: "zynai.dev@gmail.com",
+      from: `ZynAI Kapcsolatfelvétel <${fromEmail}>`,
+      to: toEmail,
       replyTo: emailStr,
       subject: `Új megkeresés: ${nameStr}`,
       html,
@@ -185,28 +193,35 @@ export async function POST(req: Request) {
       );
     }
 
-    // N8N webhook — fire and forget, nem blokkolja a választ
-    try {
-      await fetch("https://n8n.zynai.hu/webhook/zynai-urlap", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(5000),
-        body: JSON.stringify({
-          name: nameStr,
-          email: emailStr,
-          company: company ?? "",
-          website: websiteStr,
-          teamSize: teamSize ?? "",
-          painPoints: painPointIds,
-          painPointLabels,
-          painPointOther: painPointOtherStr,
-          aiStage: aiStage ?? "",
-          availability: availability ?? "",
-          submittedAt: new Date().toISOString(),
-        }),
-      })
-    } catch {
-      // webhook hiba nem akasztja meg a form beküldést
+    // N8N webhook: hiba esetén csak naplózunk, az e-mail az elsődleges csatorna.
+    const webhookUrl = process.env.N8N_CONTACT_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(5000),
+          body: JSON.stringify({
+            name: nameStr,
+            email: emailStr,
+            company: company ?? "",
+            website: websiteStr,
+            teamSize: teamSize ?? "",
+            painPoints: painPointIds,
+            painPointLabels,
+            painPointOther: painPointOtherStr,
+            aiStage: aiStage ?? "",
+            availability: availability ?? "",
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+        if (!res.ok) {
+          console.error(`[contact] n8n webhook hiba: HTTP ${res.status}`);
+        }
+      } catch (err) {
+        const errName = err instanceof Error ? err.name : "UnknownError";
+        console.error(`[contact] n8n webhook hiba: ${errName}`);
+      }
     }
 
     return Response.json({ success: true });

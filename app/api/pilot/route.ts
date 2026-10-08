@@ -34,9 +34,17 @@ function formatField(label: string, value: unknown): string {
 export async function POST(req: Request) {
   try {
     const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
+    const toEmail = process.env.CONTACT_TO_EMAIL;
+    const fromEmail = process.env.CONTACT_FROM_EMAIL;
+    if (!apiKey || !toEmail || !fromEmail) {
+      const missing = [
+        !apiKey && "RESEND_API_KEY",
+        !toEmail && "CONTACT_TO_EMAIL",
+        !fromEmail && "CONTACT_FROM_EMAIL",
+      ].filter(Boolean);
+      console.error(`[pilot] Hiányzó környezeti változó: ${missing.join(", ")}`);
       return Response.json(
-        { error: "A szerver nincs konfigurálva (hiányzó RESEND_API_KEY)." },
+        { error: `A szerver nincs konfigurálva (hiányzó ${missing.join(", ")}).` },
         { status: 500 },
       );
     }
@@ -131,8 +139,8 @@ export async function POST(req: Request) {
 </html>`;
 
     const { error } = await resend.emails.send({
-      from: "ZynAI VibeCoding 1.0 – Pilot <onboarding@resend.dev>",
-      to: "zynai.dev@gmail.com",
+      from: `ZynAI VibeCoding 1.0 – Pilot <${fromEmail}>`,
+      to: toEmail,
       replyTo: emailStr,
       subject: `Új VibeCoding 1.0 – Pilot jelentkezés: ${nameStr}`,
       html,
@@ -145,23 +153,30 @@ export async function POST(req: Request) {
       );
     }
 
-    // N8N webhook — fire and forget, nem blokkolja a választ
-    try {
-      await fetch("https://n8n.zynai.hu/webhook/pilot-49e98280a6aa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(5000),
-        body: JSON.stringify({
-          formType: "vibecoding-pilot",
-          name: nameStr,
-          email: emailStr,
-          phone: phoneStr,
-          motivation: motivationStr,
-          submittedAt: new Date().toISOString(),
-        }),
-      });
-    } catch {
-      // webhook hiba nem akasztja meg a form beküldést
+    // N8N webhook: hiba esetén csak naplózunk, az e-mail az elsődleges csatorna.
+    const webhookUrl = process.env.N8N_PILOT_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(5000),
+          body: JSON.stringify({
+            formType: "vibecoding-pilot",
+            name: nameStr,
+            email: emailStr,
+            phone: phoneStr,
+            motivation: motivationStr,
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+        if (!res.ok) {
+          console.error(`[pilot] n8n webhook hiba: HTTP ${res.status}`);
+        }
+      } catch (err) {
+        const errName = err instanceof Error ? err.name : "UnknownError";
+        console.error(`[pilot] n8n webhook hiba: ${errName}`);
+      }
     }
 
     return Response.json({ success: true });

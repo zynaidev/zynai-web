@@ -97,8 +97,20 @@ Bizonytalan: nincs
 
 ## J8 — A sitemap kiegészítése
 Állapot: kész
-Commit: (a következő commitban kerül be)
+Commit: c31d5ee
 Fájlok: `app/sitemap.ts`
 Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, 1 ismert figyelmeztetés: a `no-img-element` a J7 megállása miatt maradt) · build ✓ · a `curl -s http://localhost:3000/sitemap.xml` kimenetében ott van a `https://zynai.hu/idopontfoglalas` és a `https://zynai.hu/adatvedelem`
 Nézd meg: nincs
 Bizonytalan: a munkafájl nem adott értékeket, ezeket én választottam: `/idopontfoglalas` monthly / 0.8 (konverziós oldal, a `/kapcsolatfelvetel` után), `/adatvedelem` yearly / 0.3.
+
+## J9 — E-mail és webhook beállításai környezeti változóba
+Állapot: kész
+Commit: (a következő commitban kerül be)
+Fájlok: `app/api/contact/route.ts`, `app/api/pilot/route.ts`, `.env.example` (új)
+Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, 1 ismert figyelmeztetés a J7 miatt) · build ✓ · `npm start` után üres POST mindkét route-ra → `HTTP 500`, a szervernaplóban `[contact] Hiányzó környezeti változó: CONTACT_TO_EMAIL, CONTACT_FROM_EMAIL` (a pilotnál ugyanez). A konfigurációs ellenőrzés fut le elsőként, e-mail nem ment ki.
+- Hiányzó `RESEND_API_KEY`, `CONTACT_TO_EMAIL` vagy `CONTACT_FROM_EMAIL` → 500 és egy `console.error` sor, benne csak a változók nevével.
+- Hiányzó n8n-URL → az n8n-hívás kimarad, az űrlap működik. n8n-hiba esetén: nem 2xx válasznál `console.error` a HTTP-státusszal, kivételnél a hiba nevével (`err.name`). Személyes adat nem kerül a naplóba.
+- A `from` megjelenítendő neve (`ZynAI Kapcsolatfelvétel`, illetve `ZynAI VibeCoding 1.0 – Pilot`) a kódban maradt, a `CONTACT_FROM_EMAIL` csak a címet adja.
+- A `.gitignore` a `.env*` mintával kizárja a `.env.example`-t. Hozzá nem nyúltam (a szelet hatókörén kívül esik), a fájl `git add -f`-fel került be. Ettől kezdve követett fájl.
+Nézd meg: a négy új változó értékét (`CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `N8N_CONTACT_WEBHOOK_URL`, `N8N_PILOT_WEBHOOK_URL`) te írod be a `.env.local`-ba és a szerver környezetébe (`03` K2). Addig a helyi űrlap 500-at ad, ez várt viselkedés. A korábbi értékek: a címzett a régi kódba írt Gmail-cím, a feladó a Resend próbacíme, a két webhook-URL pedig a git-történetben megvan (`git show c31d5ee:app/api/contact/route.ts`, illetve `…:app/api/pilot/route.ts`).
+Bizonytalan: a látogatónak küldött hibaüzenet szövegét nem írtam át, csak a változónevek listája bővült (`A szerver nincs konfigurálva (hiányzó …).`). Ez a változóneveket a böngészőnek is megmutatja, ahogy korábban is; ha ezt nem szeretnéd, kell egy új szöveg.
