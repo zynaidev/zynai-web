@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics/track";
 import { PAIN_POINTS } from "@/lib/contact-types";
 import { isValidEmail } from "@/lib/form-guard";
 import { CalEmbed } from "@/components/CalEmbed";
@@ -267,6 +268,8 @@ function KapcsolatfelvetelForm() {
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const focusRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
+  // Egy beküldés = egy kérés és egy esemény, gyors dupla kattintásnál is.
+  const submittingRef = useRef(false);
   const strippedPainParamRef = useRef(false);
 
   // A ?pain= paramot csak az induláshoz használjuk — miután beolvastuk,
@@ -303,7 +306,8 @@ function KapcsolatfelvetelForm() {
   }, [currentStep, status]);
 
   async function handleSubmit() {
-    if (status === "loading") return;
+    if (status === "loading" || submittingRef.current) return;
+    submittingRef.current = true;
     setErrorMessage("");
     setStatus("loading");
 
@@ -338,8 +342,10 @@ function KapcsolatfelvetelForm() {
         throw new Error(data.error ?? "Ismeretlen hiba történt.");
       }
 
+      track("generate_lead", { lead_type: "contact_form" });
       setStatus("success");
     } catch (err) {
+      submittingRef.current = false;
       setStatus("error");
       setErrorMessage(
         err instanceof Error ? err.message : "Ismeretlen hiba történt.",

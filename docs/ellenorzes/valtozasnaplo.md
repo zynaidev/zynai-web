@@ -157,8 +157,8 @@ c31d5ee Add booking and privacy pages to sitemap
 | M1 — Analitikai könyvtár | kész | `5e1ea2d` |
 | M2 — GTM és consent default | kész | `4a1d68a` |
 | M3 — Sütibanner | kész | `a4785b7` |
-| M4 — E-mail-kattintás | kész | (a következő bejegyzésnél) |
-| M5 — Űrlapkonverziók | hátravan | — |
+| M4 — E-mail-kattintás | kész | `e4a5d52` |
+| M5 — Űrlapkonverziók | kész | (a következő bejegyzésnél) |
 | M6 — Cal.com kattintásra | hátravan | — |
 | M7 — Önellenőrzés | hátravan | — |
 
@@ -197,7 +197,7 @@ Ati dönt / Ati ellenőrzi: böngészőben (éles vagy GTM-es helyi build): a ba
 
 ## M4 — Telefon- és e-mail-kattintás
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: e4a5d52
 Mit és miért: Az oldal három látható e-mail-linkje kattintáskor `email_click` eseményt küld (a címet nem). A link ugyanúgy megnyitja a levelezőt.
 Diagnózis (`grep -rn "tel:\|mailto:" app components`):
 - `app/(marketing)/idopontfoglalas/page.tsx:53` — szerver komponens (oldal), `mailto:info@zynai.hu`
@@ -208,3 +208,16 @@ Diagnózis (`grep -rn "tel:\|mailto:" app components`):
 Fájlok: `components/ui/MailtoLink.tsx` (új), `app/(marketing)/idopontfoglalas/page.tsx`, `components/CalEmbed.tsx`, `components/layout/Footer.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · a forrásban `mailto:` már csak a `MailtoLink.tsx`-ben szerepel.
 Ati dönt / Ati ellenőrzi: élesben a GA4 DebugView-ban egy e-mail-linkre kattintva megjelenik-e az `email_click` (elfogadott sütikkel).
+
+## M5 — Űrlapkonverziók
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: A kapcsolatfelvételi űrlap sikeres beküldése után `generate_lead` (`lead_type: contact_form`), a pilot-jelentkezés után `pilot_application` esemény megy a `dataLayer`-be. Csak akkor, ha a szerver sikert jelzett; hibánál, hálózati hibánál és kliensoldali validációs hibánál nincs esemény.
+Diagnózis:
+- `kapcsolatfelvetel/page.tsx`: az `ok`-ság vizsgálata a `!res.ok` (334. sor) és a `!data.success` (338. sor) ágban, a sikerállapot a `setStatus("success")` (341. sor). Az esemény közvetlenül e sor előtt.
+- `PilotApplicationForm.tsx`: `!res.ok || !data.success` (75. sor), sikerállapot a 79. sorban. Az esemény közvetlenül előtte.
+- Honeypot: a route csendes `{ success: true }` 200-at ad, és a kliens ezt **sikernek veszi** (eseményt is küldene). Nem javítottam: a botok jellemzően nem futtatnak JS-t, így ez nem torzít.
+- Dupla beküldés: eddig csak a `status === "loading"` védett, ami egy gyors dupla kattintásnál vagy Enter-nyomásnál (újrarenderelés előtt) átengedhetett egy második kérést. Mindkét űrlap kapott egy `useRef` zárat: egy beküldés = egy kérés és egy esemény. Hiba esetén a zár feloldódik, így újra lehet próbálni.
+Fájlok: `app/(marketing)/kapcsolatfelvetel/page.tsx`, `app/(marketing)/vibecoding-pilot/PilotApplicationForm.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓
+Ati dönt / Ati ellenőrzi: élesben, elfogadott sütikkel, a GA4 DebugView-ban egy próbabeküldés után pontosan egy `generate_lead`, illetve `pilot_application` jelenik-e meg. (A J9 környezeti változói nélkül az űrlap 500-at ad, és ilyenkor helyesen nincs esemény.)

@@ -3,6 +3,8 @@
 import { type FormEvent, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
+import { track } from "@/lib/analytics/track";
+
 const inputClass =
   "w-full rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] px-5 py-4 text-[17px] text-[var(--text-primary)] outline-none transition-[border-color] duration-200 placeholder:text-[var(--text-tertiary)] focus:border-[rgba(255,255,255,0.35)]";
 
@@ -27,6 +29,8 @@ const initialFields: Fields = {
 export function PilotApplicationForm() {
   const [fields, setFields] = useState<Fields>(initialFields);
   const honeypotRef = useRef<HTMLInputElement>(null);
+  // Egy beküldés = egy kérés és egy esemény, gyors dupla kattintásnál is.
+  const submittingRef = useRef(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -34,7 +38,7 @@ export function PilotApplicationForm() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (status === "loading") return;
+    if (status === "loading" || submittingRef.current) return;
 
     if (!fields.name.trim() || !fields.email.trim() || !fields.phone.trim()) {
       setStatus("error");
@@ -52,6 +56,7 @@ export function PilotApplicationForm() {
       return;
     }
 
+    submittingRef.current = true;
     setErrorMessage("");
     setStatus("loading");
 
@@ -75,8 +80,10 @@ export function PilotApplicationForm() {
         throw new Error(data.error ?? "Ismeretlen hiba történt.");
       }
 
+      track("pilot_application", {});
       setStatus("success");
     } catch (err) {
+      submittingRef.current = false;
       setStatus("error");
       setErrorMessage(
         err instanceof Error ? err.message : "Ismeretlen hiba történt.",
