@@ -154,8 +154,8 @@ c31d5ee Add booking and privacy pages to sitemap
 
 | Szelet | Állapot | Commit |
 |---|---|---|
-| M1 — Analitikai könyvtár | kész | (a következő bejegyzésnél) |
-| M2 — GTM és consent default | hátravan | — |
+| M1 — Analitikai könyvtár | kész | `5e1ea2d` |
+| M2 — GTM és consent default | kész | (a következő bejegyzésnél) |
 | M3 — Sütibanner | hátravan | — |
 | M4 — E-mail-kattintás | hátravan | — |
 | M5 — Űrlapkonverziók | hátravan | — |
@@ -164,8 +164,20 @@ c31d5ee Add booking and privacy pages to sitemap
 
 ## M1 — Az analitikai könyvtár
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: 5e1ea2d
 Mit és miért: Létrejött a mérés közös alapja. Az `events.ts` rögzíti az öt eseménynevet (D1) és a megengedett paramétereket, a `track.ts` az egyetlen hely, ami a `dataLayer`-be ír, a `consent.ts` pedig a sütidöntés tárolását, a Consent Mode `update` küldését és a fejléc inline alapszkriptjét adja. Az oldal viselkedése még nem változott, mert semmi nem használja.
 Fájlok: `lib/analytics/events.ts`, `lib/analytics/track.ts`, `lib/analytics/consent.ts` (mind új)
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a `saveConsent` a localStorage-hiba esetén `console.warn`-t ír (a hiba nevével), mert üres `catch` nem lehet; a `readConsent` `catch`-e `null`-t ad vissza, ahogy a munkafájl előírja. Az ellenőrzés közben a futó `npm run dev` által generált `.next/dev/types` eltörte a buildet (lásd Kézi teendők); Ati leállította a dev szervert, a generált mappát töröltem.
+
+## M2 — GTM és consent default a gyökér layoutban, Docker build-arg
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: A gyökér layout `<head>`-jébe került a Consent Mode v2 alapállapot (minden tiltva, nyers inline `<script>`), a `<body>` elejére a GTM `noscript` iframe-je, a végére pedig a GTM hivatalos snippetje `next/script`-tel, `afterInteractive` módban. Így a GTM mindig a hozzájárulás-alapállapot után indul. Mindhárom csak akkor jelenik meg, ha a build idején a `NEXT_PUBLIC_GTM_ID` be van állítva; a Dockerfile ezt build-argumentumként fogadja.
+Diagnózis: előtte a layoutban nem volt `<head>` elem, a `<body>` csak a `{children}`-t renderelte; a Dockerfile builder szakasza: `WORKDIR` → `COPY node_modules` → `COPY . .` → `RUN npm run build`. Az `ARG`/`ENV` a `COPY . .` és a `RUN npm run build` közé került.
+Fájlok: `app/layout.tsx`, `Dockerfile`, `.env.example`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓
+- Env nélküli build, `npm start`: a főoldal HTML-jében `googletagmanager` = 0 találat, `'consent'` = 0 találat.
+- `NEXT_PUBLIC_GTM_ID=GTM-KBHN7GX6` build (csak a parancssorban): `<head>` 197–5053. bájt; `consent', 'default` a **4487.** bájtnál; `googletagmanager.com/gtm.js` a **155556.** bájtnál → a consent default előbb van. A `noscript` iframe (`ns.html`) a 5199. bájtnál, a `<body>` elején. Utána újraépítve env nélkül.
+- Docker-build: **nem ellenőrzött** (a Docker-démon nem fut).
+Ati dönt / Ati ellenőrzi: az éles buildnél a build-argumentum: `docker build --build-arg NEXT_PUBLIC_GTM_ID=GTM-KBHN7GX6 …` (vagy a szerver build-felületén ugyanez). A Google telepítési útmutatója a GTM-et a `<head>` tetejére tenné; ez szándékosan nem így van, mert a consent alapállapotnak a GTM előtt kell futnia.

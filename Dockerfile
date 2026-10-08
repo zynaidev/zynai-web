@@ -15,6 +15,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# A GTM-azonosító build-időben kerül a kliens kódba (NEXT_PUBLIC_).
+ARG NEXT_PUBLIC_GTM_ID
+ENV NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID
+
 # Build Next.js with standalone output
 RUN npm run build
 

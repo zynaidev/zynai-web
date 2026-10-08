@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Instrument_Sans, Inter } from "next/font/google";
+import Script from "next/script";
+
+import { consentDefaultScript } from "@/lib/analytics/consent";
 import "./globals.css";
 
 const display = Instrument_Sans({
@@ -81,6 +84,10 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
 };
 
+// A GTM-tároló azonosítója build-időben kerül a kódba (élesben Docker
+// build-argumentum). Ha üres, se consent szkript, se GTM nem renderelődik.
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -91,8 +98,35 @@ export default function RootLayout({
       lang="hu"
       className={`${display.variable} ${body.variable} ${geistMono.variable} dark h-full antialiased`}
     >
+      <head>
+        {gtmId ? (
+          // Consent Mode v2 default: mindennek a GTM előtt kell lefutnia.
+          <script
+            dangerouslySetInnerHTML={{ __html: consentDefaultScript() }}
+          />
+        ) : null}
+      </head>
       <body className="min-h-full bg-bg-base font-sans text-text-secondary">
+        {gtmId ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        ) : null}
         {children}
+        {gtmId ? (
+          <Script id="gtm" strategy="afterInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer',${JSON.stringify(gtmId)});`}
+          </Script>
+        ) : null}
       </body>
     </html>
   );
