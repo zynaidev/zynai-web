@@ -86,56 +86,112 @@ export default function AdatvedelemPage() {
             3. Kezelt személyes adatok
           </h2>
           <div className="space-y-4 text-[var(--text-secondary)] text-[15px] leading-[1.85]">
-
             <h3 className="text-[17px] font-medium text-[var(--text-primary)] mt-8 mb-3">
               3.1. Kapcsolatfelvételi űrlap
             </h3>
-            <p>Az érintett az alábbi személyes adatokat adja meg önkéntesen:</p>
-            <ul className="space-y-2">
-              {[
-                "Teljes név",
+            <p>Az érintett az alábbi adatokat adja meg önkéntesen:</p>
+            <Bullets
+              items={[
+                "Név",
                 "E-mail cím",
-                "Vállalkozás neve (opcionális)",
-                "Weboldal URL (opcionális)",
-                "Üzenet szövege",
-              ].map((item) => (
-                <li key={item} className="flex gap-3 items-start">
-                  <span className="w-1 h-1 min-w-[4px] min-h-[4px] bg-[#BDFF00] rounded-sm mt-[10px] flex-shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+                "Cégnév és a cég weboldala (opcionális)",
+                "A cégnél dolgozók száma",
+                "A legtöbb időt elvevő munkafolyamatok, és az ezekhez írt saját megjegyzés",
+                "Az AI-használat jelenlegi szakasza",
+                "Az egyeztetéshez megfelelő időpont",
+              ]}
+            />
             <p>
-              <span className="text-[var(--text-primary)] font-medium">Adatkezelés célja:</span> Az érintett
-              megkeresésének fogadása, üzleti kapcsolatfelvétel megvalósítása, árajánlat vagy tájékoztatás küldése.
+              <Label>Adatkezelés célja:</Label> Az érintett megkeresésének fogadása,
+              üzleti kapcsolatfelvétel, árajánlat vagy tájékoztatás küldése.
             </p>
             <p>
-              <span className="text-[var(--text-primary)] font-medium">Jogalap:</span> GDPR 6. cikk (1) bekezdés b) és a) pont.
+              <Label>Jogalap:</Label> GDPR 6. cikk (1) bekezdés b) és a) pont.
             </p>
             <p>
-              <span className="text-[var(--text-primary)] font-medium">Megőrzési idő:</span> Az adatokat az adatkezelő
-              a kapcsolatfelvételtől számított 5 évig, vagy a törvényes elévülési ideig kezeli.
+              <Label>Megőrzési idő:</Label> A kapcsolatfelvételtől számított 5 év,
+              vagy a törvényes elévülési idő.
             </p>
 
             <h3 className="text-[17px] font-medium text-[var(--text-primary)] mt-8 mb-3">
-              3.2. Sütikezelés (cookie)
+              3.2. VibeCoding pilot jelentkezés
             </h3>
-            <p>A weboldal az alábbi sütiket alkalmazza:</p>
-            <ul className="space-y-2">
-              {[
-                "Technikailag szükséges sütik — a weboldal működéséhez elengedhetetlenek (jogalap: jogos érdek)",
-                "Google Analytics sütik (tervezett) — látogatottsági mérés céljából (jogalap: hozzájárulás)",
-                "Google Ads / remarketing sütik (tervezett) — célzott hirdetések megjelenítéséhez (jogalap: hozzájárulás)",
-              ].map((item) => (
-                <li key={item} className="flex gap-3 items-start">
-                  <span className="w-1 h-1 min-w-[4px] min-h-[4px] bg-[#BDFF00] rounded-sm mt-[10px] flex-shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <p>Az érintett az alábbi adatokat adja meg önkéntesen:</p>
+            <Bullets
+              items={[
+                "Név",
+                "E-mail cím",
+                "Telefonszám",
+                "A jelentkezés indoklása (szabad szöveg)",
+              ]}
+            />
             <p>
-              A hozzájárulást igénylő sütikhez az érintett a sütibanneren keresztül adhat hozzájárulást, amelyet
-              bármikor visszavonhat.
+              <Label>Adatkezelés célja:</Label> A jelentkezés elbírálása, a
+              jelentkezővel való kapcsolattartás és az egyeztető beszélgetés
+              időpontjának megbeszélése.
+            </p>
+            <p>
+              <Label>Jogalap:</Label> GDPR 6. cikk (1) bekezdés b) és a) pont.
+            </p>
+            <p>
+              <Label>Megőrzési idő:</Label> A jelentkezéstől számított 5 év,
+              vagy a törvényes elévülési idő.
+            </p>
+
+            <h3 className="text-[17px] font-medium text-[var(--text-primary)] mt-8 mb-3">
+              3.3. Időpontfoglalás (Cal.com)
+            </h3>
+            <p>
+              Az időpontfoglaló naptárat a Cal.com, Inc. szolgáltatása biztosítja.
+              A naptár csak akkor töltődik be, ha az érintett a „Naptár
+              megnyitása” gombra kattint; addig a böngésző nem küld kérést a
+              Cal.com felé. A foglaláskor megadott adatokat (név, e-mail cím,
+              az esetleges megjegyzés és a választott időpont) a Cal.com kezeli,
+              és továbbítja az adatkezelőhöz. A Cal.com saját adatkezeléséről a{" "}
+              <a
+                href="https://cal.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--text-primary)] underline underline-offset-2 hover:text-[#BDFF00]"
+              >
+                Cal.com adatvédelmi tájékoztatója
+              </a>{" "}
+              ad felvilágosítást.
+            </p>
+            <p>
+              <Label>Adatkezelés célja:</Label> Az egyeztetés időpontjának
+              lefoglalása és megtartása.
+            </p>
+            <p>
+              <Label>Jogalap:</Label> GDPR 6. cikk (1) bekezdés b) pont.
+            </p>
+            <p>
+              <Label>Megőrzési idő:</Label> A foglalástól számított 5 év, vagy a
+              törvényes elévülési idő.
+            </p>
+
+            <h3 className="text-[17px] font-medium text-[var(--text-primary)] mt-8 mb-3">
+              3.4. Sütik és mérés
+            </h3>
+            <p>
+              Az oldal első megnyitásakor a sütibanneren lehet dönteni a
+              hozzájárulást igénylő sütikről. A döntés bármikor megváltoztatható
+              a lábléc „Süti-beállítások” linkjével.
+            </p>
+            <Bullets
+              items={[
+                "Szükséges tárolás: a sütidöntés a böngésző helyi tárolójában (zynai_consent_v1). Jogalap: jogos érdek, a döntés megjegyzéséhez szükséges.",
+                "Google Analytics (Google Tag Manageren keresztül): látogatottsági mérés. Sütik: _ga, _ga_* (legfeljebb 2 évig). Jogalap: hozzájárulás.",
+                "Google Ads és remarketing: hirdetések mérése és célzása. Sütik: például _gcl_au és a Google hirdetési sütijei (legfeljebb 2 évig). Jogalap: hozzájárulás.",
+              ]}
+            />
+            <p>
+              Az oldal a Google hozzájárulási módját (Consent Mode) használja.
+              Hozzájárulás nélkül a Google-eszközök nem helyeznek el sütit, de
+              süti nélküli, azonosítót nem tartalmazó jelzéseket kaphatnak (például
+              hogy történt-e oldalmegtekintés), amelyekből a Google összesített
+              statisztikát becsül. A Google Analytics adatait az adatkezelő 14
+              hónapig őrzi meg.
             </p>
           </div>
         </section>
@@ -147,50 +203,51 @@ export default function AdatvedelemPage() {
           </h2>
           <div className="space-y-4 text-[var(--text-secondary)] text-[15px] leading-[1.85]">
             <p>
-              A weboldal és az érintett adatai az adatkezelő által üzemeltetett, dedikált virtuális privát szerveren
-              (VPS) kerülnek tárolásra, az Európai Unió területén. Az adatkezelő harmadik fél felhőszolgáltatójának
-              szervereire az érintett személyes adatait nem továbbítja.
+              A weboldal az adatkezelő által bérelt virtuális szerveren fut,
+              amelyet a Hetzner Online GmbH üzemeltet Helsinkiben (Finnország,
+              Európai Unió). Az űrlapok adatait a weboldal nem tárolja
+              adatbázisban: e-mailben továbbítja az adatkezelő e-mail-fiókjába.
             </p>
             <p>Alkalmazott biztonsági intézkedések:</p>
-            <ul className="space-y-2">
-              {[
+            <Bullets
+              items={[
                 "HTTPS titkosított kapcsolat (SSL/TLS tanúsítvány)",
                 "Tűzfal és hozzáférés-korlátozás a szerveren",
                 "Rendszeres biztonsági mentések",
                 "Jelszóvédett adminisztrátori hozzáférés",
                 "Minimális adatgyűjtés elve",
-              ].map((item) => (
-                <li key={item} className="flex gap-3 items-start">
-                  <span className="w-1 h-1 min-w-[4px] min-h-[4px] bg-[#BDFF00] rounded-sm mt-[10px] flex-shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+              ]}
+            />
           </div>
         </section>
 
         {/* Section 5 */}
         <section className="mb-12">
           <h2 className="font-display text-[22px] font-medium text-[var(--text-primary)] mb-6 pb-3 border-b border-[rgba(255,255,255,0.06)]">
-            5. Adattovábbítás
+            5. Adatfeldolgozók és adattovábbítás
           </h2>
           <div className="space-y-4 text-[var(--text-secondary)] text-[15px] leading-[1.85]">
             <p>
-              Az adatkezelő az érintett személyes adatait harmadik félnek nem adja át, kivéve jogszabályi
-              kötelezettség vagy az érintett kifejezett hozzájárulása esetén.
+              Az adatkezelő az érintett személyes adatait harmadik félnek nem
+              adja el és nem adja át, kivéve az alábbi adatfeldolgozókat, a
+              jogszabályi kötelezettséget, vagy az érintett kifejezett
+              hozzájárulását.
             </p>
             <p>Adatfeldolgozók:</p>
-            <ul className="space-y-2">
-              {[
-                "Resend Inc. — e-mail kézbesítési szolgáltatás (kapcsolatfelvételi üzenetek továbbítása az adatkezelőhöz)",
-                "Google LLC (tervezett) — Google Analytics és Google Ads szolgáltatások; az EU–US Data Privacy Framework keretrendszer résztvevője",
-              ].map((item) => (
-                <li key={item} className="flex gap-3 items-start">
-                  <span className="w-1 h-1 min-w-[4px] min-h-[4px] bg-[#BDFF00] rounded-sm mt-[10px] flex-shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <Bullets
+              items={[
+                "Hetzner Online GmbH (Németország) — szerverüzemeltetés; a szerver Helsinkiben (Finnország, EU) található.",
+                "Cloudflare, Inc. (USA) — tartalomkézbesítés és védelem; a weboldal forgalma rajta halad át, ezért az IP-címet és a kérés technikai adatait kezeli.",
+                "Resend, Inc. (USA) — az űrlapüzenetek e-mailben történő kézbesítése az adatkezelőhöz.",
+                "Google Ireland Limited és Google LLC — az adatkezelő e-mail-fiókja (Gmail), továbbá hozzájárulás esetén a Google Analytics, a Google Tag Manager és a Google Ads.",
+                "Cal.com, Inc. (USA) — időpontfoglalás (lásd 3.3. pont).",
+              ]}
+            />
+            <p>
+              Az Európai Unión kívüli (USA) adattovábbítás az EU–USA adatvédelmi
+              keretrendszer (Data Privacy Framework) vagy az Európai Bizottság
+              által elfogadott általános szerződési feltételek alapján történik.
+            </p>
           </div>
         </section>
 
@@ -257,5 +314,24 @@ export default function AdatvedelemPage() {
 
       </div>
     </main>
+  );
+}
+
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-[var(--text-primary)] font-medium">{children}</span>
+  );
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2">
+      {items.map((item) => (
+        <li key={item} className="flex gap-3 items-start">
+          <span className="w-1 h-1 min-w-[4px] min-h-[4px] bg-[#BDFF00] rounded-sm mt-[10px] flex-shrink-0" />
+          {item}
+        </li>
+      ))}
+    </ul>
   );
 }

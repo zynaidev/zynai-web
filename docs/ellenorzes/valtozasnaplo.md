@@ -335,3 +335,17 @@ Mit és miért: Ha a Resend elutasította a küldést, a hibaüzenete (ami e-mai
 Fájlok: `app/api/contact/route.ts`, `app/api/pilot/route.ts`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · a route-okban a kliensnek adott válaszban már nincs `message`.
 Ati dönt / Ati ellenőrzi: nincs. Ha élesben egy beküldés hibát ad, a Coolify Logs-ban a `[contact] Resend hiba: …` sor mutatja az okot.
+
+## Adatkezelési tájékoztató (K7) a tényleges működés szerint
+Állapot: kész, **jogi átnézésre vár**
+Mit és miért: A tájékoztató 3–5. szakasza most azt írja le, ami az oldalon ténylegesen történik. Korábban a Google Analytics „tervezett”-ként szerepelt, a kapcsolatfelvételi űrlap mezőlistája nem egyezett a valódival, hiányzott a pilot-jelentkezés, a Cal.com, a Cloudflare és a tárhelyszolgáltató, és azt állította, hogy harmadik fél felhőszolgáltatójához nem kerül adat.
+- 3.1 Kapcsolatfelvételi űrlap: a valódi mezők (név, e-mail, cégnév és weboldal, létszám, időrabló folyamatok és saját megjegyzés, AI-szakasz, időpont). Cél, jogalap, megőrzés (5 év) változatlan.
+- 3.2 VibeCoding pilot jelentkezés (új): név, e-mail, telefonszám, indoklás. Jogalap: b) és a) pont; megőrzés: 5 év, **a kapcsolatfelvétellel azonosra vettem, Ati nem adott meg külön időt**.
+- 3.3 Időpontfoglalás (új): Cal.com, kattintásra töltődik, a Cal.com saját tájékoztatójának linkje.
+- 3.4 Sütik és mérés: a sütidöntés helyi tárolása; Google Analytics (`_ga`, `_ga_*`); Google Ads és remarketing (Ati szerint használni fogja); a Consent Mode süti nélküli jelzéseinek leírása; GA-adatmegőrzés 14 hónap; a „Süti-beállítások” link.
+- 4 Adattárolás: Hetzner Online GmbH, Helsinki (Finnország, EU); az űrlapadatokat az oldal nem tárolja adatbázisban, e-mailben továbbítja.
+- 5 Adatfeldolgozók: Hetzner, Cloudflare, Resend, Google (Gmail, és hozzájárulás esetén Analytics, Tag Manager, Ads), Cal.com; EU-n kívüli továbbítás DPF vagy általános szerződési feltételek alapján.
+- A 1., 2., 6., 7. és 8. szakasz változatlan (a cégadatokat és a dátumot az előző bejegyzés már frissítette).
+Fájlok: `app/(marketing)/adatvedelem/page.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · a buildelt `/adatvedelem` HTML-ben megvannak az új szakaszok; a „tervezett”, az „Üzenet szövege” és a „harmadik fél felhőszolgáltatójának” kifejezés sehol.
+Ati dönt / Ati ellenőrzi: **a szöveget jogász vagy adatvédelmi szakember nézze át** élesítés előtt vagy mielőbb utána. Különösen: (1) a pilot és a foglalás megőrzési ideje; (2) a jogalapok; (3) hogy a Resend, a Cloudflare és a Cal.com az EU–USA keretrendszer tagja-e, vagy általános szerződési feltételekkel dolgozik (a szöveg mindkettőt lefedi, de a konkrétumot érdemes ellenőrizni); (4) a Google Ads-sütik pontos listája a kampány indulásakor; (5) a Google Analytics adatmegőrzése a GA4-ben valóban 14 hónapra legyen állítva (K5).
