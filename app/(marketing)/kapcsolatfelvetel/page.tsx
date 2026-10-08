@@ -14,6 +14,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { PAIN_POINTS } from "@/lib/contact-types";
+import { isValidEmail } from "@/lib/form-guard";
 import { CalEmbed } from "@/components/CalEmbed";
 
 const TOTAL_STEPS = 7;
@@ -358,6 +359,10 @@ function KapcsolatfelvetelForm() {
     if (step.type === "email") {
       if (!fields.email.trim()) {
         setStepError("Kérlek, add meg az e-mail címed.");
+        return false;
+      }
+      if (!isValidEmail(fields.email.trim())) {
+        setStepError("Kérlek, adj meg egy érvényes e-mail címet.");
         return false;
       }
       return true;
