@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 const inputClass =
@@ -26,6 +26,7 @@ const initialFields: Fields = {
 
 export function PilotApplicationForm() {
   const [fields, setFields] = useState<Fields>(initialFields);
+  const honeypotRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -64,6 +65,7 @@ export function PilotApplicationForm() {
           phone: fields.phone.trim(),
           motivation: fields.motivation.trim(),
           privacyAccepted: fields.privacyAccepted === true,
+          zxCheck: honeypotRef.current?.value || undefined,
         }),
       });
 
@@ -96,7 +98,20 @@ export function PilotApplicationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="relative" onSubmit={handleSubmit}>
+      {/* Honeypot: embernek láthatatlan, a botok kitöltik. */}
+      <div aria-hidden="true" className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+        <label htmlFor="pilot-zx">Ezt a mezőt hagyd üresen</label>
+        <input
+          id="pilot-zx"
+          name="zxCheck"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          ref={honeypotRef}
+          defaultValue=""
+        />
+      </div>
       <div className="grid grid-cols-1 gap-6">
         <div>
           <label htmlFor="pilot-name" className={labelClass}>

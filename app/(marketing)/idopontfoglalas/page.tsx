@@ -4,9 +4,26 @@ import { CalEmbed } from "@/components/CalEmbed";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Időpontfoglalás — ZynAI",
+    title: "Időpontfoglalás",
     description:
       "Foglalj egy 30 perces, díjmentes online egyeztetést — átbeszéljük, hogyan működtök most, és hol hozhat valódi eredményt az AI a vállalkozásodban.",
+    alternates: {
+      canonical: "/idopontfoglalas",
+    },
+    openGraph: {
+      title: "Időpontfoglalás — ZynAI",
+      description:
+        "Foglalj egy 30 perces, díjmentes online egyeztetést — átbeszéljük, hogyan működtök most, és hol hozhat valódi eredményt az AI a vállalkozásodban.",
+      url: "/idopontfoglalas",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "ZynAI — AI integráció magyar vállalkozásoknak",
+        },
+      ],
+    },
   };
 }
 

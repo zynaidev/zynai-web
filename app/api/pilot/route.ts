@@ -1,5 +1,15 @@
 import { Resend } from "resend";
 
+import {
+  findUnknownField,
+  isHoneypotFilled,
+  isRateLimited,
+  isValidEmail,
+  tooLong,
+} from "@/lib/form-guard";
+
+const ALLOWED_FIELDS = ["name", "email", "phone", "motivation", "privacyAccepted"] as const;
+
 function escapeHtml(value: unknown): string {
   if (value === null || value === undefined) return "";
   return String(value)
@@ -31,11 +41,31 @@ export async function POST(req: Request) {
       );
     }
 
+    if (isRateLimited(req, "pilot", 5, 10 * 60 * 1000)) {
+      return Response.json(
+        { error: "Túl sok próbálkozás. Kérlek, próbáld újra néhány perc múlva." },
+        { status: 429 },
+      );
+    }
+
     let body: Record<string, unknown>;
     try {
       body = await req.json();
     } catch {
       return Response.json({ error: "Érvénytelen JSON törzs." }, { status: 400 });
+    }
+
+    if (typeof body !== "object" || body === null || Array.isArray(body)) {
+      return Response.json({ error: "Érvénytelen JSON törzs." }, { status: 400 });
+    }
+
+    // Bot: csendes "siker", e-mail és webhook nélkül.
+    if (isHoneypotFilled(body)) {
+      return Response.json({ success: true });
+    }
+
+    if (findUnknownField(body, ALLOWED_FIELDS)) {
+      return Response.json({ error: "Ismeretlen mező a kérésben." }, { status: 400 });
     }
 
     const { name, email, phone, motivation, privacyAccepted } = body;
@@ -51,6 +81,25 @@ export async function POST(req: Request) {
           error:
             "Hiányzó kötelező mezők: név, e-mail, telefonszám és motiváció.",
         },
+        { status: 400 },
+      );
+    }
+
+    if (
+      tooLong(nameStr, 200) ||
+      tooLong(emailStr, 254) ||
+      tooLong(phoneStr, 40) ||
+      tooLong(motivationStr, 5000)
+    ) {
+      return Response.json(
+        { error: "Valamelyik mező túl hosszú. Kérlek, rövidítsd." },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidEmail(emailStr)) {
+      return Response.json(
+        { error: "Kérlek, adj meg egy érvényes e-mail címet." },
         { status: 400 },
       );
     }
@@ -84,6 +133,7 @@ export async function POST(req: Request) {
     const { error } = await resend.emails.send({
       from: "ZynAI VibeCoding 1.0 – Pilot <onboarding@resend.dev>",
       to: "zynai.dev@gmail.com",
+      replyTo: emailStr,
       subject: `Új VibeCoding 1.0 – Pilot jelentkezés: ${nameStr}`,
       html,
     });
@@ -97,9 +147,10 @@ export async function POST(req: Request) {
 
     // N8N webhook — fire and forget, nem blokkolja a választ
     try {
-      await fetch("https://n8n.zynai.hu/webhook-test/zynai-urlap", {
+      await fetch("https://n8n.zynai.hu/webhook/pilot-49e98280a6aa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(5000),
         body: JSON.stringify({
           formType: "vibecoding-pilot",
           name: nameStr,

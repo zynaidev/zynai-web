@@ -36,9 +36,26 @@ import { LandingExamples } from "./LandingExamples";
 import { PilotStickyCta } from "./PilotStickyCta";
 
 export const metadata: Metadata = {
-  title: "VibeCoding 1.0 – Pilot — építs AI-jal weboldalt, október 22-től",
+  title: "VibeCoding 1.0 – Pilot: építs AI-jal weboldalt",
   description:
     "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül tanulod meg a folyamatot: a saját projektedet építed végig élőben, és saját domainen élesíted.",
+  alternates: {
+    canonical: "/vibecoding-pilot",
+  },
+  openGraph: {
+    title: "VibeCoding 1.0 – Pilot: építs AI-jal weboldalt — ZynAI",
+    description:
+      "VibeCoding 1.0 – Pilot, hat hét. Előzetes tapasztalat nélkül tanulod meg a folyamatot: a saját projektedet építed végig élőben, és saját domainen élesíted.",
+    url: "/vibecoding-pilot",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ZynAI — AI integráció magyar vállalkozásoknak",
+      },
+    ],
+  },
 };
 
 const RESULTS = [

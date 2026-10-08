@@ -7,8 +7,25 @@ import { ArrowRight } from "lucide-react";
 export function generateMetadata(): Metadata {
   return {
     description:
-      "Valós eredmények, valós vállalkozásokkal — AI integráció a gyakorlatban.",
-    title: "Esettanulmányok — ZynAI",
+      "Valós eredmények valós vállalkozásokkal: 14× gyorsabb weboldal a SilverLimónál, tízszeres közösségimédia-elérés az Aedificium Designnál.",
+    title: "Esettanulmányok",
+    alternates: {
+      canonical: "/esettanulmanyok",
+    },
+    openGraph: {
+      title: "Esettanulmányok — ZynAI",
+      description:
+        "Valós eredmények valós vállalkozásokkal: 14× gyorsabb weboldal a SilverLimónál, tízszeres közösségimédia-elérés az Aedificium Designnál.",
+      url: "/esettanulmanyok",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "ZynAI — AI integráció magyar vállalkozásoknak",
+        },
+      ],
+    },
   };
 }
 

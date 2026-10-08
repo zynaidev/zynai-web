@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { BackgroundGlow } from "@/components/ui/background-glow";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,15 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionLabel } from "@/components/ui/section-label";
+
+// Belső fejlesztői oldal: elérhető marad, de a keresők ne indexeljék.
+export const metadata: Metadata = {
+  title: "Style guide",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const colorTokens = [
   { group: "Backgrounds", name: "--bg-base", value: "#09090B" },

@@ -1,3 +1,28 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Adatkezelési tájékoztató",
+  description:
+    "A ZynAI (Bakos Attila e.v.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
+  alternates: {
+    canonical: "/adatvedelem",
+  },
+  openGraph: {
+    title: "Adatkezelési tájékoztató — ZynAI",
+    description:
+      "A ZynAI (Bakos Attila e.v.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
+    url: "/adatvedelem",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ZynAI — AI integráció magyar vállalkozásoknak",
+      },
+    ],
+  },
+};
+
 export default function AdatvedelemPage() {
   return (
     <main className="min-h-screen bg-[var(--bg-base)] pt-32 pb-24">

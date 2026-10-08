@@ -265,6 +265,7 @@ function KapcsolatfelvetelForm() {
 
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const focusRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
   const strippedPainParamRef = useRef(false);
 
   // A ?pain= paramot csak az induláshoz használjuk — miután beolvastuk,
@@ -322,6 +323,7 @@ function KapcsolatfelvetelForm() {
             ? fields.painPointOther.trim()
             : undefined,
           privacyAccepted: fields.privacyAccepted === true,
+          zxCheck: honeypotRef.current?.value || undefined,
         }),
       });
 
@@ -574,8 +576,21 @@ function KapcsolatfelvetelForm() {
                     <form
                       data-step-direction={direction}
                       onSubmit={onGlassFormSubmit}
-                      className="flex flex-1 flex-col justify-between gap-8"
+                      className="relative flex flex-1 flex-col justify-between gap-8"
                     >
+                      {/* Honeypot: embernek láthatatlan, a botok kitöltik. */}
+                      <div aria-hidden="true" className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+                        <label htmlFor="kf-zx">Ezt a mezőt hagyd üresen</label>
+                        <input
+                          id="kf-zx"
+                          name="zxCheck"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          ref={honeypotRef}
+                          defaultValue=""
+                        />
+                      </div>
                       <AnimatePresence mode="wait" initial={false}>
                         <motion.div
                           key={currentStep}
@@ -615,6 +630,7 @@ function KapcsolatfelvetelForm() {
                                 }
                                 id="kf-step-name"
                                 name="name"
+                                aria-label={step.question}
                                 type="text"
                                 value={fields.name}
                                 onChange={(e) =>
@@ -635,6 +651,7 @@ function KapcsolatfelvetelForm() {
                                 }
                                 id="kf-step-email"
                                 name="email"
+                                aria-label={step.question}
                                 type="email"
                                 value={fields.email}
                                 onChange={(e) =>

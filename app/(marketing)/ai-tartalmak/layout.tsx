@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "ZynAI — AI integráció magyar vállalkozásoknak",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AI tartalmak — ZynAI",
     description: AI_TARTALMAK_ARCHIVE_DESCRIPTION,
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
 };
 

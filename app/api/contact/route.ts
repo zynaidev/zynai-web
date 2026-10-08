@@ -1,6 +1,26 @@
 import { Resend } from "resend";
 
 import { painPointLabel } from "@/lib/contact-types";
+import {
+  findUnknownField,
+  isHoneypotFilled,
+  isRateLimited,
+  isValidEmail,
+  tooLong,
+} from "@/lib/form-guard";
+
+const ALLOWED_FIELDS = [
+  "name",
+  "email",
+  "company",
+  "website",
+  "teamSize",
+  "painPoints",
+  "painPointOther",
+  "aiStage",
+  "availability",
+  "privacyAccepted",
+] as const;
 
 function escapeHtml(value: unknown): string {
   if (value === null || value === undefined) return "";
@@ -33,11 +53,31 @@ export async function POST(req: Request) {
       );
     }
 
+    if (isRateLimited(req, "contact", 5, 10 * 60 * 1000)) {
+      return Response.json(
+        { error: "Túl sok próbálkozás. Kérlek, próbáld újra néhány perc múlva." },
+        { status: 429 },
+      );
+    }
+
     let body: Record<string, unknown>;
     try {
       body = await req.json();
     } catch {
       return Response.json({ error: "Érvénytelen JSON törzs." }, { status: 400 });
+    }
+
+    if (typeof body !== "object" || body === null || Array.isArray(body)) {
+      return Response.json({ error: "Érvénytelen JSON törzs." }, { status: 400 });
+    }
+
+    // Bot: csendes "siker", e-mail és webhook nélkül.
+    if (isHoneypotFilled(body)) {
+      return Response.json({ success: true });
+    }
+
+    if (findUnknownField(body, ALLOWED_FIELDS)) {
+      return Response.json({ error: "Ismeretlen mező a kérésben." }, { status: 400 });
     }
 
     const {
@@ -68,6 +108,31 @@ export async function POST(req: Request) {
           error:
             "Hiányzó kötelező mezők: név, e-mail és legalább egy időrabló folyamat kötelező.",
         },
+        { status: 400 },
+      );
+    }
+
+    if (
+      tooLong(nameStr, 200) ||
+      tooLong(emailStr, 254) ||
+      tooLong(company, 200) ||
+      tooLong(websiteStr, 500) ||
+      tooLong(teamSize, 100) ||
+      tooLong(aiStage, 100) ||
+      tooLong(availability, 500) ||
+      tooLong(painPointOtherStr, 2000) ||
+      painPointIds.length > 20 ||
+      painPointIds.some((id) => id.length > 100)
+    ) {
+      return Response.json(
+        { error: "Valamelyik mező túl hosszú. Kérlek, rövidítsd." },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidEmail(emailStr)) {
+      return Response.json(
+        { error: "Kérlek, adj meg egy érvényes e-mail címet." },
         { status: 400 },
       );
     }
@@ -108,6 +173,7 @@ export async function POST(req: Request) {
     const { error } = await resend.emails.send({
       from: "ZynAI Kapcsolatfelvétel <onboarding@resend.dev>",
       to: "zynai.dev@gmail.com",
+      replyTo: emailStr,
       subject: `Új megkeresés: ${nameStr}`,
       html,
     });
@@ -124,6 +190,7 @@ export async function POST(req: Request) {
       await fetch("https://n8n.zynai.hu/webhook/zynai-urlap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(5000),
         body: JSON.stringify({
           name: nameStr,
           email: emailStr,
