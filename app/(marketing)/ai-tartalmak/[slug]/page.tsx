@@ -46,11 +46,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ slug: string }> | { slug: string };
-}): Promise<Metadata> {
-  const resolvedParams = await Promise.resolve(params);
-  const article = getArticleBySlug(resolvedParams.slug);
+}: AiTartalomPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     return {

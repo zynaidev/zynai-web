@@ -321,3 +321,10 @@ Mit és miért: Ati kérésére a lábléc második (székhely · cégjegyzéksz
 Fájlok: `components/layout/Footer.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 Ati dönt / Ati ellenőrzi: nincs
+
+## A cikkoldal `generateMetadata` típusa
+Állapot: kész
+Mit és miért: Az `/ai-tartalmak/[slug]` oldal `generateMetadata` függvénye a `params`-ot `Promise | objektum` uniónak deklarálta. A `next dev --webpack` által generált szigorúbb típusellenőrzés (`.next/dev/types`) ezt elutasította, ezért egy dev futás után a `npm run build` elbukott, amíg a `.next/dev` mappa ott volt. Most a függvény ugyanazt a típust használja, mint maga az oldal (`params: Promise<{ slug }>`).
+Fájlok: `app/(marketing)/ai-tartalmak/[slug]/page.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · egy rövid `next dev --webpack` futás után, a generált `.next/dev/types`-szal együtt is tsc ✓; utána a `.next/dev` mappa törölve.
+Ati dönt / Ati ellenőrzi: nincs
