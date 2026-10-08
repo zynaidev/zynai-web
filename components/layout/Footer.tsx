@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ConsentSettingsLink } from "@/components/consent/ConsentSettingsLink";
 import { MailtoLink } from "@/components/ui/MailtoLink";
-import { COMPANY, COMPANY_ADDRESS_LINE } from "@/lib/company";
+import { COMPANY } from "@/lib/company";
 
 function LinkedinIcon() {
   return (
@@ -193,10 +193,6 @@ export function Footer() {
         <div className="mt-16 lg:mt-20 pt-8 border-t border-[var(--border-hairline)]">
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-secondary)]">
             © 2026 {COMPANY.shortName} · Minden jog fenntartva
-          </p>
-          <p className="mt-2 font-mono text-[11px] tracking-[0.04em] text-[var(--text-tertiary)]">
-            Székhely: {COMPANY_ADDRESS_LINE} · Cg. {COMPANY.registrationNumber} ·
-            Adószám: {COMPANY.taxNumber}
           </p>
         </div>
       </div>

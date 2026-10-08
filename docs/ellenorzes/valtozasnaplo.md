@@ -314,3 +314,10 @@ Mit és miért: A Kft. bejegyzése (Budapest Környéki Törvényszék Cégbír�
 Fájlok: `lib/company.ts` (új), `app/(marketing)/adatvedelem/page.tsx`, `components/layout/Footer.tsx`, `app/(marketing)/page.tsx`, `lib/article-seo.ts`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`: az `/adatvedelem` és a lábléc az új adatokat mutatja, a főoldal JSON-LD-jében `legalName`, `vatID`, `taxID` megvan; a régi `e.v.`, `59341763`, `90189021` sehol.
 Ati dönt / Ati ellenőrzi: az adatkezelési tájékoztató többi része (K7: Google Analytics és Tag Manager „tervezett” helyett a tényleges működés, Cal.com, pilot-űrlap, „Süti-beállítások” link) még a régi; a dátum már a mai, ezért a K7 szövegét is érdemes mielőbb frissíteni. A számlázási és egyéb céges felületeken (Google, Cal.com, Resend, LinkedIn) a cégadatok frissítése külön teendő.
+
+## Lábléc: a székhelyes apróbetűs sor kivéve
+Állapot: kész
+Mit és miért: Ati kérésére a lábléc második (székhely · cégjegyzékszám · adószám) sora kikerült; a láblécben csak a `© 2026 ZynAI Development Kft. · Minden jog fenntartva` marad. A teljes cégadat az adatkezelési tájékoztatóban és a strukturált adatban továbbra is megvan.
+Fájlok: `components/layout/Footer.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓
+Ati dönt / Ati ellenőrzi: nincs
