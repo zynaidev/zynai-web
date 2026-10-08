@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       ].filter(Boolean);
       console.error(`[contact] Hiányzó környezeti változó: ${missing.join(", ")}`);
       return Response.json(
-        { error: `A szerver nincs konfigurálva (hiányzó ${missing.join(", ")}).` },
+        { error: "Az e-mail küldése sikertelen volt." },
         { status: 500 },
       );
     }

@@ -20,7 +20,7 @@
 | J9 — E-mail és webhook env-be | kész | `e79ceb5` |
 | J10 — E-mail-formátum kliensoldalon | kész | `d432abf` |
 | J11 — `.env.example` követése | hátravan | — |
-| J12 — Hiányzó beállítás ne szivárogjon | hátravan | — |
+| J12 — Hiányzó beállítás ne szivárogjon | kész | (lásd a git log) |
 
 ---
 
@@ -70,7 +70,7 @@ Commit: e79ceb5
 Mit és miért: A címzett, a feladó és az n8n webhook-címek kikerültek a kódból négy szerveroldali környezeti változóba (`CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `N8N_CONTACT_WEBHOOK_URL`, `N8N_PILOT_WEBHOOK_URL`). Hiányzó e-mail-beállításnál az űrlap 500-at ad és naplóz; hiányzó vagy hibás n8n-hívásnál az űrlap tovább működik, a hiba csak a naplóba kerül.
 Fájlok: `app/api/contact/route.ts`, `app/api/pilot/route.ts`, `.env.example` (új)
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · üres POST mindkét route-ra → 500, a naplóban `[contact]`/`[pilot] Hiányzó környezeti változó: …`
-Ati dönt / Ati ellenőrzi: a négy változó értékét te írod be a `.env.local`-ba és a szerver környezetébe (`03` K2); addig az űrlapok 500-at adnak. A korábbi értékek a git-történetben megvannak (`git show c31d5ee:app/api/contact/route.ts`, illetve `…pilot/route.ts`). A `.env.example` `git add -f`-fel került be (lásd J11). A hiányzó változók nevei most a kliensnek is megjelennek: ezt a J12 javítja.
+Ati dönt / Ati ellenőrzi: a négy változó értékét te írod be a `.env.local`-ba és a szerver környezetébe (`03` K2); addig az űrlapok 500-at adnak. A korábbi értékek a git-történetben megvannak (`git show c31d5ee:app/api/contact/route.ts`, illetve `…pilot/route.ts`). A `.env.example` `git add -f`-fel került be (lásd J11). A hiányzó változók nevei a kliensnek is megjelentek: ezt a J12 javította.
 
 ## J10 — Az e-mail-formátum kliensoldali ellenőrzése
 Állapot: kész
@@ -98,8 +98,28 @@ Ati dönt / Ati ellenőrzi: a böngészőfülön az ikon továbbra is megjelenik
 
 ## J7 — A CDN-ikonok helyi kiszolgálása
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: bb5c158
 Mit és miért: A főoldali integráció-sáv ikonjait eddig a jsDelivr szolgálta ki verzió nélkül (`simple-icons@latest`), így a látogató IP-címe hozzájárulás nélkül egy külső szolgáltatóhoz került. Most a 24 ikon a saját szerverünkről jön, a rögzített simple-icons 16.34.0 verzióból (licenc: CC0 1.0, a csomag `LICENSE.md`-je szerint). Az OpenAI és a Slack ikon nincs meg ebben a verzióban, ezért azok chipje Ati döntése alapján (A változat) csak a névvel jelenik meg.
 Fájlok: `components/sections/IntegrationStack.tsx`, `public/icons/integrations/*.svg` (24 új fájl)
 Ellenőrzés: tsc ✓ · lint ✓ (figyelmeztetés nélkül) · build ✓ · a forrásban nincs `jsdelivr` · `npm start`: a főoldal HTML-jében az ikonok `/_next/image?url=/icons/integrations/…` címen jönnek, ez `200 image/svg+xml`.
 Ati dönt / Ati ellenőrzi: a főoldalon az ikonok ugyanúgy jelennek-e meg (fehérre invertálva), és az OpenAI/Slack chip ikon nélkül is rendben néz-e ki. A `next.config.ts` `cdn.simpleicons.org` engedélye már nem kell semmihez; nem módosítottam (hatókörön kívül).
+
+## J12 — A hiányzó beállítás ne szivárogjon a kliensnek
+Állapot: kész
+Commit: lásd az összesítő táblázatot és a `git log`-ot (a hash a saját commitjában nem szerepelhet)
+Mit és miért: Ha a szerveren hiányzik egy e-mail-beállítás, a látogató eddig a hiányzó változó nevét is látta a hibaüzenetben. Most a már meglévő általános hibaszöveget kapja (`Az e-mail küldése sikertelen volt.`, 500-as státusszal, mint egy sima küldési hibánál). A változónevek csak a szerver naplójába kerülnek.
+Fájlok: `app/api/contact/route.ts`, `app/api/pilot/route.ts`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · üres POST mindkét route-ra → `{"error":"Az e-mail küldése sikertelen volt."}`, HTTP 500; a szerver naplójában a változónevek megvannak (`[contact]`/`[pilot] Hiányzó környezeti változó: …`). A válasz-objektumokban nincs változónév.
+Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: ha a Resend maga ad hibát, az ő `error.message`-e továbbra is a kliensnek megy (a J9 előtti viselkedés, a szelet hatókörén kívül); érdemes később átnézni, hogy ez nem túl bőbeszédű-e.
+
+---
+
+## Kézi teendők (Ati)
+
+1. **J9 környezeti változók** a `.env.local`-ba és a szerver környezetébe (`03` K2): `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` (cím, megjelenítendő név nélkül), `N8N_CONTACT_WEBHOOK_URL`, `N8N_PILOT_WEBHOOK_URL`. A `RESEND_API_KEY` már megvan. Amíg ez nincs meg, az űrlapok 500-at adnak.
+2. **J1:** a szerveren a Docker-build menjen át a `node:24-alpine` képpel (helyben nem tudtam ellenőrizni). Az `@types/node` még `^20`; később érdemes `^24`-re emelni (nem módosítottam).
+3. **J4:** `/ai-tartalmak?kategoria=…` szűrése, és a címek sor-animációja.
+4. **J7:** főoldal, integráció-sáv: az ikonok megjelennek-e, az OpenAI/Slack chip rendben néz-e ki ikon nélkül.
+5. **J10:** a `/kapcsolatfelvetel` e-mail lépése érvénytelen címre hibát ad-e.
+6. **J6:** a böngészőfül ikonja megvan-e.
+7. A `Resend` hibaüzenet kliensnek adása (J12 megjegyzés): döntsd el, kell-e szigorítani.
