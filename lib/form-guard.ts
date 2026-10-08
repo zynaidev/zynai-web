@@ -35,11 +35,15 @@ export function tooLong(value: unknown, max: number): boolean {
 }
 
 /**
- * A kliens IP-címe. Az x-forwarded-for első eleme az eredeti kliens; ha
- * nincs fejléc, undefined, és ilyenkor a rate limit nem lép életbe, hogy
- * a látogatók ne osztozzanak egyetlen közös kereten.
+ * A kliens IP-címe. Élesben a forgalom a Cloudflare-en jön, amely a
+ * látogató valódi címét a cf-connecting-ip fejlécben küldi (a kliens által
+ * küldött értéket felülírja); az x-forwarded-for első eleme e mögött nem
+ * megbízható. Ha egyik fejléc sincs, undefined, és ilyenkor a rate limit nem
+ * lép életbe, hogy a látogatók ne osztozzanak egyetlen közös kereten.
  */
 function clientIp(req: Request): string | undefined {
+  const cloudflare = req.headers.get("cf-connecting-ip")?.trim();
+  if (cloudflare) return cloudflare;
   const forwarded = req.headers.get("x-forwarded-for");
   const first = forwarded?.split(",")[0]?.trim();
   return first || req.headers.get("x-real-ip")?.trim() || undefined;
