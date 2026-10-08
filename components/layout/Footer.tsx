@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ConsentSettingsLink } from "@/components/consent/ConsentSettingsLink";
+import { MailtoLink } from "@/components/ui/MailtoLink";
 
 function LinkedinIcon() {
   return (
@@ -166,9 +167,9 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <a href="mailto:info@zynai.hu" className={linkClass}>
+                  <MailtoLink email="info@zynai.hu" className={linkClass}>
                     info@zynai.hu
-                  </a>
+                  </MailtoLink>
                 </li>
                 <li>
                   <Link href="/adatvedelem" className={linkClass}>

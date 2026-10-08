@@ -156,8 +156,8 @@ c31d5ee Add booking and privacy pages to sitemap
 |---|---|---|
 | M1 — Analitikai könyvtár | kész | `5e1ea2d` |
 | M2 — GTM és consent default | kész | `4a1d68a` |
-| M3 — Sütibanner | kész | (a következő bejegyzésnél) |
-| M4 — E-mail-kattintás | hátravan | — |
+| M3 — Sütibanner | kész | `a4785b7` |
+| M4 — E-mail-kattintás | kész | (a következő bejegyzésnél) |
 | M5 — Űrlapkonverziók | hátravan | — |
 | M6 — Cal.com kattintásra | hátravan | — |
 | M7 — Önellenőrzés | hátravan | — |
@@ -184,7 +184,7 @@ Ati dönt / Ati ellenőrzi: az éles buildnél a build-argumentum: `docker build
 
 ## M3 — Sütibanner és süti-beállítások link
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: a4785b7
 Mit és miért: Az oldal alján sütibanner jelenik meg, amíg a látogató nem döntött. Az „Elfogadom” és a „Csak a szükségeseket” gomb egyenrangú; mindkettő elmenti a döntést és Consent Mode `update`-et küld. A lábléc új „Süti-beállítások” linkje bármikor visszahozza a bannert. Mindkettő csak akkor jelenik meg, ha a build GTM-azonosítóval készült.
 Diagnózis:
 - Hangnem (D5): az oldal tegező (`Kérlek` 14×, `neked` 6×, `vállalkozásod` 5×, `Foglalj` 5×); a „magázó” találatok harmadik személyűek (pl. „nem tudja”, a Claude „olvassa el”), tehát a **tegező** szöveg került be, szó szerint a `02`-ből.
@@ -194,3 +194,17 @@ Megvalósítás: a tárolt döntést `useSyncExternalStore` olvassa (szerveren �
 Fájlok: `components/consent/ConsentBanner.tsx` (új), `components/consent/ConsentSettingsLink.tsx` (új), `app/layout.tsx`, `components/layout/Footer.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · env nélküli build: a HTML-ben se `Süti-beállítások`, se banner · `GTM-KBHN7GX6` build: a lábléc linkje a HTML-ben, a banner kódja a kliens chunkban. Utána újraépítve env nélkül.
 Ati dönt / Ati ellenőrzi: böngészőben (éles vagy GTM-es helyi build): a banner megjelenik; döntés után eltűnik; újratöltésre nem jön vissza; a lábléc „Süti-beállítások” linkje visszahozza. Konzolban: `dataLayer.filter(e => e[0] === 'consent')` → egy `default`, döntés után egy `update` a megfelelő értékekkel. **Figyelem:** Advanced módban (D2) a GA4 a döntés előtt is küld süti nélküli jelzéseket, ezért egy helyi próba a valódi tárolóval localhostos találatot ad a GA4-ben; ezt a GA4-ben szűrd, vagy élesben ellenőrizd. A banner mobilon, keskeny kijelzőn hogyan fér el — nézd meg.
+
+## M4 — Telefon- és e-mail-kattintás
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: Az oldal három látható e-mail-linkje kattintáskor `email_click` eseményt küld (a címet nem). A link ugyanúgy megnyitja a levelezőt.
+Diagnózis (`grep -rn "tel:\|mailto:" app components`):
+- `app/(marketing)/idopontfoglalas/page.tsx:53` — szerver komponens (oldal), `mailto:info@zynai.hu`
+- `components/CalEmbed.tsx:165` — kliens komponens, a hibaállapot `mailto:` linkje
+- `components/layout/Footer.tsx:167` — a lábléc `mailto:` linkje
+- `tel:` link **nincs** az oldalon, ezért a `PhoneLink.tsx` nem készült el (használat nélküli komponens lenne). Ha később telefonszám kerül ki, akkor kell.
+- Nem link, nem módosítva: `adatvedelem/page.tsx` (az e-mail-cím sima szöveg), a főoldal JSON-LD-je (`page.tsx:100`).
+Fájlok: `components/ui/MailtoLink.tsx` (új), `app/(marketing)/idopontfoglalas/page.tsx`, `components/CalEmbed.tsx`, `components/layout/Footer.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · a forrásban `mailto:` már csak a `MailtoLink.tsx`-ben szerepel.
+Ati dönt / Ati ellenőrzi: élesben a GA4 DebugView-ban egy e-mail-linkre kattintva megjelenik-e az `email_click` (elfogadott sütikkel).

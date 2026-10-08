@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import type { PrefillAndIframeAttrsConfig } from "@calcom/embed-core";
 
+import { MailtoLink } from "@/components/ui/MailtoLink";
 import { cn } from "@/lib/utils";
 
 const CAL_NAMESPACE = "felmeres";
@@ -161,12 +162,12 @@ function CalFallback({ className }: { className?: string }) {
       >
         Foglalás megnyitása új lapon
       </a>
-      <a
-        href={`mailto:${CAL_EMAIL}`}
+      <MailtoLink
+        email={CAL_EMAIL}
         className="text-sm text-[var(--text-secondary)] underline underline-offset-2 hover:text-[var(--text-primary)]"
       >
         {CAL_EMAIL}
-      </a>
+      </MailtoLink>
     </div>
   );
 }

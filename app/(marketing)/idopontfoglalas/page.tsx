@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CalEmbed } from "@/components/CalEmbed";
+import { MailtoLink } from "@/components/ui/MailtoLink";
 
 export function generateMetadata(): Metadata {
   return {
@@ -49,12 +50,12 @@ export default function IdopontfoglalasPage() {
 
         <p className="mt-8 text-[14px] text-[var(--text-tertiary)]">
           Ha egyik időpont sem jó, írj:{" "}
-          <a
-            href="mailto:info@zynai.hu"
+          <MailtoLink
+            email="info@zynai.hu"
             className="text-[var(--text-secondary)] underline underline-offset-2 hover:text-[#BDFF00]"
           >
             info@zynai.hu
-          </a>
+          </MailtoLink>
         </p>
       </div>
     </main>
