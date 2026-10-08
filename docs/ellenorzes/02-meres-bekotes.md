@@ -1,7 +1,8 @@
 # 2. lépés — GTM, Consent Mode v2, sütibanner, konverziók
 
-> Szabályok: `00-README.md`. Eredmény: `eredmeny-02.md`. Előfeltétel: az
-> `01` kész. A döntések (D1, D2, D4, D5) a README-ben vannak.
+> Szabályok: `00-README.md`. Napló: `valtozasnaplo.md` (új „2. lépés”
+> szakasz). Előfeltétel: az `01` kész. A döntések (D1, D2, D4, D5) a
+> README-ben vannak. Az „ÁLLJ” itt kérdést jelent (README 9. szabály).
 
 ## Az elv (minden szeletre érvényes)
 
@@ -187,12 +188,17 @@ try {
   `openConsentSettings()`), az adatvédelmi link mellett. Ha a lábléc szerver
   komponens, a link külön kis kliens komponens:
   `components/consent/ConsentSettingsLink.tsx`.
-- **Szövegek — szó szerint (D5: magázó):**
-  - Cím: `Sütik`
-  - Szöveg: `Az oldal működéséhez szükséges sütiket mindig használjuk. Ha elfogadja, a Google Analytics és a Google hirdetési eszközei segítségével mérjük, hogyan használják az oldalt. A döntését bármikor megváltoztathatja a lábléc „Süti-beállítások” linkjével.`
-  - Link a szöveg után: `Részletek` → `/adatvedelem`
-  - Gombok: `Elfogadom` · `Csak a szükségeseket`
-  - Lábléc link: `Süti-beállítások`
+- **Hangnem (D5):** a szöveg előtt olvasd el a `/kapcsolatfelvetel` és a
+  főoldal látható szövegét, és állapítsd meg, tegező vagy magázó-e az oldal.
+  Az űrlap szervere tegező („Kérlek, adj meg…”), ezért ez a valószínű. Ha
+  vegyes vagy nem egyértelmű, ÁLLJ, és kérdezz. Utána a megfelelő változatot
+  használd, szó szerint:
+  - Cím (mindkettő): `Sütik`
+  - Szöveg, **tegező**: `Az oldal működéséhez szükséges sütiket mindig használunk. Ha elfogadod, a Google Analytics és a Google hirdetési eszközei segítségével mérjük, hogyan használják az oldalt. A döntésedet bármikor megváltoztathatod a lábléc „Süti-beállítások” linkjével.`
+  - Szöveg, **magázó**: `Az oldal működéséhez szükséges sütiket mindig használjuk. Ha elfogadja, a Google Analytics és a Google hirdetési eszközei segítségével mérjük, hogyan használják az oldalt. A döntését bármikor megváltoztathatja a lábléc „Süti-beállítások” linkjével.`
+  - Link a szöveg után (mindkettő): `Részletek` → `/adatvedelem`
+  - Gombok (mindkettő): `Elfogadom` · `Csak a szükségeseket`
+  - Lábléc link (mindkettő): `Süti-beállítások`
 - **Kész, ha:** tsc, lint, build zöld. `GTM-TEST000` builddel helyben: a
   banner megjelenik, a döntés után eltűnik, újratöltésre nem jön vissza, a
   lábléc linkje visszahozza. A konzolban
@@ -257,10 +263,11 @@ try {
      `track('booking_complete', {})`-t hív. A payload egyetlen mezője sem
      kerül az eseménybe: a `title` nevet tartalmazhat. A `uid` alapján egy
      foglalás csak egyszer számít (modul szintű `Set`).
-- **Szövegek — szó szerint:**
-  - Gomb: `Naptár megnyitása`
-  - Magyarázó sor: `A foglalási naptárat a Cal.com biztosítja. Megnyitáskor a Cal.com oldala töltődik be.`
-  - Link: `Vagy foglaljon közvetlenül a Cal.com oldalán`
+- **Szövegek — szó szerint (a hangnem az M3-ban megállapított, D5):**
+  - Gomb (mindkettő): `Naptár megnyitása`
+  - Magyarázó sor (mindkettő): `A foglalási naptárat a Cal.com biztosítja. Megnyitáskor a Cal.com oldala töltődik be.`
+  - Link, **tegező**: `Vagy foglalj közvetlenül a Cal.com oldalán`
+  - Link, **magázó**: `Vagy foglaljon közvetlenül a Cal.com oldalán`
 - **Kész, ha:** tsc, lint, build zöld. A beágyazás csak kattintásra tölt
   (a hálózati fülön előtte nincs `cal.com` kérés).
 - **Nézd meg (Ati):** valódi tesztfoglalás élesben → egy `booking_complete`
@@ -270,7 +277,7 @@ try {
 ## M7 — Önellenőrzés (csak diagnózis, nincs commit a kódhoz)
 
 Olvasd el a `app/layout.tsx`, a `lib/analytics/*`, a banner, a lábléc, az M4–M6
-fájljait, és válaszolj az eredményfájlban, bizonyítékkal:
+fájljait, és válaszolj a `valtozasnaplo.md` M7 szakaszában, bizonyítékkal:
 
 1. A consent default inline `<script>` a `<head>`-ben, és a GTM előtt fut?
 2. Mind a négy paraméter `denied` a defaultban?
@@ -286,5 +293,9 @@ fájljait, és válaszolj az eredményfájlban, bizonyítékkal:
 9. Kerül-e személyes adat a `track()`-be vagy a `dataLayer`-be?
 10. `NEXT_PUBLIC_GTM_ID` nélkül a buildelt HTML-ben nincs semmi mérés?
 
-Az eredményfájl végén a **Kézi teendők**: a `03-kezi-beallitasok.md`
-pontjai, amelyeket a kód feltételez.
+A napló végén a **Kézi teendők**: a `03-kezi-beallitasok.md` pontjai,
+amelyeket a kód feltételez. Az M7 válaszait a szelet-commitba teszed
+(`Document analytics self-check in change log`), ez az egyetlen commit, amely
+csak a naplót érinti.
+
+A lépés végén a chatben rövid magyar összegzés (README 13. szabály).

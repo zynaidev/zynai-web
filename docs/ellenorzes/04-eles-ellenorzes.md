@@ -1,10 +1,17 @@
 # 4. lépés — Ellenőrzés élesben
 
-> Szabályok: `00-README.md`. Eredmény: `eredmeny-04.md`.
+> Szabályok: `00-README.md`. Napló: `valtozasnaplo.md`.
 > Előfeltétel: a kód élesítve, `NEXT_PUBLIC_GTM_ID` build-argumentummal, a K1–K5
 > kész, a GTM-tároló közzétéve.
-> **Ebben a lépésben az ágens semmit nem módosít és nem commitol**, csak az
-> eredményfájlt írja meg. Ezt a fájlt Ati commitolja.
+> **Ebben a lépésben az ágens a kódhoz nem nyúl és nem commitol.** Csak a
+> `valtozasnaplo.md`-be ír egy „4. lépés — éles ellenőrzés” szakaszt, és a
+> fájl élére a **végső összefoglalót** (mi változott az egész munkában, mi
+> nyitott). A naplót Ati commitolja.
+> A terv itt azt tartalmazza, mely ellenőrzéseket futtatod az élesen
+> (csak olvasó kérések), és hogy a rate limit próba (E5) kell-e. Ennek jóváhagyása
+> után indulsz.
+> Parancsok: PowerShellben `curl.exe`, a `for` ciklust és a `grep`-et fordítsd
+> le (README 10. szabály).
 
 Minden pont állapota: **teljesült**, **nem teljesült** vagy **nem
 ellenőrzött**, bizonyítékkal (parancskimenet).
@@ -110,5 +117,7 @@ Mindig **inkognitóablakban, minden bővítmény kikapcsolva**.
 - [ ] **Saját telefon, mobilneten:** betölt, a menü működik, a banner gombjai
       elérhetők és nem takarnak ki semmit véglegesen, az űrlap elküldhető.
 
-Az eredményt (a B rész pipáival és a Lighthouse számaival kiegészítve) hozd
-vissza a Claude chatbe.
+A B rész pipáit és a Lighthouse négy számát Ati írja be a `valtozasnaplo.md`
+„4. lépés” szakaszába (az ágens előkészíti a pipálható listát). Ha a
+Lighthouse 90 alatti, a naplóban az ok is szerepeljen, de nem kell
+sehova visszavinni: a következő javítási kör ebből indul.
