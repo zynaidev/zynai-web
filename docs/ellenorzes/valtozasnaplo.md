@@ -1,5 +1,30 @@
 # Változásnapló — zynai-website ellenőrzés
 
+## Végső összefoglaló (2026. október 8.)
+
+**Mi változott az egész munkában**
+
+- **Alap és biztonság:** Node 24 (Docker, `engines`, `.nvmrc`); `X-Powered-By` kikapcsolva, öt biztonsági fejléc (élesben mindegyik egyszer); az OG-kép Node runtime-on; a Docker-képben a `.next` mappa a futtató felhasználóé (megszűnt az `EACCES` a képgyorsítótárnál).
+- **Kódminőség:** a három lint-hiba javítva; a cikkoldal `generateMetadata` típusa rendben (dev után sem törik a build); a `/blog` helyőrző és a nem használt favicon törölve; az integrációs ikonok helyben, rögzített simple-icons verzióból (nincs több jsDelivr-kérés).
+- **Űrlapok:** címzett és feladó környezeti változóból; az n8n opcionális (most nincs bekötve); hiányzó beállításnál és szolgáltatói hibánál a látogató csak általános hibát lát, a részletek a szervernaplóba kerülnek; kliensoldali e-mail-formátum-ellenőrzés; egy beküldés = egy kérés; a rate limit a Cloudflare valódi kliens-IP-jét használja (élesben eddig nem működött).
+- **Mérés:** GTM (`GTM-KBHN7GX6`) a Consent Mode v2 alapállapot után tölt; sütibanner és „Süti-beállítások” link; GA4 (`G-W3HP0TW3GC`) a GTM-ből, Google-címkével; a kód előkészítve az öt egyedi eseményre (`generate_lead`, `pilot_application`, `booking_complete`, `phone_click`, `email_click`), ezek a GTM-ben még nincsenek bekötve; a Cal.com csak kattintásra tölt.
+- **SEO és Google:** a sitemapben a foglalás és az adatvédelem is; Search Console igazoló fájl; `www` → nem-www 301 a Cloudflare-ben (path és query megmarad).
+- **Cégadatok:** minden céges megjelenés a ZynAI Development Kft.-t mutatja (`lib/company.ts`); a lábléc `© 2026 ZynAI Development Kft.`; az adatkezelési tájékoztató a tényleges működést írja le (Hetzner Helsinki, Cloudflare, Resend, Google, Cal.com, Google Ads és remarketing, Consent Mode).
+
+**Ami nyitott (Ati)**
+
+1. **Push és Redeploy** a legutóbbi commitokhoz (cégadatok, adatkezelési tájékoztató, hibaüzenetek, rate limit, típushiba). Utána az E5 próba újra: a 6. üres kérésnek 429-et kell adnia.
+2. **Az adatkezelési tájékoztató jogi átnézése** (megőrzési idők, jogalapok, a szolgáltatók DPF-státusza, a Google Ads-sütik a kampány indulásakor).
+3. **Resend saját domain (K1)**, utána `CONTACT_FROM_EMAIL` a saját domainről (most `onboarding@resend.dev`, ami csak a saját címre kézbesít).
+4. **GA4 beállítások (K5):** adatmegőrzés 14 hónap (a tájékoztató ezt írja), belső forgalom szűrése, a history-alapú oldalváltás bekapcsolva; a `page_view` darabszámának ellenőrzése három oldalon.
+5. **Cal.com sütik (K8)** élesben, inkognitóban.
+6. **Egyedi események** a GTM-ben, amikor kellenek (`generate_lead` stb.), és a **Google Ads** bekötése (konverziós címke, Conversion Linker, remarketing) a kampány előtt.
+7. **Cégadatok a külső felületeken:** Google-fiókok, Resend, Cal.com, LinkedIn, számlázás.
+8. **Apróságok:** a Coolify-ban a `NIXPACKS_NODE_VERSION=22` felesleges; az `@types/node` még `^20`; a régi, inaktív Cloudflare Bulk Redirect lista törölhető; a Search Console-ból a `sitemap_index.xml` bejegyzés törölhető; a szerver tűzfalát érdemes a Cloudflare IP-tartományaira korlátozni.
+9. **Lighthouse** (mobil, éles domain) és a telefonos próba a 04 B része szerint.
+
+---
+
 > Az 1. lépés (`01-javitasok.md`) szeletei. Az első futás (J1–J4, J8–J10)
 > eredményei az `eredmeny-01.md`-ből kerültek át. A hash-ek a szelet saját
 > commitjára mutatnak.
@@ -357,3 +382,35 @@ Diagnózis (E5): a route-okban a sorrend beállítás-ellenőrzés → rate limi
 Fájlok: `lib/form-guard.ts`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · helyben (álértékű `CONTACT_*` változókkal, csak a parancssorban): azonos `CF-Connecting-IP`, változó `X-Forwarded-For` mellett `400 400 400 400 400 429 429`; másik `CF-Connecting-IP` → `400`.
 Ati dönt / Ati ellenőrzi: push és új build után az élesen ugyanez a próba (üres törzzsel, e-mail nélkül) a 6. kérésnél 429-et kell adjon. Ha a szerver közvetlenül is elérhető a Cloudflare megkerülésével, ott a `CF-Connecting-IP` hamisítható; ezt a tűzfalon érdemes a Cloudflare IP-tartományaira korlátozni (nem sürgős).
+
+---
+
+# 4. lépés — éles ellenőrzés
+
+> 2026. október 8., `https://zynai.hu`, csak olvasó kérések (az E5-nél e-mailt nem küldő, validáción elbukó kérések).
+
+## A rész — parancssor
+
+| Pont | Állapot | Bizonyíték |
+|---|---|---|
+| E1 fejlécek | **teljesült** | `curl -sI https://zynai.hu`: 200; `x-powered-by` 0×; `x-content-type-options`, `referrer-policy`, `x-frame-options`, `permissions-policy`, `strict-transport-security` mind 1× (a proxy nem duplázza; a HSTS-t csak az alkalmazás küldi). |
+| E2 átirányítás | **teljesült** | `http://zynai.hu` → 308 → `https://zynai.hu/`; `https://www.zynai.hu` → 301 → `https://zynai.hu/` (Cloudflare Redirect Rule, a path és a query megmarad: `/kapcsolatfelvetel?x=1` → `https://zynai.hu/kapcsolatfelvetel?x=1`). A `http://www` két lépés (308 a https-re, majd 301). Előtte a `https://www` 525-öt adott. |
+| E3 mérés a HTML-ben | **teljesült** | `consent', 'default` a 4487. bájtnál, `googletagmanager.com/gtm.js` a 156410.-nél → a consent default előbb; egyetlen GTM-azonosító: `GTM-KBHN7GX6`; `G-…`/`gtag/js` találat: 0. |
+| E4 útvonalak | **teljesült** | `/`, `/kapcsolatfelvetel`, `/idopontfoglalas`, `/adatvedelem` 200 `text/html`; `/blog/brand-foundation` 404; `/robots.txt` 200 `text/plain`; `/sitemap.xml` 200 `application/xml`; `/opengraph-image` 200 `image/png`; `/ZynAI_favicon.png` 200 `image/png`; a sitemapben az `/idopontfoglalas` és az `/adatvedelem`; `/google7ff5886834f0ffb9.html` 200. |
+| E5 rate limit | **nem teljesült → javítva, élesben újra ellenőrizendő** | Sorrend: beállítás → rate limit → JSON → honeypot → validáció, így az üres `{}` beszámít, de nem küld e-mailt. Hamisított `X-Forwarded-For`-ral `400 ×7`, hamisítás nélkül is `400 ×7` → a limit nem működött. Javítás: `Use Cloudflare client IP for form rate limiting`. |
+
+Menet közben talált és javított élesítési hibák: a `CONTACT_FROM_EMAIL` a Coolify Preview listájában volt a Production helyett (az űrlap 500-at adott); a Docker-képben `EACCES` a `.next/cache`-nél (javítva, élesben a naplóban már nincs).
+
+## B rész — Ati (böngésző és telefon)
+
+- [x] **Hozzájárulás:** Tag Assistantben a `Beleegyezés alapértelmezett` az első, a Google-címke (`G-W3HP0TW3GC`) az Inicializálásnál fut.
+- [x] **Elfogadás előtt** nincs `_ga` süti; elutasítás után sincs; újratöltés után a banner nem jön vissza; a „Süti-beállítások” visszahozza (Ati: „az 1. pont mind megvan”).
+- [x] **GA4 valós idejű:** `page_view` és `user_engagement` látszik.
+- [ ] **Három oldalon pontosan három `page_view`** — a darabszám még nincs visszaigazolva.
+- [ ] **Egyedi események** (`generate_lead`, `pilot_application`, `booking_complete`, `email_click`) — a GTM-ben még nincsenek bekötve, ezért a GA4-ben nem látszanak (várt). A `dataLayer`-ben a konzolból ellenőrizhetők.
+- [ ] **Hibás adattal** beküldött űrlapnál nincs `generate_lead` (konzol).
+- [x] **E-mail:** a teszt megérkezett a `zynai.dev@gmail.com` címre. A saját domainről küldés (K1) még nincs.
+- [ ] **n8n:** szándékosan kihagyva (Ati döntése: most nincs n8n).
+- [ ] **Cal.com:** a naptár csak a gombra tölt; milyen sütit tesz (K8).
+- [ ] **Lighthouse**, mobil, éles domain: Performance __ · Accessibility __ · Best Practices __ · SEO __ (ha a Performance 90 alatti, az ok: __).
+- [ ] **Saját telefon, mobilneten:** betölt, menü, banner gombjai, űrlap.
