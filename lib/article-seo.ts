@@ -1,4 +1,5 @@
 import type { Article } from "./article-types";
+import { COMPANY } from "./company";
 
 const SITE_URL = "https://zynai.hu";
 
@@ -60,6 +61,7 @@ export function buildArticleJsonLd(article: Article) {
     publisher: {
       "@type": "Organization",
       name: "ZynAI",
+      legalName: COMPANY.name,
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",

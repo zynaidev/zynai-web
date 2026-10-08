@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 
 import { HeroSection } from "@/components/sections/hero-section";
+import { COMPANY } from "@/lib/company";
 const PainPoints = dynamic(
   () => import("@/components/sections/PainPoints").then((mod) => mod.PainPoints),
   {
@@ -83,9 +84,19 @@ export default function MarketingHomePage() {
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
             name: "ZynAI",
+            legalName: COMPANY.name,
             description:
               "AI integráció és üzleti automatizáció magyar kis- és középvállalkozásoknak.",
             url: "https://zynai.hu",
+            vatID: COMPANY.euVatNumber,
+            taxID: COMPANY.taxNumber,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: COMPANY.address.street,
+              addressLocality: COMPANY.address.city,
+              postalCode: COMPANY.address.postalCode,
+              addressCountry: COMPANY.address.country,
+            },
             founder: {
               "@type": "Person",
               name: "Bakos Attila",

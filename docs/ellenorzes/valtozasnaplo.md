@@ -303,3 +303,14 @@ Mit és miért: Élesben a naplót elárasztotta az `EACCES: permission denied, 
 Fájlok: `Dockerfile`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · Docker-build: **nem ellenőrzött** (a Docker-démon helyben nem fut)
 Ati dönt / Ati ellenőrzi: push és új build után a Coolify **Logs** fülén ne jelenjen meg több `EACCES … /app/.next/cache` sor (nyiss meg néhány képes oldalt, például az `/ai-tartalmak`-ot). Mivel a Dockerfile változik, a build nem maradhat ki.
+
+## Cégadatok: ZynAI Development Kft.
+Állapot: kész
+Mit és miért: A Kft. bejegyzése (Budapest Környéki Törvényszék Cégbírósága, Cg.13-09-249560/5, 2026. 10. 07.) után minden céges megjelenés az új cégadatokat mutatja. A cégadatok egy helyen, a `lib/company.ts`-ben vannak, a lábléc, az adatkezelési tájékoztató és a strukturált adat innen olvas. A régi egyéni vállalkozói adatok (nyilvántartási szám, adószám) kikerültek. A végzés személyes adatai (anyja neve, születési idő, adóazonosító jel) és a statisztikai számjel, EUID, jegyzett tőke nem kerültek az oldalra.
+- Adatkezelési tájékoztató, 1. szakasz: név (teljes és rövidített), székhely, cégjegyzékszám a cégbírósággal, adószám, közösségi adószám, „Képviseli: Bakos Attila ügyvezető” (Ati döntése). A metaleírásban „(ZynAI Development Kft.)”. A „Hatályos” dátum mindkét helyen 2026. október 8. (Ati döntése).
+- Lábléc: `© 2026 ZynAI Development Kft. · Minden jog fenntartva`, alatta `Székhely: 2119 Pécel, Maglódi út 66. · Cg. 13-09-249560 · Adószám: 33137254-2-13`.
+- Strukturált adat: a főoldal `ProfessionalService` kapott `legalName`, `vatID`, `taxID` és `address` mezőt; a cikkek kiadója (`publisher`) `legalName`-et.
+- Nem változott: a „Bakos Attila” név a személyes megjelenéseknél (hero, Rólam, cikkszerzőség, OG-kép, metaadatok szerzője), mert ezek a személyre vonatkoznak.
+Fájlok: `lib/company.ts` (új), `app/(marketing)/adatvedelem/page.tsx`, `components/layout/Footer.tsx`, `app/(marketing)/page.tsx`, `lib/article-seo.ts`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`: az `/adatvedelem` és a lábléc az új adatokat mutatja, a főoldal JSON-LD-jében `legalName`, `vatID`, `taxID` megvan; a régi `e.v.`, `59341763`, `90189021` sehol.
+Ati dönt / Ati ellenőrzi: az adatkezelési tájékoztató többi része (K7: Google Analytics és Tag Manager „tervezett” helyett a tényleges működés, Cal.com, pilot-űrlap, „Süti-beállítások” link) még a régi; a dátum már a mai, ezért a K7 szövegét is érdemes mielőbb frissíteni. A számlázási és egyéb céges felületeken (Google, Cal.com, Resend, LinkedIn) a cégadatok frissítése külön teendő.

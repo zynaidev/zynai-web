@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 
+import { COMPANY, COMPANY_ADDRESS_LINE } from "@/lib/company";
+
 export const metadata: Metadata = {
   title: "Adatkezelési tájékoztató",
   description:
-    "A ZynAI (Bakos Attila e.v.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
+    "A ZynAI (ZynAI Development Kft.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
   alternates: {
     canonical: "/adatvedelem",
   },
   openGraph: {
     title: "Adatkezelési tájékoztató — ZynAI",
     description:
-      "A ZynAI (Bakos Attila e.v.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
+      "A ZynAI (ZynAI Development Kft.) adatkezelési tájékoztatója: milyen személyes adatokat kezelünk, milyen célból, meddig, és milyen jogaid vannak.",
     url: "/adatvedelem",
     images: [
       {
@@ -37,7 +39,7 @@ export default function AdatvedelemPage() {
             Adatkezelési tájékoztató
           </h1>
           <div className="font-mono text-[12px] text-[var(--text-tertiary)] flex gap-4 flex-wrap">
-            <span>Hatályos: 2025. május 7.</span>
+            <span>Hatályos: 2026. október 8.</span>
             <span>GDPR · 2011. évi CXII. tv.</span>
           </div>
           <div className="border-t border-[rgba(255,255,255,0.06)] mt-8" />
@@ -49,10 +51,12 @@ export default function AdatvedelemPage() {
             1. Az adatkezelő adatai
           </h2>
           <div className="space-y-4 text-[var(--text-secondary)] text-[15px] leading-[1.85]">
-            <p><span className="text-[var(--text-primary)] font-medium">Név:</span> Bakos Attila egyéni vállalkozó</p>
-            <p><span className="text-[var(--text-primary)] font-medium">Székhely:</span> 2119 Pécel, Maglódi út 66., Magyarország</p>
-            <p><span className="text-[var(--text-primary)] font-medium">Nyilvántartási szám:</span> 59341763</p>
-            <p><span className="text-[var(--text-primary)] font-medium">Adószám:</span> 90189021-1-33</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Név:</span> {COMPANY.name} ({COMPANY.shortName})</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Székhely:</span> {COMPANY_ADDRESS_LINE}, Magyarország</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Cégjegyzékszám:</span> {COMPANY.registrationNumber} ({COMPANY.registryCourt})</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Adószám:</span> {COMPANY.taxNumber}</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Közösségi adószám:</span> {COMPANY.euVatNumber}</p>
+            <p><span className="text-[var(--text-primary)] font-medium">Képviseli:</span> {COMPANY.representative} ügyvezető</p>
             <p><span className="text-[var(--text-primary)] font-medium">Weboldal:</span> zynai.hu</p>
             <p><span className="text-[var(--text-primary)] font-medium">Kapcsolattartási e-mail:</span> info@zynai.hu</p>
           </div>
@@ -246,7 +250,7 @@ export default function AdatvedelemPage() {
               érintetteket a weboldalon közzétett értesítéssel tájékoztatja.
             </p>
             <p>
-              <span className="text-[var(--text-primary)] font-medium">Hatályos:</span> 2025. május 7.
+              <span className="text-[var(--text-primary)] font-medium">Hatályos:</span> 2026. október 8.
             </p>
           </div>
         </section>
