@@ -9,6 +9,9 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@gsap/react": "^2.1.2",
