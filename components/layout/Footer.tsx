@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ConsentSettingsLink } from "@/components/consent/ConsentSettingsLink";
+
 function LinkedinIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
@@ -173,6 +175,13 @@ export function Footer() {
                     Adatvédelem
                   </Link>
                 </li>
+                {process.env.NEXT_PUBLIC_GTM_ID ? (
+                  <li>
+                    <ConsentSettingsLink
+                      className={`${linkClass} cursor-pointer`}
+                    />
+                  </li>
+                ) : null}
               </ul>
             </div>
           </div>

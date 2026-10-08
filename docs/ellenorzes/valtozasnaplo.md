@@ -155,8 +155,8 @@ c31d5ee Add booking and privacy pages to sitemap
 | Szelet | Állapot | Commit |
 |---|---|---|
 | M1 — Analitikai könyvtár | kész | `5e1ea2d` |
-| M2 — GTM és consent default | kész | (a következő bejegyzésnél) |
-| M3 — Sütibanner | hátravan | — |
+| M2 — GTM és consent default | kész | `4a1d68a` |
+| M3 — Sütibanner | kész | (a következő bejegyzésnél) |
 | M4 — E-mail-kattintás | hátravan | — |
 | M5 — Űrlapkonverziók | hátravan | — |
 | M6 — Cal.com kattintásra | hátravan | — |
@@ -172,7 +172,7 @@ Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a `saveConsent` a localStorage-h
 
 ## M2 — GTM és consent default a gyökér layoutban, Docker build-arg
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: 4a1d68a
 Mit és miért: A gyökér layout `<head>`-jébe került a Consent Mode v2 alapállapot (minden tiltva, nyers inline `<script>`), a `<body>` elejére a GTM `noscript` iframe-je, a végére pedig a GTM hivatalos snippetje `next/script`-tel, `afterInteractive` módban. Így a GTM mindig a hozzájárulás-alapállapot után indul. Mindhárom csak akkor jelenik meg, ha a build idején a `NEXT_PUBLIC_GTM_ID` be van állítva; a Dockerfile ezt build-argumentumként fogadja.
 Diagnózis: előtte a layoutban nem volt `<head>` elem, a `<body>` csak a `{children}`-t renderelte; a Dockerfile builder szakasza: `WORKDIR` → `COPY node_modules` → `COPY . .` → `RUN npm run build`. Az `ARG`/`ENV` a `COPY . .` és a `RUN npm run build` közé került.
 Fájlok: `app/layout.tsx`, `Dockerfile`, `.env.example`
@@ -181,3 +181,16 @@ Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 - `NEXT_PUBLIC_GTM_ID=GTM-KBHN7GX6` build (csak a parancssorban): `<head>` 197–5053. bájt; `consent', 'default` a **4487.** bájtnál; `googletagmanager.com/gtm.js` a **155556.** bájtnál → a consent default előbb van. A `noscript` iframe (`ns.html`) a 5199. bájtnál, a `<body>` elején. Utána újraépítve env nélkül.
 - Docker-build: **nem ellenőrzött** (a Docker-démon nem fut).
 Ati dönt / Ati ellenőrzi: az éles buildnél a build-argumentum: `docker build --build-arg NEXT_PUBLIC_GTM_ID=GTM-KBHN7GX6 …` (vagy a szerver build-felületén ugyanez). A Google telepítési útmutatója a GTM-et a `<head>` tetejére tenné; ez szándékosan nem így van, mert a consent alapállapotnak a GTM előtt kell futnia.
+
+## M3 — Sütibanner és süti-beállítások link
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: Az oldal alján sütibanner jelenik meg, amíg a látogató nem döntött. Az „Elfogadom” és a „Csak a szükségeseket” gomb egyenrangú; mindkettő elmenti a döntést és Consent Mode `update`-et küld. A lábléc új „Süti-beállítások” linkje bármikor visszahozza a bannert. Mindkettő csak akkor jelenik meg, ha a build GTM-azonosítóval készült.
+Diagnózis:
+- Hangnem (D5): az oldal tegező (`Kérlek` 14×, `neked` 6×, `vállalkozásod` 5×, `Foglalj` 5×); a „magázó” találatok harmadik személyűek (pl. „nem tudja”, a Claude „olvassa el”), tehát a **tegező** szöveg került be, szó szerint a `02`-ből.
+- Rétegzés: a fejléc legfelső rétege `z-[80]`, a `MatrixBackground` `zIndex: 0`; a banner `z-[90]`, `position: fixed`, alul. A gyökér layoutban él, a marketing layout `SmoothScroll` burkolóján kívül. A `SmoothScroll` ma már natív görgetés (Lenis nincs bekötve), így nem nyelhet el kattintást.
+- A lábléc (`Footer.tsx`) a kliensoldali marketing layoutból töltődik, a link mégis külön kis kliens komponens (`ConsentSettingsLink.tsx`), ahogy a munkafájl kéri.
+Megvalósítás: a tárolt döntést `useSyncExternalStore` olvassa (szerveren „nincs adat”, így a banner nem kerül a szerver-HTML-be, és nincs hidratálási eltérés); a visszanyitás a `zynai:consent-open` eseményre történik. Stílus: a meglévő `buttonVariants` (`secondary`) és design tokenek, `min-h-11` (44 px), látható fókuszkeret; az animáció `fade-in` + `slide-in-from-bottom` (csak `opacity` és `transform`).
+Fájlok: `components/consent/ConsentBanner.tsx` (új), `components/consent/ConsentSettingsLink.tsx` (új), `app/layout.tsx`, `components/layout/Footer.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · env nélküli build: a HTML-ben se `Süti-beállítások`, se banner · `GTM-KBHN7GX6` build: a lábléc linkje a HTML-ben, a banner kódja a kliens chunkban. Utána újraépítve env nélkül.
+Ati dönt / Ati ellenőrzi: böngészőben (éles vagy GTM-es helyi build): a banner megjelenik; döntés után eltűnik; újratöltésre nem jön vissza; a lábléc „Süti-beállítások” linkje visszahozza. Konzolban: `dataLayer.filter(e => e[0] === 'consent')` → egy `default`, döntés után egy `update` a megfelelő értékekkel. **Figyelem:** Advanced módban (D2) a GA4 a döntés előtt is küld süti nélküli jelzéseket, ezért egy helyi próba a valódi tárolóval localhostos találatot ad a GA4-ben; ezt a GA4-ben szűrd, vagy élesben ellenőrizd. A banner mobilon, keskeny kijelzőn hogyan fér el — nézd meg.

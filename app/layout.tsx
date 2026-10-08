@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Instrument_Sans, Inter } from "next/font/google";
 import Script from "next/script";
 
+import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { consentDefaultScript } from "@/lib/analytics/consent";
 import "./globals.css";
 
@@ -118,6 +119,7 @@ export default function RootLayout({
           </noscript>
         ) : null}
         {children}
+        {gtmId ? <ConsentBanner /> : null}
         {gtmId ? (
           <Script id="gtm" strategy="afterInteractive">
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
