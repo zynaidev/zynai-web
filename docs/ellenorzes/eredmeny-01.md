@@ -117,10 +117,62 @@ Bizonytalan: a látogatónak küldött hibaüzenet szövegét nem írtam át, cs
 
 ## J10 — Az e-mail-formátum kliensoldali ellenőrzése
 Állapot: kész
-Commit: (a záró commitban kerül be)
+Commit: d432abf
 Fájlok: `app/(marketing)/kapcsolatfelvetel/page.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, 1 ismert figyelmeztetés a J7 miatt) · build ✓
 - A minta közös: a `lib/form-guard.ts` exportálja az `isValidEmail`-t, a komponens onnan importálja. A `form-guard.ts`-hez nem nyúltam.
 - Szöveg: a fájlban nem volt e-mail-formátum hibaüzenet (ÁLLJ). Ati döntése szerint a szerver szövege került be: „Kérlek, adj meg egy érvényes e-mail címet.”
 Nézd meg: a `/kapcsolatfelvetel` e-mail lépésénél például az `abc@x` címre megjelenik-e a hibaüzenet, és érvényes címmel tovább lehet-e lépni.
 Bizonytalan: nincs
+
+---
+
+## Összesítés
+
+| Szelet | Állapot | Commit |
+|---|---|---|
+| J1 — Node 24 | kész (Docker-build nem ellenőrzött) | `24f1483` |
+| J2 — X-Powered-By és biztonsági fejlécek | kész | `54c84c3` |
+| J3 — Edge runtime eltávolítása | kész | `89a7132` |
+| J4 — A három lint-hiba | kész | `89b47b3` |
+| J5 — `/blog` helyőrző törlése | **megállt** (jogosultság: törlés tiltva) | — |
+| J6 — Nem szabványos favicon | **megállt** (jogosultság: törlés tiltva) | — |
+| J7 — CDN-ikonok helyi kiszolgálása | **megállt** (ÁLLJ: `openai`, `slack` hiányzik a 16.34.0-ból) | — |
+| J8 — Sitemap kiegészítése | kész | `c31d5ee` |
+| J9 — E-mail és webhook env-be | kész | `e79ceb5` |
+| J10 — E-mail-formátum kliensoldalon | kész | `d432abf` |
+
+Ez a fájl a záró commitban kapja meg az utolsó hash-t, ezért a záró commit (`Add step 1 results summary`) is a lépés része.
+
+Végállapot: tsc ✓ · lint: 0 hiba, 1 figyelmeztetés (`no-img-element`, `IntegrationStack.tsx:63`; a J7-tel megy el) · build ✓.
+
+## Kézi teendők
+
+1. **J5:** `git rm -r app/blog`, build, `curl -sI http://localhost:3000/blog/brand-foundation` → 404. Commit: `Remove placeholder blog route`.
+2. **J6:** `git rm app/favicon.ico.png`, build. Commit: `Remove unused favicon file`.
+3. **J7:** döntés az `openai` és a `slack` ikonról (a simple-icons 16.34.0-ból hiányzik). Utána a szelet újraindítható.
+4. **J9 környezeti változók** a `.env.local`-ba és a szerver környezetébe (`03` K2): `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` (cím, megjelenítendő név nélkül), `N8N_CONTACT_WEBHOOK_URL`, `N8N_PILOT_WEBHOOK_URL`. A `RESEND_API_KEY` már megvan. Addig az űrlapok 500-at adnak.
+5. **J1:** a szerveren a Docker-build menjen át a `node:24-alpine` képpel. Később érdemes a `@types/node`-ot `^24`-re emelni.
+6. **J4:** `/ai-tartalmak?kategoria=…` szűr-e (a fejléc lenyílójából is, már a lapon állva), és a címek sor-animációja rendben fut-e betöltéskor és oldalváltáskor.
+7. **J10:** a `/kapcsolatfelvetel` e-mail lépése érvénytelen címre hibát ad-e, érvényessel továbbenged-e.
+8. **J9 (döntés):** a 500-as válasz továbbra is kiírja a böngészőnek a hiányzó változók nevét. Ha ez nem kell, adj új szöveget.
+
+## `git log --oneline -15` (a záró commit előtt)
+
+```
+d432abf Validate email format on contact form
+e79ceb5 Move mail and webhook settings to environment variables
+c31d5ee Add booking and privacy pages to sitemap
+89b47b3 Fix set-state-in-effect lint errors
+89a7132 Use Node runtime for root OG image
+54c84c3 Hide X-Powered-By and add security headers
+24f1483 Upgrade Node to 24 in Docker and engines
+9c2dae0 Add audit and tracking runbooks
+cddef78 before fix
+d627a17 Remove card top line, unify card animation, hide X-Powered-By
+fdf0ed6 header2
+cbeff38 header
+449c3af promptepito
+24ef2b0 header,footer fix
+3255013 final pilot
+```
