@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { Suspense, useMemo, useState, useSyncExternalStore } from "react";
 
 function prefersReducedMotion(): boolean {
   return (
@@ -57,19 +57,29 @@ export default function BlogArchivePage() {
   );
 }
 
-function BlogArchive() {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] =
-    useState<(typeof CATEGORIES)[number]>("ÖSSZES");
-  const [page, setPage] = useState(0);
+function categoryFromParam(
+  param: string | null,
+): (typeof CATEGORIES)[number] {
+  return CATEGORIES.find((c) => c === param) ?? "ÖSSZES";
+}
 
+function BlogArchive() {
   // A fejléc "AI tartalmak" lenyílója ?kategoria=... linkekkel érkezik ide.
   const categoryParam = useSearchParams().get("kategoria");
-  useEffect(() => {
-    const next = CATEGORIES.find((c) => c === categoryParam) ?? "ÖSSZES";
-    setActiveCategory(next);
+
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState(() =>
+    categoryFromParam(categoryParam),
+  );
+  const [page, setPage] = useState(0);
+
+  // Ha a paraméter változik (újabb lenyíló-link), a szűrő renderkor áll át.
+  const [prevCategoryParam, setPrevCategoryParam] = useState(categoryParam);
+  if (categoryParam !== prevCategoryParam) {
+    setPrevCategoryParam(categoryParam);
+    setActiveCategory(categoryFromParam(categoryParam));
     setPage(0);
-  }, [categoryParam]);
+  }
 
   const filtered = useMemo(
     () =>

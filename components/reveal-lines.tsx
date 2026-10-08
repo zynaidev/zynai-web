@@ -6,9 +6,9 @@ import {
   type ReactNode,
   useEffect,
   useState,
+  useSyncExternalStore,
 } from "react";
 
-import { useReducedMotion } from "@/components/hooks/use-reduced-motion";
 import {
   REVEAL_LINE_MS,
   REVEAL_LINE_STAGGER_MS,
@@ -16,6 +16,31 @@ import {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const STEM = "0.22em";
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReduced(onChange: () => void): () => void {
+  const media = window.matchMedia(REDUCED_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function subscribeNever(): () => void {
+  return () => {};
+}
+
+// SSR-en és hidratáláskor a szerver-érték él (nincs animáció, reduced),
+// utána a kliens-érték, ugyanabban a renderben.
+function useCanAnimate(): boolean {
+  return useSyncExternalStore(subscribeNever, () => true, () => false);
+}
+
+function useReducedMotionNow(): boolean {
+  return useSyncExternalStore(
+    subscribeReduced,
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    () => true,
+  );
+}
 
 type RevealTag = "div" | "h1" | "h2" | "h3" | "p";
 
@@ -39,23 +64,17 @@ export function RevealLines({
   const Tag = as;
   const LineTag: "span" | "div" =
     Tag === "h1" || Tag === "h2" || Tag === "h3" ? "span" : "div";
-  const reduced = useReducedMotion();
-  const [canAnimate, setCanAnimate] = useState(false);
+  const reduced = useReducedMotionNow();
+  const canAnimate = useCanAnimate();
   const [entered, setEntered] = useState(false);
 
-  useEffect(() => {
-    setCanAnimate(true);
-  }, []);
-
+  // Reduced módban is beáll az entered, hogy egy későbbi beállításváltás
+  // ne játssza le újra a belépést. Ilyenkor a shown már a reduced miatt igaz.
   useEffect(() => {
     if (!canAnimate) return;
-    if (reduced) {
-      setEntered(true);
-      return;
-    }
     const id = window.requestAnimationFrame(() => setEntered(true));
     return () => window.cancelAnimationFrame(id);
-  }, [canAnimate, reduced]);
+  }, [canAnimate]);
 
   const shown = reduced || !canAnimate || entered;
   const moving = canAnimate && !reduced && entered;

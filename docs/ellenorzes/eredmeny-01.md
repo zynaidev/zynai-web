@@ -49,9 +49,21 @@ Keep-Alive: timeout=5
 
 ## J3 — Edge runtime eltávolítása
 Állapot: kész
-Commit: (a következő commitban kerül be)
+Commit: 89a7132
 Fájlok: `app/opengraph-image.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ (a 3 ismert hiba + 1 figyelmeztetés, új nincs) · build ✓, a két edge-figyelmeztetés eltűnt, a `/opengraph-image` statikus (○) · `curl -sI http://localhost:3000/opengraph-image` → `HTTP/1.1 200 OK`, `content-type: image/png`
 Diagnózis: a fájl nem használ edge-specifikus API-t (nincs betűtöltés, nincs `import.meta.url`), csak `next/og` `ImageResponse`-t.
 Nézd meg: nincs
 Bizonytalan: nincs
+
+## J4 — A három lint-hiba
+Állapot: kész
+Commit: (a következő commitban kerül be)
+Fájlok: `app/(marketing)/ai-tartalmak/page.tsx`, `components/reveal-lines.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ (0 hiba, csak a `no-img-element` figyelmeztetés, ezt a J7 viszi) · build ✓
+Diagnózis:
+- `page.tsx:70`: az effect a `?kategoria=` URL-paramétert másolta state-be. Ez „state igazítása, ha a bemenet változik” eset. Javítás: a kezdőérték a paraméterből jön, a későbbi változást az előző paraméter-érték renderkori összevetése kezeli (`prevCategoryParam`). Effect nincs.
+- `reveal-lines.tsx:47`: a `canAnimate` „hidratálva vagyunk” jelző volt. Most `useSyncExternalStore` adja (szerver: `false`, kliens: `true`).
+- `reveal-lines.tsx:53`: reduced módban állította be az `entered`-et. A `useReducedMotion` hook `true`-val indul, és effectben áll be, ezért ha csak a `canAnimate` cserélődik, kliensoldali navigációnál versenyhelyzet lenne. A komponens ezért a reduced értéket is `useSyncExternalStore`-ral olvassa (szerver: `true`, kliens: a media query), ugyanazzal a mintával, amit a `page.tsx` is használ. Az `entered` csak a `requestAnimationFrame`-callbackben áll be. Reduced módban a `shown` már a reduced miatt igaz, így a viselkedés ugyanaz, és egy későbbi beállításváltás sem játssza le újra a belépést.
+Nézd meg: `/ai-tartalmak?kategoria=…` szűr-e (a fejléc lenyílójából is, már a lapon állva), és a főoldali és aloldali címek sor-animációja rendben fut-e, betöltéskor és oldalváltáskor is.
+Bizonytalan: két apró eltérés, mindkettő villanást szüntet meg, a végállapot ugyanaz. (1) `?kategoria=` linkkel érkezve a lista azonnal szűrve jelenik meg; korábban egy renderig az „ÖSSZES” állt, és a pill átcsúszhatott. (2) Kliensoldali navigációnál a cím nem villan fel a belépő animáció előtt. A `components/hooks/use-reduced-motion.ts` hook változatlan, máshol továbbra is használatban van.
