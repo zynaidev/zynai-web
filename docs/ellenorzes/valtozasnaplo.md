@@ -286,3 +286,13 @@ bb5c158 Track .env.example in git
 0572c6f Update audit runbooks
 1b0c18a Add step 1 results summary
 ```
+
+---
+
+## Search Console igazoló fájl
+Állapot: kész
+Mit és miért: A Search Console HTML-fájlos tulajdonigazolásához a `google7ff5886834f0ffb9.html` a `public/` mappába került, a Google által adott tartalommal, így az oldal gyökerén (`/google7ff5886834f0ffb9.html`) elérhető. Ez teszi lehetővé, hogy a Search Console-ban igazolni lehessen a `zynai.hu` tulajdonosát és beküldeni a sitemapet.
+Fájlok: `public/google7ff5886834f0ffb9.html`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`: `HTTP 200`, a tartalom megegyezik a Google fájljával.
+Ati dönt / Ati ellenőrzi: élesítés (push + build) után a Search Console-ban az „Igazolás” gomb. A fájlt ne töröld, a Google időnként újraellenőrzi. Utána a sitemap beküldése: `https://zynai.hu/sitemap.xml`.
+A GA4 mérési azonosítója (`G-W3HP0TW3GC`, adatfolyam: zynai.hu) szándékosan **nem** került a kódba: a GTM-ben (`GTM-KBHN7GX6`) kell Google tag-ként beállítani, Initialization – All Pages triggerrel.
