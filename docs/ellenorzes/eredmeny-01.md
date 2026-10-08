@@ -18,7 +18,7 @@ Bizonytalan: a `devDependencies`-ben a `@types/node` még `^20`. A szelet hatók
 
 ## J2 — X-Powered-By és biztonsági fejlécek
 Állapot: kész
-Commit: (a következő commitban kerül be)
+Commit: 54c84c3
 Fájlok: `next.config.ts`
 Ellenőrzés: tsc ✓ · lint ✓ (a 3 ismert hiba + 1 figyelmeztetés, új nincs) · build ✓ · `npm start` + `curl -sI` ✓
 Nézd meg: nincs
@@ -46,3 +46,12 @@ Date: Thu, 08 Oct 2026 12:51:09 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 ```
+
+## J3 — Edge runtime eltávolítása
+Állapot: kész
+Commit: (a következő commitban kerül be)
+Fájlok: `app/opengraph-image.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ (a 3 ismert hiba + 1 figyelmeztetés, új nincs) · build ✓, a két edge-figyelmeztetés eltűnt, a `/opengraph-image` statikus (○) · `curl -sI http://localhost:3000/opengraph-image` → `HTTP/1.1 200 OK`, `content-type: image/png`
+Diagnózis: a fájl nem használ edge-specifikus API-t (nincs betűtöltés, nincs `import.meta.url`), csak `next/og` `ImageResponse`-t.
+Nézd meg: nincs
+Bizonytalan: nincs
