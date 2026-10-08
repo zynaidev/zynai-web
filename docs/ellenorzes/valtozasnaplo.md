@@ -13,7 +13,7 @@
 | J2 — X-Powered-By és biztonsági fejlécek | kész | `54c84c3` |
 | J3 — Edge runtime eltávolítása | kész | `89a7132` |
 | J4 — A három lint-hiba | kész | `89b47b3` |
-| J5 — `/blog` helyőrző törlése | hátravan | — |
+| J5 — `/blog` helyőrző törlése | kész | (commit után) |
 | J6 — Nem szabványos favicon | hátravan | — |
 | J7 — CDN-ikonok helyi kiszolgálása | hátravan | — |
 | J8 — Sitemap kiegészítése | kész | `c31d5ee` |
@@ -79,3 +79,11 @@ Mit és miért: A kapcsolatfelvételi űrlap e-mail lépése már a böngészőb
 Fájlok: `app/(marketing)/kapcsolatfelvetel/page.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 Ati dönt / Ati ellenőrzi: a `/kapcsolatfelvetel` e-mail lépésénél például az `abc@x` címre megjelenik-e a hibaüzenet, és érvényes címmel tovább lehet-e lépni.
+
+## J5 — A `/blog` helyőrző törlése (D3)
+Állapot: kész
+Commit: (a J6 bejegyzésénél)
+Mit és miért: Az angol nyelvű `/blog/[slug]` helyőrző oldal törölve, mert semmi nem hivatkozott rá (a `/blog` szó csak a `public/blog` képeknél és külső URL-eknél fordult elő). A `public/blog` képmappa megmaradt, a cikkek képei ott vannak.
+Fájlok: `app/blog/[slug]/page.tsx` (törölve)
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start` után `curl -sI /blog/brand-foundation` → `404 Not Found`
+Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a tsc a build előtt az elavult `.next/types` miatt hibát jelezhet; build után zöld.
