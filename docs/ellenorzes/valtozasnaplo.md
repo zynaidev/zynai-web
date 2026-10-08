@@ -158,8 +158,8 @@ c31d5ee Add booking and privacy pages to sitemap
 | M2 — GTM és consent default | kész | `4a1d68a` |
 | M3 — Sütibanner | kész | `a4785b7` |
 | M4 — E-mail-kattintás | kész | `e4a5d52` |
-| M5 — Űrlapkonverziók | kész | (a következő bejegyzésnél) |
-| M6 — Cal.com kattintásra | hátravan | — |
+| M5 — Űrlapkonverziók | kész | `79c6502` |
+| M6 — Cal.com kattintásra | kész | (a következő bejegyzésnél) |
 | M7 — Önellenőrzés | hátravan | — |
 
 ## M1 — Az analitikai könyvtár
@@ -211,7 +211,7 @@ Ati dönt / Ati ellenőrzi: élesben a GA4 DebugView-ban egy e-mail-linkre katti
 
 ## M5 — Űrlapkonverziók
 Állapot: kész
-Commit: (a következő bejegyzésnél)
+Commit: 79c6502
 Mit és miért: A kapcsolatfelvételi űrlap sikeres beküldése után `generate_lead` (`lead_type: contact_form`), a pilot-jelentkezés után `pilot_application` esemény megy a `dataLayer`-be. Csak akkor, ha a szerver sikert jelzett; hibánál, hálózati hibánál és kliensoldali validációs hibánál nincs esemény.
 Diagnózis:
 - `kapcsolatfelvetel/page.tsx`: az `ok`-ság vizsgálata a `!res.ok` (334. sor) és a `!data.success` (338. sor) ágban, a sikerállapot a `setStatus("success")` (341. sor). Az esemény közvetlenül e sor előtt.
@@ -221,3 +221,17 @@ Diagnózis:
 Fájlok: `app/(marketing)/kapcsolatfelvetel/page.tsx`, `app/(marketing)/vibecoding-pilot/PilotApplicationForm.tsx`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓
 Ati dönt / Ati ellenőrzi: élesben, elfogadott sütikkel, a GA4 DebugView-ban egy próbabeküldés után pontosan egy `generate_lead`, illetve `pilot_application` jelenik-e meg. (A J9 környezeti változói nélkül az űrlap 500-at ad, és ilyenkor helyesen nincs esemény.)
+
+## M6 — Cal.com: kattintásra betöltés és foglalási konverzió (D4)
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: A Cal.com naptár már nem töltődik be magától: a helyén egy, a naptár magasságát előre lefoglaló doboz áll a „Naptár megnyitása” gombbal, egy magyarázó sorral és egy közvetlen Cal.com-linkkel. Így a látogató böngészője csak akkor kér bármit a cal.com-tól, ha ő maga megnyitja. Sikeres (éles) foglalás után `booking_complete` esemény megy a `dataLayer`-be, foglalásonként egyszer, személyes adat nélkül.
+Diagnózis:
+- `@calcom/embed-react` 1.5.3; `getCalApi(options?: { embedJsUrl?, namespace? })`; a komponens a `felmeres` namespace-t használja, a `getCalApi({ namespace })` a namespace-es API-t adja vissza, így a figyelő azon fut.
+- A telepített típusokban megvan a `bookingSuccessfulV2` (payload: `uid`, `title`, `startTime`, …), a `bookingSuccessful` `@deprecated`. A `dryRunBookingSuccessfulV2` a típusokban még nincs, de a csomag az `embed.js`-t futásidőben az `app.cal.com`-ról tölti, és a Cal.com hivatalos „Embed Events” oldala (2026-10-08-án lekérve) szerint a teszt módú foglalás külön esemény (`dryRunBookingSuccessfulV2`). Eltérés tehát nincs: csak a `bookingSuccessfulV2`-t figyeljük.
+- Az `embed.js` beszúrása a csomagban csak a `getCalApi()` hívásakor, illetve a `<Cal>` mountolásakor történik; mindkettő a gombnyomás után fut.
+Megvalósítás: a korábbi betöltő logika (időtúllépés, `linkReady`/`linkFailed`, hibaállapot) változatlanul a belső `CalInline` komponensben van; a külső `CalEmbed` csak a megnyitás állapotát kezeli, ezért a két felhasználási helyen (`/idopontfoglalas`, a kapcsolatfelvétel sikerképernyője) nem kellett a propokon változtatni. A foglalás-uid-ek egy modul szintű `Set`-ben vannak; ha a Cal.com nem küldene `uid`-t, az esemény ettől még elmegy (nincs mi alapján szűrni).
+Szövegek (tegező, M3 szerint, szó szerint a `02`-ből): „Naptár megnyitása”, „A foglalási naptárat a Cal.com biztosítja. Megnyitáskor a Cal.com oldala töltődik be.”, „Vagy foglalj közvetlenül a Cal.com oldalán”.
+Fájlok: `components/CalEmbed.tsx`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`, `/idopontfoglalas` HTML: `embed/embed.js` = 0, Cal.com iframe = 0, a gomb és a link megvan.
+Ati dönt / Ati ellenőrzi: böngészőben a hálózati fülön a gombnyomás előtt nincs `cal.com` kérés, utána a naptár betölt. Élesben valódi tesztfoglalás → egy `booking_complete` a GA4 DebugView-ban, utána a foglalás lemondása. A kapcsolatfelvételi sikerképernyőn a naptár mostantól szintén gombnyomásra nyílik.

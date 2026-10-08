@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import type { PrefillAndIframeAttrsConfig } from "@calcom/embed-core";
 
+import { buttonVariants } from "@/components/ui/button";
 import { MailtoLink } from "@/components/ui/MailtoLink";
+import { track } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
 const CAL_NAMESPACE = "felmeres";
@@ -16,6 +18,10 @@ const CAL_EMAIL = "info@zynai.hu";
 // váltunk. Ha a getCalApi() nem fut le időben (hálózat, ad blocker, CSP),
 // a látogató sosem maradhat üres felület előtt.
 const LOAD_TIMEOUT_MS = 10_000;
+
+// Egy foglalás (uid) csak egyszer számít konverziónak, akkor is, ha a
+// beágyazás újramountol, vagy a Cal.com többször küldi az eseményt.
+const trackedBookingUids = new Set<string>();
 
 // A @calcom/embed-core publikus felületén nincs önállóan exportálva a
 // BookerLayouts unió — a PrefillAndIframeAttrsConfig (a <Cal config={...}>
@@ -43,8 +49,53 @@ type CalEmbedProps = {
  * Egyetlen, megosztott Cal.com inline widget — a foglalási oldal és a
  * kapcsolatfelvételi űrlap sikeres beküldés utáni nézete is ezt használja,
  * hogy a téma/branding konfiguráció egy helyen éljen.
+ *
+ * A Cal.com csak gombnyomásra töltődik be (D4): addig a látogató böngészője
+ * nem kér semmit a cal.com-tól. A doboz már előtte a beágyazás magasságát
+ * foglalja el, hogy a betöltés ne ugrassza az oldalt.
  */
 export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
+  const [open, setOpen] = useState(false);
+
+  if (open) {
+    return <CalInline className={className} layout={layout} />;
+  }
+
+  return (
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-5 rounded-2xl border border-border-hairline bg-bg-glass px-6 text-center",
+        CAL_HEIGHT_CLASSES[layout],
+        className,
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={cn(
+          buttonVariants({ variant: "primary" }),
+          "min-h-11 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]",
+        )}
+      >
+        Naptár megnyitása
+      </button>
+      <p className="max-w-sm text-[14px] leading-relaxed text-[var(--text-tertiary)]">
+        A foglalási naptárat a Cal.com biztosítja. Megnyitáskor a Cal.com oldala
+        töltődik be.
+      </p>
+      <a
+        href={CAL_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm text-[var(--text-secondary)] underline underline-offset-2 hover:text-[var(--text-primary)]"
+      >
+        Vagy foglalj közvetlenül a Cal.com oldalán
+      </a>
+    </div>
+  );
+}
+
+function CalInline({ className, layout = "column_view" }: CalEmbedProps) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading",
   );
@@ -74,6 +125,21 @@ export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
         // "linkFailed" eseménye, amit a beágyazott iframe küld.
         cal("on", { action: "linkReady", callback: () => settle("ready") });
         cal("on", { action: "linkFailed", callback: () => settle("error") });
+
+        // Konverzió csak valódi foglalás után. A teszt módú foglalás külön
+        // esemény (dryRunBookingSuccessfulV2), azt nem mérjük. A payloadból
+        // semmi nem kerül az eseménybe (a title nevet tartalmazhat).
+        cal("on", {
+          action: "bookingSuccessfulV2",
+          callback: (e) => {
+            const uid = e.detail.data.uid;
+            if (uid) {
+              if (trackedBookingUids.has(uid)) return;
+              trackedBookingUids.add(uid);
+            }
+            track("booking_complete", {});
+          },
+        });
 
         cal("ui", {
           theme: "dark",
