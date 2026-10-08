@@ -296,3 +296,10 @@ Fájlok: `public/google7ff5886834f0ffb9.html`
 Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · `npm start`: `HTTP 200`, a tartalom megegyezik a Google fájljával.
 Ati dönt / Ati ellenőrzi: élesítés (push + build) után a Search Console-ban az „Igazolás” gomb. A fájlt ne töröld, a Google időnként újraellenőrzi. Utána a sitemap beküldése: `https://zynai.hu/sitemap.xml`.
 A GA4 mérési azonosítója (`G-W3HP0TW3GC`, adatfolyam: zynai.hu) szándékosan **nem** került a kódba: a GTM-ben (`GTM-KBHN7GX6`) kell Google tag-ként beállítani, Initialization – All Pages triggerrel.
+
+## Docker-kép: a képgyorsítótár írási joga
+Állapot: kész (Docker-build helyben nem ellenőrzött)
+Mit és miért: Élesben a naplót elárasztotta az `EACCES: permission denied, mkdir '/app/.next/cache'` hiba: a konténer a `nextjs` felhasználóval fut, a `.next` mappát viszont a root hozta létre, így a Next.js nem tudta menteni a feldolgozott képeket, és minden kérésnél újra feldolgozta őket. A Dockerfile most létrehozza a `.next` mappát a `nextjs` felhasználó tulajdonában, és a standalone szervert és a statikus fájlokat is az ő tulajdonában másolja be (a Next.js hivatalos Docker-példájának mintájára).
+Fájlok: `Dockerfile`
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓ · Docker-build: **nem ellenőrzött** (a Docker-démon helyben nem fut)
+Ati dönt / Ati ellenőrzi: push és új build után a Coolify **Logs** fülén ne jelenjen meg több `EACCES … /app/.next/cache` sor (nyiss meg néhány képes oldalt, például az `/ai-tartalmak`-ot). Mivel a Dockerfile változik, a build nem maradhat ki.

@@ -31,12 +31,17 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy standalone server
-COPY --from=builder /app/.next/standalone ./
-# Copy static files
-COPY --from=builder /app/.next/static ./.next/static
 # Copy public folder
 COPY --from=builder /app/public ./public
+
+# A .next mappa a futtató felhasználóé, hogy a Next.js írhassa a
+# képoptimalizáló gyorsítótárát (.next/cache). Enélkül EACCES hiba.
+RUN mkdir .next && chown nextjs:nodejs .next
+
+# Copy standalone server
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+# Copy static files
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
