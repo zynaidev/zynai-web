@@ -143,3 +143,29 @@ c31d5ee Add booking and privacy pages to sitemap
 54c84c3 Hide X-Powered-By and add security headers
 24f1483 Upgrade Node to 24 in Docker and engines
 ```
+
+---
+
+# 2. lépés — GTM, Consent Mode v2, sütibanner, konverziók
+
+> Munkafájl: `02-meres-bekotes.md`. GTM-tároló: `GTM-KBHN7GX6` (Ati adta meg).
+> Az azonosító **nem** kerül a kódba: a `NEXT_PUBLIC_GTM_ID` build-változóból
+> jön, élesben Docker build-argumentumként.
+
+| Szelet | Állapot | Commit |
+|---|---|---|
+| M1 — Analitikai könyvtár | kész | (a következő bejegyzésnél) |
+| M2 — GTM és consent default | hátravan | — |
+| M3 — Sütibanner | hátravan | — |
+| M4 — E-mail-kattintás | hátravan | — |
+| M5 — Űrlapkonverziók | hátravan | — |
+| M6 — Cal.com kattintásra | hátravan | — |
+| M7 — Önellenőrzés | hátravan | — |
+
+## M1 — Az analitikai könyvtár
+Állapot: kész
+Commit: (a következő bejegyzésnél)
+Mit és miért: Létrejött a mérés közös alapja. Az `events.ts` rögzíti az öt eseménynevet (D1) és a megengedett paramétereket, a `track.ts` az egyetlen hely, ami a `dataLayer`-be ír, a `consent.ts` pedig a sütidöntés tárolását, a Consent Mode `update` küldését és a fejléc inline alapszkriptjét adja. Az oldal viselkedése még nem változott, mert semmi nem használja.
+Fájlok: `lib/analytics/events.ts`, `lib/analytics/track.ts`, `lib/analytics/consent.ts` (mind új)
+Ellenőrzés: tsc ✓ · lint ✓ · build ✓
+Ati dönt / Ati ellenőrzi: nincs. Megjegyzés: a `saveConsent` a localStorage-hiba esetén `console.warn`-t ír (a hiba nevével), mert üres `catch` nem lehet; a `readConsent` `catch`-e `null`-t ad vissza, ahogy a munkafájl előírja. Az ellenőrzés közben a futó `npm run dev` által generált `.next/dev/types` eltörte a buildet (lásd Kézi teendők); Ati leállította a dev szervert, a generált mappát töröltem.
