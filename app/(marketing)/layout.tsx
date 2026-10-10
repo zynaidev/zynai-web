@@ -20,7 +20,9 @@ export default function MarketingLayout({
 }>) {
   const pathname = usePathname();
   const hideHeader =
-    pathname === "/vibecoding-pilot" || pathname === "/claude-code";
+    pathname === "/vibecoding-pilot" ||
+    pathname === "/claude-code" ||
+    pathname === "/indulo-webcsomag";
 
   return (
     <SmoothScroll>
