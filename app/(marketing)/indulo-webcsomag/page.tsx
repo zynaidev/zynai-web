@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
+import { CalEmbed, type CalTarget } from "@/components/CalEmbed";
 import { HeroGrain } from "@/components/hero-grain";
 import { heroLayers } from "@/components/hero-layers";
 import { RevealLines } from "@/components/reveal-lines";
@@ -37,7 +38,6 @@ import {
   OfferProvider,
   PersonalizedPlan,
   PriceBonus,
-  PriceCtaLabel,
   StickyCta,
 } from "./offer";
 
@@ -51,6 +51,13 @@ export const metadata: Metadata = {
 };
 
 const BOOKING_EMAIL = "bakos.attila@zynai.hu";
+
+const INDULO_CAL: CalTarget = {
+  namespace: "indulo-webcsomag",
+  link: "zynai/indulo-webcsomag",
+  url: "https://cal.com/zynai/indulo-webcsomag",
+  email: BOOKING_EMAIL,
+};
 
 const WHY_NOW: { icon: typeof Search; lead: string; text: string }[] = [
   { icon: Search, lead: "Megtalálják", text: "Alapszintű Google-beállításokkal indul." },
@@ -68,7 +75,7 @@ const WHY_NOW: { icon: typeof Search; lead: string; text: string }[] = [
 
 const PACKAGE: ReactNode[] = [
   <><Em>Mobilbarát, egyoldalas bemutatkozó oldal</Em> 5–6 szekcióval, az önöknek javasolt szerkezettel</>,
-  <><Em>Szövegezés a cég adataiból:</Em> a szöveget én írom, önöknek csak át kell nézniük, egy javítási körrel</>,
+  <><Em>Szövegezés a cég adataiból:</Em> a szöveget mi írjuk, önöknek csak át kell nézniük, egy javítási körrel</>,
   <><Em>Kapcsolati űrlap</Em> és kattintható telefonszám, e-mail</>,
   <Em key="g">Google-megtalálhatósági alapbeállítások</Em>,
   <><Em>Tárhely és üzembe helyezés</Em> a saját domainjükön</>,
@@ -84,7 +91,7 @@ const STEPS = [
   {
     n: "02",
     title: "Szerződés és első változat",
-    text: "A szerződéskötéssel és az előleggel indul a 14 nap. Elkészítem az oldalt a cég adataiból, önöknek csak át kell nézniük.",
+    text: "A szerződéskötéssel és az előleggel indul a 14 nap. Elkészítjük az oldalt a cég adataiból, önöknek csak át kell nézniük.",
   },
   {
     n: "03",
@@ -97,7 +104,7 @@ const PRICE_TERMS: ReactNode[] = [
   <><Em>Fizetés:</Em> 50% a szerződéskötéskor, 50% az átadáskor.</>,
   <><Em>A domain az önöké.</Em> A cég nevére kerül, a díját önök fizetik közvetlenül a szolgáltatónak.</>,
   <><Em>Fix ár:</Em> ha a csomagon túli funkció kell, azt a hívás után írásban, előre megkapják.</>,
-  <><Em>Karbantartás igény szerint:</Em> ha szeretnék, az ajándék időszak után is én tartom karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
+  <><Em>Karbantartás igény szerint:</Em> ha szeretnék, az ajándék időszak után is mi tartjuk karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
 ];
 
 const EXTRAS: { icon: typeof Bot; label: string }[] = [
@@ -166,23 +173,45 @@ const CASES = [
 const FAQ: FaqItem[] = [
   {
     question: "Mi készül pontosan? WordPress lesz?",
-    answer:
-      "Nem WordPress. Az oldal Next.js-szel készül: ez egy modern webes keretrendszer, nagy nemzetközi cégek is használják, és ezen fut a zynai.hu is. Önöknek ebből ennyi számít. Gyors: az oldal előre elkészített formában töltődik be, mobilon is pillanatok alatt; a Google a gyors oldalakat előrébb sorolja, a látogató pedig nem lép le, mielőtt betöltene. Biztonságos: nincs nyilvános adminfelület és nincsenek bővítmények, amiken keresztül a WordPress-oldalakat a leggyakrabban feltörik. Stabil: nem romlik el attól, hogy egy bővítmény frissül, vagy nem frissül. Bővíthető: az időpontfoglalás, az online fizetés vagy egy AI-megoldás ugyanabba az oldalba épül be, újrakezdés nélkül.",
+    answer: (
+      <>
+        <p>
+          Nem WordPress. Az oldal Next.js-szel készül: ez egy modern webes
+          keretrendszer, nagy nemzetközi cégek is használják, és ezen fut a
+          zynai.hu is. Önöknek ebből ennyi számít:
+        </p>
+        <ul className="space-y-2">
+          {[
+            ["Gyors.", "Az oldal előre elkészített formában töltődik be, mobilon is pillanatok alatt. A Google a gyors oldalakat előrébb sorolja, a látogató pedig nem lép le, mielőtt betöltene."],
+            ["Biztonságos.", "Nincs nyilvános adminfelület és nincsenek bővítmények, amiken keresztül a WordPress-oldalakat a leggyakrabban feltörik."],
+            ["Stabil.", "Nem romlik el attól, hogy egy bővítmény frissül, vagy nem frissül."],
+            ["Bővíthető.", "Az időpontfoglalás, az online fizetés vagy egy AI-megoldás ugyanabba az oldalba épül be, újrakezdés nélkül."],
+          ].map(([lead, text]) => (
+            <li className="flex items-start gap-2.5" key={lead}>
+              <Check aria-hidden size={16} className="mt-1 shrink-0 text-[#BDFF00]" />
+              <span>
+                <Em>{lead}</Em> {text}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </>
+    ),
   },
   {
     question: "Mennyi idő alatt készül el?",
     answer:
-      "14 nap alatt, a szerződéskötéstől és az előlegtől számítva, ha addigra megkapom a szükséges anyagokat (logó, ha van, elérhetőségek, pár mondat a cégről).",
+      "14 nap alatt, a szerződéskötéstől és az előlegtől számítva, ha addigra megkapjuk a szükséges anyagokat (logó, ha van, elérhetőségek, pár mondat a cégről).",
   },
   {
     question: "Mit kell nekünk csinálni?",
     answer:
-      "Nagyon keveset: a hívásban elmondják, mivel foglalkoznak, elküldik az anyagokat, és átnézik az első változatot. A szöveget én írom.",
+      "Nagyon keveset: a hívásban elmondják, mivel foglalkoznak, elküldik az anyagokat, és átnézik az első változatot. A szöveget mi írjuk.",
   },
   {
-    question: "Miért állja az első 3 hónap üzemeltetését?",
+    question: "Miért állják az első 3 hónap üzemeltetését?",
     answer:
-      "Mert sok magyar vállalkozás évekig weboldal nélkül működik, és közben elveszíti azokat az ügyfeleket, akik rákeresnek, de nem találnak semmit. Szeretném, ha egy új cégnél ez nem az első hónapok költségén múlna. Az induláskor minden kiadás számít, ezért az első negyedévet én állom.",
+      "Mert sok magyar vállalkozás évekig weboldal nélkül működik, és közben elveszíti azokat az ügyfeleket, akik rákeresnek, de nem találnak semmit. Szeretnénk, ha egy új cégnél ez nem az első hónapok költségén múlna. Az induláskor minden kiadás számít, ezért az első negyedévet mi álljuk.",
   },
   {
     question: "Miért csak 14 napig érvényes az ajándék?",
@@ -192,7 +221,7 @@ const FAQ: FaqItem[] = [
   {
     question: "Mi történik a határidő után?",
     answer:
-      "A hívást ugyanúgy kérheti, és a csomag is ugyanannyiba kerül. Az első 3 hónap üzemeltetését viszont már nem tudom átvállalni.",
+      "A hívást ugyanúgy kérheti, és a csomag is ugyanannyiba kerül. Az első 3 hónap üzemeltetését viszont már nem tudjuk átvállalni.",
   },
   {
     question: "Kié lesz a domain?",
@@ -211,7 +240,7 @@ const FAQ: FaqItem[] = [
   {
     question: "Miért kaptam erről levelet?",
     answer:
-      "Mert a cég elérhetősége új cégként megjelent a nyilvános cégjegyzékben. Ez egyszeri megkeresés: további levelet csak akkor küldök, ha kifejezetten kéri.",
+      "Mert a cég elérhetősége új cégként megjelent a nyilvános cégjegyzékben. Ez egyszeri megkeresés: további levelet csak akkor küldünk, ha kifejezetten kéri.",
   },
 ];
 
@@ -372,13 +401,13 @@ export default function InduloWebcsomagPage() {
         {/* 02. Miért most */}
         <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
           <Container>
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-5xl">
               <Reveal>
                 <SectionLabel number="02" text="MIÉRT MOST" />
                 <SectionHeading>Az első hetekben dől el, mit látnak önökről.</SectionHeading>
               </Reveal>
               <Reveal delay={0.08}>
-                <div className="mt-8 space-y-5 text-[17px] leading-[1.8] text-[var(--text-secondary)]">
+                <div className="mt-8 max-w-3xl space-y-5 text-[17px] leading-[1.8] text-[var(--text-secondary)]">
                   <p>
                     Bankszámla, könyvelő, bélyegző, szerződések: az indulás első
                     heteiben minden egyszerre jön. Közben az első partnerek,
@@ -522,9 +551,7 @@ export default function InduloWebcsomagPage() {
                     </p>
                     <PriceBonus />
                     <div className="mt-7">
-                      <PrimaryCta full>
-                        <PriceCtaLabel />
-                      </PrimaryCta>
+                      <PrimaryCta full>Időpontot kérek</PrimaryCta>
                     </div>
                   </div>
                 </div>
@@ -536,23 +563,23 @@ export default function InduloWebcsomagPage() {
         {/* 06. Ha több kell */}
         <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
           <Container>
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-5xl">
               <Reveal>
                 <SectionLabel number="06" text="HA TÖBB KELL" />
                 <SectionHeading>Amit később, vagy rögtön, hozzá lehet tenni</SectionHeading>
                 <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
                   Az Induló csomag szándékosan egyszerű. Ha önöknél ennél több
-                  kell, a hívásban előre beárazom:
+                  kell, a hívásban előre beárazzuk:
                 </p>
               </Reveal>
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
                 {EXTRAS.map(({ icon: Icon, label }, i) => (
                   <Reveal delay={0.04 * i} key={label}>
                     <div className="flex h-full items-start gap-4 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
                       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(189,255,0,0.1)]">
                         <Icon aria-hidden size={18} className="text-[#BDFF00]" />
                       </span>
-                      <span className="pt-2 text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+                      <span className="pt-2 text-[15px] leading-[1.5] text-[var(--text-secondary)]">
                         {label}
                       </span>
                     </div>
@@ -569,58 +596,85 @@ export default function InduloWebcsomagPage() {
           </Container>
         </section>
 
-        {/* 07. Ki készíti */}
+        {/* 07. Ki áll mögötte */}
         <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
           <Container>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,300px)_1fr] lg:gap-14">
+            <div className="mx-auto max-w-5xl">
               <Reveal>
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-[300px] overflow-hidden rounded-2xl border border-[var(--border-hairline)] lg:mx-0">
-                  <Image
-                    alt="Bakos Attila, a ZynAI Development Kft. ügyvezetője"
-                    className="object-cover object-top"
-                    fill
-                    sizes="300px"
-                    src="/brand/attila/bakos_attila_portrait.webp"
-                  />
-                </div>
+                <SectionLabel number="07" text="KI ÁLL MÖGÖTTE" />
+                <SectionHeading>ZynAI Development Kft.</SectionHeading>
               </Reveal>
-              <div>
-                <Reveal>
-                  <SectionLabel number="07" text="KI KÉSZÍTI" />
-                  <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                    Ügyvezető, ZynAI Development Kft.
-                  </p>
-                  <SectionHeading>Bakos Attila</SectionHeading>
-                </Reveal>
-                <Reveal delay={0.08}>
-                  <div className="mt-6 space-y-5 text-[16px] leading-[1.8] text-[var(--text-secondary)]">
+              <div className="mt-10 grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-14">
+                <Reveal delay={0.05}>
+                  <div className="space-y-5 text-[17px] leading-[1.8] text-[var(--text-secondary)]">
                     <p>
-                      Több mint tíz éve építek weboldalakat, ma pedig főleg azon
-                      dolgozom, hogy magyar kis- és középvállalkozások okosabban és
-                      kevesebb kézi munkával működjenek, AI-integrációval és
-                      automatizálással.
+                      Weboldalakat, AI-integrációt és automatizálást fejlesztünk
+                      magyar kis- és középvállalkozásoknak. Nálunk a weboldal nem
+                      cél, hanem eszköz: azt nézzük, hogy megtalálják-e önöket, és
+                      el is érjék.
                     </p>
                     <p>
-                      A ZynAI Development Kft.-t 2026 októberében jegyezték be,
-                      úgyhogy pontosan tudom, mennyi minden jön egyszerre az első
-                      hetekben. A weboldal ilyenkor inkább teher, mint öröm. Ezért
-                      találtam ki ezt a csomagot: egy gyors, rendes kezdés, amit
-                      később bármikor tovább lehet építeni.
-                    </p>
-                    <p>
-                      <Em>Önöknek egy ember felel az oldalért, az elejétől a végéig.</Em>{" "}
-                      Nincs ügyintéző, nincs továbbadás.
+                      A cégünket 2026 októberében jegyezték be, úgyhogy közelről
+                      ismerjük, mennyi minden jön egyszerre az első hetekben. A
+                      weboldal ilyenkor inkább teher, mint öröm. Ezért állítottuk
+                      össze az Induló csomagot:{" "}
+                      <Em>
+                        egy gyors, rendes kezdés, amit később bármikor tovább
+                        lehet építeni.
+                      </Em>
                     </p>
                     <p>
                       <Link
                         href="/"
                         className="inline-flex items-center gap-1.5 font-medium text-[#BDFF00] hover:underline"
                       >
-                        Bővebben rólam és a ZynAI-ról
+                        Bővebben rólunk
                         <ArrowUpRight aria-hidden size={15} />
                       </Link>
                     </p>
                   </div>
+                </Reveal>
+                <Reveal delay={0.12}>
+                  <figure className="relative overflow-hidden rounded-3xl border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.03)] p-7">
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute right-[-30px] top-[-30px] h-[160px] w-[160px]"
+                      style={{
+                        background: "radial-gradient(circle, rgba(189,255,0,0.14) 0%, transparent 70%)",
+                        filter: "blur(20px)",
+                      }}
+                    />
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-4">
+                        <div className="relative size-16 shrink-0 overflow-hidden rounded-full border border-[var(--border-hairline)]">
+                          <Image
+                            alt="Bakos Attila, a ZynAI Development Kft. ügyvezetője"
+                            className="object-cover object-top"
+                            fill
+                            sizes="64px"
+                            src="/brand/attila/bakos_attila_portrait.webp"
+                          />
+                        </div>
+                        <figcaption>
+                          <p className="font-display text-[17px] font-medium text-[var(--text-primary)]">
+                            Bakos Attila
+                          </p>
+                          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                            Ügyvezető
+                          </p>
+                        </figcaption>
+                      </div>
+                      <blockquote className="mt-6 text-[16px] leading-[1.75] text-[var(--text-primary)]">
+                        „A folyamatért és az eredmény minőségéért személyesen
+                        felelek. Minden oldal átmegy a kezem alatt, mielőtt
+                        élesbe kerül, és csak akkor adjuk át, ha úgy működik,
+                        ahogy megbeszéltük.”
+                      </blockquote>
+                      <p className="mt-5 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
+                        Több mint tíz éve építek weboldalakat.
+                      </p>
+                    </div>
+                  </figure>
                 </Reveal>
               </div>
             </div>
@@ -633,7 +687,7 @@ export default function InduloWebcsomagPage() {
             <div className="mx-auto max-w-5xl">
               <Reveal>
                 <SectionLabel number="08" text="REFERENCIÁK" />
-                <SectionHeading>Akiknek már dolgoztam</SectionHeading>
+                <SectionHeading>Akiknek már dolgoztunk</SectionHeading>
               </Reveal>
               <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
                 {CASES.map((c, i) => (
@@ -703,8 +757,9 @@ export default function InduloWebcsomagPage() {
             <div className="mx-auto max-w-5xl">
               <Reveal>
                 <SectionLabel number="09" text="AMIRE SZÁMÍTHATNAK" />
+                <SectionHeading>Amire számíthatnak</SectionHeading>
               </Reveal>
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {PROMISES.map((p, i) => (
                   <Reveal delay={0.04 * i} key={p.lead}>
                     <div className="flex h-full items-start gap-3 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
@@ -736,9 +791,15 @@ export default function InduloWebcsomagPage() {
                 </p>
                 <BookingBonus />
               </Reveal>
-              {/* A Cal.com foglaló (indulo-csomag esemény) ide kerül, amint az esemény elkészült. */}
+            </div>
+            <Reveal delay={0.1}>
+              <div className="mx-auto mt-10 max-w-3xl">
+                <CalEmbed formal layout="month_view" target={INDULO_CAL} />
+              </div>
+            </Reveal>
+            <div className="mx-auto max-w-2xl text-center">
               <Reveal delay={0.1}>
-                <p className="mt-10 text-[14px] leading-[1.7] text-[var(--text-tertiary)]">
+                <p className="mt-8 text-[14px] leading-[1.7] text-[var(--text-tertiary)]">
                   Ha egyik időpont sem jó, írjon a{" "}
                   <MailtoLink
                     email={BOOKING_EMAIL}

@@ -17,7 +17,8 @@ import { ArrowRight, Gift, Timer } from "lucide-react";
  * Élesben ezt a levél tokenje (`?t=`) alapján az n8n `indulo-ajanlat`
  * végpontja adja (docs: átadás az n8n-agentnek). Amíg a végpont nincs kész,
  * nincs adat, és az oldal az általános változatot mutatja.
- * Fejlesztői módban a `?elonezet=1` mintaadatokkal mutatja a teljes szöveget.
+ * Fejlesztői módban alapból mintaadatokkal mutatja a teljes szöveget; a
+ * `?elonezet=0` az általános (token nélküli) változatot mutatja.
  */
 export type Offer = {
   cegnev: string;
@@ -40,7 +41,7 @@ const PREVIEW_OFFER: Offer = {
 
 function readPreview(): boolean {
   if (process.env.NODE_ENV !== "development") return false;
-  return new URLSearchParams(window.location.search).get("elonezet") === "1";
+  return new URLSearchParams(window.location.search).get("elonezet") !== "0";
 }
 
 function subscribeNever(): () => void {
@@ -78,14 +79,22 @@ function deadlineMs(date: string): number | null {
   return utcGuess - hours * 60 * 60 * 1000;
 }
 
-function formatDate(date: string): string {
-  const ms = deadlineMs(date);
-  if (ms === null) return date;
-  return new Intl.DateTimeFormat("hu-HU", {
-    timeZone: "Europe/Budapest",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(ms));
+// A nap sorszámnevének „-n” ragja: elsején, másodikán, negyedikén…
+const ON_SUFFIX: Record<number, string> = {
+  1: "jén", 2: "án", 3: "án", 4: "én", 5: "én", 6: "án", 7: "én", 8: "án",
+  9: "én", 10: "én", 11: "én", 12: "én", 13: "án", 14: "én", 15: "én",
+  16: "án", 17: "én", 18: "án", 19: "én", 20: "án", 21: "én", 22: "én",
+  23: "án", 24: "én", 25: "én", 26: "án", 27: "én", 28: "án", 29: "én",
+  30: "án", 31: "én",
+};
+
+/** "október 24-ig" és "október 24-én" a budapesti naptár szerint. */
+function formatDate(date: string): { until: string; on: string } {
+  const [, m, d] = date.split("-").map(Number);
+  const month = new Intl.DateTimeFormat("hu-HU", { month: "long", timeZone: "UTC" }).format(
+    new Date(Date.UTC(2000, m - 1, 1)),
+  );
+  return { until: `${month} ${d}-ig`, on: `${month} ${d}-${ON_SUFFIX[d] ?? "én"}` };
 }
 
 /** Percenként frissülő „most”, csak a kliensen (szerveren null). */
@@ -105,8 +114,8 @@ function useNow(): number | null {
 
 type BonusState =
   | { kind: "none" }
-  | { kind: "active"; date: string; days: number; hours: number; minutes: number }
-  | { kind: "expired"; date: string };
+  | { kind: "active"; until: string; days: number; hours: number; minutes: number }
+  | { kind: "expired"; on: string };
 
 function useBonus(): BonusState {
   const offer = useOffer();
@@ -114,13 +123,13 @@ function useBonus(): BonusState {
   if (!offer || now === null) return { kind: "none" };
   const end = deadlineMs(offer.kedvezmenyLejarat);
   if (end === null) return { kind: "none" };
-  const date = formatDate(offer.kedvezmenyLejarat);
+  const { until, on } = formatDate(offer.kedvezmenyLejarat);
   const left = end - now;
-  if (left <= 0) return { kind: "expired", date };
+  if (left <= 0) return { kind: "expired", on };
   const minutesTotal = Math.floor(left / 60_000);
   return {
     kind: "active",
-    date,
+    until,
     days: Math.floor(minutesTotal / (60 * 24)),
     hours: Math.floor((minutesTotal % (60 * 24)) / 60),
     minutes: minutesTotal % 60,
@@ -135,22 +144,23 @@ export function OfferBar() {
   return (
     <div className="relative z-30 border-b border-[rgba(189,255,0,0.18)] bg-[rgba(189,255,0,0.06)] px-4 py-2.5 text-center text-[13px] leading-[1.5] text-[var(--text-secondary)] sm:text-[14px]">
       {bonus.kind === "active" ? (
-        <>
-          <Gift aria-hidden size={14} className={`mr-1.5 inline -translate-y-px ${lime}`} />
-          <strong className="font-medium text-[var(--text-primary)]">
-            75.000 Ft értékű belépési ajándék {bonus.date}-ig
-          </strong>
-          <span className="whitespace-nowrap">
-            {" "}
-            · még {bonus.days} nap {bonus.hours} óra ·{" "}
+        <span className="flex flex-col items-center gap-0.5 sm:flex-row sm:justify-center sm:gap-2">
+          <span className="inline-flex items-center gap-1.5">
+            <Gift aria-hidden size={14} className={lime} />
+            <strong className="font-medium text-[var(--text-primary)]">
+              75.000 Ft értékű belépési ajándék
+            </strong>
           </span>
-          <a href="#idopont" className={`whitespace-nowrap font-medium ${lime} hover:underline`}>
-            Időpontot kérek →
-          </a>
-        </>
+          <span className="whitespace-nowrap">
+            {bonus.until} · még {bonus.days} nap {bonus.hours} óra ·{" "}
+            <a href="#idopont" className={`font-medium ${lime} hover:underline`}>
+              Időpontot kérek →
+            </a>
+          </span>
+        </span>
       ) : (
         <>
-          A belépési ajándék {bonus.date}-én lejárt. Hívást továbbra is kérhet.{" "}
+          A belépési ajándék {bonus.on} lejárt. Hívást továbbra is kérhet.{" "}
           <a href="#idopont" className={`whitespace-nowrap font-medium ${lime} hover:underline`}>
             Időpontot kérek →
           </a>
@@ -170,18 +180,30 @@ export function HeroGreeting() {
   );
 }
 
+/** A hero ajándékkártyája az ár alatt: ajánlat + visszaszámláló. */
 export function HeroBonus() {
   const bonus = useBonus();
-  if (bonus.kind !== "active") return null;
+  if (bonus.kind === "none") return null;
+  if (bonus.kind === "expired") {
+    return (
+      <p className="mx-auto mt-5 max-w-md text-[14px] leading-[1.6] text-[var(--text-tertiary)]">
+        A belépési ajándék {bonus.on} lejárt. A csomag ára változatlan.
+      </p>
+    );
+  }
   return (
-    <p className="mx-auto mt-4 flex max-w-lg items-start justify-center gap-2 text-left text-[15px] leading-[1.6] text-[var(--text-secondary)]">
-      <Gift aria-hidden size={18} className={`mt-0.5 shrink-0 ${lime}`} />
-      <span>
-        {bonus.date}-ig szerződve az első 3 hónap üzemeltetését én állom: ez{" "}
+    <div className="mx-auto mt-6 max-w-md rounded-2xl border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-5 py-5 text-left sm:px-6">
+      <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#BDFF00]">
+        <Gift aria-hidden size={14} />
+        Belépési ajándék · {bonus.until}
+      </p>
+      <p className="mt-3 text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+        Ha addig szerződünk, az első 3 hónap üzemeltetését mi álljuk: ez{" "}
         <strong className="font-medium text-[var(--text-primary)]">75.000 Ft + áfa</strong>,
         amit az induláskor nem kell kifizetniük.
-      </span>
-    </p>
+      </p>
+      <Countdown days={bonus.days} hours={bonus.hours} minutes={bonus.minutes} />
+    </div>
   );
 }
 
@@ -254,7 +276,7 @@ export function PriceBonus() {
   if (bonus.kind === "expired") {
     return (
       <p className="mt-6 rounded-2xl border border-[var(--border-hairline)] px-5 py-4 text-[14px] leading-[1.6] text-[var(--text-tertiary)]">
-        A belépési ajándék {bonus.date}-én lejárt. A csomag ára változatlan.
+        A belépési ajándék {bonus.on} lejárt. A csomag ára változatlan.
       </p>
     );
   }
@@ -265,7 +287,7 @@ export function PriceBonus() {
         Belépési ajándék
       </p>
       <p className="mt-3 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
-        {bonus.date}-ig szerződve az első 3 hónap üzemeltetése (tárhely és
+        {bonus.until} szerződve az első 3 hónap üzemeltetése (tárhely és
         karbantartás) ingyenes.{" "}
         <strong className="font-medium text-[var(--text-primary)]">
           Ez 75.000 Ft + áfa megtakarítás.
@@ -302,18 +324,13 @@ function Countdown({ days, hours, minutes }: { days: number; hours: number; minu
   );
 }
 
-export function PriceCtaLabel() {
-  const bonus = useBonus();
-  return <>{bonus.kind === "active" ? "Időpontot kérek, amíg él az ajándék" : "Időpontot kérek"}</>;
-}
-
 export function BookingBonus() {
   const bonus = useBonus();
   if (bonus.kind !== "active") return null;
   return (
-    <p className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.05)] px-4 py-2 text-[14px] text-[var(--text-secondary)]">
-      <Gift aria-hidden size={15} className={lime} />
-      Ha {bonus.date}-ig szerződünk, az első 3 hónap üzemeltetése ajándék.
+    <p className="mx-auto mt-5 inline-flex items-start gap-2 rounded-2xl border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.05)] px-4 py-2.5 text-left text-[14px] leading-[1.5] text-[var(--text-secondary)] sm:items-center sm:rounded-full">
+      <Gift aria-hidden size={15} className={`mt-0.5 shrink-0 sm:mt-0 ${lime}`} />
+      Ha {bonus.until} szerződünk, az első 3 hónap üzemeltetése ajándék.
     </p>
   );
 }

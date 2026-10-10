@@ -4,15 +4,27 @@ import { useEffect, useRef, useState } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import type { PrefillAndIframeAttrsConfig } from "@calcom/embed-core";
 
+import { CalendarDays } from "lucide-react";
+
 import { buttonVariants } from "@/components/ui/button";
 import { MailtoLink } from "@/components/ui/MailtoLink";
 import { track } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
-const CAL_NAMESPACE = "felmeres";
-const CAL_LINK = "zynai/felmeres";
-const CAL_URL = "https://cal.com/zynai/felmeres";
-const CAL_EMAIL = "info@zynai.hu";
+/** Melyik Cal.com eseményt ágyazzuk be, és hová írhat, ha nem tölt be. */
+export type CalTarget = {
+  namespace: string;
+  link: string;
+  url: string;
+  email: string;
+};
+
+const FELMERES: CalTarget = {
+  namespace: "felmeres",
+  link: "zynai/felmeres",
+  url: "https://cal.com/zynai/felmeres",
+  email: "info@zynai.hu",
+};
 
 // A Cal.com script betöltésére adott várakozási idő, mielőtt hibaállapotba
 // váltunk. Ha a getCalApi() nem fut le időben (hálózat, ad blocker, CSP),
@@ -43,6 +55,10 @@ const CAL_HEIGHT_CLASSES: Record<CalLayout, string> = {
 type CalEmbedProps = {
   className?: string;
   layout?: CalLayout;
+  /** Alapértelmezés: a 30 perces felmérés (zynai/felmeres). */
+  target?: CalTarget;
+  /** Magázó szövegek (például a kampányoldalon); alapértelmezés: tegező. */
+  formal?: boolean;
 };
 
 /**
@@ -54,11 +70,18 @@ type CalEmbedProps = {
  * nem kér semmit a cal.com-tól. A doboz már előtte a beágyazás magasságát
  * foglalja el, hogy a betöltés ne ugrassza az oldalt.
  */
-export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
+export function CalEmbed({
+  className,
+  layout = "column_view",
+  target = FELMERES,
+  formal = false,
+}: CalEmbedProps) {
   const [open, setOpen] = useState(false);
 
   if (open) {
-    return <CalInline className={className} layout={layout} />;
+    return (
+      <CalInline className={className} layout={layout} target={target} formal={formal} />
+    );
   }
 
   return (
@@ -69,6 +92,9 @@ export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
         className,
       )}
     >
+      <span className="flex size-14 items-center justify-center rounded-2xl bg-[rgba(189,255,0,0.1)]">
+        <CalendarDays aria-hidden size={26} className="text-[#BDFF00]" />
+      </span>
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -84,18 +110,25 @@ export function CalEmbed({ className, layout = "column_view" }: CalEmbedProps) {
         töltődik be.
       </p>
       <a
-        href={CAL_URL}
+        href={target.url}
         target="_blank"
         rel="noopener noreferrer"
         className="text-sm text-[var(--text-secondary)] underline underline-offset-2 hover:text-[var(--text-primary)]"
       >
-        Vagy foglalj közvetlenül a Cal.com oldalán
+        {formal
+          ? "Vagy foglaljon közvetlenül a Cal.com oldalán"
+          : "Vagy foglalj közvetlenül a Cal.com oldalán"}
       </a>
     </div>
   );
 }
 
-function CalInline({ className, layout = "column_view" }: CalEmbedProps) {
+function CalInline({
+  className,
+  layout = "column_view",
+  target = FELMERES,
+  formal = false,
+}: CalEmbedProps) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading",
   );
@@ -117,7 +150,7 @@ function CalInline({ className, layout = "column_view" }: CalEmbedProps) {
 
     (async function initCal() {
       try {
-        const cal = await getCalApi({ namespace: CAL_NAMESPACE });
+        const cal = await getCalApi({ namespace: target.namespace });
 
         // A getCalApi() feloldása csak azt jelenti, hogy a helyi
         // parancssor (queue) készen áll — NEM azt, hogy a naptár ténylegesen
@@ -166,10 +199,10 @@ function CalInline({ className, layout = "column_view" }: CalEmbedProps) {
       cancelled = true;
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [target.namespace]);
 
   if (status === "error") {
-    return <CalFallback className={className} />;
+    return <CalFallback className={className} target={target} formal={formal} />;
   }
 
   return (
@@ -182,8 +215,8 @@ function CalInline({ className, layout = "column_view" }: CalEmbedProps) {
     >
       {status === "loading" ? <CalSkeleton /> : null}
       <Cal
-        namespace={CAL_NAMESPACE}
-        calLink={CAL_LINK}
+        namespace={target.namespace}
+        calLink={target.link}
         config={{ theme: "dark", layout }}
         style={{ width: "100%", height: "100%", overflow: "auto" }}
         className={cn(
@@ -208,7 +241,15 @@ function CalSkeleton() {
   );
 }
 
-function CalFallback({ className }: { className?: string }) {
+function CalFallback({
+  className,
+  target,
+  formal,
+}: {
+  className?: string;
+  target: CalTarget;
+  formal: boolean;
+}) {
   return (
     <div
       className={cn(
@@ -217,11 +258,12 @@ function CalFallback({ className }: { className?: string }) {
       )}
     >
       <p className="max-w-sm text-[15px] leading-relaxed text-[var(--text-secondary)]">
-        A naptár betöltése most nem sikerült. Foglalj időpontot közvetlenül,
-        vagy írj e-mailt.
+        {formal
+          ? "A naptár betöltése most nem sikerült. Foglaljon időpontot közvetlenül, vagy írjon e-mailt."
+          : "A naptár betöltése most nem sikerült. Foglalj időpontot közvetlenül, vagy írj e-mailt."}
       </p>
       <a
-        href={CAL_URL}
+        href={target.url}
         target="_blank"
         rel="noopener noreferrer"
         className="rounded-full bg-[#BDFF00] px-8 py-4 font-medium text-[#09090B]"
@@ -229,10 +271,10 @@ function CalFallback({ className }: { className?: string }) {
         Foglalás megnyitása új lapon
       </a>
       <MailtoLink
-        email={CAL_EMAIL}
+        email={target.email}
         className="text-sm text-[var(--text-secondary)] underline underline-offset-2 hover:text-[var(--text-primary)]"
       >
-        {CAL_EMAIL}
+        {target.email}
       </MailtoLink>
     </div>
   );

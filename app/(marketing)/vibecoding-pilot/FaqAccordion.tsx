@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 export type FaqItem = {
   question: string;
-  answer: string;
+  /** Szöveg, vagy formázott tartalom (például felsorolás). */
+  answer: ReactNode;
 };
 
 export function FaqAccordion({ items }: { items: FaqItem[] }) {
@@ -46,9 +47,15 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
               )}
             >
               <div className="overflow-hidden">
-                <p className="px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
-                  {item.answer}
-                </p>
+                {typeof item.answer === "string" ? (
+                  <p className="px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                    {item.answer}
+                  </p>
+                ) : (
+                  <div className="space-y-3 px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                    {item.answer}
+                  </div>
+                )}
               </div>
             </div>
           </div>
