@@ -79,7 +79,17 @@ const EXAMPLES = [
   },
 ] as const;
 
-export function LandingExamples() {
+const DEFAULT_EYEBROW = "Ilyen oldalakat építhetsz";
+const DEFAULT_DESCRIPTION =
+  "Bemutatkozó- és szolgáltatói oldalak, ezen a szinten: kattints a példákra. Ha van saját ötleted vagy vállalkozásod, azt viszed végig, ha nincs, vállalkozástípust választasz egy listából. A tiéd a saját briefedből készül, nem ezek másolata. A példák v0 sablonok.";
+
+export function LandingExamples({
+  eyebrow = DEFAULT_EYEBROW,
+  description = DEFAULT_DESCRIPTION,
+}: {
+  eyebrow?: string;
+  description?: string;
+} = {}) {
   const scroller = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
 
@@ -116,13 +126,10 @@ export function LandingExamples() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#BDFF00]">
-            Ilyen oldalakat építhetsz
+            {eyebrow}
           </p>
           <p className="mt-3 max-w-2xl text-[16px] leading-[1.7] text-[var(--text-secondary)]">
-            Bemutatkozó- és szolgáltatói oldalak, ezen a szinten: kattints a
-            példákra. Ha van saját ötleted vagy vállalkozásod, azt viszed
-            végig, ha nincs, vállalkozástípust választasz egy listából. A tiéd
-            a saját briefedből készül, nem ezek másolata. A példák v0 sablonok.
+            {description}
           </p>
         </div>
         <div className="flex shrink-0 gap-2">

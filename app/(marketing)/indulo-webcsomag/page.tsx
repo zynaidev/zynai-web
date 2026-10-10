@@ -1,11 +1,32 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Bot,
+  CalendarCheck,
+  Check,
+  CreditCard,
+  Languages,
+  PhoneCall,
+  Quote,
+  Search,
+  ShieldCheck,
+} from "lucide-react";
 
+import { Reveal } from "@/components/animations/reveal";
+import { HeroGrain } from "@/components/hero-grain";
+import { heroLayers } from "@/components/hero-layers";
+import { RevealLines } from "@/components/reveal-lines";
+import { heroShimmerStartMs, revealLineFinishMs } from "@/components/reveal-lines-timing";
+import { Shimmer } from "@/components/shimmer";
 import { Container } from "@/components/ui/container";
 import { MailtoLink } from "@/components/ui/MailtoLink";
 import { SectionLabel } from "@/components/ui/section-label";
 import { FaqAccordion, type FaqItem } from "../vibecoding-pilot/FaqAccordion";
+import { LandingExamples } from "../vibecoding-pilot/LandingExamples";
 
 import {
   BookingBonus,
@@ -17,6 +38,7 @@ import {
   PersonalizedPlan,
   PriceBonus,
   PriceCtaLabel,
+  StickyCta,
 } from "./offer";
 
 // Kampányoldal: csak az ajánlati levelekből érhető el, menüpont nincs,
@@ -30,61 +52,116 @@ export const metadata: Metadata = {
 
 const BOOKING_EMAIL = "bakos.attila@zynai.hu";
 
-function Heading({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="font-display text-[clamp(28px,4vw,44px)] font-medium leading-[1.1] tracking-[-0.025em] text-[var(--text-primary)]">
-      {children}
-    </h2>
-  );
-}
+const WHY_NOW: { icon: typeof Search; lead: string; text: string }[] = [
+  { icon: Search, lead: "Megtalálják", text: "Alapszintű Google-beállításokkal indul." },
+  {
+    icon: PhoneCall,
+    lead: "Elérik",
+    text: "Kattintható telefonszám, e-mail és kapcsolati űrlap.",
+  },
+  {
+    icon: ShieldCheck,
+    lead: "Komolyan veszik",
+    text: "Saját domain, mobilon is jól mutat, adatkezelési tájékoztatóval és sütibannerrel.",
+  },
+];
 
-function Section({
-  id,
-  number,
-  label,
-  children,
-}: {
-  id?: string;
-  number: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <section id={id} className="border-t border-[var(--border-hairline)] py-16 lg:py-24">
-      <Container>
-        <div className="max-w-[760px] space-y-4 text-[17px] leading-[1.7] text-[var(--text-secondary)]">
-          <SectionLabel number={number} text={label} className="mb-6" />
-          {children}
-        </div>
-      </Container>
-    </section>
-  );
-}
+const PACKAGE: ReactNode[] = [
+  <><Em>Mobilbarát, egyoldalas bemutatkozó oldal</Em> 5–6 szekcióval, az önöknek javasolt szerkezettel</>,
+  <><Em>Szövegezés a cég adataiból:</Em> a szöveget én írom, önöknek csak át kell nézniük, egy javítási körrel</>,
+  <><Em>Kapcsolati űrlap</Em> és kattintható telefonszám, e-mail</>,
+  <Em key="g">Google-megtalálhatósági alapbeállítások</Em>,
+  <><Em>Tárhely és üzembe helyezés</Em> a saját domainjükön</>,
+  <Em key="a">Adatkezelési tájékoztató és sütibanner</Em>,
+];
 
-function Bullets({ items }: { items: ReactNode[] }) {
-  return (
-    <ul className="list-disc space-y-2 pl-6 marker:text-[#BDFF00]">
-      {items.map((item, i) => (
-        <li key={i}>{item}</li>
-      ))}
-    </ul>
-  );
-}
+const STEPS = [
+  {
+    n: "01",
+    title: "20 perces telefonhívás",
+    text: "Átbeszéljük, mivel foglalkoznak, mit szeretnének kiemelni, és kell-e bármi a csomagon túl. A végén pontosan tudják, mit kapnak és mennyiért.",
+  },
+  {
+    n: "02",
+    title: "Szerződés és első változat",
+    text: "A szerződéskötéssel és az előleggel indul a 14 nap. Elkészítem az oldalt a cég adataiból, önöknek csak át kell nézniük.",
+  },
+  {
+    n: "03",
+    title: "Javítás és átadás",
+    text: "Egy javítási kör után az oldal él, a saját domainjükön.",
+  },
+];
 
-function Cta({ children }: { children: ReactNode }) {
-  return (
-    <a
-      href="#idopont"
-      className="inline-flex rounded-full bg-[#BDFF00] px-8 py-4 text-[15px] font-medium text-[#09090B] transition-transform duration-200 hover:scale-[1.02]"
-    >
-      {children}
-    </a>
-  );
-}
+const PRICE_TERMS: ReactNode[] = [
+  <><Em>Fizetés:</Em> 50% a szerződéskötéskor, 50% az átadáskor.</>,
+  <><Em>A domain az önöké.</Em> A cég nevére kerül, a díját önök fizetik közvetlenül a szolgáltatónak.</>,
+  <><Em>Fix ár:</Em> ha a csomagon túli funkció kell, azt a hívás után írásban, előre megkapják.</>,
+  <><Em>Karbantartás igény szerint:</Em> ha szeretnék, az ajándék időszak után is én tartom karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
+];
 
-function Strong({ children }: { children: ReactNode }) {
-  return <strong className="font-medium text-[var(--text-primary)]">{children}</strong>;
-}
+const EXTRAS: { icon: typeof Bot; label: string }[] = [
+  { icon: CalendarCheck, label: "Időpontfoglalás" },
+  { icon: CreditCard, label: "Online fizetés" },
+  { icon: Languages, label: "Több nyelv" },
+  {
+    icon: Bot,
+    label: "Egyedi AI-megoldások, például automatikus ajánlatküldés vagy ügyfélkezelés",
+  },
+];
+
+const PROMISES = [
+  { lead: "Fix ár, írásban.", text: "A hívás után pontosan tudják, mit fizetnek." },
+  { lead: "14 napos határidő.", text: "A szerződéstől számítva, írásban vállalva." },
+  {
+    lead: "Egy javítási kör benne van.",
+    text: "Az oldal akkor megy élesbe, amikor jónak látják.",
+  },
+  { lead: "A domain az önöké.", text: "Akkor is, ha később máshová költöznének." },
+  { lead: "Nem kötelez semmire a hívás.", text: "Ha nem kérik, annyi." },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Kezdetleges formájában tízszeres elérést értünk el, ez fantasztikus eredmény. A weboldal nagyon profi, design fókuszú és stabil. Az egyik legjobb befektetésünk volt.",
+    name: "Loddo Riccardo",
+    site: "aedificium.design",
+  },
+  {
+    quote:
+      "Több éve együtt dolgozunk, a weboldalamat és a hirdetéseimet is Attila kezeli. A korábbi WordPress oldalam is jól teljesített, de a mostani javítások elképesztőek. Nagyon megérte, köszi!",
+    name: "Dóczi László",
+    site: "silverlimo.hu",
+  },
+];
+
+const CASES = [
+  {
+    href: "/esettanulmanyok/aedificium-design",
+    image: "/esettanulmanyok/aedificium_hero.png",
+    alt: "Az Aedificium Design weboldala",
+    label: "Esettanulmány · Aedificium Design",
+    title: "Prémium weboldal, két hét alatt.",
+    text: (
+      <>
+        A stúdió közösségimédia-elérése <Em>tízszeresére nőtt</Em>.
+      </>
+    ),
+  },
+  {
+    href: "/esettanulmanyok/silverlimo",
+    image: "/esettanulmanyok/silverlimo_hero.webp",
+    alt: "A SilverLimo weboldala",
+    label: "Esettanulmány · SilverLimo",
+    title: "Lassú WordPress oldal helyett gyors, mérhető oldal.",
+    text: (
+      <>
+        <Em>14× gyorsabb első tartalom</Em>, <Em>24× gyorsabb szerverválasz</Em>.
+      </>
+    ),
+  },
+];
 
 const FAQ: FaqItem[] = [
   {
@@ -138,314 +215,589 @@ const FAQ: FaqItem[] = [
   },
 ];
 
+function Em({ children }: { children: ReactNode }) {
+  return <strong className="font-medium text-[var(--text-primary)]">{children}</strong>;
+}
+
+function SectionHeading({ children }: { children: ReactNode }) {
+  return (
+    <h2
+      className="font-display font-medium text-[var(--text-primary)]"
+      style={{ fontSize: "clamp(28px, 4vw, 44px)", letterSpacing: "-0.025em", lineHeight: 1.1 }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+function PrimaryCta({ children, full }: { children: ReactNode; full?: boolean }) {
+  return (
+    <span
+      className={`inline-flex rounded-full ${full ? "w-full" : ""}`}
+      style={{ boxShadow: "0 0 40px rgba(189,255,0,0.3), 0 0 80px rgba(189,255,0,0.1)" }}
+    >
+      <a
+        href="#idopont"
+        className={`group relative inline-flex overflow-hidden rounded-full ${full ? "w-full" : ""}`}
+      >
+        <span className="flex flex-1 items-center justify-center bg-[#BDFF00] px-8 py-4 text-[15px] font-medium text-[#09090B]">
+          {children}
+        </span>
+        <span
+          aria-hidden
+          className="pointer-events-none w-px shrink-0 self-stretch bg-[rgba(9,9,11,0.15)]"
+        />
+        <span className="flex items-center bg-[#BDFF00] px-5 py-4">
+          <ArrowRight
+            aria-hidden
+            size={16}
+            className="text-[#09090B] transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </span>
+      </a>
+    </span>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <span className="mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-full bg-[rgba(189,255,0,0.12)]">
+      <Check aria-hidden size={13} className="text-[#BDFF00]" />
+    </span>
+  );
+}
+
 export default function InduloWebcsomagPage() {
   return (
     <OfferProvider>
-      <div className="[&_section]:scroll-mt-24">
+      <div className="pb-28 [&_section]:scroll-mt-24">
         <OfferBar />
+        <StickyCta />
 
         {/* Hero */}
-        <section className="pb-16 pt-24 lg:pb-24 lg:pt-32">
-          <Container>
-            <div className="max-w-[860px]">
-              <p className="type-label">ZYNAI INDULÓ CSOMAG</p>
-              <HeroGreeting />
-              <h1 className="mt-6 font-display text-[clamp(40px,6vw,72px)] font-medium leading-[1.05] tracking-[-0.03em] text-[var(--text-primary)]">
-                Az első weboldaluk. Gyorsan, rendesen, fölösleg nélkül.
-              </h1>
-              <p className="mt-6 max-w-[640px] text-[18px] leading-[1.7] text-[var(--text-secondary)]">
-                Egy új cégnek nem nagy weboldal kell, hanem egy rendezett első
-                oldal, ahol megtalálják, és ahonnan el is érik önöket. A
-                szerződéstől számított 14 napon belül kész, fix áron.
-              </p>
-              <p className="mt-8 font-display text-[32px] font-medium text-[var(--text-primary)]">
-                190.000 Ft + áfa
-              </p>
-              <HeroBonus />
-              <div className="mt-8 flex flex-wrap items-center gap-6">
-                <Cta>Kérek egy 20 perces hívást →</Cta>
-                <a
-                  href="#javaslat"
-                  className="text-[15px] text-[var(--text-secondary)] underline underline-offset-4 hover:text-[var(--text-primary)]"
+        <section className="relative pb-20 pt-14 sm:pt-16 lg:pb-24 lg:pt-20">
+          <HeroGrain />
+          <div
+            aria-hidden
+            className="hero-dot-grid pointer-events-none absolute inset-0"
+            style={{ zIndex: heroLayers.grid }}
+          />
+          <Container className="relative" style={{ zIndex: heroLayers.content }}>
+            <div className="mx-auto max-w-3xl text-center">
+              <Reveal>
+                <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-4 py-1.5 text-center font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-[#BDFF00] sm:text-[11px] sm:tracking-[0.14em]">
+                  <span className="relative flex size-2 shrink-0">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#BDFF00] opacity-60" />
+                    <span className="relative inline-flex size-2 rounded-full bg-[#BDFF00]" />
+                  </span>
+                  ZynAI Induló csomag
+                </span>
+                <HeroGreeting />
+              </Reveal>
+              <Shimmer className="mt-7 block" delayMs={heroShimmerStartMs(1)}>
+                <RevealLines
+                  as="h1"
+                  className="font-display font-medium text-[var(--text-primary)]"
+                  style={{ fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}
                 >
-                  Nézze meg az önöknek javasolt oldalt ↓
-                </a>
-              </div>
-              <p className="mt-4 text-[14px] italic text-[var(--text-tertiary)]">
-                Telefonhívás, nem online meeting. Nem kötelez semmire.
-              </p>
+                  <span className="hero-laminate">Az első weboldaluk.</span>
+                  <span>
+                    <span className="hero-laminate">Gyorsan, rendesen, </span>
+                    <span
+                      className="hero-laminate hero-laminate--accent hero-draw-underline"
+                      style={{ ["--hero-draw-delay" as string]: `${revealLineFinishMs(1)}ms` }}
+                    >
+                      fölösleg nélkül.
+                    </span>
+                  </span>
+                </RevealLines>
+              </Shimmer>
+              <RevealLines delay={260}>
+                <p className="mx-auto mt-7 max-w-xl text-[18px] leading-[1.7] text-[var(--text-secondary)] lg:text-[20px]">
+                  Egy új cégnek nem nagy weboldal kell, hanem egy rendezett első
+                  oldal, ahol megtalálják, és ahonnan el is érik önöket. A
+                  szerződéstől számított 14 napon belül kész, fix áron.
+                </p>
+                <div>
+                  <p
+                    className="mt-8 font-display font-medium text-[var(--text-primary)]"
+                    style={{ fontSize: "clamp(32px, 4vw, 44px)", letterSpacing: "-0.03em" }}
+                  >
+                    190.000 Ft <span className="text-[var(--text-tertiary)]">+ áfa</span>
+                  </p>
+                  <HeroBonus />
+                </div>
+                <div className="mt-10 flex flex-col items-center gap-5">
+                  <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
+                  <a
+                    href="#javaslat"
+                    className="text-[15px] text-[var(--text-secondary)] underline decoration-[rgba(255,255,255,0.2)] underline-offset-4 transition-colors hover:text-[var(--text-primary)]"
+                  >
+                    Nézze meg az önöknek javasolt oldalt ↓
+                  </a>
+                  <p className="text-[13px] text-[var(--text-tertiary)]">
+                    Telefonhívás, nem online meeting. Nem kötelez semmire.
+                  </p>
+                </div>
+              </RevealLines>
             </div>
           </Container>
         </section>
 
-        <Section id="javaslat" number="01" label="AZ ÖNÖKNEK JAVASOLT OLDAL">
-          <PersonalizedPlan
-            fallback={
-              <>
-                <Heading>Minden oldal a cég tevékenységére szabva készül</Heading>
-                <p className="mt-6">
-                  Egy étteremnek mást kell kiemelnie, mint egy könyvelőnek vagy
-                  egy gépkölcsönzőnek. A hívásban átbeszéljük, mivel
-                  foglalkoznak, és ehhez igazítom az oldal szerkezetét és
-                  szövegét.
+        {/* 01. Az önöknek javasolt oldal */}
+        <section
+          id="javaslat"
+          className="border-t border-[var(--border-hairline)] py-28 lg:py-36"
+        >
+          <Container>
+            <Reveal>
+              <PersonalizedPlan
+                fallback={
+                  <div className="mx-auto max-w-3xl">
+                    <SectionLabel number="01" text="AZ ÖNÖKNEK JAVASOLT OLDAL" />
+                    <SectionHeading>Minden oldal a cég tevékenységére szabva készül</SectionHeading>
+                    <p className="mt-6 text-[18px] leading-[1.75] text-[var(--text-secondary)]">
+                      Egy étteremnek mást kell kiemelnie, mint egy könyvelőnek vagy
+                      egy gépkölcsönzőnek. A hívásban átbeszéljük, mivel
+                      foglalkoznak, és ehhez igazítom az oldal szerkezetét és
+                      szövegét.
+                    </p>
+                  </div>
+                }
+              />
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* 02. Miért most */}
+        <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-3xl">
+              <Reveal>
+                <SectionLabel number="02" text="MIÉRT MOST" />
+                <SectionHeading>Az első hetekben dől el, mit látnak önökről.</SectionHeading>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <div className="mt-8 space-y-5 text-[17px] leading-[1.8] text-[var(--text-secondary)]">
+                  <p>
+                    Bankszámla, könyvelő, bélyegző, szerződések: az indulás első
+                    heteiben minden egyszerre jön. Közben az első partnerek,
+                    ügyfelek és a bank is rákeres a cégre. Ha ilyenkor nincs
+                    semmi, vagy csak egy félkész oldal, az kérdést hagy maga után.
+                  </p>
+                  <p>
+                    Az Induló csomag ezt a kérdést zárja le:{" "}
+                    <Em>
+                      egy rendezett, hiteles első oldal, amit önöknek nem kell
+                      megírniuk, megtervezniük vagy üzemeltetniük.
+                    </Em>
+                  </p>
+                </div>
+              </Reveal>
+              <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {WHY_NOW.map(({ icon: Icon, lead, text }, i) => (
+                  <Reveal delay={0.05 * i} key={lead}>
+                    <div className="h-full rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
+                      <span className="flex size-11 items-center justify-center rounded-xl bg-[rgba(189,255,0,0.1)]">
+                        <Icon aria-hidden size={20} className="text-[#BDFF00]" />
+                      </span>
+                      <p className="mt-4 font-display text-[17px] font-medium text-[var(--text-primary)]">
+                        {lead}
+                      </p>
+                      <p className="mt-2 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
+                        {text}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        {/* 03. A csomag */}
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+              <Reveal>
+                <SectionLabel number="03" text="A CSOMAG" />
+                <SectionHeading>Ami minden Induló oldalban benne van</SectionHeading>
+                <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
+                  A fenti oldalszerkezet erre a vázra épül.
                 </p>
-              </>
-            }
-          />
-        </Section>
+                <p className="mt-6 rounded-2xl border border-[rgba(189,255,0,0.2)] bg-[rgba(189,255,0,0.05)] px-6 py-5 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                  <Em>Amit önöknek kell csinálni:</Em> egy 20 perces beszélgetés, a
+                  szükséges anyagok elküldése (logó, ha van, elérhetőségek, pár
+                  mondat a cégről) és az első változat átnézése.
+                </p>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <ul className="space-y-3">
+                  {PACKAGE.map((item, i) => (
+                    <li
+                      className="flex items-start gap-3 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4"
+                      key={i}
+                    >
+                      <CheckIcon />
+                      <span className="text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="02" label="MIÉRT MOST">
-          <Heading>Az első hetekben dől el, mit látnak önökről.</Heading>
-          <p>
-            Bankszámla, könyvelő, bélyegző, szerződések: az indulás első
-            heteiben minden egyszerre jön. Közben az első partnerek, ügyfelek
-            és a bank is rákeres a cégre. Ha ilyenkor nincs semmi, vagy csak egy
-            félkész oldal, az kérdést hagy maga után.
-          </p>
-          <p>
-            Az Induló csomag ezt a kérdést zárja le: egy rendezett, hiteles első
-            oldal, amit önöknek nem kell megírniuk, megtervezniük vagy
-            üzemeltetniük.
-          </p>
-          <Bullets
-            items={[
-              <><Strong>Megtalálják:</Strong> alapszintű Google-beállításokkal indul.</>,
-              <><Strong>Elérik:</Strong> kattintható telefonszám, e-mail és kapcsolati űrlap.</>,
-              <><Strong>Komolyan veszik:</Strong> saját domain, mobilon is jól mutat, adatkezelési tájékoztatóval és sütibannerrel.</>,
-            ]}
-          />
-        </Section>
+        {/* 04. Így zajlik */}
+        <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-5xl">
+              <Reveal>
+                <SectionLabel number="04" text="ÍGY ZAJLIK" />
+                <SectionHeading>14 nap alatt kész, három lépésben</SectionHeading>
+              </Reveal>
+              <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+                {STEPS.map((step, i) => (
+                  <Reveal delay={0.05 * i} key={step.n}>
+                    <div className="flex h-full flex-col rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
+                      <span className="font-display text-[28px] font-medium text-[#BDFF00]">
+                        {step.n}
+                      </span>
+                      <p className="mt-4 font-display text-[18px] font-medium text-[var(--text-primary)]">
+                        {step.title}
+                      </p>
+                      <p className="mt-2 text-[15px] leading-[1.65] text-[var(--text-secondary)]">
+                        {step.text}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="03" label="A CSOMAG">
-          <Heading>Ami minden Induló oldalban benne van</Heading>
-          <p>A fenti oldalszerkezet erre a vázra épül:</p>
-          <Bullets
-            items={[
-              <><Strong>Mobilbarát, egyoldalas bemutatkozó oldal</Strong> 5–6 szekcióval, az önöknek javasolt szerkezettel</>,
-              <><Strong>Szövegezés a cég adataiból:</Strong> a szöveget én írom, önöknek csak át kell nézniük, egy javítási körrel</>,
-              <><Strong>Kapcsolati űrlap</Strong> és kattintható telefonszám, e-mail</>,
-              <Strong key="g">Google-megtalálhatósági alapbeállítások</Strong>,
-              <><Strong>Tárhely és üzembe helyezés</Strong> a saját domainjükön</>,
-              <Strong key="a">Adatkezelési tájékoztató és sütibanner</Strong>,
-            ]}
-          />
-          <p>
-            <Strong>Amit önöknek kell csinálni:</Strong> egy 20 perces
-            beszélgetés, a szükséges anyagok elküldése (logó, ha van,
-            elérhetőségek, pár mondat a cégről) és az első változat átnézése.
-          </p>
-        </Section>
+        {/* 05. Az ár */}
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 lg:grid-cols-[1fr_minmax(0,400px)] lg:gap-14">
+              <Reveal>
+                <SectionLabel number="05" text="AZ ÁR" />
+                <SectionHeading>Egy ár, meglepetés nélkül</SectionHeading>
+                <ul className="mt-8 space-y-4">
+                  {PRICE_TERMS.map((item, i) => (
+                    <li className="flex items-start gap-3" key={i}>
+                      <CheckIcon />
+                      <span className="text-[16px] leading-[1.7] text-[var(--text-secondary)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="relative overflow-hidden rounded-3xl border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.03)] p-8">
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute right-[-30px] top-[-30px] h-[160px] w-[160px]"
+                    style={{
+                      background: "radial-gradient(circle, rgba(189,255,0,0.16) 0%, transparent 70%)",
+                      filter: "blur(20px)",
+                    }}
+                  />
+                  <div className="relative z-10">
+                    <span className="inline-flex rounded-full bg-[#BDFF00] px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[#09090B]">
+                      Induló csomag
+                    </span>
+                    <p
+                      className="mt-5 font-display font-medium text-[var(--text-primary)]"
+                      style={{ fontSize: "48px", letterSpacing: "-0.03em", lineHeight: 1 }}
+                    >
+                      190.000 Ft
+                    </p>
+                    <p className="mt-2 text-[13px] leading-[1.6] text-[var(--text-tertiary)]">
+                      + áfa · egyszeri díj · a szerződéstől számított 14 napon belül kész
+                    </p>
+                    <PriceBonus />
+                    <div className="mt-7">
+                      <PrimaryCta full>
+                        <PriceCtaLabel />
+                      </PrimaryCta>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="04" label="ÍGY ZAJLIK">
-          <Heading>14 nap alatt kész, három lépésben</Heading>
-          <ol className="list-decimal space-y-3 pl-6">
-            <li>
-              <Strong>20 perces telefonhívás.</Strong> Átbeszéljük, mivel
-              foglalkoznak, mit szeretnének kiemelni, és kell-e bármi a csomagon
-              túl. A végén pontosan tudják, mit kapnak és mennyiért.
-            </li>
-            <li>
-              <Strong>Szerződés és első változat.</Strong> A szerződéskötéssel és
-              az előleggel indul a 14 nap. Elkészítem az oldalt a cég adataiból,
-              önöknek csak át kell nézniük.
-            </li>
-            <li>
-              <Strong>Javítás és átadás.</Strong> Egy javítási kör után az oldal
-              él, a saját domainjükön.
-            </li>
-          </ol>
-        </Section>
+        {/* 06. Ha több kell */}
+        <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-3xl">
+              <Reveal>
+                <SectionLabel number="06" text="HA TÖBB KELL" />
+                <SectionHeading>Amit később, vagy rögtön, hozzá lehet tenni</SectionHeading>
+                <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
+                  Az Induló csomag szándékosan egyszerű. Ha önöknél ennél több
+                  kell, a hívásban előre beárazom:
+                </p>
+              </Reveal>
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {EXTRAS.map(({ icon: Icon, label }, i) => (
+                  <Reveal delay={0.04 * i} key={label}>
+                    <div className="flex h-full items-start gap-4 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
+                      <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(189,255,0,0.1)]">
+                        <Icon aria-hidden size={18} className="text-[#BDFF00]" />
+                      </span>
+                      <span className="pt-2 text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+                        {label}
+                      </span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+              <Reveal>
+                <p className="mt-6 text-[16px] leading-[1.7] text-[var(--text-secondary)]">
+                  <Em>Az oldal úgy készül, hogy ezek később is hozzáadhatók legyenek,</Em>{" "}
+                  újrakezdés nélkül.
+                </p>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="05" label="AZ ÁR">
-          <Heading>Egy ár, meglepetés nélkül</Heading>
-          <div className="mt-6 rounded-2xl border border-[var(--border-default)] p-6">
-            <p className="type-label">Induló csomag</p>
-            <p className="mt-2 font-display text-[36px] font-medium text-[var(--text-primary)]">
-              190.000 Ft + áfa
-            </p>
-            <p className="text-[15px]">
-              egyszeri díj · a szerződéstől számított 14 napon belül kész
-            </p>
-          </div>
-          <PriceBonus />
-          <Bullets
-            items={[
-              <><Strong>Fizetés:</Strong> 50% a szerződéskötéskor, 50% az átadáskor.</>,
-              <><Strong>A domain az önöké.</Strong> A cég nevére kerül, a díját önök fizetik közvetlenül a szolgáltatónak.</>,
-              <><Strong>Fix ár:</Strong> ha a csomagon túli funkció kell, azt a hívás után írásban, előre megkapják.</>,
-              <><Strong>Karbantartás igény szerint:</Strong> ha szeretnék, az ajándék időszak után is én tartom karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
-            ]}
-          />
-          <div className="pt-4">
-            <Cta>
-              <PriceCtaLabel />
-            </Cta>
-          </div>
-        </Section>
+        {/* 07. Ki készíti */}
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,300px)_1fr] lg:gap-14">
+              <Reveal>
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-[300px] overflow-hidden rounded-2xl border border-[var(--border-hairline)] lg:mx-0">
+                  <Image
+                    alt="Bakos Attila, a ZynAI Development Kft. ügyvezetője"
+                    className="object-cover object-top"
+                    fill
+                    sizes="300px"
+                    src="/brand/attila/bakos_attila_portrait.webp"
+                  />
+                </div>
+              </Reveal>
+              <div>
+                <Reveal>
+                  <SectionLabel number="07" text="KI KÉSZÍTI" />
+                  <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                    Ügyvezető, ZynAI Development Kft.
+                  </p>
+                  <SectionHeading>Bakos Attila</SectionHeading>
+                </Reveal>
+                <Reveal delay={0.08}>
+                  <div className="mt-6 space-y-5 text-[16px] leading-[1.8] text-[var(--text-secondary)]">
+                    <p>
+                      Több mint tíz éve építek weboldalakat, ma pedig főleg azon
+                      dolgozom, hogy magyar kis- és középvállalkozások okosabban és
+                      kevesebb kézi munkával működjenek, AI-integrációval és
+                      automatizálással.
+                    </p>
+                    <p>
+                      A ZynAI Development Kft.-t 2026 októberében jegyezték be,
+                      úgyhogy pontosan tudom, mennyi minden jön egyszerre az első
+                      hetekben. A weboldal ilyenkor inkább teher, mint öröm. Ezért
+                      találtam ki ezt a csomagot: egy gyors, rendes kezdés, amit
+                      később bármikor tovább lehet építeni.
+                    </p>
+                    <p>
+                      <Em>Önöknek egy ember felel az oldalért, az elejétől a végéig.</Em>{" "}
+                      Nincs ügyintéző, nincs továbbadás.
+                    </p>
+                    <p>
+                      <Link
+                        href="/"
+                        className="inline-flex items-center gap-1.5 font-medium text-[#BDFF00] hover:underline"
+                      >
+                        Bővebben rólam és a ZynAI-ról
+                        <ArrowUpRight aria-hidden size={15} />
+                      </Link>
+                    </p>
+                  </div>
+                </Reveal>
+              </div>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="06" label="HA TÖBB KELL">
-          <Heading>Amit később, vagy rögtön, hozzá lehet tenni</Heading>
-          <p>
-            Az Induló csomag szándékosan egyszerű. Ha önöknél ennél több kell, a
-            hívásban előre beárazom:
-          </p>
-          <Bullets
-            items={[
-              "Időpontfoglalás",
-              "Online fizetés",
-              "Több nyelv",
-              "Egyedi AI-megoldások, például automatikus ajánlatküldés vagy ügyfélkezelés",
-            ]}
-          />
-          <p>
-            Az oldal úgy készül, hogy ezek később is hozzáadhatók legyenek,
-            újrakezdés nélkül.
-          </p>
-        </Section>
+        {/* 08. Referenciák */}
+        <section className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-5xl">
+              <Reveal>
+                <SectionLabel number="08" text="REFERENCIÁK" />
+                <SectionHeading>Akiknek már dolgoztam</SectionHeading>
+              </Reveal>
+              <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {CASES.map((c, i) => (
+                  <Reveal delay={0.06 * i} key={c.href}>
+                    <Link
+                      href={c.href}
+                      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] transition-colors duration-300 hover:border-[rgba(189,255,0,0.3)]"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden border-b border-[var(--border-hairline)]">
+                        <Image
+                          alt={c.alt}
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 480px"
+                          src={c.image}
+                        />
+                      </div>
+                      <div className="flex flex-1 flex-col p-7">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#BDFF00]">
+                          {c.label}
+                        </p>
+                        <p className="mt-4 text-[16px] leading-[1.7] text-[var(--text-primary)]">
+                          {c.title}
+                        </p>
+                        <p className="mt-2 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
+                          {c.text}
+                        </p>
+                        <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[14px] font-medium text-[#BDFF00]">
+                          Megnézem az esettanulmányt
+                          <ArrowUpRight
+                            aria-hidden
+                            size={15}
+                            className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          />
+                        </span>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {TESTIMONIALS.map((t, i) => (
+                  <Reveal delay={0.06 * i} key={t.name}>
+                    <figure className="flex h-full flex-col rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-7">
+                      <Quote aria-hidden size={22} className="text-[#BDFF00]" />
+                      <blockquote className="mt-4 flex-1 text-[16px] leading-[1.75] text-[var(--text-primary)]">
+                        „{t.quote}”
+                      </blockquote>
+                      <figcaption className="mt-6 text-[14px] text-[var(--text-secondary)]">
+                        <Em>{t.name}</Em> · {t.site}
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <LandingExamples
+              eyebrow="Ezekből a stílusokból indulhatunk ki"
+              description="Néhány stílusirány, amiből a hívás után kiindulhatunk. Az önök oldala a saját tartalmukkal, a cég arculatára szabva készül."
+            />
+          </Container>
+        </section>
 
-        <Section number="07" label="KI KÉSZÍTI">
-          <Heading>Bakos Attila</Heading>
-          <p className="italic">Ügyvezető, ZynAI Development Kft.</p>
-          <p>
-            Több mint tíz éve építek weboldalakat, ma pedig főleg azon dolgozom,
-            hogy magyar kis- és középvállalkozások okosabban és kevesebb kézi
-            munkával működjenek, AI-integrációval és automatizálással.
-          </p>
-          <p>
-            A ZynAI Development Kft.-t 2026 októberében jegyezték be, úgyhogy
-            pontosan tudom, mennyi minden jön egyszerre az első hetekben. A
-            weboldal ilyenkor inkább teher, mint öröm. Ezért találtam ki ezt a
-            csomagot: egy gyors, rendes kezdés, amit később bármikor tovább
-            lehet építeni.
-          </p>
-          <p>
-            <Strong>Önöknek egy ember felel az oldalért, az elejétől a végéig.</Strong>{" "}
-            Nincs ügyintéző, nincs továbbadás.
-          </p>
-          <p>
-            <Link
-              href="/"
-              className="text-[var(--text-primary)] underline underline-offset-4 hover:text-[#BDFF00]"
-            >
-              → Bővebben rólam és a ZynAI-ról
-            </Link>
-          </p>
-        </Section>
+        {/* 09. Amire számíthatnak */}
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-5xl">
+              <Reveal>
+                <SectionLabel number="09" text="AMIRE SZÁMÍTHATNAK" />
+              </Reveal>
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {PROMISES.map((p, i) => (
+                  <Reveal delay={0.04 * i} key={p.lead}>
+                    <div className="flex h-full items-start gap-3 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
+                      <CheckIcon />
+                      <span className="text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+                        <Em>{p.lead}</Em> {p.text}
+                      </span>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="08" label="REFERENCIÁK">
-          <Heading>Akiknek már dolgoztam</Heading>
-          <div className="grid gap-4 pt-4 sm:grid-cols-2">
-            <Link
-              href="/esettanulmanyok/aedificium-design"
-              className="rounded-2xl border border-[var(--border-hairline)] p-6 hover:border-[var(--border-default)]"
-            >
-              <p className="type-label">Esettanulmány · Aedificium Design</p>
-              <p className="mt-3 font-medium text-[var(--text-primary)]">
-                Prémium weboldal, két hét alatt.
-              </p>
-              <p className="mt-2 text-[15px]">
-                A stúdió közösségimédia-elérése tízszeresére nőtt.
-              </p>
-              <p className="mt-4 text-[15px] text-[#BDFF00]">
-                → Megnézem az esettanulmányt
-              </p>
-            </Link>
-            <Link
-              href="/esettanulmanyok/silverlimo"
-              className="rounded-2xl border border-[var(--border-hairline)] p-6 hover:border-[var(--border-default)]"
-            >
-              <p className="type-label">Esettanulmány · SilverLimo</p>
-              <p className="mt-3 font-medium text-[var(--text-primary)]">
-                Lassú WordPress oldal helyett gyors, mérhető oldal.
-              </p>
-              <p className="mt-2 text-[15px]">
-                14× gyorsabb első tartalom, 24× gyorsabb szerverválasz.
-              </p>
-              <p className="mt-4 text-[15px] text-[#BDFF00]">
-                → Megnézem az esettanulmányt
-              </p>
-            </Link>
-          </div>
-          <blockquote className="mt-8 border-l-2 border-[#BDFF00] pl-5">
-            <p>
-              „Kezdetleges formájában tízszeres elérést értünk el, ez
-              fantasztikus eredmény. A weboldal nagyon profi, design fókuszú és
-              stabil. Az egyik legjobb befektetésünk volt.”
-            </p>
-            <footer className="mt-2 text-[15px]">
-              <Strong>Loddo Riccardo</Strong> · aedificium.design
-            </footer>
-          </blockquote>
-          <blockquote className="mt-6 border-l-2 border-[#BDFF00] pl-5">
-            <p>
-              „Több éve együtt dolgozunk, a weboldalamat és a hirdetéseimet is
-              Attila kezeli. A korábbi WordPress oldalam is jól teljesített, de a
-              mostani javítások elképesztőek. Nagyon megérte, köszi!”
-            </p>
-            <footer className="mt-2 text-[15px]">
-              <Strong>Dóczi László</Strong> · silverlimo.hu
-            </footer>
-          </blockquote>
-          <h3 className="pt-8 font-display text-[22px] font-medium text-[var(--text-primary)]">
-            Ezekből a stílusokból indulhatunk ki
-          </h3>
-          <p className="italic">
-            Néhány stílusirány, amiből a hívás után kiindulhatunk. Az önök oldala
-            a saját tartalmukkal, a cég arculatára szabva készül.
-          </p>
-        </Section>
+        {/* 10. Időpont */}
+        <section
+          id="idopont"
+          className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36"
+        >
+          <Container>
+            <div className="mx-auto max-w-2xl text-center">
+              <Reveal>
+                <SectionLabel className="justify-center" number="10" text="IDŐPONT" />
+                <SectionHeading>Hívjam fel?</SectionHeading>
+                <p className="mx-auto mt-6 max-w-xl text-[18px] leading-[1.75] text-[var(--text-secondary)]">
+                  Válasszon egy időpontot, és a megadott számon felhívom. 20 perc,
+                  nem kötelez semmire.
+                </p>
+                <BookingBonus />
+              </Reveal>
+              {/* A Cal.com foglaló (indulo-csomag esemény) ide kerül, amint az esemény elkészült. */}
+              <Reveal delay={0.1}>
+                <p className="mt-10 text-[14px] leading-[1.7] text-[var(--text-tertiary)]">
+                  Ha egyik időpont sem jó, írjon a{" "}
+                  <MailtoLink
+                    email={BOOKING_EMAIL}
+                    className="text-[var(--text-primary)] underline underline-offset-2 hover:text-[#BDFF00]"
+                  >
+                    {BOOKING_EMAIL}
+                  </MailtoLink>{" "}
+                  címre.
+                </p>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
 
-        <Section number="09" label="AMIRE SZÁMÍTHATNAK">
-          <Bullets
-            items={[
-              <><Strong>Fix ár, írásban.</Strong> A hívás után pontosan tudják, mit fizetnek.</>,
-              <><Strong>14 napos határidő.</Strong> A szerződéstől számítva, írásban vállalva.</>,
-              <><Strong>Egy javítási kör benne van.</Strong> Az oldal akkor megy élesbe, amikor jónak látják.</>,
-              <><Strong>A domain az önöké.</Strong> Akkor is, ha később máshová költöznének.</>,
-              <><Strong>Nem kötelez semmire a hívás.</Strong> Ha nem kérik, annyi.</>,
-            ]}
-          />
-        </Section>
-
-        <Section id="idopont" number="10" label="IDŐPONT">
-          <Heading>Hívjam fel?</Heading>
-          <p>
-            Válasszon egy időpontot, és a megadott számon felhívom. 20 perc, nem
-            kötelez semmire.
-          </p>
-          <BookingBonus />
-          <p className="text-[15px] italic">
-            Ha egyik időpont sem jó, írjon a{" "}
-            <MailtoLink
-              email={BOOKING_EMAIL}
-              className="text-[var(--text-primary)] underline underline-offset-2 hover:text-[#BDFF00]"
-            >
-              {BOOKING_EMAIL}
-            </MailtoLink>{" "}
-            címre.
-          </p>
-        </Section>
-
-        <Section number="11" label="GYAKORI KÉRDÉSEK">
-          <Heading>Amit gyakran megkérdeznek</Heading>
-          <div className="pt-4">
-            <FaqAccordion items={FAQ} />
-          </div>
-        </Section>
+        {/* 11. GYIK */}
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+          <Container>
+            <div className="mx-auto max-w-2xl">
+              <Reveal>
+                <SectionLabel number="11" text="GYAKORI KÉRDÉSEK" />
+                <SectionHeading>Amit gyakran megkérdeznek</SectionHeading>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <div className="mt-10">
+                  <FaqAccordion items={FAQ} />
+                </div>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
 
         {/* Záró blokk */}
-        <section className="border-t border-[var(--border-hairline)] py-20 lg:py-28">
+        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
           <Container>
-            <div className="mx-auto max-w-[760px] text-center text-[17px] text-[var(--text-secondary)]">
-              <Heading>
-                Az indulás így is elég munka. A weboldal legyen a kisebbik gond.
-              </Heading>
-              <p className="mt-6">
-                20 perc telefon, és tudják, mit kapnak, mikorra és mennyiért.
-              </p>
-              <ClosingBonus />
-              <div className="mt-8">
-                <Cta>Kérek egy 20 perces hívást →</Cta>
+            <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[32px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-8 py-14 text-center sm:px-12 sm:py-16">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-[-40px] z-0 h-[280px] w-[480px] -translate-x-1/2"
+                style={{
+                  background: "radial-gradient(ellipse, rgba(189,255,0,0.10) 0%, transparent 70%)",
+                  filter: "blur(60px)",
+                }}
+              />
+              <div className="relative z-10">
+                <Reveal>
+                  <h2
+                    className="font-display font-medium text-[var(--text-primary)]"
+                    style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.025em", lineHeight: 1.1 }}
+                  >
+                    Az indulás így is elég munka. A weboldal legyen a kisebbik gond.
+                  </h2>
+                  <p className="mx-auto mt-6 max-w-md text-[16px] leading-[1.7] text-[var(--text-secondary)]">
+                    20 perc telefon, és tudják, mit kapnak, mikorra és mennyiért.
+                  </p>
+                  <ClosingBonus />
+                  <div className="mt-10 flex justify-center">
+                    <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
+                  </div>
+                </Reveal>
               </div>
             </div>
           </Container>
