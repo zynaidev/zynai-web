@@ -97,13 +97,13 @@ function formatDate(date: string): { until: string; on: string } {
   return { until: `${month} ${d}-ig`, on: `${month} ${d}-${ON_SUFFIX[d] ?? "én"}` };
 }
 
-/** Percenként frissülő „most”, csak a kliensen (szerveren null). */
+/** Másodpercenként frissülő „most”, csak a kliensen (szerveren null). */
 function useNow(): number | null {
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
     const tick = () => setNow(Date.now());
     const first = window.setTimeout(tick, 0);
-    const id = window.setInterval(tick, 60_000);
+    const id = window.setInterval(tick, 1000);
     return () => {
       window.clearTimeout(first);
       window.clearInterval(id);
@@ -114,7 +114,14 @@ function useNow(): number | null {
 
 type BonusState =
   | { kind: "none" }
-  | { kind: "active"; until: string; days: number; hours: number; minutes: number }
+  | {
+      kind: "active";
+      until: string;
+      days: number;
+      hours: number;
+      minutes: number;
+      seconds: number;
+    }
   | { kind: "expired"; on: string };
 
 function useBonus(): BonusState {
@@ -126,13 +133,15 @@ function useBonus(): BonusState {
   const { until, on } = formatDate(offer.kedvezmenyLejarat);
   const left = end - now;
   if (left <= 0) return { kind: "expired", on };
-  const minutesTotal = Math.floor(left / 60_000);
+  const secondsTotal = Math.floor(left / 1000);
+  const minutesTotal = Math.floor(secondsTotal / 60);
   return {
     kind: "active",
     until,
     days: Math.floor(minutesTotal / (60 * 24)),
     hours: Math.floor((minutesTotal % (60 * 24)) / 60),
     minutes: minutesTotal % 60,
+    seconds: secondsTotal % 60,
   };
 }
 
@@ -202,7 +211,7 @@ export function HeroBonus() {
         <strong className="font-medium text-[var(--text-primary)]">75.000 Ft + áfa</strong>,
         amit az induláskor nem kell kifizetniük.
       </p>
-      <Countdown days={bonus.days} hours={bonus.hours} minutes={bonus.minutes} />
+      <Countdown {...bonus} />
     </div>
   );
 }
@@ -293,24 +302,41 @@ export function PriceBonus() {
           Ez 75.000 Ft + áfa megtakarítás.
         </strong>
       </p>
-      <Countdown days={bonus.days} hours={bonus.hours} minutes={bonus.minutes} />
+      <Countdown {...bonus} />
     </div>
   );
 }
 
-function Countdown({ days, hours, minutes }: { days: number; hours: number; minutes: number }) {
+function Countdown({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}) {
   const cells = [
     { value: days, label: "nap" },
     { value: hours, label: "óra" },
     { value: minutes, label: "perc" },
+    { value: seconds, label: "mp" },
   ];
   return (
-    <div className="mt-4 flex items-center gap-3" aria-label={`Még ${days} nap ${hours} óra ${minutes} perc`}>
-      <Timer aria-hidden size={16} className="text-[var(--text-tertiary)]" />
+    // role="timer": a képernyőolvasó nem olvassa fel másodpercenként.
+    <div
+      role="timer"
+      className="mt-4 flex items-center gap-2 sm:gap-3"
+      aria-label={`Még ${days} nap ${hours} óra ${minutes} perc`}
+    >
+      <Timer aria-hidden size={16} className="shrink-0 text-[var(--text-tertiary)]" />
       {cells.map((c) => (
         <span
+          aria-hidden
           key={c.label}
-          className="flex min-w-[56px] flex-col items-center rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(9,9,11,0.5)] px-2 py-1.5"
+          className="flex min-w-[50px] flex-col items-center rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(9,9,11,0.5)] px-2 py-1.5 sm:min-w-[56px]"
         >
           <span className="font-display text-[20px] font-medium tabular-nums text-[var(--text-primary)]">
             {String(c.value).padStart(2, "0")}

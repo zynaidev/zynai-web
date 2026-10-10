@@ -635,45 +635,43 @@ export default function InduloWebcsomagPage() {
                   </div>
                 </Reveal>
                 <Reveal delay={0.12}>
-                  <figure className="relative overflow-hidden rounded-3xl border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.03)] p-7">
-                    <div
-                      aria-hidden
-                      className="pointer-events-none absolute right-[-30px] top-[-30px] h-[160px] w-[160px]"
-                      style={{
-                        background: "radial-gradient(circle, rgba(189,255,0,0.14) 0%, transparent 70%)",
-                        filter: "blur(20px)",
-                      }}
-                    />
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-4">
-                        <div className="relative size-16 shrink-0 overflow-hidden rounded-full border border-[var(--border-hairline)]">
-                          <Image
-                            alt="Bakos Attila, a ZynAI Development Kft. ügyvezetője"
-                            className="object-cover object-top"
-                            fill
-                            sizes="64px"
-                            src="/brand/attila/bakos_attila_portrait.webp"
-                          />
-                        </div>
-                        <figcaption>
-                          <p className="font-display text-[17px] font-medium text-[var(--text-primary)]">
-                            Bakos Attila
-                          </p>
-                          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-                            Ügyvezető
-                          </p>
-                        </figcaption>
-                      </div>
-                      <blockquote className="mt-6 text-[16px] leading-[1.75] text-[var(--text-primary)]">
-                        „A folyamatért és az eredmény minőségéért személyesen
-                        felelek. Minden oldal átmegy a kezem alatt, mielőtt
-                        élesbe kerül, és csak akkor adjuk át, ha úgy működik,
-                        ahogy megbeszéltük.”
+                  {/* Gondolatbuborék: a buborék alól két kis kör vezet a portréhoz. */}
+                  <figure className="lg:pt-2">
+                    <div className="relative rounded-[32px] bg-[#141417] px-7 py-7 sm:px-8">
+                      <blockquote className="font-display text-[19px] leading-[1.6] text-[var(--text-primary)] sm:text-[20px]">
+                        „A folyamatért és az eredmény minőségéért{" "}
+                        <span className="text-[#BDFF00]">személyesen felelek</span>.
+                        Minden oldal átmegy a kezem alatt, mielőtt élesbe kerül, és
+                        csak akkor adjuk át, ha úgy működik, ahogy megbeszéltük.”
                       </blockquote>
-                      <p className="mt-5 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
-                        Több mint tíz éve építek weboldalakat.
-                      </p>
+                      <span
+                        aria-hidden
+                        className="absolute -bottom-5 left-10 size-4 rounded-full bg-[#141417]"
+                      />
+                      <span
+                        aria-hidden
+                        className="absolute -bottom-9 left-7 size-2.5 rounded-full bg-[#141417]"
+                      />
                     </div>
+                    <figcaption className="mt-12 flex items-center gap-4">
+                      <div className="relative size-14 shrink-0 overflow-hidden rounded-full border border-[var(--border-hairline)]">
+                        <Image
+                          alt="Bakos Attila, a ZynAI Development Kft. ügyvezetője"
+                          className="object-cover object-top"
+                          fill
+                          sizes="56px"
+                          src="/brand/attila/bakos_attila_portrait.webp"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-display text-[17px] font-medium text-[var(--text-primary)]">
+                          Bakos Attila
+                        </p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+                          Ügyvezető
+                        </p>
+                      </div>
+                    </figcaption>
                   </figure>
                 </Reveal>
               </div>
@@ -793,7 +791,7 @@ export default function InduloWebcsomagPage() {
               </Reveal>
             </div>
             <Reveal delay={0.1}>
-              <div className="mx-auto mt-10 max-w-3xl">
+              <div className="mx-auto mt-10 max-w-5xl">
                 <CalEmbed formal layout="month_view" target={INDULO_CAL} />
               </div>
             </Reveal>
