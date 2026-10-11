@@ -111,10 +111,7 @@ const EXTRAS: { icon: typeof Bot; label: string }[] = [
   { icon: CalendarCheck, label: "Időpontfoglalás" },
   { icon: CreditCard, label: "Online fizetés" },
   { icon: Languages, label: "Több nyelv" },
-  {
-    icon: Bot,
-    label: "Egyedi AI-megoldások, például automatikus ajánlatküldés vagy ügyfélkezelés",
-  },
+  { icon: Bot, label: "Egyedi AI-megoldások" },
 ];
 
 const PROMISES = [
@@ -423,17 +420,15 @@ export default function InduloWebcsomagPage() {
                   </p>
                 </div>
               </Reveal>
-              <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
                 {WHY_NOW.map(({ icon: Icon, lead, text }, i) => (
                   <Reveal delay={0.05 * i} key={lead}>
-                    <div className="h-full rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
-                      <span className="flex size-11 items-center justify-center rounded-xl bg-[rgba(189,255,0,0.1)]">
-                        <Icon aria-hidden size={20} className="text-[#BDFF00]" />
-                      </span>
-                      <p className="mt-4 font-display text-[17px] font-medium text-[var(--text-primary)]">
+                    <div className="border-t border-[rgba(189,255,0,0.35)] pt-6">
+                      <Icon aria-hidden size={22} className="text-[#BDFF00]" />
+                      <p className="mt-4 font-display text-[18px] font-medium text-[var(--text-primary)]">
                         {lead}
                       </p>
-                      <p className="mt-2 text-[14px] leading-[1.65] text-[var(--text-secondary)]">
+                      <p className="mt-2 text-[15px] leading-[1.65] text-[var(--text-secondary)]">
                         {text}
                       </p>
                     </div>
@@ -454,21 +449,18 @@ export default function InduloWebcsomagPage() {
                 <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
                   A fenti oldalszerkezet erre a vázra épül.
                 </p>
-                <p className="mt-6 rounded-2xl border border-[rgba(189,255,0,0.2)] bg-[rgba(189,255,0,0.05)] px-6 py-5 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                <p className="mt-8 border-l-2 border-[#BDFF00] pl-5 text-[16px] leading-[1.7] text-[var(--text-secondary)]">
                   <Em>Amit önöknek kell csinálni:</Em> egy 20 perces beszélgetés, a
                   szükséges anyagok elküldése (logó, ha van, elérhetőségek, pár
                   mondat a cégről) és az első változat átnézése.
                 </p>
               </Reveal>
               <Reveal delay={0.1}>
-                <ul className="space-y-3">
+                <ul className="divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)]">
                   {PACKAGE.map((item, i) => (
-                    <li
-                      className="flex items-start gap-3 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4"
-                      key={i}
-                    >
+                    <li className="flex items-start gap-3 py-4" key={i}>
                       <CheckIcon />
-                      <span className="text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+                      <span className="text-[16px] leading-[1.6] text-[var(--text-secondary)]">
                         {item}
                       </span>
                     </li>
@@ -487,14 +479,22 @@ export default function InduloWebcsomagPage() {
                 <SectionLabel number="04" text="ÍGY ZAJLIK" />
                 <SectionHeading>14 nap alatt kész, három lépésben</SectionHeading>
               </Reveal>
-              <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="relative mt-14 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
+                <span
+                  aria-hidden
+                  className="absolute bottom-2 left-[7px] top-2 w-px bg-[rgba(255,255,255,0.12)] md:bottom-auto md:left-0 md:right-0 md:top-[7px] md:h-px md:w-auto"
+                />
                 {STEPS.map((step, i) => (
-                  <Reveal delay={0.05 * i} key={step.n}>
-                    <div className="flex h-full flex-col rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6">
-                      <span className="font-display text-[28px] font-medium text-[#BDFF00]">
+                  <Reveal delay={0.06 * i} key={step.n}>
+                    <div className="relative pl-10 md:pl-0 md:pt-10">
+                      <span
+                        aria-hidden
+                        className="absolute left-0 top-1 size-[15px] rounded-full bg-[#BDFF00] shadow-[0_0_0_6px_#0d0d0f,0_0_18px_rgba(189,255,0,0.45)] md:top-0"
+                      />
+                      <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#BDFF00]">
                         {step.n}
                       </span>
-                      <p className="mt-4 font-display text-[18px] font-medium text-[var(--text-primary)]">
+                      <p className="mt-2 font-display text-[19px] font-medium text-[var(--text-primary)]">
                         {step.title}
                       </p>
                       <p className="mt-2 text-[15px] leading-[1.65] text-[var(--text-secondary)]">
@@ -572,22 +572,21 @@ export default function InduloWebcsomagPage() {
                   kell, a hívásban előre beárazzuk:
                 </p>
               </Reveal>
-              <div className="mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
-                {EXTRAS.map(({ icon: Icon, label }, i) => (
-                  <Reveal delay={0.04 * i} key={label}>
-                    <div className="flex h-full items-start gap-4 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
-                      <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(189,255,0,0.1)]">
-                        <Icon aria-hidden size={18} className="text-[#BDFF00]" />
-                      </span>
-                      <span className="pt-2 text-[15px] leading-[1.5] text-[var(--text-secondary)]">
-                        {label}
-                      </span>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-              <Reveal>
-                <p className="mt-6 text-[16px] leading-[1.7] text-[var(--text-secondary)]">
+              <Reveal delay={0.08}>
+                <ul className="mt-8 flex flex-wrap gap-3">
+                  {EXTRAS.map(({ icon: Icon, label }) => (
+                    <li
+                      className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border-default)] px-5 py-2.5 text-[15px] text-[var(--text-primary)]"
+                      key={label}
+                    >
+                      <Icon aria-hidden size={17} className="text-[#BDFF00]" />
+                      {label}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 max-w-3xl text-[16px] leading-[1.7] text-[var(--text-secondary)]">
+                  Egyedi AI-megoldás lehet például az automatikus ajánlatküldés vagy
+                  az ügyfélkezelés.{" "}
                   <Em>Az oldal úgy készül, hogy ezek később is hozzáadhatók legyenek,</Em>{" "}
                   újrakezdés nélkül.
                 </p>
@@ -726,16 +725,19 @@ export default function InduloWebcsomagPage() {
                   </Reveal>
                 ))}
               </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-14">
                 {TESTIMONIALS.map((t, i) => (
                   <Reveal delay={0.06 * i} key={t.name}>
-                    <figure className="flex h-full flex-col rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-7">
-                      <Quote aria-hidden size={22} className="text-[#BDFF00]" />
-                      <blockquote className="mt-4 flex-1 text-[16px] leading-[1.75] text-[var(--text-primary)]">
+                    <figure>
+                      <Quote aria-hidden size={30} className="text-[#BDFF00]" />
+                      <blockquote className="mt-5 font-display text-[19px] leading-[1.6] text-[var(--text-primary)] sm:text-[20px]">
                         „{t.quote}”
                       </blockquote>
-                      <figcaption className="mt-6 text-[14px] text-[var(--text-secondary)]">
-                        <Em>{t.name}</Em> · {t.site}
+                      <figcaption className="mt-6 flex items-center gap-3 text-[14px] text-[var(--text-secondary)]">
+                        <span aria-hidden className="h-px w-8 bg-[#BDFF00]" />
+                        <span>
+                          <Em>{t.name}</Em> · {t.site}
+                        </span>
                       </figcaption>
                     </figure>
                   </Reveal>
@@ -757,18 +759,21 @@ export default function InduloWebcsomagPage() {
                 <SectionLabel number="09" text="AMIRE SZÁMÍTHATNAK" />
                 <SectionHeading>Amire számíthatnak</SectionHeading>
               </Reveal>
-              <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {PROMISES.map((p, i) => (
-                  <Reveal delay={0.04 * i} key={p.lead}>
-                    <div className="flex h-full items-start gap-3 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4">
-                      <CheckIcon />
-                      <span className="text-[15px] leading-[1.6] text-[var(--text-secondary)]">
-                        <Em>{p.lead}</Em> {p.text}
-                      </span>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+              <Reveal delay={0.08}>
+                <ul className="mt-10 grid grid-cols-1 divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)] lg:grid-cols-5 lg:divide-x lg:divide-y-0">
+                  {PROMISES.map((p) => (
+                    <li className="py-5 lg:px-5 lg:py-7 lg:first:pl-0 lg:last:pr-0" key={p.lead}>
+                      <Check aria-hidden size={18} className="text-[#BDFF00]" />
+                      <p className="mt-3 font-display text-[16px] font-medium leading-[1.4] text-[var(--text-primary)]">
+                        {p.lead}
+                      </p>
+                      <p className="mt-1.5 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
+                        {p.text}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
             </div>
           </Container>
         </section>

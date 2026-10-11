@@ -249,27 +249,23 @@ export function PersonalizedPlan({ fallback }: { fallback: ReactNode }) {
           mit cserélünk, és mi kerüljön még rá.
         </p>
       </div>
-      <ol className="space-y-3">
+      <ol className="divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)]">
         {offer.javasoltOldalak.map((item, i) => {
           const [name, ...rest] = item.split(" – ");
           return (
-            <li
-              key={item}
-              className="flex gap-4 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-4"
-            >
-              <span className="font-display text-[18px] font-medium text-[#BDFF00]">
+            <li key={item} className="flex gap-5 py-5">
+              <span className="w-8 shrink-0 font-display text-[20px] font-medium leading-[1.4] text-[#BDFF00]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="text-[15px] leading-[1.6] text-[var(--text-secondary)]">
+              <span>
+                <span className="block font-display text-[17px] font-medium text-[var(--text-primary)]">
+                  {rest.length > 0 ? name : item}
+                </span>
                 {rest.length > 0 ? (
-                  <>
-                    <strong className="font-medium text-[var(--text-primary)]">{name}</strong>
-                    {" – "}
+                  <span className="mt-1 block text-[15px] leading-[1.6] text-[var(--text-secondary)]">
                     {rest.join(" – ")}
-                  </>
-                ) : (
-                  item
-                )}
+                  </span>
+                ) : null}
               </span>
             </li>
           );
