@@ -10,6 +10,12 @@ export const TRACK_EVENTS = [
   'booking_complete',
   'phone_click',
   'email_click',
+  // Induló csomag kampányoldal (/indulo-webcsomag). Paraméter csak a
+  // levélgomb forrása lehet; a token és a cégnév soha nem kerül eseménybe.
+  'indulo_megnyitas',
+  'indulo_hivas_gomb',
+  'indulo_info_keres',
+  'indulo_foglalas_kesz',
 ] as const
 
 export type TrackEvent = (typeof TRACK_EVENTS)[number]
@@ -22,4 +28,8 @@ export type TrackEventParams = CoversEveryEvent<{
   booking_complete: Record<string, never>
   phone_click: Record<string, never>
   email_click: Record<string, never>
+  indulo_megnyitas: { forras: 'idopont' | 'info' | 'ismeretlen' }
+  indulo_hivas_gomb: Record<string, never>
+  indulo_info_keres: Record<string, never>
+  indulo_foglalas_kesz: Record<string, never>
 }>

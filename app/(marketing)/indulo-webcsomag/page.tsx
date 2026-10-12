@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { CalEmbed, type CalTarget } from "@/components/CalEmbed";
+import type { CalTarget } from "@/components/CalEmbed";
 import { HeroGrain } from "@/components/hero-grain";
 import { heroLayers } from "@/components/hero-layers";
 import { RevealLines } from "@/components/reveal-lines";
@@ -29,6 +29,7 @@ import { SectionLabel } from "@/components/ui/section-label";
 import { FaqAccordion, type FaqItem } from "../vibecoding-pilot/FaqAccordion";
 import { LandingExamples } from "../vibecoding-pilot/LandingExamples";
 
+import { BookingCalendar, CtaTracker, InfoBar } from "./landing-client";
 import {
   BookingBonus,
   ClosingBonus,
@@ -297,6 +298,8 @@ export default function InduloWebcsomagPage() {
   return (
     <OfferProvider>
       <div className="pb-28 [&_section]:scroll-mt-24">
+        <CtaTracker />
+        <InfoBar />
         <OfferBar />
         <StickyCta />
 
@@ -797,7 +800,7 @@ export default function InduloWebcsomagPage() {
             </div>
             <Reveal delay={0.1}>
               <div className="mx-auto mt-10 max-w-5xl">
-                <CalEmbed formal layout="month_view" target={INDULO_CAL} />
+                <BookingCalendar target={INDULO_CAL} />
               </div>
             </Reveal>
             <div className="mx-auto max-w-2xl text-center">

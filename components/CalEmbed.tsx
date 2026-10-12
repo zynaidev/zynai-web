@@ -59,6 +59,13 @@ type CalEmbedProps = {
   target?: CalTarget;
   /** Magázó szövegek (például a kampányoldalon); alapértelmezés: tegező. */
   formal?: boolean;
+  /**
+   * Előtöltött foglalási kérdések: a kulcs a Cal.com kérdés azonosítója
+   * (nem a felirata). Személyes adatot ide ne tegyünk.
+   */
+  prefill?: Record<string, string>;
+  /** Valódi foglalás után hívódik, foglalásonként egyszer. */
+  onBooked?: () => void;
 };
 
 /**
@@ -75,12 +82,21 @@ export function CalEmbed({
   layout = "column_view",
   target = FELMERES,
   formal = false,
+  prefill,
+  onBooked,
 }: CalEmbedProps) {
   const [open, setOpen] = useState(false);
 
   if (open) {
     return (
-      <CalInline className={className} layout={layout} target={target} formal={formal} />
+      <CalInline
+        className={className}
+        layout={layout}
+        target={target}
+        formal={formal}
+        prefill={prefill}
+        onBooked={onBooked}
+      />
     );
   }
 
@@ -128,7 +144,14 @@ function CalInline({
   layout = "column_view",
   target = FELMERES,
   formal = false,
+  prefill,
+  onBooked,
 }: CalEmbedProps) {
+  // A callback friss értékét ref-ből olvassuk, hogy a beágyazás ne töltődjön újra.
+  const onBookedRef = useRef(onBooked);
+  useEffect(() => {
+    onBookedRef.current = onBooked;
+  }, [onBooked]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading",
   );
@@ -171,6 +194,7 @@ function CalInline({
               trackedBookingUids.add(uid);
             }
             track("booking_complete", {});
+            onBookedRef.current?.();
           },
         });
 
@@ -217,7 +241,7 @@ function CalInline({
       <Cal
         namespace={target.namespace}
         calLink={target.link}
-        config={{ theme: "dark", layout }}
+        config={{ theme: "dark", layout, ...prefill }}
         style={{ width: "100%", height: "100%", overflow: "auto" }}
         className={cn(
           "rounded-2xl transition-opacity duration-300",

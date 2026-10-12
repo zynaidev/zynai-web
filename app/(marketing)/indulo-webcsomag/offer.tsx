@@ -1,31 +1,30 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Gift, Timer } from "lucide-react";
 
+import { track } from "@/lib/analytics/track";
+
+import {
+  fetchOffer,
+  readParams,
+  type LandingParams,
+  type OfferData,
+} from "./offer-api";
+
 /**
- * A levélből érkező, cégre szabott ajánlat adatai.
+ * A levélből érkező, cégre szabott ajánlat.
  *
- * Élesben ezt a levél tokenje (`?t=`) alapján az n8n `indulo-ajanlat`
- * végpontja adja (docs: átadás az n8n-agentnek). Amíg a végpont nincs kész,
- * nincs adat, és az oldal az általános változatot mutatja.
- * Fejlesztői módban alapból mintaadatokkal mutatja a teljes szöveget; a
- * `?elonezet=0` az általános (token nélküli) változatot mutatja.
+ * A levél gombja `?t=<token>&forras=…` címre hoz. Betöltéskor a token alapján
+ * lekérjük az ajánlatot az n8n-től; hiba, időtúllépés vagy ismeretlen token
+ * esetén az oldal az általános változatot mutatja (ajándék és visszaszámláló
+ * nélkül). A tokent a betöltés után eltávolítjuk a címsorból.
+ *
+ * Fejlesztői módban token nélkül alapból mintaadatok látszanak, az
+ * `?elonezet=0` az általános változatot mutatja.
  */
-export type Offer = {
-  cegnev: string;
-  javasoltOldalak: string[];
-  /** YYYY-MM-DD, a nap végéig (Europe/Budapest) érvényes. */
-  kedvezmenyLejarat: string;
-};
+export type Offer = OfferData;
 
 const PREVIEW_OFFER: Offer = {
   cegnev: "Minta Kft.",
@@ -37,35 +36,104 @@ const PREVIEW_OFFER: Offer = {
     "Kapcsolat – űrlap, e-mail, telefon és nyitvatartás",
   ],
   kedvezmenyLejarat: "2026-10-24",
+  kedvezmenyVege: null,
 };
 
-function readPreview(): boolean {
-  if (process.env.NODE_ENV !== "development") return false;
-  return new URLSearchParams(window.location.search).get("elonezet") !== "0";
+type LandingState = {
+  /** Az URL-ből olvasott, érvényes token (a címsorból már eltávolítva). */
+  params: LandingParams;
+  offer: Offer | null;
+};
+
+const EMPTY: LandingState = {
+  params: { token: null, source: "ismeretlen" },
+  offer: null,
+};
+
+// Egyszerű külső tároló: a lekérés eredménye a React-fán kívül él, így a
+// token a címsor tisztítása után is megmarad.
+let state: LandingState = EMPTY;
+const listeners = new Set<() => void>();
+let started = false;
+
+function setState(next: LandingState) {
+  state = next;
+  listeners.forEach((l) => l());
 }
 
-function subscribeNever(): () => void {
-  return () => {};
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
 }
 
-const OfferContext = createContext<Offer | null>(null);
+function getSnapshot(): LandingState {
+  return state;
+}
 
+function getServerSnapshot(): LandingState {
+  return EMPTY;
+}
+
+/** A `t` paraméter eltávolítása a címsorból, a többi (például utm_*) marad. */
+function stripTokenFromUrl() {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has("t")) return;
+  url.searchParams.delete("t");
+  window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+}
+
+function startOnce() {
+  if (started) return;
+  started = true;
+
+  const params = readParams(window.location.search);
+  const q = new URLSearchParams(window.location.search);
+  stripTokenFromUrl();
+
+  const preview =
+    process.env.NODE_ENV === "development" && !params.token && q.get("elonezet") !== "0";
+  setState({ params, offer: preview ? PREVIEW_OFFER : null });
+
+  // A levél forrása (gomb) szerint egy megnyitás-esemény; token és cégnév nélkül.
+  track("indulo_megnyitas", { forras: params.source });
+
+  if (params.token) {
+    void fetchOffer(params.token).then((offer) => {
+      setState({ params, offer });
+    });
+  }
+}
+
+/** Egyszeri indítás a kliensen: paraméterek olvasása, lekérés, címsor tisztítása. */
 export function OfferProvider({ children }: { children: ReactNode }) {
-  const preview = useSyncExternalStore(subscribeNever, readPreview, () => false);
-  return (
-    <OfferContext.Provider value={preview ? PREVIEW_OFFER : null}>
-      {children}
-    </OfferContext.Provider>
-  );
+  useEffect(() => {
+    startOnce();
+  }, []);
+  return <>{children}</>;
+}
+
+function useLanding(): LandingState {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 function useOffer(): Offer | null {
-  return useContext(OfferContext);
+  return useLanding().offer;
 }
 
-/** A lejárat pillanata: a megadott nap 23:59:59-e budapesti idő szerint. */
-function deadlineMs(date: string): number | null {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+/** A levélgombról érkező token és forrás (a címsorból már eltávolított tokennel). */
+export function useLandingParams(): LandingParams {
+  return useLanding().params;
+}
+
+export function useCompanyName(): string | null {
+  return useOffer()?.cegnev ?? null;
+}
+
+const YMD_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** A megadott nap 23:59:59-e budapesti idő szerint (tartalék, ha nincs pontos időpont). */
+function endOfDayBudapestMs(date: string): number | null {
+  if (!YMD_RE.test(date)) return null;
   const utcGuess = Date.parse(`${date}T23:59:59Z`);
   if (Number.isNaN(utcGuess)) return null;
   const offset = new Intl.DateTimeFormat("en-US", {
@@ -77,6 +145,28 @@ function deadlineMs(date: string): number | null {
   const match = offset?.match(/GMT([+-]\d+)/);
   const hours = match ? Number(match[1]) : 1;
   return utcGuess - hours * 60 * 60 * 1000;
+}
+
+/** A lejárat pillanata: elsődlegesen az n8n pontos időpontja. */
+function deadlineMs(offer: Offer): number | null {
+  if (offer.kedvezmenyVege) {
+    const ms = new Date(offer.kedvezmenyVege).getTime();
+    if (!Number.isNaN(ms)) return ms;
+  }
+  return offer.kedvezmenyLejarat ? endOfDayBudapestMs(offer.kedvezmenyLejarat) : null;
+}
+
+/** A kiírandó dátum (YYYY-MM-DD): a `kedvezmeny_lejarat`, ennek hiányában a pontos időpont budapesti napja. */
+function displayDate(offer: Offer, endMs: number): string {
+  if (offer.kedvezmenyLejarat && YMD_RE.test(offer.kedvezmenyLejarat)) {
+    return offer.kedvezmenyLejarat;
+  }
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Budapest",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(endMs));
 }
 
 // A nap sorszámnevének „-n” ragja: elsején, másodikán, negyedikén…
@@ -128,9 +218,9 @@ function useBonus(): BonusState {
   const offer = useOffer();
   const now = useNow();
   if (!offer || now === null) return { kind: "none" };
-  const end = deadlineMs(offer.kedvezmenyLejarat);
+  const end = deadlineMs(offer);
   if (end === null) return { kind: "none" };
-  const { until, on } = formatDate(offer.kedvezmenyLejarat);
+  const { until, on } = formatDate(displayDate(offer, end));
   const left = end - now;
   if (left <= 0) return { kind: "expired", on };
   const secondsTotal = Math.floor(left / 1000);
