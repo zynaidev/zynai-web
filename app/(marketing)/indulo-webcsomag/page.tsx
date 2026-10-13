@@ -121,8 +121,16 @@ const PROMISES = [
   { lead: "Fix ár, írásban", text: "A hívás után írásban, előre megkapják a végösszeget." },
   { lead: "14 nap alatt kész", text: "A szerződéskötéstől számítva két héten belül élesítjük." },
   { lead: "Egy javítási kör benne van", text: "Az oldal akkor megy élesbe, amikor önök jónak látják." },
-  { lead: "A domain az önöké", text: "A cég nevére kerül, és később bárhová magukkal vihetik." },
+  {
+    lead: "A domain az Önöké",
+    text: "A domain vásárlása és későbbi megújítása az Önök felelőssége, 100%-ban a cégük tulajdona.",
+  },
   { lead: "A hívás nem kötelez semmire", text: "Ha a beszélgetés után nem kérik, nincs további teendő." },
+];
+
+const COMPANY_STATS = [
+  { value: "10+", label: "éves tapasztalat" },
+  { value: "100+", label: "lezárt projekt" },
 ];
 
 const TESTIMONIALS = [
@@ -625,7 +633,7 @@ export default function InduloWebcsomagPage() {
           <Container>
             <div className="mx-auto max-w-5xl">
               <Reveal>
-                <SectionLabel number="07" text="KI ÁLL MÖGÖTTE" />
+                <SectionLabel number="07" text="A CÉGÜNKRŐL" />
                 <SectionHeading>ZynAI Development Kft.</SectionHeading>
               </Reveal>
               <div className="mt-10 grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-14">
@@ -701,6 +709,29 @@ export default function InduloWebcsomagPage() {
                   </figure>
                 </Reveal>
               </div>
+
+              <Reveal delay={0.1}>
+                <dl className="mt-16 grid grid-cols-2 border-t border-[rgba(255,255,255,0.14)] pt-10 sm:mt-20">
+                  {COMPANY_STATS.map((stat, i) => (
+                    <div
+                      className={`flex flex-col items-center px-4 text-center ${
+                        i > 0 ? "border-l border-[rgba(255,255,255,0.14)]" : ""
+                      }`}
+                      key={stat.label}
+                    >
+                      <dt className="order-2 mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/80 sm:text-[12px]">
+                        {stat.label}
+                      </dt>
+                      <dd
+                        className="order-1 font-display font-medium text-white"
+                        style={{ fontSize: "clamp(40px, 6vw, 72px)", letterSpacing: "-0.04em", lineHeight: 1 }}
+                      >
+                        {stat.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
             </div>
           </Container>
         </section>
