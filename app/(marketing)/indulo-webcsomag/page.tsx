@@ -646,8 +646,7 @@ export default function InduloWebcsomagPage() {
                       el is érik-e.
                     </p>
                     <p>
-                      A cégünket 2026 októberében jegyezték be, úgyhogy közelről
-                      ismerjük, mennyi minden jön egyszerre az első hetekben. A
+                      Tudjuk, mennyi teendő van a vállalkozás indulásakor, a
                       weboldal ilyenkor inkább teher, mint öröm. Ezért állítottuk
                       össze az Induló csomagot:{" "}
                       <Em>
