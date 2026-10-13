@@ -35,6 +35,7 @@ import {
   ClosingBonus,
   HeroBonus,
   HeroGreeting,
+  HeroSecondaryLink,
   OfferBar,
   OfferProvider,
   PersonalizedPlan,
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const BOOKING_EMAIL = "bakos.attila@zynai.hu";
+const BOOKING_EMAIL = "info@zynai.hu";
 
 const INDULO_CAL: CalTarget = {
   namespace: "indulo-webcsomag",
@@ -78,7 +79,7 @@ const PACKAGE: ReactNode[] = [
   <><Em>Mobilbarát, egyoldalas bemutatkozó oldal</Em> 5–6 szekcióval, az önöknek javasolt szerkezettel</>,
   <><Em>Szövegezés a cég adataiból:</Em> a szöveget mi írjuk, önöknek csak át kell nézniük, egy javítási körrel</>,
   <><Em>Kapcsolati űrlap</Em> és kattintható telefonszám, e-mail</>,
-  <Em key="g">Google-megtalálhatósági alapbeállítások</Em>,
+  <Em key="g">Alapbeállítások a Google-keresőhöz</Em>,
   <><Em>Tárhely és üzembe helyezés</Em> a saját domainjükön</>,
   <Em key="a">Adatkezelési tájékoztató és sütibanner</Em>,
 ];
@@ -105,7 +106,7 @@ const PRICE_TERMS: ReactNode[] = [
   <><Em>Fizetés:</Em> 50% a szerződéskötéskor, 50% az átadáskor.</>,
   <><Em>A domain az önöké.</Em> A cég nevére kerül, a díját önök fizetik közvetlenül a szolgáltatónak.</>,
   <><Em>Fix ár:</Em> ha a csomagon túli funkció kell, azt a hívás után írásban, előre megkapják.</>,
-  <><Em>Karbantartás igény szerint:</Em> ha szeretnék, az ajándék időszak után is mi tartjuk karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
+  <><Em>Karbantartás igény szerint:</Em> ha szeretnék, az ajándékidőszak után is mi tartjuk karban az oldalt, hosszú távon is. Elköteleződés nélkül.</>,
 ];
 
 const EXTRAS: { icon: typeof Bot; label: string }[] = [
@@ -116,26 +117,23 @@ const EXTRAS: { icon: typeof Bot; label: string }[] = [
 ];
 
 const PROMISES = [
-  { lead: "Fix ár, írásban.", text: "A hívás után pontosan tudják, mit fizetnek." },
-  { lead: "14 napos határidő.", text: "A szerződéstől számítva, írásban vállalva." },
-  {
-    lead: "Egy javítási kör benne van.",
-    text: "Az oldal akkor megy élesbe, amikor jónak látják.",
-  },
-  { lead: "A domain az önöké.", text: "Akkor is, ha később máshová költöznének." },
-  { lead: "Nem kötelez semmire a hívás.", text: "Ha nem kérik, annyi." },
+  "Fix ár, írásban",
+  "14 nap alatt kész",
+  "Egy javítási kör benne van",
+  "A domain az önöké",
+  "A hívás nem kötelez semmire",
 ];
 
 const TESTIMONIALS = [
   {
     quote:
-      "Kezdetleges formájában tízszeres elérést értünk el, ez fantasztikus eredmény. A weboldal nagyon profi, design fókuszú és stabil. Az egyik legjobb befektetésünk volt.",
+      "Kezdetleges formájában tízszeres elérést értünk el, ez fantasztikus eredmény. A weboldal nagyon profi, dizájnfókuszú és stabil. Az egyik legjobb befektetésünk volt.",
     name: "Loddo Riccardo",
     site: "aedificium.design",
   },
   {
     quote:
-      "Több éve együtt dolgozunk, a weboldalamat és a hirdetéseimet is Attila kezeli. A korábbi WordPress oldalam is jól teljesített, de a mostani javítások elképesztőek. Nagyon megérte, köszi!",
+      "Több éve együtt dolgozunk, a weboldalamat és a hirdetéseimet is Attila kezeli. A korábbi WordPress-oldalam is jól teljesített, de a mostani javítások elképesztőek. Nagyon megérte, köszi!",
     name: "Dóczi László",
     site: "silverlimo.hu",
   },
@@ -159,7 +157,7 @@ const CASES = [
     image: "/esettanulmanyok/silverlimo_hero.webp",
     alt: "A SilverLimo weboldala",
     label: "Esettanulmány · SilverLimo",
-    title: "Lassú WordPress oldal helyett gyors, mérhető oldal.",
+    title: "Lassú WordPress-oldal helyett gyors, mérhető oldal.",
     text: (
       <>
         <Em>14× gyorsabb első tartalom</Em>, <Em>24× gyorsabb szerverválasz</Em>.
@@ -207,7 +205,7 @@ const FAQ: FaqItem[] = [
       "Nagyon keveset: a hívásban elmondják, mivel foglalkoznak, elküldik az anyagokat, és átnézik az első változatot. A szöveget mi írjuk.",
   },
   {
-    question: "Miért állják az első 3 hónap üzemeltetését?",
+    question: "Miért állják az első három hónap üzemeltetését?",
     answer:
       "Mert sok magyar vállalkozás évekig weboldal nélkül működik, és közben elveszíti azokat az ügyfeleket, akik rákeresnek, de nem találnak semmit. Szeretnénk, ha egy új cégnél ez nem az első hónapok költségén múlna. Az induláskor minden kiadás számít, ezért az első negyedévet mi álljuk.",
   },
@@ -219,7 +217,7 @@ const FAQ: FaqItem[] = [
   {
     question: "Mi történik a határidő után?",
     answer:
-      "A hívást ugyanúgy kérheti, és a csomag is ugyanannyiba kerül. Az első 3 hónap üzemeltetését viszont már nem tudjuk átvállalni.",
+      "A hívást ugyanúgy kérheti, és a csomag is ugyanannyiba kerül. Az első három hónap üzemeltetését viszont már nem tudjuk átvállalni.",
   },
   {
     question: "Kié lesz a domain?",
@@ -238,7 +236,7 @@ const FAQ: FaqItem[] = [
   {
     question: "Miért kaptam erről levelet?",
     answer:
-      "Mert a cég elérhetősége új cégként megjelent a nyilvános cégjegyzékben. Ez egyszeri megkeresés: további levelet csak akkor küldünk, ha kifejezetten kéri.",
+      "Mert a cégük a bejegyzéskor, az elérhetőségével együtt megjelent a nyilvános cégjegyzékben. Ez egyszeri megkeresés: további levelet csak akkor küldünk, ha kifejezetten kéri.",
   },
 ];
 
@@ -352,26 +350,37 @@ export default function InduloWebcsomagPage() {
                     className="mt-8 font-display font-medium text-[var(--text-primary)]"
                     style={{ fontSize: "clamp(32px, 4vw, 44px)", letterSpacing: "-0.03em" }}
                   >
-                    190.000 Ft <span className="text-[var(--text-tertiary)]">+ áfa</span>
+                    190&nbsp;000&nbsp;Ft <span className="text-[var(--text-tertiary)]">+ áfa</span>
                   </p>
                   <HeroBonus />
                 </div>
                 <div className="mt-10 flex flex-col items-center gap-5">
                   <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
-                  <a
-                    href="#javaslat"
-                    className="text-[15px] text-[var(--text-secondary)] underline decoration-[rgba(255,255,255,0.2)] underline-offset-4 transition-colors hover:text-[var(--text-primary)]"
-                  >
-                    Nézze meg az önöknek javasolt oldalt ↓
-                  </a>
+                  <HeroSecondaryLink className="text-[15px] text-[var(--text-secondary)] underline decoration-[rgba(255,255,255,0.2)] underline-offset-4 transition-colors hover:text-[var(--text-primary)]" />
                   <p className="text-[13px] text-[var(--text-tertiary)]">
-                    Telefonhívás, nem online meeting. Nem kötelez semmire.
+                    Telefonhívás, nem videóhívás. Nem kötelez semmire.
                   </p>
                 </div>
               </RevealLines>
             </div>
           </Container>
         </section>
+
+        {/* Ígéret-sáv: a hero aljára lebegő elem, átfed a következő szekció határán. */}
+        <div className="relative z-20 -mt-12 sm:-mt-14">
+          <Container>
+            <Reveal>
+              <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-3 rounded-2xl border sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-7 sm:gap-y-3 border-[var(--border-default)] bg-[rgba(13,13,16,0.78)] px-6 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                {PROMISES.map((p) => (
+                  <li className="inline-flex items-center gap-2 text-[14px] text-[var(--text-primary)]" key={p}>
+                    <Check aria-hidden size={16} className="text-[#BDFF00]" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </Container>
+        </div>
 
         {/* 01. Az önöknek javasolt oldal */}
         <section
@@ -388,7 +397,7 @@ export default function InduloWebcsomagPage() {
                     <p className="mt-6 text-[18px] leading-[1.75] text-[var(--text-secondary)]">
                       Egy étteremnek mást kell kiemelnie, mint egy könyvelőnek vagy
                       egy gépkölcsönzőnek. A hívásban átbeszéljük, mivel
-                      foglalkoznak, és ehhez igazítom az oldal szerkezetét és
+                      foglalkoznak, és ehhez igazítjuk az oldal szerkezetét és
                       szövegét.
                     </p>
                   </div>
@@ -411,7 +420,7 @@ export default function InduloWebcsomagPage() {
                   <p>
                     Bankszámla, könyvelő, bélyegző, szerződések: az indulás első
                     heteiben minden egyszerre jön. Közben az első partnerek,
-                    ügyfelek és a bank is rákeres a cégre. Ha ilyenkor nincs
+                    ügyfelek és a bank is rákeresnek a cégre. Ha ilyenkor nincs
                     semmi, vagy csak egy félkész oldal, az kérdést hagy maga után.
                   </p>
                   <p>
@@ -443,14 +452,14 @@ export default function InduloWebcsomagPage() {
         </section>
 
         {/* 03. A csomag */}
-        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
+        <section id="csomag" className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
           <Container>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
               <Reveal>
                 <SectionLabel number="03" text="A CSOMAG" />
                 <SectionHeading>Ami minden Induló oldalban benne van</SectionHeading>
                 <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
-                  A fenti oldalszerkezet erre a vázra épül.
+                  Az önöknek javasolt szerkezet erre a vázra épül.
                 </p>
                 <p className="mt-8 border-l-2 border-[#BDFF00] pl-5 text-[16px] leading-[1.7] text-[var(--text-secondary)]">
                   <Em>Amit önöknek kell csinálni:</Em> egy 20 perces beszélgetés, a
@@ -547,7 +556,7 @@ export default function InduloWebcsomagPage() {
                       className="mt-5 font-display font-medium text-[var(--text-primary)]"
                       style={{ fontSize: "48px", letterSpacing: "-0.03em", lineHeight: 1 }}
                     >
-                      190.000 Ft
+                      190&nbsp;000&nbsp;Ft
                     </p>
                     <p className="mt-2 text-[13px] leading-[1.6] text-[var(--text-tertiary)]">
                       + áfa · egyszeri díj · a szerződéstől számított 14 napon belül kész
@@ -613,7 +622,7 @@ export default function InduloWebcsomagPage() {
                       Weboldalakat, AI-integrációt és automatizálást fejlesztünk
                       magyar kis- és középvállalkozásoknak. Nálunk a weboldal nem
                       cél, hanem eszköz: azt nézzük, hogy megtalálják-e önöket, és
-                      el is érjék.
+                      el is érik-e.
                     </p>
                     <p>
                       A cégünket 2026 októberében jegyezték be, úgyhogy közelről
@@ -641,10 +650,12 @@ export default function InduloWebcsomagPage() {
                   <figure className="lg:pt-2">
                     <div className="relative rounded-[32px] bg-[#141417] px-7 py-7 sm:px-8">
                       <blockquote className="font-display text-[19px] leading-[1.6] text-[var(--text-primary)] sm:text-[20px]">
-                        „A folyamatért és az eredmény minőségéért{" "}
-                        <span className="text-[#BDFF00]">személyesen felelek</span>.
-                        Minden oldal átmegy a kezem alatt, mielőtt élesbe kerül, és
-                        csak akkor adjuk át, ha úgy működik, ahogy megbeszéltük.”
+                        „Azon dolgozunk, hogy a cégük az első naptól{" "}
+                        <span className="text-[#BDFF00]">
+                          rendezetten és megbízhatóan legyen jelen online
+                        </span>
+                        . Az oldalt önökkel közösen véglegesítjük, és akkor adjuk át,
+                        amikor úgy működik, ahogy megbeszéltük.”
                       </blockquote>
                       <span
                         aria-hidden
@@ -749,39 +760,12 @@ export default function InduloWebcsomagPage() {
             </div>
             <LandingExamples
               eyebrow="Ezekből a stílusokból indulhatunk ki"
-              description="Néhány stílusirány, amiből a hívás után kiindulhatunk. Az önök oldala a saját tartalmukkal, a cég arculatára szabva készül."
+              description="Néhány stílusirány, amelyekből a hívás után kiindulhatunk. Az önök oldala a saját tartalmukkal, a cég arculatára szabva készül."
             />
           </Container>
         </section>
 
-        {/* 09. Amire számíthatnak */}
-        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
-          <Container>
-            <div className="mx-auto max-w-5xl">
-              <Reveal>
-                <SectionLabel number="09" text="AMIRE SZÁMÍTHATNAK" />
-                <SectionHeading>Amire számíthatnak</SectionHeading>
-              </Reveal>
-              <Reveal delay={0.08}>
-                <ul className="mt-10 grid grid-cols-1 divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)] lg:grid-cols-5 lg:divide-x lg:divide-y-0">
-                  {PROMISES.map((p) => (
-                    <li className="py-5 lg:px-5 lg:py-7 lg:first:pl-0 lg:last:pr-0" key={p.lead}>
-                      <Check aria-hidden size={18} className="text-[#BDFF00]" />
-                      <p className="mt-3 font-display text-[16px] font-medium leading-[1.4] text-[var(--text-primary)]">
-                        {p.lead}
-                      </p>
-                      <p className="mt-1.5 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
-                        {p.text}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
-          </Container>
-        </section>
-
-        {/* 10. Időpont */}
+        {/* 09. Időpontfoglalás */}
         <section
           id="idopont"
           className="border-t border-[var(--border-hairline)] bg-[rgba(255,255,255,0.015)] py-28 lg:py-36"
@@ -789,10 +773,10 @@ export default function InduloWebcsomagPage() {
           <Container>
             <div className="mx-auto max-w-2xl text-center">
               <Reveal>
-                <SectionLabel className="justify-center" number="10" text="IDŐPONT" />
-                <SectionHeading>Hívjam fel?</SectionHeading>
+                <SectionLabel className="justify-center" number="09" text="IDŐPONTFOGLALÁS" />
+                <SectionHeading>Mikor hívhatjuk?</SectionHeading>
                 <p className="mx-auto mt-6 max-w-xl text-[18px] leading-[1.75] text-[var(--text-secondary)]">
-                  Válasszon egy időpontot, és a megadott számon felhívom. 20 perc,
+                  Válasszon egy időpontot, és a megadott számon felhívjuk. 20 perc,
                   nem kötelez semmire.
                 </p>
                 <BookingBonus />
@@ -820,12 +804,12 @@ export default function InduloWebcsomagPage() {
           </Container>
         </section>
 
-        {/* 11. GYIK */}
+        {/* 10. GYIK */}
         <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
           <Container>
             <div className="mx-auto max-w-2xl">
               <Reveal>
-                <SectionLabel number="11" text="GYAKORI KÉRDÉSEK" />
+                <SectionLabel number="10" text="GYAKORI KÉRDÉSEK" />
                 <SectionHeading>Amit gyakran megkérdeznek</SectionHeading>
               </Reveal>
               <Reveal delay={0.1}>

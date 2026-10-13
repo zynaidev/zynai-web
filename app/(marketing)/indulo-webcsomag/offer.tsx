@@ -247,7 +247,7 @@ export function OfferBar() {
           <span className="inline-flex items-center gap-1.5">
             <Gift aria-hidden size={14} className={lime} />
             <strong className="font-medium text-[var(--text-primary)]">
-              75.000 Ft értékű belépési ajándék
+              75&nbsp;000&nbsp;Ft értékű belépési ajándék
             </strong>
           </span>
           <span className="whitespace-nowrap">
@@ -274,7 +274,7 @@ export function HeroGreeting() {
   if (!offer) return null;
   return (
     <p className="mt-6 font-display text-[18px] text-[var(--text-primary)] sm:text-[20px]">
-      {offer.cegnev}, gratulálok az induláshoz.
+      {offer.cegnev}, gratulálunk az induláshoz.
     </p>
   );
 }
@@ -297,8 +297,8 @@ export function HeroBonus() {
         Belépési ajándék · {bonus.until}
       </p>
       <p className="mt-3 text-[15px] leading-[1.6] text-[var(--text-secondary)]">
-        Ha addig szerződünk, az első 3 hónap üzemeltetését mi álljuk: ez{" "}
-        <strong className="font-medium text-[var(--text-primary)]">75.000 Ft + áfa</strong>,
+        Ha addig szerződünk, az első három hónap üzemeltetését mi álljuk: ez{" "}
+        <strong className="font-medium text-[var(--text-primary)]">75&nbsp;000&nbsp;Ft + áfa</strong>,
         amit az induláskor nem kell kifizetniük.
       </p>
       <Countdown {...bonus} />
@@ -311,6 +311,20 @@ const headingStyle = {
   letterSpacing: "-0.025em",
   lineHeight: 1.1,
 } as const;
+
+/** A hero másodlagos linkje: a javasolt oldalra, vagy token nélkül a csomagra mutat. */
+export function HeroSecondaryLink({ className }: { className: string }) {
+  const offer = useOffer();
+  return offer ? (
+    <a href="#javaslat" className={className}>
+      Nézze meg az önöknek javasolt oldalt ↓
+    </a>
+  ) : (
+    <a href="#csomag" className={className}>
+      Mit tartalmaz a csomag? ↓
+    </a>
+  );
+}
 
 /** A levélben elküldött oldalszerkezet; ha nincs adat, a `fallback` jelenik meg. */
 export function PersonalizedPlan({ fallback }: { fallback: ReactNode }) {
@@ -327,12 +341,10 @@ export function PersonalizedPlan({ fallback }: { fallback: ReactNode }) {
           className="mt-4 font-display font-medium text-[var(--text-primary)]"
           style={headingStyle}
         >
-          Ezt az oldalt javasoltam önöknek
+          Ezt az oldalt javasoljuk önöknek
         </h2>
         <p className="mt-6 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
-          A levélben leírt oldalszerkezet, a{" "}
-          <strong className="font-medium text-[var(--text-primary)]">{offer.cegnev}</strong>{" "}
-          tevékenységére szabva.
+          A levélben leírt oldalszerkezet, a cégük tevékenységére szabva.
         </p>
         <p className="mt-4 text-[17px] leading-[1.75] text-[var(--text-secondary)]">
           Ez a javaslat kiindulópont. A hívásban átbeszéljük, mit tartanak meg,
@@ -382,10 +394,10 @@ export function PriceBonus() {
         Belépési ajándék
       </p>
       <p className="mt-3 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
-        {bonus.until} szerződve az első 3 hónap üzemeltetése (tárhely és
+        {bonus.until} szerződve az első három hónap üzemeltetése (tárhely és
         karbantartás) ingyenes.{" "}
         <strong className="font-medium text-[var(--text-primary)]">
-          Ez 75.000 Ft + áfa megtakarítás.
+          Ez 75&nbsp;000&nbsp;Ft + áfa megtakarítás.
         </strong>
       </p>
       <Countdown {...bonus} />
@@ -442,7 +454,7 @@ export function BookingBonus() {
   return (
     <p className="mx-auto mt-5 inline-flex items-start gap-2 rounded-2xl border border-[rgba(189,255,0,0.25)] bg-[rgba(189,255,0,0.05)] px-4 py-2.5 text-left text-[14px] leading-[1.5] text-[var(--text-secondary)] sm:items-center sm:rounded-full">
       <Gift aria-hidden size={15} className={`mt-0.5 shrink-0 sm:mt-0 ${lime}`} />
-      Ha {bonus.until} szerződünk, az első 3 hónap üzemeltetése ajándék.
+      Ha {bonus.until} szerződünk, az első három hónap üzemeltetése ajándék.
     </p>
   );
 }
@@ -453,7 +465,7 @@ export function ClosingBonus() {
   return (
     <p className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[#BDFF00]">
       <Gift aria-hidden size={14} />
-      75.000 Ft értékű belépési ajándék: még {bonus.days} nap {bonus.hours} óra
+      75&nbsp;000&nbsp;Ft értékű belépési ajándék: még {bonus.days} nap {bonus.hours} óra
     </p>
   );
 }
@@ -503,11 +515,11 @@ export function StickyCta() {
               <p className="truncate font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
                 {bonus.kind === "active" ? (
                   <>
-                    <span className="text-[#BDFF00]">+75.000 Ft ajándék</span> · még{" "}
+                    <span className="text-[#BDFF00]">+75&nbsp;000&nbsp;Ft ajándék</span> · még{" "}
                     {bonus.days} nap
                   </>
                 ) : (
-                  "190.000 Ft + áfa · 14 nap alatt kész"
+                  "190\u00a0000\u00a0Ft + áfa · 14 nap alatt kész"
                 )}
               </p>
             </div>

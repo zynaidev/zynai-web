@@ -17,14 +17,14 @@ import { useCompanyName, useLandingParams } from "./offer";
 const CAL_FIELD_TOKEN = "token";
 const CAL_FIELD_COMPANY = "cegnev";
 
-const BOOKING_THANKS_TITLE = "Köszönöm, a foglalás megvan!";
+const BOOKING_THANKS_TITLE = "Köszönjük, a foglalás megvan!";
 const BOOKING_THANKS_TEXT =
-  "A visszaigazolást e-mailben is megkapja. A megadott időpontban hívom.";
+  "A visszaigazolást e-mailben is megkapja. A megadott időpontban hívjuk.";
 
 const INFO_DONE_FALLBACK =
-  "Köszönöm! A részleteket elküldtem, néhány percen belül megérkezik. Ha addig is beszélne velem, lent időpontot választhat.";
+  "Köszönjük! A részleteket elküldtük, néhány percen belül megérkezik. Ha addig is beszélne velünk, lent időpontot választhat.";
 const INFO_FAILED_FALLBACK =
-  "Nem sikerült elküldeni. Kérem, írjon a bakos.attila@zynai.hu címre.";
+  "Nem sikerült elküldeni. Kérjük, írjon az info@zynai.hu címre.";
 
 /** A levél „Több információt kérek” gombjáról érkezőknek (forras=info). */
 export function InfoBar() {
@@ -59,13 +59,13 @@ export function InfoBar() {
                 Kéri a részleteket e-mailben?
               </p>
               <p className="mt-2 max-w-xl text-[14px] leading-[1.6] text-[var(--text-secondary)]">
-                Egy gombnyomás, és elküldöm, mit tartalmaz pontosan a csomag,
+                Egy gombnyomás, és elküldjük, mit tartalmaz pontosan a csomag,
                 hogyan zajlik a munka, és mennyibe kerül, a cégük tevékenységére
                 szabva.
               </p>
               <p className="mt-2 max-w-xl text-[12px] leading-[1.6] text-[var(--text-tertiary)]">
                 A gombbal hozzájárul, hogy a weboldal-ajánlatról legfeljebb 3
-                e-mailt küldjek az ajánlatot fogadó címre. Bármikor
+                e-mailt küldjünk az ajánlatot fogadó címre. Bármikor
                 leiratkozhat a levelek alján lévő linkkel.
               </p>
               {phase === "failed" ? (
