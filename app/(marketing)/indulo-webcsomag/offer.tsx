@@ -553,9 +553,14 @@ export function ClosingBonus() {
   const bonus = useBonus();
   if (bonus.kind !== "active") return null;
   return (
-    <p className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[#BDFF00]">
-      <Gift aria-hidden size={14} />
-      75&nbsp;000&nbsp;Ft értékű belépési ajándék: még {bonus.days} nap {bonus.hours} óra
+    <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#BDFF00]">
+      <span className="inline-flex items-center gap-2">
+        <Gift aria-hidden size={14} />
+        75&nbsp;000&nbsp;Ft értékű belépési ajándék
+      </span>
+      <span className="whitespace-nowrap">
+        · még {bonus.days} nap {bonus.hours} óra
+      </span>
     </p>
   );
 }

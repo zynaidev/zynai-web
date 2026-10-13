@@ -11,7 +11,15 @@ export type FaqItem = {
   answer: ReactNode;
 };
 
-export function FaqAccordion({ items }: { items: FaqItem[] }) {
+export function FaqAccordion({
+  items,
+  readableAnswers = false,
+}: {
+  items: FaqItem[];
+  /** Széles elrendezésben a válaszok sorhossza olvasható marad (~75 karakter). */
+  readableAnswers?: boolean;
+}) {
+  const answerWidth = readableAnswers ? "max-w-[75ch]" : "";
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
@@ -48,11 +56,11 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
             >
               <div className="overflow-hidden">
                 {typeof item.answer === "string" ? (
-                  <p className="px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                  <p className={cn("px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]", answerWidth)}>
                     {item.answer}
                   </p>
                 ) : (
-                  <div className="space-y-3 px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]">
+                  <div className={cn("space-y-3 px-6 pb-6 text-[15px] leading-[1.7] text-[var(--text-secondary)]", answerWidth)}>
                     {item.answer}
                   </div>
                 )}

@@ -18,6 +18,7 @@ import {
 
 import { Reveal } from "@/components/animations/reveal";
 import type { CalTarget } from "@/components/CalEmbed";
+import { CtaAurora } from "@/components/cta-aurora";
 import { HeroGrain } from "@/components/hero-grain";
 import { heroLayers } from "@/components/hero-layers";
 import { RevealLines } from "@/components/reveal-lines";
@@ -819,50 +820,42 @@ export default function InduloWebcsomagPage() {
         {/* 10. GYIK */}
         <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
           <Container>
-            <div className="mx-auto max-w-2xl">
+            <div className="mx-auto max-w-5xl">
               <Reveal>
                 <SectionLabel number="10" text="GYAKORI KÉRDÉSEK" />
                 <SectionHeading>Amit gyakran megkérdeznek</SectionHeading>
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="mt-10">
-                  <FaqAccordion items={FAQ} />
+                  <FaqAccordion items={FAQ} readableAnswers />
                 </div>
               </Reveal>
             </div>
           </Container>
         </section>
 
-        {/* Záró blokk */}
-        <section className="border-t border-[var(--border-hairline)] py-28 lg:py-36">
-          <Container>
-            <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[32px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-8 py-14 text-center sm:px-12 sm:py-16">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute left-1/2 top-[-40px] z-0 h-[280px] w-[480px] -translate-x-1/2"
-                style={{
-                  background: "radial-gradient(ellipse, rgba(189,255,0,0.10) 0%, transparent 70%)",
-                  filter: "blur(60px)",
-                }}
-              />
-              <div className="relative z-10">
-                <Reveal>
-                  <h2
-                    className="font-display font-medium text-[var(--text-primary)]"
-                    style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.025em", lineHeight: 1.1 }}
-                  >
-                    Az indulás így is elég munka. A weboldal legyen a kisebbik gond.
-                  </h2>
-                  <p className="mx-auto mt-6 max-w-md text-[16px] leading-[1.7] text-[var(--text-secondary)]">
-                    20 perc telefon, és tudják, mit kapnak, mikorra és mennyiért.
-                  </p>
-                  <ClosingBonus />
-                  <div className="mt-10 flex justify-center">
-                    <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
-                  </div>
-                </Reveal>
+        {/* Záró blokk: aurora-háttér, kártya nélkül (a főoldal aljához hasonlóan) */}
+        <section className="relative overflow-hidden border-t border-[var(--border-hairline)] py-28 sm:py-32 lg:py-44">
+          <CtaAurora />
+          <Container className="relative z-20">
+            <Reveal>
+              <div className="mx-auto max-w-4xl text-center">
+                <h2
+                  className="text-balance font-display font-medium text-[var(--text-primary)]"
+                  style={{ fontSize: "clamp(30px, 4.2vw, 50px)", letterSpacing: "-0.03em", lineHeight: 1.1 }}
+                >
+                  <span className="block">Az indulás így is elég munka.</span>
+                  <span className="block text-[#BDFF00]">A weboldal legyen a kisebbik gond.</span>
+                </h2>
+                <p className="mx-auto mt-6 max-w-md text-[17px] leading-[1.7] text-[var(--text-secondary)]">
+                  20 perc telefon, és tudják, mit kapnak, mikorra és mennyiért.
+                </p>
+                <ClosingBonus />
+                <div className="mt-10 flex justify-center">
+                  <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
+                </div>
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
       </div>
