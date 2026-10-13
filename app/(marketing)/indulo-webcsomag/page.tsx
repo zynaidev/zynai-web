@@ -33,8 +33,8 @@ import { BookingCalendar, CtaTracker, InfoBar } from "./landing-client";
 import {
   BookingBonus,
   ClosingBonus,
-  HeroBonus,
   HeroGreeting,
+  HeroPanel,
   HeroSecondaryLink,
   OfferBar,
   OfferProvider,
@@ -117,11 +117,11 @@ const EXTRAS: { icon: typeof Bot; label: string }[] = [
 ];
 
 const PROMISES = [
-  "Fix ár, írásban",
-  "14 nap alatt kész",
-  "Egy javítási kör benne van",
-  "A domain az önöké",
-  "A hívás nem kötelez semmire",
+  { lead: "Fix ár, írásban", text: "A hívás után írásban, előre megkapják a végösszeget." },
+  { lead: "14 nap alatt kész", text: "A szerződéskötéstől számítva két héten belül élesítjük." },
+  { lead: "Egy javítási kör benne van", text: "Az oldal akkor megy élesbe, amikor önök jónak látják." },
+  { lead: "A domain az önöké", text: "A cég nevére kerül, és később bárhová magukkal vihetik." },
+  { lead: "A hívás nem kötelez semmire", text: "Ha a beszélgetés után nem kérik, nincs további teendő." },
 ];
 
 const TESTIMONIALS = [
@@ -310,59 +310,64 @@ export default function InduloWebcsomagPage() {
             style={{ zIndex: heroLayers.grid }}
           />
           <Container className="relative" style={{ zIndex: heroLayers.content }}>
-            <div className="mx-auto max-w-3xl text-center">
-              <Reveal>
-                <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-4 py-1.5 text-center font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-[#BDFF00] sm:text-[11px] sm:tracking-[0.14em]">
-                  <span className="relative flex size-2 shrink-0">
-                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#BDFF00] opacity-60" />
-                    <span className="relative inline-flex size-2 rounded-full bg-[#BDFF00]" />
-                  </span>
-                  ZynAI Induló csomag
-                </span>
-                <HeroGreeting />
-              </Reveal>
-              <Shimmer className="mt-7 block" delayMs={heroShimmerStartMs(1)}>
-                <RevealLines
-                  as="h1"
-                  className="font-display font-medium text-[var(--text-primary)]"
-                  style={{ fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}
-                >
-                  <span className="hero-laminate">Az első weboldaluk.</span>
-                  <span>
-                    <span className="hero-laminate">Gyorsan, rendesen, </span>
-                    <span
-                      className="hero-laminate hero-laminate--accent hero-draw-underline"
-                      style={{ ["--hero-draw-delay" as string]: `${revealLineFinishMs(1)}ms` }}
-                    >
-                      fölösleg nélkül.
+            <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+              <div className="text-left">
+                <Reveal>
+                  <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-4 py-1.5 font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-[#BDFF00] sm:text-[11px] sm:tracking-[0.14em]">
+                    <span className="relative flex size-2 shrink-0">
+                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#BDFF00] opacity-60" />
+                      <span className="relative inline-flex size-2 rounded-full bg-[#BDFF00]" />
                     </span>
+                    ZynAI Induló csomag
                   </span>
-                </RevealLines>
-              </Shimmer>
-              <RevealLines delay={260}>
-                <p className="mx-auto mt-7 max-w-xl text-[18px] leading-[1.7] text-[var(--text-secondary)] lg:text-[20px]">
-                  Egy új cégnek nem nagy weboldal kell, hanem egy rendezett első
-                  oldal, ahol megtalálják, és ahonnan el is érik önöket. A
-                  szerződéstől számított 14 napon belül kész, fix áron.
-                </p>
-                <div>
-                  <p
-                    className="mt-8 font-display font-medium text-[var(--text-primary)]"
-                    style={{ fontSize: "clamp(32px, 4vw, 44px)", letterSpacing: "-0.03em" }}
+                  <HeroGreeting />
+                </Reveal>
+                <Shimmer className="mt-7 block" delayMs={heroShimmerStartMs(1)}>
+                  <RevealLines
+                    as="h1"
+                    className="font-display font-medium text-[var(--text-primary)]"
+                    style={{ fontSize: "clamp(36px, 5.2vw, 62px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}
                   >
-                    190&nbsp;000&nbsp;Ft <span className="text-[var(--text-tertiary)]">+ áfa</span>
+                    <span className="hero-laminate">Az első weboldaluk.</span>
+                    <span>
+                      <span className="hero-laminate">Gyorsan, rendesen, </span>
+                      <span
+                        className="hero-laminate hero-laminate--accent hero-draw-underline"
+                        style={{ ["--hero-draw-delay" as string]: `${revealLineFinishMs(1)}ms` }}
+                      >
+                        fölösleg nélkül.
+                      </span>
+                    </span>
+                  </RevealLines>
+                </Shimmer>
+                <RevealLines delay={260}>
+                  <p className="mt-7 max-w-xl text-[18px] leading-[1.7] text-[var(--text-secondary)] lg:text-[20px]">
+                    Egy új cégnek nem nagy weboldal kell, hanem egy rendezett első
+                    oldal, ahol megtalálják, és ahonnan el is érik önöket. A
+                    szerződéstől számított 14 napon belül kész, fix áron.
                   </p>
-                  <HeroBonus />
-                </div>
-                <div className="mt-10 flex flex-col items-center gap-5">
-                  <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
-                  <HeroSecondaryLink className="text-[15px] text-[var(--text-secondary)] underline decoration-[rgba(255,255,255,0.2)] underline-offset-4 transition-colors hover:text-[var(--text-primary)]" />
-                  <p className="text-[13px] text-[var(--text-tertiary)]">
-                    Telefonhívás, nem videóhívás. Nem kötelez semmire.
-                  </p>
-                </div>
-              </RevealLines>
+                </RevealLines>
+              </div>
+              <Reveal delay={0.15} className="lg:min-h-[400px]">
+                <HeroPanel />
+              </Reveal>
             </div>
+
+            <Reveal delay={0.2}>
+              <div className="mt-14 flex flex-col items-center gap-5 text-center">
+                <p
+                  className="font-display font-medium text-[var(--text-primary)]"
+                  style={{ fontSize: "clamp(32px, 4vw, 44px)", letterSpacing: "-0.03em" }}
+                >
+                  190&nbsp;000&nbsp;Ft <span className="text-[var(--text-tertiary)]">+ áfa</span>
+                </p>
+                <PrimaryCta>Kérek egy 20 perces hívást</PrimaryCta>
+                <HeroSecondaryLink className="text-[15px] text-[var(--text-secondary)] underline decoration-[rgba(255,255,255,0.2)] underline-offset-4 transition-colors hover:text-[var(--text-primary)]" />
+                <p className="text-[13px] text-[var(--text-tertiary)]">
+                  Telefonhívás, nem videóhívás. Nem kötelez semmire.
+                </p>
+              </div>
+            </Reveal>
           </Container>
         </section>
 
@@ -370,11 +375,18 @@ export default function InduloWebcsomagPage() {
         <div className="relative z-20 -mt-12 sm:-mt-14">
           <Container>
             <Reveal>
-              <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-3 rounded-2xl border sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-7 sm:gap-y-3 border-[var(--border-default)] bg-[rgba(13,13,16,0.78)] px-6 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+              <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-x-6 gap-y-5 rounded-2xl border border-[var(--border-default)] bg-[rgba(13,13,16,0.82)] px-6 py-6 shadow-[0_24px_60px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:grid-cols-2 lg:grid-cols-5 lg:px-7">
                 {PROMISES.map((p) => (
-                  <li className="inline-flex items-center gap-2 text-[14px] text-[var(--text-primary)]" key={p}>
-                    <Check aria-hidden size={16} className="text-[#BDFF00]" />
-                    {p}
+                  <li className="flex items-start gap-2.5" key={p.lead}>
+                    <Check aria-hidden size={16} className="mt-0.5 shrink-0 text-[#BDFF00]" />
+                    <span>
+                      <span className="block text-[14px] font-medium text-[var(--text-primary)]">
+                        {p.lead}
+                      </span>
+                      <span className="mt-1 block text-[13px] leading-[1.55] text-[var(--text-secondary)]">
+                        {p.text}
+                      </span>
+                    </span>
                   </li>
                 ))}
               </ul>

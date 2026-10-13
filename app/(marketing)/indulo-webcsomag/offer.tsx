@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Gift, Timer } from "lucide-react";
+import { ArrowRight, Check, Gift, Timer } from "lucide-react";
 
 import { track } from "@/lib/analytics/track";
 
@@ -279,29 +279,119 @@ export function HeroGreeting() {
   );
 }
 
-/** A hero ajándékkártyája az ár alatt: ajánlat + visszaszámláló. */
-export function HeroBonus() {
+// A jobb oldali hero-panel token nélküli (vagy lejárt) tartalma: a csomag lényege.
+const PANEL_PACKAGE = [
+  "Mobilbarát bemutatkozó oldal",
+  "Szövegezés a cég adataiból",
+  "Kapcsolati űrlap és elérhetőségek",
+  "Alapbeállítások a Google-keresőhöz",
+  "Tárhely és üzembe helyezés",
+];
+
+/**
+ * A hero jobb oldali panelje. Mindig ugyanakkora helyet foglal, hogy betöltéskor
+ * ne ugráljon az oldal: érvényes ajándéknál a belépési ajándék és a
+ * visszaszámláló, egyébként a csomag tartalma látszik.
+ */
+export function HeroPanel() {
   const bonus = useBonus();
-  if (bonus.kind === "none") return null;
-  if (bonus.kind === "expired") {
+
+  if (bonus.kind === "active") {
     return (
-      <p className="mx-auto mt-5 max-w-md text-[14px] leading-[1.6] text-[var(--text-tertiary)]">
-        A belépési ajándék {bonus.on} lejárt. A csomag ára változatlan.
-      </p>
+      <div className="relative h-full overflow-hidden rounded-[28px] border border-[rgba(189,255,0,0.35)] bg-[linear-gradient(160deg,rgba(189,255,0,0.12)_0%,rgba(189,255,0,0.03)_45%,rgba(13,13,16,0.6)_100%)] p-7 shadow-[0_0_80px_rgba(189,255,0,0.12)] sm:p-9">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(189,255,0,0.28) 0%, transparent 70%)", filter: "blur(24px)" }}
+        />
+        <div className="relative">
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] uppercase tracking-[0.16em] text-[#BDFF00]">
+            <Gift aria-hidden size={15} />
+            <span>Belépési ajándék</span>
+            <span className="whitespace-nowrap">· {bonus.until}</span>
+          </p>
+          <p
+            className="mt-5 font-display font-medium text-[var(--text-primary)]"
+            style={{ fontSize: "clamp(30px, 3.4vw, 42px)", letterSpacing: "-0.03em", lineHeight: 1.1 }}
+          >
+            <span className="text-[#BDFF00]">75&nbsp;000&nbsp;Ft</span> értékű
+            belépési ajándék
+          </p>
+          <p className="mt-4 text-[16px] leading-[1.65] text-[var(--text-secondary)]">
+            Ha {bonus.until} szerződünk, az első három hónap üzemeltetését
+            (tárhely és karbantartás) mi álljuk.
+          </p>
+          <BigCountdown {...bonus} />
+        </div>
+      </div>
     );
   }
+
   return (
-    <div className="mx-auto mt-6 max-w-md rounded-2xl border border-[rgba(189,255,0,0.3)] bg-[rgba(189,255,0,0.06)] px-5 py-5 text-left sm:px-6">
-      <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#BDFF00]">
-        <Gift aria-hidden size={14} />
-        Belépési ajándék · {bonus.until}
+    <div className="relative h-full overflow-hidden rounded-[28px] border border-[var(--border-default)] bg-[rgba(255,255,255,0.03)] p-7 sm:p-9">
+      {bonus.kind === "expired" ? (
+        <p className="mb-5 text-[14px] leading-[1.6] text-[var(--text-tertiary)]">
+          A belépési ajándék {bonus.on} lejárt. A csomag ára változatlan.
+        </p>
+      ) : null}
+      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#BDFF00]">
+        Az Induló csomag
       </p>
-      <p className="mt-3 text-[15px] leading-[1.6] text-[var(--text-secondary)]">
-        Ha addig szerződünk, az első három hónap üzemeltetését mi álljuk: ez{" "}
-        <strong className="font-medium text-[var(--text-primary)]">75&nbsp;000&nbsp;Ft + áfa</strong>,
-        amit az induláskor nem kell kifizetniük.
-      </p>
-      <Countdown {...bonus} />
+      <ul className="mt-6 space-y-4">
+        {PANEL_PACKAGE.map((item) => (
+          <li className="flex items-center gap-3 text-[17px] text-[var(--text-primary)]" key={item}>
+            <span className="flex size-[26px] shrink-0 items-center justify-center rounded-full bg-[rgba(189,255,0,0.12)]">
+              <Check aria-hidden size={15} className="text-[#BDFF00]" />
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Nagy, hangsúlyos visszaszámláló a hero-panelhez. */
+function BigCountdown({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}) {
+  const cells = [
+    { value: days, label: "nap" },
+    { value: hours, label: "óra" },
+    { value: minutes, label: "perc" },
+    { value: seconds, label: "mp" },
+  ];
+  return (
+    <div
+      role="timer"
+      className="mt-7 grid grid-cols-4 gap-2 sm:gap-3"
+      aria-label={`Még ${days} nap ${hours} óra ${minutes} perc`}
+    >
+      {cells.map((c) => (
+        <span
+          aria-hidden
+          key={c.label}
+          className="flex flex-col items-center rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(9,9,11,0.65)] px-1 py-3 sm:py-4"
+        >
+          <span
+            className="font-display font-medium tabular-nums text-[var(--text-primary)]"
+            style={{ fontSize: "clamp(28px, 3.4vw, 44px)", lineHeight: 1, letterSpacing: "-0.03em" }}
+          >
+            {String(c.value).padStart(2, "0")}
+          </span>
+          <span className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+            {c.label}
+          </span>
+        </span>
+      ))}
     </div>
   );
 }
