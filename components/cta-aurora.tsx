@@ -3,6 +3,10 @@
  * Csak CSS: két elmosott fényfolt (lime és lila), finom szemcse, és a
  * szekció szélein elhalványítás, hogy simán olvadjon a szomszédos részekbe.
  * A szülőnek `relative overflow-hidden` kell.
+ *
+ * `variant="faded"` (alapértelmezés, főoldal): a szekció szélein elhalványul.
+ * `variant="full"`: elhalványítás nélkül, nagyobb foltokkal a teljes hátteret
+ * kitölti (kampányoldal záró blokkja).
  */
 
 const STYLES = `
@@ -24,7 +28,8 @@ const STYLES = `
   }
 `;
 
-export function CtaAurora() {
+export function CtaAurora({ variant = "faded" }: { variant?: "faded" | "full" }) {
+  const full = variant === "full";
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       <style>{STYLES}</style>
@@ -42,10 +47,10 @@ export function CtaAurora() {
         data-aurora-blob
         className="absolute"
         style={{
-          top: "0%",
-          left: "15%",
-          width: "60%",
-          height: "75%",
+          top: full ? "-25%" : "0%",
+          left: full ? "-5%" : "15%",
+          width: full ? "70%" : "60%",
+          height: full ? "150%" : "75%",
           minWidth: "300px",
           minHeight: "300px",
           background:
@@ -61,10 +66,10 @@ export function CtaAurora() {
         data-aurora-blob
         className="absolute"
         style={{
-          top: "10%",
-          right: "5%",
-          width: "50%",
-          height: "70%",
+          top: full ? "-20%" : "10%",
+          right: full ? "-5%" : "5%",
+          width: full ? "65%" : "50%",
+          height: full ? "145%" : "70%",
           minWidth: "300px",
           minHeight: "300px",
           background:
@@ -83,23 +88,27 @@ export function CtaAurora() {
         }}
       />
 
-      {/* Top and bottom edge fade — softens the section's transition into adjacent sections */}
-      <div
-        className="absolute inset-0 z-[11]"
-        style={{
-          background:
-            "linear-gradient(to bottom, var(--bg-base) 0%, transparent 12%, transparent 88%, var(--bg-base) 100%)",
-        }}
-      />
+      {full ? null : (
+        <>
+          {/* Top and bottom edge fade — softens the section's transition into adjacent sections */}
+          <div
+            className="absolute inset-0 z-[11]"
+            style={{
+              background:
+                "linear-gradient(to bottom, var(--bg-base) 0%, transparent 12%, transparent 88%, var(--bg-base) 100%)",
+            }}
+          />
 
-      {/* Left / right edge fade */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[11] hidden sm:block"
-        style={{
-          background:
-            "linear-gradient(to right, var(--bg-base) 0%, transparent 12%, transparent 88%, var(--bg-base) 100%)",
-        }}
-      />
+          {/* Left / right edge fade */}
+          <div
+            className="pointer-events-none absolute inset-0 z-[11] hidden sm:block"
+            style={{
+              background:
+                "linear-gradient(to right, var(--bg-base) 0%, transparent 12%, transparent 88%, var(--bg-base) 100%)",
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

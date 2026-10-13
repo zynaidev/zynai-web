@@ -296,7 +296,7 @@ function CheckIcon() {
 export default function InduloWebcsomagPage() {
   return (
     <OfferProvider>
-      <div className="pb-28 [&_section]:scroll-mt-24">
+      <div className="[&_section]:scroll-mt-24">
         <CtaTracker />
         <InfoBar />
         <OfferBar />
@@ -835,8 +835,8 @@ export default function InduloWebcsomagPage() {
         </section>
 
         {/* Záró blokk: aurora-háttér, kártya nélkül (a főoldal aljához hasonlóan) */}
-        <section className="relative overflow-hidden border-t border-[var(--border-hairline)] py-28 sm:py-32 lg:py-44">
-          <CtaAurora />
+        <section className="relative overflow-hidden border-t border-[var(--border-hairline)] py-20 sm:py-24">
+          <CtaAurora variant="full" />
           <Container className="relative z-20">
             <Reveal>
               <div className="mx-auto max-w-4xl text-center">
