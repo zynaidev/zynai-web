@@ -27,8 +27,8 @@ import { Shimmer } from "@/components/shimmer";
 import { Container } from "@/components/ui/container";
 import { MailtoLink } from "@/components/ui/MailtoLink";
 import { SectionLabel } from "@/components/ui/section-label";
-import { FaqAccordion, type FaqItem } from "../vibecoding-pilot/FaqAccordion";
-import { LandingExamples } from "../vibecoding-pilot/LandingExamples";
+import { FaqAccordion, type FaqItem } from "../vibecoding-pilot-2026/FaqAccordion";
+import { LandingExamples } from "../vibecoding-pilot-2026/LandingExamples";
 
 import { BookingCalendar, CtaTracker, InfoBar } from "./landing-client";
 import {

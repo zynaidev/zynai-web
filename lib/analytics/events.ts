@@ -16,6 +16,8 @@ export const TRACK_EVENTS = [
   'indulo_hivas_gomb',
   'indulo_info_keres',
   'indulo_foglalas_kesz',
+  // Értesítő a következő VibeCoding képzésről (/vibecoding-pilot).
+  'kepzes_ertesites',
 ] as const
 
 export type TrackEvent = (typeof TRACK_EVENTS)[number]
@@ -32,4 +34,5 @@ export type TrackEventParams = CoversEveryEvent<{
   indulo_hivas_gomb: Record<string, never>
   indulo_info_keres: Record<string, never>
   indulo_foglalas_kesz: Record<string, never>
+  kepzes_ertesites: Record<string, never>
 }>
